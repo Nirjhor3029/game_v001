@@ -1,0 +1,31 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.revinew_right_list{
+  list-style: none;
+}
+.revinew_right_list li{
+  color: white;
+  padding: 10px 10px;
+  background-color:#002060;
+  margin-bottom: 2px;
+  font-size: 13px;
+}
+
+
+.revinew_left_list{
+  list-style: none;
+}
+.revinew_left_list li{
+  font-size: 13px;
+  padding: 1px 10px;
+  margin-bottom: 2px;
+}
