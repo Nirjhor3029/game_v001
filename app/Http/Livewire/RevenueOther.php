@@ -107,17 +107,17 @@ class RevenueOther extends Component
                 if(strtolower($marketPlace->name) == "bangladesh"){
                     //dd("bangladesh");
                     if(strtolower($product->name) == "a"){
-                        $revenue_other->month1_price =  $this->bn_AM1;
+                        $revenue_other->month1_unit =  $revenue->unit_sold;
                         $revenue_other->month1_revenue = $this->bn_AM1_revenue;
-                        $revenue_other->month2_price = $this->bn_AM2;
+                        $revenue_other->month2_unit = $this->bn_AM2;
 
                         $this->bn_AM2_revenue = $revenue->price * $this->bn_AM2 ;
 
                         $revenue_other->month2_revenue = $this->bn_AM2_revenue;
                     }elseif(strtolower($product->name) == "b"){
-                        $revenue_other->month1_price =  $this->bn_BM1;
+                        $revenue_other->month1_unit =  $revenue->unit_sold;
                         $revenue_other->month1_revenue = $this->bn_BM1_revenue;
-                        $revenue_other->month2_price = $this->bn_BM2;
+                        $revenue_other->month2_unit = $this->bn_BM2;
 
                         $this->bn_BM2_revenue = $revenue->price * $this->bn_BM2 ;
 
@@ -126,17 +126,17 @@ class RevenueOther extends Component
 
                 }elseif(strtolower($marketPlace->name) == "nepal"){
                     if(strtolower($product->name) == "a"){
-                        $revenue_other->month1_price =  $this->np_AM1;
+                        $revenue_other->month1_unit =  $revenue->unit_sold;
                         $revenue_other->month1_revenue = $this->np_AM1_revenue;
-                        $revenue_other->month2_price = $this->np_AM2;
+                        $revenue_other->month2_unit = $this->np_AM2;
 
                         $this->np_AM2_revenue = $revenue->price * $this->np_AM2;
 
                         $revenue_other->month2_revenue = $this->np_AM2_revenue;
                     }elseif(strtolower($product->name) == "b"){
-                        $revenue_other->month1_price =  $this->np_BM1;
+                        $revenue_other->month1_unit =  $revenue->unit_sold;
                         $revenue_other->month1_revenue = $this->np_BM1_revenue;
-                        $revenue_other->month2_price = $this->np_BM2;
+                        $revenue_other->month2_unit = $this->np_BM2;
 
                         $this->np_BM2_revenue = $revenue->price * $this->np_BM2 ;
 
@@ -190,12 +190,12 @@ class RevenueOther extends Component
                         //dd("bangladesh");
                         if(strtolower($product->name) == "a"){
                             $this->bn_AM1_revenue = $revenue_other->month1_revenue;
-                            $this->bn_AM2 = $revenue_other->month2_price;
+                            $this->bn_AM2 = $revenue_other->month2_unit;
                             $this->bn_AM2_revenue = $revenue_other->month2_revenue;
 
                         }elseif(strtolower($product->name) == "b"){
                             $this->bn_BM1_revenue = $revenue_other->month1_revenue;
-                            $this->bn_BM2 = $revenue_other->month2_price;
+                            $this->bn_BM2 = $revenue_other->month2_unit;
                             $this->bn_BM2_revenue = $revenue_other->month2_revenue;
                         }
 
@@ -203,11 +203,11 @@ class RevenueOther extends Component
 
                         if(strtolower($product->name) == "a"){
                             $this->np_AM1_revenue = $revenue_other->month1_revenue;
-                            $this->np_AM2 = $revenue_other->month2_price;
+                            $this->np_AM2 = $revenue_other->month2_unit;
                             $this->np_AM2_revenue = $revenue_other->month2_revenue;
                         }elseif(strtolower($product->name) == "b"){
                             $this->np_BM1_revenue = $revenue_other->month1_revenue;
-                            $this->np_BM2 = $revenue_other->month2_price;
+                            $this->np_BM2 = $revenue_other->month2_unit;
                             $this->np_BM2_revenue = $revenue_other->month2_revenue;
                         }
                     }

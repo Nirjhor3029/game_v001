@@ -2,6 +2,13 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Game\Marketplace;
+use App\Models\Game\RevenueOther;
+use App\Models\Product;
+use App\Models\Revenue;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Asantibanez\LivewireCharts\Models\AreaChartModel;
 use Asantibanez\LivewireCharts\Models\ColumnChartModel;
@@ -11,6 +18,158 @@ use Asantibanez\LivewireCharts\Models\PieChartModel;
 class DecisionDriven extends Component
 {
     public $types = ['food', 'shopping', 'entertainment', 'travel', 'other'];
+
+
+    public $total_revenue_array;
+
+    public $user_id;
+    public $game_id;
+    public $bangladesh_id;
+    public $nepal_id;
+
+    public $market_share;
+    //    market share
+    public $MARKET_TOTAL_SELL_VALUE = 2000;
+
+
+//    Revenue
+    public $bn_total_revenue;
+    public $np_total_revenue;
+
+//    Cost
+    public $bn_total_cost;
+    public $np_total_cost;
+
+//    unit sales in country
+    public $calculated_unit_sales;
+
+    public function calculateMarketShare()
+    {
+        $this->user_id = Auth::user()->id;
+
+        $this->game_id = Session::get('game_id');
+
+        $this->bangladesh_id = Marketplace::where('name','Bangladesh')->first()->id;
+        $this->nepal_id = Marketplace::where('name','Nepal')->first()->id;
+
+        $market_places = Marketplace::all();
+        $products = Product::all();
+
+        $revenue = [];
+        foreach($market_places as $market_place){
+
+            foreach($products as $product){
+                $revenue_row = Revenue::where('user_id',$this->user_id)
+                    ->where('game_id',$this->game_id)
+                    ->where('market_place_id',$market_place->id)
+                    ->where('product_id',$product->id)->first();
+                $revenue[] = [
+                    "id" => $revenue_row->id,
+                    "country" => $market_place->name,
+                    "product" => $product->name,
+                    "revenue" => $revenue_row->revenue,
+                    "product_cost" => $revenue_row->product_cost,
+
+                ];
+
+                $this->total_revenue_array = $revenue;
+
+            }
+        }
+
+        $this->total_revenue_array = $revenue;
+
+        $total_revenue = 0  ;
+
+        // Bangladesh & Nepal ( Product A & B ) revenues
+        foreach($revenue as $value){
+            $total_revenue += $value['revenue'];
+        }
+        $this->market_share = $total_revenue/$this->MARKET_TOTAL_SELL_VALUE;
+
+        $this->market_share = 5;
+    }
+
+    public function calculateRevenue()
+    {
+
+        $calculated_revenues = [];
+        foreach($this->total_revenue_array as $revenue){
+
+
+
+            $revenue_other = RevenueOther::where('revenue_id',$revenue['id'])->first();
+
+            $calculated_revenues[] = [
+                "id" => $revenue['id'],
+                "country" => $revenue['country'],
+                "product" => $revenue['product'],
+                "unit_m1" => $revenue_other->month1_unit,
+                "revenue_m1" => $revenue['revenue'],
+                "unit_m2" => $revenue_other->month2_unit,
+                "revenue_m2" => $revenue_other->month2_revenue,
+            ];
+
+
+        }
+
+        $this->calculated_unit_sales = $calculated_revenues;
+//        dd($calculated_revenues);
+        foreach($calculated_revenues as $calculated_revenue){
+            if($calculated_revenue['country']=="Bangladesh"){
+                $this->bn_total_revenue += ($calculated_revenue['revenue_m1'] + $calculated_revenue['revenue_m2']);
+            }elseif($calculated_revenue['country']=="Nepal"){
+                $this->np_total_revenue += ($calculated_revenue['revenue_m1'] + $calculated_revenue['revenue_m2']);
+            }
+        }
+    }
+
+
+
+    public function calculateCost()
+    {
+        foreach($this->total_revenue_array as $cost){
+            if($cost['country']=="Bangladesh"){
+                $this->bn_total_cost += $cost['product_cost'];
+            }elseif($cost['country']=="Nepal"){
+                $this->np_total_cost += $cost['product_cost'] ;
+            }
+        }
+//        dd($this->np_total_cost);
+    }
+
+    public $bn_unit_sales =[];
+    public $np_unit_sales =[];
+
+    public function calculateUnitSales()
+    {
+//        dd($this->calculated_unit_sales);
+        foreach($this->calculated_unit_sales as $unit_sale){
+            if($unit_sale['country']=="Bangladesh"){
+                $this->bn_unit_sales[]= $unit_sale['unit_m1'];
+                $this->bn_unit_sales[]= $unit_sale['unit_m2'];
+            }elseif($unit_sale['country']=="Nepal"){
+                $this->np_unit_sales[]= $unit_sale['unit_m1'] ;
+                $this->np_unit_sales[]= $unit_sale['unit_m2'] ;
+            }
+        }
+
+        $this->bn_unit_sales = collect($this->bn_unit_sales)->implode(',');
+        $this->np_unit_sales = collect($this->np_unit_sales)->implode(',');
+
+
+//        dd($this->np_unit_sales);
+    }
+    public function mount(){
+
+        $this->calculateMarketShare();
+        $this->calculateRevenue();
+        $this->calculateCost();
+        $this->calculateUnitSales();
+
+
+    }
+
 
     public $colors = [
         'food' => '#f6ad55',

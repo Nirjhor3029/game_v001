@@ -34,10 +34,14 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('cash-flow-statements', [\App\Http\Controllers\GamePageController::class, 'cashFlowStatements'])->name('financial-statements');
     Route::get('decision-driven', [\App\Http\Controllers\GamePageController::class, 'decisionDriven'])->name('decision-driven');
     Route::get('course-points', [\App\Http\Controllers\GamePageController::class, 'coursePoints'])->name('course-points');
+
+
+    // Later moved to admin middleware 
+    Route::get('admin', [\App\Http\Controllers\Admin\AdminController::class, 'takeInput'])->name('course-points');
 });
 
 
-//ajax request route
+//ajax request route for Drag & Drop part 
 Route::post('add-revenes', [\App\Http\Controllers\AjaxRequestController::class, 'addRevenue']);
 Route::post('add-expenses', [\App\Http\Controllers\AjaxRequestController::class, 'addExpenses']);
 Route::post('add-cash-flow-revenes', [\App\Http\Controllers\AjaxRequestController::class, 'addCashFlowRevenue']);
