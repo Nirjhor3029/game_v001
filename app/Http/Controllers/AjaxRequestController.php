@@ -14,7 +14,7 @@ class AjaxRequestController extends Controller
 {
     public function addRevenue(Request $request)
     {
-
+        // return $request->totalreview;
         $financial = FinancialStatement::where(['game_id' => Session::get('game_id'), 'user_id' => Auth::guard('web')->user()->id, 'session_id' => Session::getId()])->get()->first();
         if (is_null($financial)) {
             $financial = new FinancialStatement();
@@ -27,6 +27,7 @@ class AjaxRequestController extends Controller
             $financial->total_revenue = $request->totalreview;
             $financial->update();
         }
+        // return $financial;
 
         //remove old items
         FinancialStatementItems::where(['session_id' => Session::getId(), 'financial_id' => $financial->id, 'type' => 'revenue'])->delete();
@@ -80,8 +81,10 @@ class AjaxRequestController extends Controller
 
     public function addCashFlowRevenue(Request $request)
     {
+        // return ($request->totalreview);
 
         $financial = CashFlowStatement::where(['game_id' => Session::get('game_id'), 'user_id' => Auth::guard('web')->user()->id, 'session_id' => Session::getId()])->get()->first();
+        
         if (is_null($financial)) {
             $financial = new CashFlowStatement();
             $financial->session_id = Session::getId();
@@ -93,6 +96,8 @@ class AjaxRequestController extends Controller
             $financial->total_revenue = $request->totalreview;
             $financial->update();
         }
+
+        // return $financial;
 
         //remove old items
         CashFlowStatementItems::where(['session_id' => Session::getId(), 'cash_flow_statement_id' => $financial->id, 'type' => 'revenue'])->delete();
@@ -112,6 +117,7 @@ class AjaxRequestController extends Controller
 
     public function addCashFlowExpenses(Request $request)
     {
+        // return "expense";
 
         $financial = CashFlowStatement::where(['game_id' => Session::get('game_id'), 'user_id' => Auth::guard('web')->user()->id, 'session_id' => Session::getId()])->get()->first();
         if (is_null($financial)) {

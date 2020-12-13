@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Game\FinancialOptions;
+use App\Models\Game\ResultProcess;
 use Illuminate\Http\Request;
 use Auth;
 use Session;
@@ -89,6 +90,7 @@ class GamePageController extends Controller
 
         $financial = CashFlowStatement::where(['game_id' => Session::get('game_id'), 'user_id' => Auth::guard('web')->user()->id, 'session_id' => Session::getId()])->get()->first();
 
+        // dd($financial);
         $revenueData = null;
         $expensesData = null;
         $total_revenue = 0;
@@ -125,8 +127,24 @@ class GamePageController extends Controller
     }
 
 
+    public $userId;
+    public $gameId;
     public function coursePoints()
     {
-        return view('game_views.course-points');
+
+        $this->userId = Auth::guard('web')->user()->id;
+        $this->gameId = Session::get("game_id");
+        $resultProcess = ResultProcess::where('user_id',$this->userId)->where('game_id',$this->gameId)->get();
+
+        $min_max = [];
+        foreach($resultProcess as $result){
+            $min_max[] =[
+                "process_id" => $result->process_id,
+                "max" => $result->assigned_value,
+                "actual" => $result->mark_value
+            ];
+        }
+
+        return view('game_views.course-points',compact('min_max'));
     }
 }

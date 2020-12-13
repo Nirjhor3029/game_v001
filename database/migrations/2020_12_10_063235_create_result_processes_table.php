@@ -22,10 +22,10 @@ class CreateResultProcessesTable extends Migration
 
             $table->integer("process_id");
 
-            $table->double("assigned_value")->default(1);
-            $table->double("actual_value")->default(0);
-            $table->double("point_value")->default(0);
-            $table->double("mark_value")->default(0);
+            $table->double("assigned_value")->default(1)->nullable();
+            $table->double("actual_value")->default(0)->nullable();
+            $table->double("point_value")->default(0)->nullable();
+            $table->double("mark_value")->default(0)->nullable();
 
             $table->foreign('game_id')->references('id')->on('start_games');
             $table->foreign('user_id')->references('id')->on('users');

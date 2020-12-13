@@ -36,7 +36,7 @@
                     </div>
                     <div class="row single-field">
                         <div class="col-md-6 ">
-                            <input type="number"  class="form-control input-field" name="" wire:model="np_a_competitorsPrice" onclick="popup()" readonly/>
+                            <input type="number"  class="form-control input-field" name="" wire:model="np_a_competitorsPrice" />
                         </div>
                         <div class="col-md-6">
                             Competitor’s Price
@@ -124,7 +124,7 @@
                     </div>
                     <div class="row single-field">
                         <div class="col-md-6 ">
-                            <input type="number"  class="form-control input-field" name="" wire:model="np_b_competitorsPrice" onclick="popup()" readonly/>
+                            <input type="number"  class="form-control input-field" name="" wire:model="np_b_competitorsPrice" />
                         </div>
                         <div class="col-md-6">
                             Competitor’s Price

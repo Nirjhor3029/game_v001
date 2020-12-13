@@ -2,21 +2,29 @@
 
 namespace App\Http\Livewire\Admin;
 
+use App\Models\Game\FinancialStatement;
+use App\Models\Game\Marketplace;
+use App\Models\Game\ResultProcess;
+use App\Models\Game\RevenueOther;
+use App\Models\Product;
+use App\Models\Revenue;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Livewire\Component;
+use App\Traits\RevenueTraits;
 
 class AdminInput extends Component
 {
 
+    use RevenueTraits;
+    public $MARKET_TOTAL_SELL_VALUE = 2000;
     // Process ids
-    public $market_share = 1;
-    public $revenue = 2;
-    public $cost = 3;
-    public $usic = 4;
-    public $net_profit = 5;
-    public $cm_price = 6;
+    public $process_id=[
+        1,2,3,4,5,6
+    ];
 
 
-    public $market_share_assigned_value=1;
+    public $market_share_assigned_value=10;
     public $market_share_actual_value = 2;  //come from actual market share 
     public $market_share_point_value;
     public $market_share_mark_value;
@@ -50,9 +58,69 @@ class AdminInput extends Component
     public $cm_price_point_value;
     public $cm_price_mark_value;
 
+    public  $total_revenue_array;
+
+    public $calculated_unit_sales;
+
+    public $userId;
+    public  $gameId;
     public function mount()
     {
-        
+
+        $this->setField();
+//        dd($this->calculateRevenueArray());
+        $this->market_share_actual_value = $this->calculateMarketShare();
+        $this->revenue_actual_value = $this->calculateRevenue();
+        $this->cost_actual_value = $this->calculateCost();
+        $this->usic_actual_value = $this->calculateUnitSales();
+        $this->net_profit_actual_value = $this->calculateNetIncome();
+        $this->cm_price_actual_value = $this->calculatePriceVsCompetition();
+
+    }
+
+    function setField(){
+        $this->userId = Auth::guard('web')->user()->id;
+        $this->gameId = Session::get("game_id");
+
+        $process_subname = ["market_share","revenue","cost","usic","net_profit","cm_price"];
+
+        foreach($process_subname as $key => $single_subname){
+
+            $result_process = ResultProcess::where('user_id',$this->userId)->where('game_id',$this->gameId)->
+            where('process_id',$key+1)->first();
+            if(!is_null($result_process)){
+                $this->{$single_subname."_assigned_value"} = $result_process->assigned_value;
+                $this->{$single_subname."_actual_value"} = $result_process->actual_value;
+                $this->{$single_subname."_point_value"} = $result_process->point_value;
+                $this->{$single_subname."_mark_value"} = $result_process->mark_value;
+            }
+        }
+    }
+
+    public function updateDb()
+    {
+        $this->userId = Auth::guard('web')->user()->id;
+        $this->gameId = Session::get("game_id");
+
+        $process_subname = ["market_share","revenue","cost","usic","net_profit","cm_price"];
+
+        foreach($process_subname as $key => $single_subname){
+
+            $result_process = ResultProcess::where('user_id',$this->userId)->where('game_id',$this->gameId)->
+            where('process_id',$key+1)->first();
+            if(is_null($result_process)){
+                $result_process = new ResultProcess();
+            }
+            $result_process->user_id=$this->userId;
+            $result_process->game_id=$this->gameId;
+            $result_process->process_id = $key+1;
+            $result_process->assigned_value=$this->{$single_subname."_assigned_value"};
+            $result_process->actual_value=$this->{$single_subname."_actual_value"};
+            $result_process->point_value=$this->{$single_subname."_point_value"};
+            $result_process->mark_value=$this->{$single_subname."_mark_value"};
+            $result_process->save();
+        }
+
     }
 
     public function render()
@@ -72,8 +140,131 @@ class AdminInput extends Component
        
         $this->cm_price_mark_value = ($this->cm_price_actual_value/$this->cm_price_assigned_value)*$this->cm_price_point_value;
 
+
+        $this->updateDb();
+
+
         return view('livewire.admin.admin-input');
     }
 
 
+
+    public function calculateMarketShare(){
+
+        $revenue = $this->calculateRevenueArray();
+        $this->total_revenue_array = $revenue;
+        $total_revenue = 0  ;
+
+        // Bangladesh & Nepal ( Product A & B ) revenues
+        foreach($revenue as $value){
+            $total_revenue += $value['revenue'];
+        }
+        return $market_share = $total_revenue/$this->MARKET_TOTAL_SELL_VALUE;
+
+//       return $market_share = 5;
+    }
+
+
+    public function calculateRevenue()
+    {
+
+        $calculated_revenues = [];
+        $bn_total_revenue =0;
+        $np_total_revenue=0;
+
+        foreach($this->total_revenue_array as $revenue){
+
+
+
+            $revenue_other = RevenueOther::where('revenue_id',$revenue['id'])->first();
+
+            if(!is_null($revenue_other)){
+                $calculated_revenues[] = [
+                    "id" => $revenue['id'],
+                    "country" => $revenue['country'],
+                    "product" => $revenue['product'],
+                    "unit_m1" => $revenue_other->month1_unit,
+                    "revenue_m1" => $revenue['revenue'],
+                    "unit_m2" => $revenue_other->month2_unit,
+                    "revenue_m2" => $revenue_other->month2_revenue,
+                ];
+            }
+
+
+            $this->calculated_unit_sales = $calculated_revenues;
+
+        }
+
+
+
+        foreach($calculated_revenues as $calculated_revenue){
+            if($calculated_revenue['country']=="Bangladesh"){
+                $bn_total_revenue += ($calculated_revenue['revenue_m1'] + $calculated_revenue['revenue_m2']);
+            }elseif($calculated_revenue['country']=="Nepal"){
+                $np_total_revenue += ($calculated_revenue['revenue_m1'] + $calculated_revenue['revenue_m2']);
+            }
+        }
+        return $total_revenue = $bn_total_revenue + $np_total_revenue;
+    }
+
+
+
+    public function calculateCost()
+    {
+        $bn_total_cost =0;
+        $np_total_cost=0;
+        foreach($this->total_revenue_array as $cost){
+            if($cost['country']=="Bangladesh"){
+                $bn_total_cost += $cost['product_cost'];
+            }elseif($cost['country']=="Nepal"){
+                $np_total_cost += $cost['product_cost'] ;
+            }
+        }
+        return $total_cost = $bn_total_cost+$np_total_cost;
+
+    }
+
+
+    public function calculateUnitSales()
+    {
+//        dd($this->calculated_unit_sales);
+        $unitSales =0;
+        foreach($this->calculated_unit_sales as $unit_sale){
+
+            $unitSales += ($unit_sale['unit_m1']+$unit_sale['unit_m2']);
+
+        }
+
+        return $unitSales;
+
+    }
+
+    public function calculateNetIncome()
+    {
+        $finansial_statements = FinancialStatement::where('user_id',$this->user_id)
+            ->where('game_id',$this->game_id)->first();
+        // dd($finansial_statements);
+        return $net_income = $finansial_statements->total_revenue - $finansial_statements->total_expanses;
+
+
+
+    }
+
+    public function calculatePriceVsCompetition()
+    {
+        $total_competitor_price=0;
+        $total_price=0;
+
+        foreach($this->total_revenue_array as $item){
+
+            $item = (object) $item;
+            $total_price += $item->price;
+            $total_competitor_price += $item->competitor;
+
+
+        }
+
+        return $total_priceVsCompetitorsPrice = $total_price+$total_competitor_price;
+
+    }
 }

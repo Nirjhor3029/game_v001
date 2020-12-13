@@ -48,49 +48,52 @@ class RevenueNp extends Component
         $marketPlaces = Marketplace::all();
 
         foreach($marketPlaces as $marketPlace){
-            //echo $marketPlace->name;
-            foreach($products as $product){
-                $revenue = \App\Models\Revenue::where('product_id',$product->id)
-                    ->where('user_id',$this->userId)
-                    ->where('game_id',$this->gameId)
-                    ->where('market_place_id',$marketPlace->id)
-                    ->first();
+            if($marketPlace->id == 2){
+                //echo $marketPlace->name;
+                foreach($products as $product){
+                    $revenue = \App\Models\Revenue::where('product_id',$product->id)
+                        ->where('user_id',$this->userId)
+                        ->where('game_id',$this->gameId)
+                        ->where('market_place_id',$marketPlace->id)
+                        ->first();
                     //dd($this->gameId);
-                if(is_null($revenue)){
-                    $revenue = new \App\Models\Revenue();
-                    //dd("ache");
-                }
-                $revenue->product_id = $product->id;
-                $revenue->market_place_id = $marketPlace->id;
-
-                $revenue->user_id = $this->userId;
-                $revenue->game_id = $this->gameId;
-
-                if(strtolower($marketPlace->name) == "nepal"){
-                    //echo "nepal";
-                    //dd("nepal");
-                    if(strtolower($product->name) == "a"){
-                        $revenue->product_cost = $this->np_a_productCost;
-                        $revenue->opex = $this->np_a_opex;
-                        $revenue->total_cost = $this->np_a_totalCost;
-                        $revenue->competitors_price = $this->np_a_competitorsPrice;
-                        $revenue->mark_up = $this->np_a_markup;
-                        $revenue->price = $this->np_a_price;
-                        $revenue->unit_sold = $this->np_a_unitSold;
-                        $revenue->revenue = $this->np_a_revenue;
-                    }elseif(strtolower($product->name) == "b"){
-                        $revenue->product_cost = $this->np_b_productCost;
-                        $revenue->opex = $this->np_b_opex;
-                        $revenue->total_cost = $this->np_b_totalCost;
-                        $revenue->competitors_price = $this->np_b_competitorsPrice;
-                        $revenue->mark_up = $this->np_b_markup;
-                        $revenue->price = $this->np_b_price;
-                        $revenue->unit_sold = $this->np_b_unitSold;
-                        $revenue->revenue = $this->np_b_revenue;
+                    if(is_null($revenue)){
+                        $revenue = new \App\Models\Revenue();
+                        //dd("ache");
                     }
+                    $revenue->product_id = $product->id;
+                    $revenue->market_place_id = $marketPlace->id;
+
+                    $revenue->user_id = $this->userId;
+                    $revenue->game_id = $this->gameId;
+
+                    if(strtolower($marketPlace->name) == "nepal"){
+                        //echo "nepal";
+                        //dd("nepal");
+                        if(strtolower($product->name) == "a"){
+                            $revenue->product_cost = $this->np_a_productCost;
+                            $revenue->opex = $this->np_a_opex;
+                            $revenue->total_cost = $this->np_a_totalCost;
+                            $revenue->competitors_price = $this->np_a_competitorsPrice;
+                            $revenue->mark_up = $this->np_a_markup;
+                            $revenue->price = $this->np_a_price;
+                            $revenue->unit_sold = $this->np_a_unitSold;
+                            $revenue->revenue = $this->np_a_revenue;
+                        }elseif(strtolower($product->name) == "b"){
+                            $revenue->product_cost = $this->np_b_productCost;
+                            $revenue->opex = $this->np_b_opex;
+                            $revenue->total_cost = $this->np_b_totalCost;
+                            $revenue->competitors_price = $this->np_b_competitorsPrice;
+                            $revenue->mark_up = $this->np_b_markup;
+                            $revenue->price = $this->np_b_price;
+                            $revenue->unit_sold = $this->np_b_unitSold;
+                            $revenue->revenue = $this->np_b_revenue;
+                        }
+                    }
+                    $revenue->save();
                 }
-                $revenue->save();
             }
+
         }
 
     }
@@ -101,76 +104,85 @@ class RevenueNp extends Component
         $marketPlaces = Marketplace::all();
 
         foreach($marketPlaces as $marketPlace){
-            foreach($products as $product){
-                $revenue = \App\Models\Revenue::where('product_id',$product->id)
-                    ->where('user_id',$this->userId)
-                    ->where('game_id',$this->gameId)
-                    ->where('market_place_id',$marketPlace->id)
-                    ->first();
-
-                if(is_null($revenue)){
-                    $revenue = new \App\Models\Revenue();
-
-                    $revenue->product_id = $product->id;
-                    $revenue->market_place_id = $marketPlace->id;
-
-                    $revenue->user_id = $this->userId;
-                    $revenue->game_id = $this->gameId;
-
-                    $budget = Budget::where('user_id',$this->userId)
+            if($marketPlace->id == 2){
+                foreach($products as $product){
+                    $revenue = \App\Models\Revenue::where('product_id',$product->id)
+                        ->where('user_id',$this->userId)
                         ->where('game_id',$this->gameId)
-                        ->where('marketplace_id',$marketPlace->id)
+                        ->where('market_place_id',$marketPlace->id)
                         ->first();
 
-                    $total_budget = $budget->recruitment+$budget->manufacturing+$budget->launch+$budget->other;
+                    if(is_null($revenue)){
+                        $revenue = new \App\Models\Revenue();
 
-                    if(strtolower($marketPlace->name) == "nepal"){
+                        $revenue->product_id = $product->id;
+                        $revenue->market_place_id = $marketPlace->id;
 
-                        if(strtolower($product->name) == "a"){
-                            $this->np_a_opex = $total_budget;
-                            $this->np_a_markup=0;
+                        $revenue->user_id = $this->userId;
+                        $revenue->game_id = $this->gameId;
 
-                        }elseif(strtolower($product->name) == "b"){
-                            $this->np_b_opex = $total_budget;
-                            $this->np_b_markup=0;
+                        $budget = Budget::where('user_id',$this->userId)
+                            ->where('game_id',$this->gameId)
+                            ->where('marketplace_id',$marketPlace->id)
+                            ->first();
 
+
+                        $total_budget = $budget->recruitment+$budget->manufacturing+$budget->launch+$budget->other;
+
+
+
+                        if(strtolower($marketPlace->name) == "nepal"){
+
+                            if(strtolower($product->name) == "a"){
+                                $this->np_a_opex = $total_budget;
+                                $this->np_a_markup=0;
+
+                            }elseif(strtolower($product->name) == "b"){
+                                $this->np_b_opex = $total_budget;
+                                $this->np_b_markup=0;
+
+                            }
                         }
-                    }
 
-                }else{
+                    }else{
+//                    dd($revenue);
 
-                    if(strtolower($marketPlace->name) == "nepal"){
+                        if(strtolower($marketPlace->name) == "nepal"){
 
-                        if(strtolower($product->name) == "a"){
-                            $this->np_a_productCost=$revenue->product_cost;
-                            $this->np_a_opex=$revenue->opex;
-                            $this->np_a_totalCost=$revenue->total_cost;
-                            $this->np_a_competitorsPrice=$revenue->competitors_price;
-                            $this->np_a_markup=$revenue->mark_up;
-                            $this->np_a_price=$revenue->price ;
-                            $this->np_a_unitSold=$revenue->unit_sold;
-                            $this->np_a_revenue=$revenue->revenue;
-                        }elseif(strtolower($product->name) == "b"){
-                            $this->np_b_productCost=$revenue->product_cost;
-                            $this->np_b_opex=$revenue->opex;
-                            $this->np_b_totalCost=$revenue->total_cost;
-                            $this->np_b_competitorsPrice=$revenue->competitors_price;
-                            $this->np_b_markup=$revenue->mark_up;
-                            $this->np_b_price=$revenue->price;
-                            $this->np_b_unitSold=$revenue->unit_sold;
-                            $this->np_b_revenue=$revenue->revenue;
+                            if(strtolower($product->name) == "a"){
+                                $this->np_a_productCost=$revenue->product_cost;
+                                $this->np_a_opex=$revenue->opex;
+                                $this->np_a_totalCost=$revenue->total_cost;
+                                $this->np_a_competitorsPrice=$revenue->competitors_price;
+                                $this->np_a_markup=$revenue->mark_up;
+                                $this->np_a_price=$revenue->price ;
+                                $this->np_a_unitSold=$revenue->unit_sold;
+                                $this->np_a_revenue=$revenue->revenue;
+                            }elseif(strtolower($product->name) == "b"){
+                                $this->np_b_productCost=$revenue->product_cost;
+                                $this->np_b_opex=$revenue->opex;
+                                $this->np_b_totalCost=$revenue->total_cost;
+                                $this->np_b_competitorsPrice=$revenue->competitors_price;
+                                $this->np_b_markup=$revenue->mark_up;
+                                $this->np_b_price=$revenue->price;
+                                $this->np_b_unitSold=$revenue->unit_sold;
+                                $this->np_b_revenue=$revenue->revenue;
+                            }
                         }
-                    }
 
+                    }
+                    $revenue->save();
                 }
-                $revenue->save();
             }
+
         }
 
     }
 
 
     public function mount(){
+
+
         $this->userId = Auth::guard('web')->user()->id;
         $this->gameId = Session::get("game_id");
 

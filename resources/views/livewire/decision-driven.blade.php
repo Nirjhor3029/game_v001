@@ -64,7 +64,7 @@
                     <div class="col-md-4">
                         <div class="card">
                             <div class="card-body">
-                                <h2 class="display-1">123</h2>
+                                <center><h2 class="display-1">{{$this->net_income}}</h2></center>
                                 <p style="margin-top:10px;text-align:center;font-weight:bolder;font-size:22px">Net profit<p>
                             </div>
                         </div>
@@ -213,8 +213,8 @@
 
 
 /******************* unitSales graph Decision Driven *****************/
-var pricing_compitision = document.getElementById('unitSales').getContext('2d');
-let compitision = new Chart(pricing_compitision, {
+var unitSales = document.getElementById('unitSales').getContext('2d');
+let compitision = new Chart(unitSales, {
     type: 'line',
     data: {
         datasets: [
@@ -250,6 +250,44 @@ let compitision = new Chart(pricing_compitision, {
 });
 /******************* unitSales graph Decision Driven *****************/
 
+
+/******************* Competitors Vs Price graph Decision Driven *****************/
+var pricing_compitision = document.getElementById('pricingvscompetition').getContext('2d');
+let price_compitision = new Chart(pricing_compitision, {
+    type: 'line',
+    data: {
+        datasets: [
+            {
+                label: 'Red Team',
+                data: [{{$price}}],
+                type: 'line',
+                backgroundColor: "transparent",
+                borderColor: "green"
+
+            },
+            {
+                label: 'Green Team',
+                data: [{{$competitor}}],
+                type: 'line',
+                backgroundColor: "transparent",
+                borderColor: "blue"
+
+            }
+        ],
+        labels: {!! $pricelabel !!}
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    suggestedMin: 50,
+                    suggestedMax: 100
+                }
+            }]
+        }
+    }
+});
+/******************* Competitors Vs Price graph Decision Driven *****************/
 
     </script>
 

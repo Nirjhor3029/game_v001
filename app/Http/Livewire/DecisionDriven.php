@@ -2,21 +2,24 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Game\Marketplace;
-use App\Models\Game\RevenueOther;
 use App\Models\Product;
 use App\Models\Revenue;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
-use Asantibanez\LivewireCharts\Models\AreaChartModel;
-use Asantibanez\LivewireCharts\Models\ColumnChartModel;
-use Asantibanez\LivewireCharts\Models\LineChartModel;
+use Illuminate\Support\Arr;
+use App\Models\Game\Marketplace;
+use App\Models\Game\RevenueOther;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Game\FinancialStatement;
+use Illuminate\Support\Facades\Session;
 use Asantibanez\LivewireCharts\Models\PieChartModel;
+use Asantibanez\LivewireCharts\Models\AreaChartModel;
+use Asantibanez\LivewireCharts\Models\LineChartModel;
+use Asantibanez\LivewireCharts\Models\ColumnChartModel;
+use App\Traits\RevenueTraits;
 
 class DecisionDriven extends Component
 {
+    use RevenueTraits;
     public $types = ['food', 'shopping', 'entertainment', 'travel', 'other'];
 
 
@@ -43,42 +46,68 @@ class DecisionDriven extends Component
 //    unit sales in country
     public $calculated_unit_sales;
 
-    public function calculateMarketShare()
-    {
-        $this->user_id = Auth::user()->id;
+    public $net_income;
 
-        $this->game_id = Session::get('game_id');
+    public $total_price = 0;
+    public $total_competitor_price = 0;
 
-        $this->bangladesh_id = Marketplace::where('name','Bangladesh')->first()->id;
-        $this->nepal_id = Marketplace::where('name','Nepal')->first()->id;
+    public $price = [];
+    public $competitor = [];
 
-        $market_places = Marketplace::all();
-        $products = Product::all();
+//    public function calculateMarketShare()
+//    {
+//
+//        $this->user_id = Auth::user()->id;
+//
+//        $this->game_id = Session::get('game_id');
+//
+//        $this->bangladesh_id = Marketplace::where('name','Bangladesh')->first()->id;
+//        $this->nepal_id = Marketplace::where('name','Nepal')->first()->id;
+//
+//        $market_places = Marketplace::all();
+//        $products = Product::all();
+//
+//        $revenue = [];
+//        foreach($market_places as $market_place){
+//
+//            foreach($products as $product){
+//                $revenue_row = Revenue::where('user_id',$this->user_id)
+//                    ->where('game_id',$this->game_id)
+//                    ->where('market_place_id',$market_place->id)
+//                    ->where('product_id',$product->id)->first();
+//                $revenue[] = [
+//                    "id" => $revenue_row->id,
+//                    "country" => $market_place->name,
+//                    "product" => $product->name,
+//                    "revenue" => $revenue_row->revenue,
+//                    "product_cost" => $revenue_row->product_cost,
+//                    "price" => $revenue_row->price,
+//                    "competitor" => $revenue_row->competitors_price
+//
+//                ];
+//
+//                $this->total_revenue_array = $revenue;
+//
+//            }
+//        }
+//
+//        $this->total_revenue_array = $revenue;
+//
+//        $total_revenue = 0  ;
+//
+//        // Bangladesh & Nepal ( Product A & B ) revenues
+//        foreach($revenue as $value){
+//            $total_revenue += $value['revenue'];
+//        }
+//        $this->market_share = $total_revenue/$this->MARKET_TOTAL_SELL_VALUE;
+//
+//        $this->market_share = 5;
+//    }
 
-        $revenue = [];
-        foreach($market_places as $market_place){
+    public function calculateMarketShare(){
 
-            foreach($products as $product){
-                $revenue_row = Revenue::where('user_id',$this->user_id)
-                    ->where('game_id',$this->game_id)
-                    ->where('market_place_id',$market_place->id)
-                    ->where('product_id',$product->id)->first();
-                $revenue[] = [
-                    "id" => $revenue_row->id,
-                    "country" => $market_place->name,
-                    "product" => $product->name,
-                    "revenue" => $revenue_row->revenue,
-                    "product_cost" => $revenue_row->product_cost,
-
-                ];
-
-                $this->total_revenue_array = $revenue;
-
-            }
-        }
-
+         $revenue = $this->calculateRevenueArray();
         $this->total_revenue_array = $revenue;
-
         $total_revenue = 0  ;
 
         // Bangladesh & Nepal ( Product A & B ) revenues
@@ -100,15 +129,18 @@ class DecisionDriven extends Component
 
             $revenue_other = RevenueOther::where('revenue_id',$revenue['id'])->first();
 
-            $calculated_revenues[] = [
-                "id" => $revenue['id'],
-                "country" => $revenue['country'],
-                "product" => $revenue['product'],
-                "unit_m1" => $revenue_other->month1_unit,
-                "revenue_m1" => $revenue['revenue'],
-                "unit_m2" => $revenue_other->month2_unit,
-                "revenue_m2" => $revenue_other->month2_revenue,
-            ];
+            if(!is_null($revenue_other)){
+                $calculated_revenues[] = [
+                    "id" => $revenue['id'],
+                    "country" => $revenue['country'],
+                    "product" => $revenue['product'],
+                    "unit_m1" => $revenue_other->month1_unit,
+                    "revenue_m1" => $revenue['revenue'],
+                    "unit_m2" => $revenue_other->month2_unit,
+                    "revenue_m2" => $revenue_other->month2_revenue,
+                ];
+            }
+            
 
 
         }
@@ -160,12 +192,67 @@ class DecisionDriven extends Component
 
 //        dd($this->np_unit_sales);
     }
+
+    
+
+    public function calculateNetIncome()
+    {
+        $finansial_statements = FinancialStatement::where('user_id',$this->user_id)
+        ->where('game_id',$this->game_id)->first();
+        // dd($finansial_statements);
+        $this->net_income = $finansial_statements->total_revenue - $finansial_statements->total_expanses;
+
+        
+        
+    }
+
+
+
+    public $pricelabel = [];
+
+    public function calculatePriceVsCompetition()
+    {
+//        dd($this->total_revenue_array);
+
+        foreach($this->total_revenue_array as $item){
+            $item = (object) $item;
+            $this->total_price += $item->price;
+            $this->total_competitor_price += $item->competitor;
+
+//            $this->priceVsCompetition[] = [
+//                "price" => $item->price,
+//                "competitor_price" => $item->competitors_price
+//            ];
+
+            $this->pricelabel[] = (($item->country=='Bangladesh')? 'Bn' :'Np') .'_'.$item->product;
+
+            $this->price[] = $item->price;
+            $this->competitor[] = $item->competitor;
+        }
+
+//        dd($this->pricelabel);
+
+
+
+        $this->price = collect($this->price)->implode(',');
+        $this->competitor = collect($this->competitor)->implode(',');
+//        $this->pricelabel = collect($this->pricelabel)->implode(',');
+        $this->pricelabel =  json_encode($this->pricelabel);
+
+//        dd($this->pricelabel);
+
+}
+
     public function mount(){
 
         $this->calculateMarketShare();
         $this->calculateRevenue();
         $this->calculateCost();
         $this->calculateUnitSales();
+        $this->calculateNetIncome();
+        $this->calculatePriceVsCompetition();
+
+
 
 
     }

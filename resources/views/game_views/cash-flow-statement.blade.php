@@ -158,7 +158,7 @@
                 url:"add-cash-flow-revenes",
                 data:data,
                 success:function(data){
-                //console.log(data);
+                console.log(data);
                 }
             });
 
@@ -207,7 +207,7 @@
                 url:"add-cash-flow-expenses",
                 data:data,
                 success:function(data){
-                //console.log(data);
+                console.log(data);
                 }
             });
 
