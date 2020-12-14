@@ -106,7 +106,7 @@ class DecisionDriven extends Component
 
     public function calculateMarketShare(){
 
-         $revenue = $this->calculateRevenueArray();
+        $revenue = $this->calculateRevenueArray();
         $this->total_revenue_array = $revenue;
         $total_revenue = 0  ;
 
@@ -116,7 +116,7 @@ class DecisionDriven extends Component
         }
         $this->market_share = $total_revenue/$this->MARKET_TOTAL_SELL_VALUE;
 
-        $this->market_share = 5;
+        // $this->market_share = 5;
     }
 
     public function calculateRevenue()
