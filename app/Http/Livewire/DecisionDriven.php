@@ -54,6 +54,43 @@ class DecisionDriven extends Component
     public $price = [];
     public $competitor = [];
 
+    public $bn_unit_sales =[];
+    public $np_unit_sales =[];
+
+    public $pricelabel = [];
+
+    // code for check null/empty value and show error message
+    public $check_null = 1;
+    public function updated($propertyName)
+    {
+        if($this->$propertyName == ""){
+            $this->check_null = 0;
+        }else{
+            $this->check_null = 1;
+        }
+        
+    }
+
+
+    public function mount(){
+        if($this->check_null){
+            $this->calculateMarketShare();
+            $this->calculateRevenue();
+            $this->calculateCost();
+            $this->calculateUnitSales();
+            $this->calculateNetIncome();
+            $this->calculatePriceVsCompetition();
+        }
+    }
+
+    public function render()
+    {
+        if($this->check_null){
+        return view('livewire.decision-driven');
+        }
+        
+    }
+
 //    public function calculateMarketShare()
 //    {
 //
@@ -119,8 +156,7 @@ class DecisionDriven extends Component
         // $this->market_share = 5;
     }
 
-    public function calculateRevenue()
-    {
+    public function calculateRevenue(){
 
         $calculated_revenues = [];
         foreach($this->total_revenue_array as $revenue){
@@ -146,7 +182,7 @@ class DecisionDriven extends Component
         }
 
         $this->calculated_unit_sales = $calculated_revenues;
-//        dd($calculated_revenues);
+        //        dd($calculated_revenues);
         foreach($calculated_revenues as $calculated_revenue){
             if($calculated_revenue['country']=="Bangladesh"){
                 $this->bn_total_revenue += ($calculated_revenue['revenue_m1'] + $calculated_revenue['revenue_m2']);
@@ -167,15 +203,13 @@ class DecisionDriven extends Component
                 $this->np_total_cost += $cost['product_cost'] ;
             }
         }
-//        dd($this->np_total_cost);
+        //        dd($this->np_total_cost);
     }
 
-    public $bn_unit_sales =[];
-    public $np_unit_sales =[];
 
-    public function calculateUnitSales()
-    {
-//        dd($this->calculated_unit_sales);
+
+    public function calculateUnitSales(){
+        //        dd($this->calculated_unit_sales);
         foreach($this->calculated_unit_sales as $unit_sale){
             if($unit_sale['country']=="Bangladesh"){
                 $this->bn_unit_sales[]= $unit_sale['unit_m1'];
@@ -190,13 +224,12 @@ class DecisionDriven extends Component
         $this->np_unit_sales = collect($this->np_unit_sales)->implode(',');
 
 
-//        dd($this->np_unit_sales);
+        //        dd($this->np_unit_sales);
     }
 
     
 
-    public function calculateNetIncome()
-    {
+    public function calculateNetIncome(){
         $finansial_statements = FinancialStatement::where('user_id',$this->user_id)
         ->where('game_id',$this->game_id)->first();
         // dd($finansial_statements);
@@ -208,133 +241,29 @@ class DecisionDriven extends Component
 
 
 
-    public $pricelabel = [];
-
-    public function calculatePriceVsCompetition()
-    {
-//        dd($this->total_revenue_array);
+    public function calculatePriceVsCompetition(){
+        //        dd($this->total_revenue_array);
 
         foreach($this->total_revenue_array as $item){
             $item = (object) $item;
             $this->total_price += $item->price;
             $this->total_competitor_price += $item->competitor;
 
-//            $this->priceVsCompetition[] = [
-//                "price" => $item->price,
-//                "competitor_price" => $item->competitors_price
-//            ];
-
             $this->pricelabel[] = (($item->country=='Bangladesh')? 'Bn' :'Np') .'_'.$item->product;
 
             $this->price[] = $item->price;
             $this->competitor[] = $item->competitor;
         }
-
-//        dd($this->pricelabel);
-
-
-
         $this->price = collect($this->price)->implode(',');
         $this->competitor = collect($this->competitor)->implode(',');
-//        $this->pricelabel = collect($this->pricelabel)->implode(',');
+        //        $this->pricelabel = collect($this->pricelabel)->implode(',');
         $this->pricelabel =  json_encode($this->pricelabel);
 
-//        dd($this->pricelabel);
+        //        dd($this->pricelabel);
 
 }
 
-    public function mount(){
+    
 
-        $this->calculateMarketShare();
-        $this->calculateRevenue();
-        $this->calculateCost();
-        $this->calculateUnitSales();
-        $this->calculateNetIncome();
-        $this->calculatePriceVsCompetition();
-
-
-
-
-    }
-
-
-    public $colors = [
-        'food' => '#f6ad55',
-        'shopping' => '#fc8181',
-        'entertainment' => '#90cdf4',
-        'travel' => '#66DA26',
-        'other' => '#cbd5e0',
-    ];
-
-    public $firstRun = true;
-
-    protected $listeners = [
-        'onPointClick' => 'handleOnPointClick',
-        'onSliceClick' => 'handleOnSliceClick',
-        'onColumnClick' => 'handleOnColumnClick',
-    ];
-
-    public function handleOnPointClick($point)
-    {
-        dd($point);
-    }
-
-    public function handleOnSliceClick($slice)
-    {
-        dd($slice);
-    }
-
-    public function handleOnColumnClick($column)
-    {
-        dd($column);
-    }
-
-
-    public function render()
-    {
-        $columnChartModel  =  (new ColumnChartModel())
-        ->setTitle('Expenses by Type')
-        ->addColumn('food','300','#f6ad55')
-        ->addColumn('shopping','600','#f6ad56')
-        ->addColumn('entertainment','900','#90cdf4')
-        ->setAnimated($this->firstRun)
-        ->withOnColumnClickEventName('onColumnClick');
-
-
-    $lineChartModel = (new LineChartModel())
-        ->setTitle('Expenses Evolution')
-        ->addMarker("test 1",200)
-        ->addMarker("test 2",300)
-        ->addPoint("hello",400)
-        ->setAnimated($this->firstRun)
-        ->withOnPointClickEvent('onPointClick');
-
-
-    $areaChartModel = (new AreaChartModel())
-            ->setTitle('Expenses Peaks')
-            ->setAnimated($this->firstRun)
-            ->setColor('#f6ad55')
-            ->addPoint('hello','')
-            ->withOnPointClickEvent('onAreaPointClick')
-            ->setXAxisVisible(false)
-            ->setYAxisVisible(true);
-
-
-    $pieChartModel =  (new PieChartModel())
-                ->setTitle('Expenses by Type')
-                ->addSlice('hardword',200,'red')
-                ->setAnimated($this->firstRun)
-                ->withOnSliceClickEvent('onSliceClick');
-
-
-
-
-
-        return view('livewire.decision-driven',[
-            'columnChartModel'=>$columnChartModel,
-            'lineChartModel'=>$lineChartModel,
-            'areaChartModel'=>$areaChartModel,
-            'pieChartModel'=>$pieChartModel,
-        ]);
-    }
+    
 }

@@ -10,6 +10,11 @@
     {{-- Because she competes with no one, no one can compete with her. --}}
 
     <div class="input_box">
+        @if (!$check_null)
+            <div class="alert alert-danger">
+                Field can not be empty
+            </div>
+        @endif
         
         <div class="row">
             <div class="col-sm-2">

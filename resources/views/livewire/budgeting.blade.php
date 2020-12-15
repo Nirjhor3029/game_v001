@@ -8,6 +8,12 @@
             </div>
         @endif
 
+        @if (!$check_null)
+            <div class="alert alert-danger">
+                Field can not be empty
+            </div>
+        @endif
+        
 
     <!--start for bd market -->
     <div class="row">

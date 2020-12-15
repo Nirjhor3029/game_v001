@@ -22,8 +22,19 @@ class Budgeting extends Component
     public $other_np = 0;
     public $output_total_budget_np = 0;
 
-
     public $total_budget = 15;
+
+    // code for check null/empty value and show error message
+    public $check_null = 1;
+    public function updated($propertyName)
+    {
+        if($this->$propertyName == ""){
+            $this->check_null = 0;
+        }else{
+            $this->check_null = 1;
+        }
+        
+    }
 
 
     public function checkIsNotZero($arry, $total_output)
@@ -72,19 +83,22 @@ class Budgeting extends Component
 
     public function mount()
     {
-        $bangladesh =  Budget::where(['user_id' => Auth::guard('web')->user()->id, 'game_id' => Session::get('game_id'), 'marketplace_id' => 1])->get()->first();
-        $this->recruitment_bd = $bangladesh->recruitment;
-        $this->manufacturing_bd = $bangladesh->manufacturing;
-        $this->launch_bd = $bangladesh->launch;
-        $this->other_bd = $bangladesh->other;
-        $this->output_total_budget = $bangladesh->recruitment + $bangladesh->manufacturing + $bangladesh->launch + $bangladesh->other;
-
-        $nepalBudget = Budget::where(['user_id' => Auth::guard('web')->user()->id, 'game_id' => Session::get('game_id'), 'marketplace_id' => 2])->get()->first();
-        $this->recruitment_np = $nepalBudget->recruitment;
-        $this->manufacturing_np = $nepalBudget->manufacturing;
-        $this->launch_np = $nepalBudget->launch;
-        $this->other_np = $nepalBudget->other;
-        $this->output_total_budget_np = $nepalBudget->recruitment + $nepalBudget->manufacturing + $nepalBudget->launch + $nepalBudget->other;
+        if($this->check_null){
+            $bangladesh =  Budget::where(['user_id' => Auth::guard('web')->user()->id, 'game_id' => Session::get('game_id'), 'marketplace_id' => 1])->get()->first();
+            $this->recruitment_bd = $bangladesh->recruitment;
+            $this->manufacturing_bd = $bangladesh->manufacturing;
+            $this->launch_bd = $bangladesh->launch;
+            $this->other_bd = $bangladesh->other;
+            $this->output_total_budget = $bangladesh->recruitment + $bangladesh->manufacturing + $bangladesh->launch + $bangladesh->other;
+    
+            $nepalBudget = Budget::where(['user_id' => Auth::guard('web')->user()->id, 'game_id' => Session::get('game_id'), 'marketplace_id' => 2])->get()->first();
+            $this->recruitment_np = $nepalBudget->recruitment;
+            $this->manufacturing_np = $nepalBudget->manufacturing;
+            $this->launch_np = $nepalBudget->launch;
+            $this->other_np = $nepalBudget->other;
+            $this->output_total_budget_np = $nepalBudget->recruitment + $nepalBudget->manufacturing + $nepalBudget->launch + $nepalBudget->other;
+        }
+        
     }
 
 
@@ -92,8 +106,11 @@ class Budgeting extends Component
 
     public function render()
     {
-        $this->calculateBdBudget();
-        $this->calculateBdBudgetForNp();
+        if($this->check_null){  
+            $this->calculateBdBudget();
+            $this->calculateBdBudgetForNp();
+        }
+        
         return view('livewire.budgeting');
     }
 }

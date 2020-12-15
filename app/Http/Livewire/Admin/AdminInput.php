@@ -64,19 +64,47 @@ class AdminInput extends Component
 
     public $userId;
     public  $gameId;
+
+
+    // code for check null/empty value and show error message
+    public $check_null = 1;
+    public function updated($propertyName)
+    {
+        if($this->$propertyName == ""){
+            $this->check_null = 0;
+        }else{
+            $this->check_null = 1;
+        }
+        
+    }
     public function mount()
     {
-
-        $this->setField();
-//        dd($this->calculateRevenueArray());
-        $this->market_share_actual_value = $this->calculateMarketShare();
-        $this->revenue_actual_value = $this->calculateRevenue();
-        $this->cost_actual_value = $this->calculateCost();
-        $this->usic_actual_value = $this->calculateUnitSales();
-        $this->net_profit_actual_value = $this->calculateNetIncome();
-        $this->cm_price_actual_value = $this->calculatePriceVsCompetition();
-
+        if($this->check_null){
+            $this->setField();
+            //dd($this->calculateRevenueArray());
+            $this->market_share_actual_value = $this->calculateMarketShare();
+            $this->revenue_actual_value = $this->calculateRevenue();
+            $this->cost_actual_value = $this->calculateCost();
+            $this->usic_actual_value = $this->calculateUnitSales();
+            $this->net_profit_actual_value = $this->calculateNetIncome();
+            $this->cm_price_actual_value = $this->calculatePriceVsCompetition();
+        }
     }
+
+    public function render()
+    {
+        if($this->check_null){
+            
+            $this->CalculateAllMainField();
+            $this->updateDb();
+        }
+        
+        return view('livewire.admin.admin-input');
+    }
+
+
+
+
 
     function setField(){
         $this->userId = Auth::guard('web')->user()->id;
@@ -123,29 +151,22 @@ class AdminInput extends Component
 
     }
 
-    public function render()
+    public function CalculateAllMainField()
     {
-
         $this->market_share_mark_value = ($this->market_share_actual_value/$this->market_share_assigned_value)*$this->market_share_point_value;
 
-
         $this->revenue_mark_value = ($this->revenue_actual_value/$this->revenue_assigned_value)*$this->revenue_point_value;
-
 
         $this->cost_mark_value = ($this->cost_actual_value/$this->cost_assigned_value)*$this->cost_point_value;
         
         $this->usic_mark_value = ($this->usic_actual_value/$this->usic_assigned_value)*$this->usic_point_value;
-       
+    
         $this->net_profit_mark_value = ($this->net_profit_actual_value/$this->net_profit_assigned_value)*$this->net_profit_point_value;
-       
+    
         $this->cm_price_mark_value = ($this->cm_price_actual_value/$this->cm_price_assigned_value)*$this->cm_price_point_value;
-
-
-        $this->updateDb();
-
-
-        return view('livewire.admin.admin-input');
     }
+
+    
 
 
 
@@ -241,11 +262,16 @@ class AdminInput extends Component
 
     public function calculateNetIncome()
     {
+        $net_income=0;
         $finansial_statements = FinancialStatement::where('user_id',$this->user_id)
             ->where('game_id',$this->game_id)->first();
         // dd($finansial_statements);
-        return $net_income = $finansial_statements->total_revenue - $finansial_statements->total_expanses;
+        if(!is_null($finansial_statements)){
+            return $net_income = $finansial_statements->total_revenue - $finansial_statements->total_expanses;
+        }
+        
 
+        return $net_income;
 
 
     }
