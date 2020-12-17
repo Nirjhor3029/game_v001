@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Models\Game\FinancialOptions;
 use App\Models\Game\ResultProcess;
 use Illuminate\Http\Request;

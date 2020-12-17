@@ -1,3 +1,8 @@
+
+body,p,h1,h2,h3,h4,h5,h6,div{
+  font-family: 'Raleway', sans-serif;
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -28,4 +33,10 @@ input[type=number] {
   font-size: 13px;
   padding: 1px 10px;
   margin-bottom: 2px;
+}
+
+.alert_img{
+  height: 50px;
+  width: 50px;
+  display: inline;
 }

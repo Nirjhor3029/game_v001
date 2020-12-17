@@ -47,16 +47,20 @@ trait RevenueTraits{
                     ->where('game_id',$this->game_id)
                     ->where('market_place_id',$market_place->id)
                     ->where('product_id',$product->id)->first();
-                $revenue[] = [
-                    "id" => $revenue_row->id,
-                    "country" => $market_place->name,
-                    "product" => $product->name,
-                    "revenue" => $revenue_row->revenue,
-                    "product_cost" => $revenue_row->product_cost,
-                    "price" => $revenue_row->price,
-                    "competitor" => $revenue_row->competitors_price
 
-                ];
+                if(!is_null($revenue_row)){
+                    $revenue[] = [
+                        "id" => $revenue_row->id,
+                        "country" => $market_place->name,
+                        "product" => $product->name,
+                        "revenue" => $revenue_row->revenue,
+                        "product_cost" => $revenue_row->product_cost,
+                        "price" => $revenue_row->price,
+                        "competitor" => $revenue_row->competitors_price
+    
+                    ];
+                }
+                
 
                 $this->total_revenue_array = $revenue;
 

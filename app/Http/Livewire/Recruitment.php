@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Game\Budget;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Livewire\Component;
@@ -36,6 +37,17 @@ class Recruitment extends Component
         $recruitment->game_id = $this->gameId;
         $recruitment->save();
         //        return $recruitment;
+
+        $this->setRecruitmentToBudget($recruitment);
+    }
+
+    public function setRecruitmentToBudget($recruitment)
+    {
+        $budgets_for_all_country = Budget::where('user_id',$this->userId)->where('game_id',$this->gameId)->get();
+        foreach($budgets_for_all_country as $budget){
+            $budget->recruitment = $recruitment->hr_manager +  $recruitment->bdm + $recruitment->sales_manager;
+            $budget->save();
+        }
     }
 
     public function setAllFields(){
@@ -48,7 +60,6 @@ class Recruitment extends Component
             $this->slider_3 = $recruitment->sales_manager;
             $recruitment->save();
         }
-
     }
 
 
@@ -56,7 +67,6 @@ class Recruitment extends Component
     {
         $this->userId = Auth::user()->id;
         $this->gameId = Session::get("game_id");
-
         $this->setAllFields();
     }
 
