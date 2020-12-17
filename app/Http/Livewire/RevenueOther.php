@@ -45,42 +45,22 @@ class RevenueOther extends Component
     public $np_BM1_revenue;
     public $np_BM2;
     public $np_BM2_revenue;
-
-
-    /****************** for chart *******************/
-    public $types = ['food', 'shopping', 'entertainment', 'travel', 'other'];
-
-    public $colors = [
-        'food' => '#f6ad55',
-        'shopping' => '#fc8181',
-        'entertainment' => '#90cdf4',
-        'travel' => '#66DA26',
-        'other' => '#cbd5e0',
-    ];
-
     public $firstRun = true;
 
-    protected $listeners = [
-        'onPointClick' => 'handleOnPointClick',
-        'onSliceClick' => 'handleOnSliceClick',
-        'onColumnClick' => 'handleOnColumnClick',
-    ];
-
-    public function handleOnPointClick($point)
+    // code for check null/empty value and show error message
+    public $check_null = 1;
+    public function updated($propertyName)
     {
-        dd($point);
+        if($this->$propertyName == ""){
+            $this->check_null = 0;
+        }else{
+            $this->check_null = 1;
+        }
     }
 
-    public function handleOnSliceClick($slice)
-    {
-        dd($slice);
-    }
 
-    public function handleOnColumnClick($column)
-    {
-        dd($column);
-    }
-    /****************** for chart *******************/
+
+
 
     public function updateDB(){
 
@@ -188,6 +168,9 @@ class RevenueOther extends Component
                 }else{
                     if(strtolower($marketPlace->name) == "bangladesh"){
                         //dd("bangladesh");
+
+                        $revenue_other->month1_revenue = $revenue->revenue; // Update 1st month revenue from revenue table
+
                         if(strtolower($product->name) == "a"){
                             $this->bn_AM1_revenue = $revenue_other->month1_revenue;
                             $this->bn_AM2 = $revenue_other->month2_unit;
@@ -212,6 +195,7 @@ class RevenueOther extends Component
                         }
                     }
                 }
+
 
 
                 $revenue_other->save();

@@ -13,14 +13,14 @@ class Revenue extends Component
 {
 
 
-
+    
     public $bn_a_productCost;
     public $bn_a_opex;
     public $bn_a_totalCost;
     public $bn_a_competitorsPrice;
     public $bn_a_markup;
     public $bn_a_price;
-
+    
     public $bn_a_unitSold ;
     public $bn_a_revenue ;
 
@@ -32,7 +32,6 @@ class Revenue extends Component
     public $bn_b_price ;
     public $bn_b_unitSold ;
     public $bn_b_revenue ;
-
 
 
     public $userId;
@@ -47,16 +46,50 @@ class Revenue extends Component
     public $np_product_a;
     public $np_product_b;
 
+    // code for check null/empty value and show error message
+    public $check_null = 1;
+    public function updated($propertyName)
+    {
+        if($this->$propertyName == ""){
+            $this->check_null = 0;
+        }else{
+            $this->check_null = 1;
+        }
+    }
+
+    public function mount(){
+        $this->userId = Auth::guard('web')->user()->id;
+        $this->gameId = Session::get("game_id");
+
+        $this->bn_marketPlace=1;
+        $this->np_marketPlace=2;
+
+        //set all fi filled data
+        if($this->check_null){
+            $this->setAllFields();
+        }
+    }
+
+    public function render(){
+        if($this->check_null){
+            $this->calculateData();
+            $this->updateDB();
+        }
+        
+        return view('livewire.revenue');
+    }
+
+
 
     public function updateDB(){
-
         $products = Product::all();
         $marketPlaces = Marketplace::all();
+        $manufacturing = 0;
 
         foreach($marketPlaces as $marketPlace){
             //echo $marketPlace->name;
-
-            if($marketPlace->id == 1){
+            
+            if($marketPlace->id == $this->bn_marketPlace){
                 foreach($products as $product){
                     $revenue = \App\Models\Revenue::where('product_id',$product->id)
                         ->where('user_id',$this->userId)
@@ -100,10 +133,12 @@ class Revenue extends Component
 
                     }
                     $revenue->save();
+                    $manufacturing += $revenue->product_cost;
                 }
             }
 
         }
+        $this->setManufacturingOfBudget( $manufacturing , $this->bn_marketPlace ); 
 
     }
 
@@ -114,6 +149,13 @@ class Revenue extends Component
 
         foreach($marketPlaces as $marketPlace){
             if($marketPlace->id == 1){
+                $budget = Budget::where('user_id',$this->userId)
+                            ->where('game_id',$this->gameId)
+                            ->where('marketplace_id',$marketPlace->id)
+                            ->first();
+
+                $total_budget = $budget->recruitment+$budget->manufacturing+$budget->launch+$budget->other;
+                
                 foreach($products as $product){
 
                     $revenue = \App\Models\Revenue::where('product_id',$product->id)
@@ -121,8 +163,10 @@ class Revenue extends Component
                         ->where('game_id',$this->gameId)
                         ->where('market_place_id',$marketPlace->id)
                         ->first();
+                        // dd($revenue);
 
                     if(is_null($revenue)){
+                        // dd("if");
                         $revenue = new \App\Models\Revenue();
 
                         $revenue->product_id = $product->id;
@@ -131,12 +175,8 @@ class Revenue extends Component
                         $revenue->user_id = $this->userId;
                         $revenue->game_id = $this->gameId;
 
-                        $budget = Budget::where('user_id',$this->userId)
-                            ->where('game_id',$this->gameId)
-                            ->where('marketplace_id',$marketPlace->id)
-                            ->first();
+                        
 
-                        $total_budget = $budget->recruitment+$budget->manufacturing+$budget->launch+$budget->other;
 
                         if(strtolower($marketPlace->name) == "bangladesh"){
                             if(strtolower($product->name) == "a"){
@@ -152,11 +192,12 @@ class Revenue extends Component
                         }
 
                     }else{
+                        // dd("else");
 
                         if(strtolower($marketPlace->name) == "bangladesh"){
                             if(strtolower($product->name) == "a"){
                                 $this->bn_a_productCost = $revenue->product_cost;
-                                $this->bn_a_opex = $revenue->opex;
+                                $this->bn_a_opex = $total_budget;
                                 $this->bn_a_totalCost = $revenue->total_cost;
                                 $this->bn_a_competitorsPrice =$revenue->competitors_price ;
                                 $this->bn_a_markup = $revenue->mark_up;
@@ -166,7 +207,7 @@ class Revenue extends Component
                                 // dd("ok");
                             }elseif(strtolower($product->name) == "b"){
                                 $this->bn_b_productCost = $revenue->product_cost;
-                                $this->bn_b_opex = $revenue->opex;
+                                $this->bn_b_opex = $total_budget;
                                 $this->bn_b_totalCost = $revenue->total_cost;
                                 $this->bn_b_competitorsPrice = $revenue->competitors_price;
                                 $this->bn_b_markup = $revenue->mark_up ;
@@ -190,48 +231,28 @@ class Revenue extends Component
 
     }
 
-    public function mount(){
 
-        $this->userId = Auth::guard('web')->user()->id;
-        $this->gameId = Session::get("game_id");
-
-        $this->bn_marketPlace=1;
-        $this->np_marketPlace=2;
-
-        //set all fi filled data
-        $this->setAllFields();
-
-
-    }
 
     public function calculateData(){
-
         $this->bn_a_totalCost = $this->bn_a_productCost+$this->bn_a_opex;
         $this->bn_b_totalCost = $this->bn_b_productCost+$this->bn_b_opex;
 
-        $this->bn_a_price = $this->bn_a_totalCost + (($this->bn_a_totalCost*$this->bn_a_markup)/100);
-        $this->bn_b_price = $this->bn_b_totalCost + (($this->bn_b_totalCost*$this->bn_b_markup)/100);
-
-        $this->bn_a_revenue = ($this->bn_a_price*$this->bn_a_unitSold);
-        $this->bn_b_revenue = $this->bn_b_price * $this->bn_b_unitSold;
-
+        $this->bn_a_price = round(($this->bn_a_totalCost + (($this->bn_a_totalCost*$this->bn_a_markup)/100)),2);
+        $this->bn_b_price = round(($this->bn_b_totalCost + (($this->bn_b_totalCost*$this->bn_b_markup)/100)),2);
+        
+        $this->bn_a_revenue = round(($this->bn_a_price*$this->bn_a_unitSold),2);
+        $this->bn_b_revenue = round(($this->bn_b_price * $this->bn_b_unitSold),2);
+        
     }
-    public function updated($field)
+
+    
+
+    public function setManufacturingOfBudget($manufacturing , $bn_marketPlaceId)
     {
-        $this->validateOnly($field, [
-            'bn_a_productCost' => 'required',
-            'bn_a_opex' => 'required',
-        ]);
+        $budgets_for_bn = Budget::where('user_id',$this->userId)->where('game_id',$this->gameId)->where('marketplace_id',$bn_marketPlaceId)->first();
+
+        $budgets_for_bn->manufacturing = $manufacturing;
+        $budgets_for_bn->save();
     }
 
-
-
-    public function render()
-    {
-
-      //  $this->calculateData();
-
-      //  $this->updateDB();
-        return view('livewire.revenue');
-    }
 }
