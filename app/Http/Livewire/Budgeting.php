@@ -33,7 +33,6 @@ class Budgeting extends Component
         }else{
             $this->check_null = 1;
         }
-        
     }
 
 

@@ -94,7 +94,6 @@ class AdminInput extends Component
     public function render()
     {
         if($this->check_null){
-            
             $this->CalculateAllMainField();
             $this->updateDb();
         }
@@ -153,19 +152,28 @@ class AdminInput extends Component
 
     public function CalculateAllMainField()
     {
-        $this->market_share_mark_value = ($this->market_share_actual_value/$this->market_share_assigned_value)*$this->market_share_point_value;
-
-        $this->revenue_mark_value = ($this->revenue_actual_value/$this->revenue_assigned_value)*$this->revenue_point_value;
-
-        $this->cost_mark_value = ($this->cost_actual_value/$this->cost_assigned_value)*$this->cost_point_value;
+        $this->market_share_mark_value = round($this->checkMarkValue($this->market_share_point_value , ($this->market_share_actual_value/$this->market_share_assigned_value)*$this->market_share_point_value),2);
         
-        $this->usic_mark_value = ($this->usic_actual_value/$this->usic_assigned_value)*$this->usic_point_value;
+
+        $this->revenue_mark_value = round($this->checkMarkValue($this->revenue_point_value , ($this->revenue_actual_value/$this->revenue_assigned_value)*$this->revenue_point_value),2);
+
+        $this->cost_mark_value = round($this->checkMarkValue($this->cost_point_value , ($this->cost_actual_value/$this->cost_assigned_value)*$this->cost_point_value),2); 
+        
+        $this->usic_mark_value = round($this->checkMarkValue($this->usic_point_value , ($this->usic_actual_value/$this->usic_assigned_value)*$this->usic_point_value),2); 
     
-        $this->net_profit_mark_value = ($this->net_profit_actual_value/$this->net_profit_assigned_value)*$this->net_profit_point_value;
+        $this->net_profit_mark_value = round($this->checkMarkValue($this->net_profit_point_value , ($this->net_profit_actual_value/$this->net_profit_assigned_value)*$this->net_profit_point_value),2); 
     
-        $this->cm_price_mark_value = ($this->cm_price_actual_value/$this->cm_price_assigned_value)*$this->cm_price_point_value;
+        // $this->cm_price_mark_value = round($this->checkMarkValue($this->cm_price_point_value , ($this->cm_price_actual_value/$this->cm_price_assigned_value)*$this->cm_price_point_value),2); 
     }
 
+    public function checkMarkValue($pointValue,$markValue)
+    {
+        if($markValue > $pointValue){
+            return $pointValue;
+        }else{
+            return $markValue;
+        }
+    }
     
 
 
@@ -182,7 +190,7 @@ class AdminInput extends Component
         }
         return $market_share = $total_revenue/$this->MARKET_TOTAL_SELL_VALUE;
 
-//       return $market_share = 5;
+        //return $market_share = 5;
     }
 
 
@@ -248,14 +256,11 @@ class AdminInput extends Component
 
     public function calculateUnitSales()
     {
-//        dd($this->calculated_unit_sales);
+        //dd($this->calculated_unit_sales);
         $unitSales =0;
         foreach($this->calculated_unit_sales as $unit_sale){
-
             $unitSales += ($unit_sale['unit_m1']+$unit_sale['unit_m2']);
-
         }
-
         return $unitSales;
 
     }
@@ -270,7 +275,6 @@ class AdminInput extends Component
             return $net_income = $finansial_statements->total_revenue - $finansial_statements->total_expanses;
         }
         
-
         return $net_income;
 
 
