@@ -4,6 +4,11 @@
                 {{ session('error') }}
             </div>
     @endif
+    @if (!$check_null)
+            <div class="alert alert-danger">
+                Field can not be empty
+            </div>
+    @endif
     {{-- BAngladesh Box Start --}}
     <div class="box">
         <div class="row">

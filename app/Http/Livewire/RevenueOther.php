@@ -47,6 +47,7 @@ class RevenueOther extends Component
     public $np_BM2_revenue;
     public $firstRun = true;
 
+    public $check_previous_game = 1;
     // code for check null/empty value and show error message
     public $check_null = 1;
     public function updated($propertyName)
@@ -63,8 +64,6 @@ class RevenueOther extends Component
 
 
     public function updateDB(){
-
-
         $products = Product::all();
         $marketPlaces = Marketplace::all();
 
@@ -140,65 +139,69 @@ class RevenueOther extends Component
                     ->where('market_place_id',$marketPlace->id)
                     ->first();
 
-                $revenue_other = \App\Models\Game\RevenueOther::where('revenue_id',$revenue->id)->first();
-                if(is_null($revenue_other)){
-                    $revenue_other = new \App\Models\Game\RevenueOther();
-                    $revenue_other->revenue_id = $revenue->id;
-                    //$revenue_other->
+                    if(!is_null($revenue)){
+                            // dd($revenue);
+                        $revenue_other = \App\Models\Game\RevenueOther::where('revenue_id',$revenue->id)->first();
+                        if(is_null($revenue_other)){
+                            $revenue_other = new \App\Models\Game\RevenueOther();
+                            $revenue_other->revenue_id = $revenue->id;
+                            //$revenue_other->
 
-                    if(strtolower($marketPlace->name) == "bangladesh"){
-                        //dd("bangladesh");
-                        if(strtolower($product->name) == "a"){
-                            $this->bn_AM1_revenue = $revenue->revenue;
+                            if(strtolower($marketPlace->name) == "bangladesh"){
+                                //dd("bangladesh");
+                                if(strtolower($product->name) == "a"){
+                                    $this->bn_AM1_revenue = $revenue->revenue;
 
-                        }elseif(strtolower($product->name) == "b"){
-                            $this->bn_BM1_revenue = $revenue->revenue;
+                                }elseif(strtolower($product->name) == "b"){
+                                    $this->bn_BM1_revenue = $revenue->revenue;
+                                }
+
+                            }elseif(strtolower($marketPlace->name) == "nepal"){
+
+                                if(strtolower($product->name) == "a"){
+                                    $this->np_AM1_revenue = $revenue->revenue;
+
+                                }elseif(strtolower($product->name) == "b"){
+                                    $this->np_BM1_revenue = $revenue->revenue;
+
+                                }
+                            }
+                        }else{
+                            if(strtolower($marketPlace->name) == "bangladesh"){
+                                //dd("bangladesh");
+
+                                $revenue_other->month1_revenue = $revenue->revenue; // Update 1st month revenue from revenue table
+
+                                if(strtolower($product->name) == "a"){
+                                    $this->bn_AM1_revenue = $revenue_other->month1_revenue;
+                                    $this->bn_AM2 = $revenue_other->month2_unit;
+                                    $this->bn_AM2_revenue = $revenue_other->month2_revenue;
+
+                                }elseif(strtolower($product->name) == "b"){
+                                    $this->bn_BM1_revenue = $revenue_other->month1_revenue;
+                                    $this->bn_BM2 = $revenue_other->month2_unit;
+                                    $this->bn_BM2_revenue = $revenue_other->month2_revenue;
+                                }
+
+                            }elseif(strtolower($marketPlace->name) == "nepal"){
+
+                                if(strtolower($product->name) == "a"){
+                                    $this->np_AM1_revenue = $revenue_other->month1_revenue;
+                                    $this->np_AM2 = $revenue_other->month2_unit;
+                                    $this->np_AM2_revenue = $revenue_other->month2_revenue;
+                                }elseif(strtolower($product->name) == "b"){
+                                    $this->np_BM1_revenue = $revenue_other->month1_revenue;
+                                    $this->np_BM2 = $revenue_other->month2_unit;
+                                    $this->np_BM2_revenue = $revenue_other->month2_revenue;
+                                }
+                            }
                         }
-
-                    }elseif(strtolower($marketPlace->name) == "nepal"){
-
-                        if(strtolower($product->name) == "a"){
-                            $this->np_AM1_revenue = $revenue->revenue;
-
-                        }elseif(strtolower($product->name) == "b"){
-                            $this->np_BM1_revenue = $revenue->revenue;
-
-                        }
+                        $revenue_other->save();
+                        $this->check_previous_game = 1;
+                    }else{
+                        $this->check_previous_game = 0;
                     }
-                }else{
-                    if(strtolower($marketPlace->name) == "bangladesh"){
-                        //dd("bangladesh");
-
-                        $revenue_other->month1_revenue = $revenue->revenue; // Update 1st month revenue from revenue table
-
-                        if(strtolower($product->name) == "a"){
-                            $this->bn_AM1_revenue = $revenue_other->month1_revenue;
-                            $this->bn_AM2 = $revenue_other->month2_unit;
-                            $this->bn_AM2_revenue = $revenue_other->month2_revenue;
-
-                        }elseif(strtolower($product->name) == "b"){
-                            $this->bn_BM1_revenue = $revenue_other->month1_revenue;
-                            $this->bn_BM2 = $revenue_other->month2_unit;
-                            $this->bn_BM2_revenue = $revenue_other->month2_revenue;
-                        }
-
-                    }elseif(strtolower($marketPlace->name) == "nepal"){
-
-                        if(strtolower($product->name) == "a"){
-                            $this->np_AM1_revenue = $revenue_other->month1_revenue;
-                            $this->np_AM2 = $revenue_other->month2_unit;
-                            $this->np_AM2_revenue = $revenue_other->month2_revenue;
-                        }elseif(strtolower($product->name) == "b"){
-                            $this->np_BM1_revenue = $revenue_other->month1_revenue;
-                            $this->np_BM2 = $revenue_other->month2_unit;
-                            $this->np_BM2_revenue = $revenue_other->month2_revenue;
-                        }
-                    }
-                }
-
-
-
-                $revenue_other->save();
+                
             }
         }
 
@@ -212,15 +215,30 @@ class RevenueOther extends Component
         $this->bn_marketPlace=1;
         $this->np_marketPlace=2;
 
-        $this->setAllFields();
+        $revenue = Revenue::where('user_id',$this->userId)
+                    ->where('game_id',$this->gameId)
+                    ->first();
+
+        if(is_null( $revenue)){
+            $this->check_previous_game = 0;
+        }else{
+            $this->check_previous_game = 1;
+        }
+
+        if( $this->check_null && $this->check_previous_game){
+            $this->setAllFields();
+        }
+        
 
     }
 
     public function render()
     {
 
-        $this->updateDB();
-
+        if( $this->check_null && $this->check_previous_game){
+            $this->updateDB();
+        }
+        
         $product_1  =  (new ColumnChartModel())
         ->setTitle('Bangladesh')
         ->addColumn('AM1',$this->bn_AM1_revenue,'#00B050')
@@ -229,6 +247,9 @@ class RevenueOther extends Component
         ->addColumn('AM2',$this->bn_AM2_revenue,'#00B050')
         ->addColumn('BM2',$this->bn_BM2_revenue,'#FF0000')
         ->setAnimated($this->firstRun)
+        ->sparklined()
+        ->withoutDataLabels()
+        // ->withoutLegend()
         ->withOnColumnClickEventName('onColumnClick');
 
         $product_2  =  (new ColumnChartModel())
@@ -239,6 +260,7 @@ class RevenueOther extends Component
         ->addColumn('AM2',$this->np_AM2_revenue,'#00B050')
         ->addColumn('BM2',$this->np_BM2_revenue,'#FF0000')
         ->setAnimated($this->firstRun)
+        ->setDataLabelsEnabled(false)
         ->withOnColumnClickEventName('onColumnClick');
 
         return view('livewire.revenue-other',compact('product_1','product_2'));
