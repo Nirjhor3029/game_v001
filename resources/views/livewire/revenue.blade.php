@@ -13,9 +13,10 @@
                     <div class="row single-field">
                         <div class="col-md-6 ">
                             <input type="number"  class="form-control input-field" name="" wire:model="bn_a_productCost" />
+                            @error('bn_a_productCost') <span class="error">{{ $message }}</span> @enderror
                         </div>
                         <div class="col-md-6">
-                            Production cost 
+                            Production cost
                         </div>
                     </div>
                     <div class="row single-field">
@@ -90,9 +91,9 @@
                         <input type="number"  class="form-control input-field" name="" wire:model="bn_a_revenue" readonly/>
                     </div>
                 </div>
-                
+
             </div>
-    
+
             <div class="col-md-6 ">
                 Product B
                 <div class="sub-box">
@@ -136,12 +137,12 @@
                         <div class="col-md-6">
                             Mark up %
                         </div>
-                        
+
                     </div>
 
-                    
+
                 </div>
-                
+
 
 
                 <div class="row row-price">
@@ -184,7 +185,7 @@
                     </div>
                 </div>
             </div>
-            
+
         </div>
 
         <div class="row row-title">
@@ -192,7 +193,7 @@
                 <h3>Bangladesh</h3>
             </div>
         </div>
-        
+
     </div>
 
 

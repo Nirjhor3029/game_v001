@@ -13,14 +13,14 @@ class Revenue extends Component
 {
 
 
-    
+
     public $bn_a_productCost;
     public $bn_a_opex;
     public $bn_a_totalCost;
     public $bn_a_competitorsPrice;
     public $bn_a_markup;
     public $bn_a_price;
-    
+
     public $bn_a_unitSold ;
     public $bn_a_revenue ;
 
@@ -33,7 +33,7 @@ class Revenue extends Component
     public $bn_b_unitSold ;
     public $bn_b_revenue ;
 
-   
+
 
     public $userId;
     public $gameId;
@@ -49,6 +49,7 @@ class Revenue extends Component
 
 
     public function updateDB(){
+
         $products = Product::all();
         $marketPlaces = Marketplace::all();
 
@@ -190,6 +191,7 @@ class Revenue extends Component
     }
 
     public function mount(){
+
         $this->userId = Auth::guard('web')->user()->id;
         $this->gameId = Session::get("game_id");
 
@@ -203,22 +205,33 @@ class Revenue extends Component
     }
 
     public function calculateData(){
+
         $this->bn_a_totalCost = $this->bn_a_productCost+$this->bn_a_opex;
         $this->bn_b_totalCost = $this->bn_b_productCost+$this->bn_b_opex;
 
         $this->bn_a_price = $this->bn_a_totalCost + (($this->bn_a_totalCost*$this->bn_a_markup)/100);
         $this->bn_b_price = $this->bn_b_totalCost + (($this->bn_b_totalCost*$this->bn_b_markup)/100);
-        
+
         $this->bn_a_revenue = ($this->bn_a_price*$this->bn_a_unitSold);
         $this->bn_b_revenue = $this->bn_b_price * $this->bn_b_unitSold;
-        
+
     }
+    public function updated($field)
+    {
+        $this->validateOnly($field, [
+            'bn_a_productCost' => 'required',
+            'bn_a_opex' => 'required',
+        ]);
+    }
+
+
 
     public function render()
     {
-        $this->calculateData();
 
-        $this->updateDB();
+      //  $this->calculateData();
+
+      //  $this->updateDB();
         return view('livewire.revenue');
     }
 }

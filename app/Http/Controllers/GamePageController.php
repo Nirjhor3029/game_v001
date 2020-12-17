@@ -31,6 +31,7 @@ class GamePageController extends Controller
     {
         return view('game_views.budgeting');
     }
+
     public function recruitment()
     {
         return view('game_views.recruitment');
@@ -40,10 +41,12 @@ class GamePageController extends Controller
     {
         return view('game_views.revenue');
     }
+
     public function revenue_np()
     {
         return view('game_views.revenue-np');
     }
+
     public function revenueOther()
     {
         return view('game_views.revenue-other');
@@ -68,10 +71,6 @@ class GamePageController extends Controller
             $revenueData = FinancialStatementItems::where(['financial_id' => $financial->id, 'type' => 'revenue'])->get();
             $expensesData = FinancialStatementItems::where(['financial_id' => $financial->id, 'type' => 'expenses'])->get();
 
-            $data =  FinancialStatementItems::where(['financial_id' => $financial->id, 'type' => 'revenue'])->get()->toArray();
-
-            //$result = array_diff($options->toArray(), $data);
-            //dd($options->toArray());
         }
         return view('game_views.finalcial-statement', [
             'revenueData' => $revenueData,
@@ -104,10 +103,6 @@ class GamePageController extends Controller
             $revenueData = CashFlowStatementItems::where(['cash_flow_statement_id' => $financial->id, 'type' => 'revenue'])->get();
             $expensesData = CashFlowStatementItems::where(['cash_flow_statement_id' => $financial->id, 'type' => 'expenses'])->get();
 
-            $data =  CashFlowStatementItems::where(['cash_flow_statement_id' => $financial->id, 'type' => 'revenue'])->get()->toArray();
-
-            //$result = array_diff($options->toArray(), $data);
-            //dd($options->toArray());
         }
         return view('game_views.cash-flow-statement', [
             'revenueData' => $revenueData,
@@ -120,7 +115,6 @@ class GamePageController extends Controller
     }
 
 
-
     public function decisionDriven()
     {
         return view('game_views.decision-driven');
@@ -129,22 +123,23 @@ class GamePageController extends Controller
 
     public $userId;
     public $gameId;
+
     public function coursePoints()
     {
 
         $this->userId = Auth::guard('web')->user()->id;
         $this->gameId = Session::get("game_id");
-        $resultProcess = ResultProcess::where('user_id',$this->userId)->where('game_id',$this->gameId)->get();
+        $resultProcess = ResultProcess::where('user_id', $this->userId)->where('game_id', $this->gameId)->get();
 
         $min_max = [];
-        foreach($resultProcess as $result){
-            $min_max[] =[
+        foreach ($resultProcess as $result) {
+            $min_max[] = [
                 "process_id" => $result->process_id,
                 "max" => $result->assigned_value,
                 "actual" => $result->mark_value
             ];
         }
 
-        return view('game_views.course-points',compact('min_max'));
+        return view('game_views.course-points', compact('min_max'));
     }
 }
