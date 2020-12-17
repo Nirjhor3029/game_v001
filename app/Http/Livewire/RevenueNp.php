@@ -43,12 +43,47 @@ class RevenueNp extends Component
     public $np_product_a;
     public $np_product_b;
 
+    // code for check null/empty value and show error message
+    public $check_null = 1;
+    public function updated($propertyName)
+    {
+        if($this->$propertyName == ""){
+            $this->check_null = 0;
+        }else{
+            $this->check_null = 1;
+        }
+    }
+
+    public function mount(){
+        $this->userId = Auth::guard('web')->user()->id;
+        $this->gameId = Session::get("game_id");
+        $this->bn_marketPlace=1;
+        $this->np_marketPlace=2;
+
+        if($this->check_null){
+            //set all fi filled data
+            $this->setAllFields();
+        }
+    }
+
+    public function render()
+    {
+        if($this->check_null){
+            $this->calculateData();
+            $this->updateDB();
+        }
+        
+        return view('livewire.revenue-np');
+    }
+
+
     public function updateDB(){
         $products = Product::all();
         $marketPlaces = Marketplace::all();
+        $manufacturing = 0;
 
         foreach($marketPlaces as $marketPlace){
-            if($marketPlace->id == 2){
+            if($marketPlace->id == $this->np_marketPlace){
                 //echo $marketPlace->name;
                 foreach($products as $product){
                     $revenue = \App\Models\Revenue::where('product_id',$product->id)
@@ -91,10 +126,12 @@ class RevenueNp extends Component
                         }
                     }
                     $revenue->save();
+                    $manufacturing += $revenue->product_cost;
                 }
             }
 
         }
+        $this->setManufacturingOfBudget( $manufacturing , $this->np_marketPlace );
 
     }
 
@@ -112,6 +149,12 @@ class RevenueNp extends Component
                         ->where('market_place_id',$marketPlace->id)
                         ->first();
 
+                        $budget = Budget::where('user_id',$this->userId)
+                        ->where('game_id',$this->gameId)
+                        ->where('marketplace_id',$marketPlace->id)
+                        ->first();
+                        $total_budget = $budget->recruitment+$budget->manufacturing+$budget->launch+$budget->other;
+
                     if(is_null($revenue)){
                         $revenue = new \App\Models\Revenue();
 
@@ -121,13 +164,7 @@ class RevenueNp extends Component
                         $revenue->user_id = $this->userId;
                         $revenue->game_id = $this->gameId;
 
-                        $budget = Budget::where('user_id',$this->userId)
-                            ->where('game_id',$this->gameId)
-                            ->where('marketplace_id',$marketPlace->id)
-                            ->first();
-
-
-                        $total_budget = $budget->recruitment+$budget->manufacturing+$budget->launch+$budget->other;
+                       
 
 
 
@@ -145,13 +182,13 @@ class RevenueNp extends Component
                         }
 
                     }else{
-//                    dd($revenue);
+        //                    dd($revenue);
 
                         if(strtolower($marketPlace->name) == "nepal"){
 
                             if(strtolower($product->name) == "a"){
                                 $this->np_a_productCost=$revenue->product_cost;
-                                $this->np_a_opex=$revenue->opex;
+                                $this->np_a_opex=$total_budget;
                                 $this->np_a_totalCost=$revenue->total_cost;
                                 $this->np_a_competitorsPrice=$revenue->competitors_price;
                                 $this->np_a_markup=$revenue->mark_up;
@@ -160,7 +197,7 @@ class RevenueNp extends Component
                                 $this->np_a_revenue=$revenue->revenue;
                             }elseif(strtolower($product->name) == "b"){
                                 $this->np_b_productCost=$revenue->product_cost;
-                                $this->np_b_opex=$revenue->opex;
+                                $this->np_b_opex=$total_budget;
                                 $this->np_b_totalCost=$revenue->total_cost;
                                 $this->np_b_competitorsPrice=$revenue->competitors_price;
                                 $this->np_b_markup=$revenue->mark_up;
@@ -180,39 +217,28 @@ class RevenueNp extends Component
     }
 
 
-    public function mount(){
-
-
-        $this->userId = Auth::guard('web')->user()->id;
-        $this->gameId = Session::get("game_id");
-
-        $this->bn_marketPlace=1;
-        $this->np_marketPlace=2;
-
-        //set all fi filled data
-        $this->setAllFields();
-
-
-    }
-
     public function calculateData(){
         
         $this->np_a_totalCost = $this->np_a_productCost+$this->np_a_opex;
         $this->np_b_totalCost = $this->np_b_productCost+$this->np_b_opex;
 
-        $this->np_a_price = $this->np_a_totalCost + (($this->np_a_totalCost*$this->np_a_markup)/100);
-        $this->np_b_price = $this->np_b_totalCost + (($this->np_b_totalCost*$this->np_b_markup)/100);
+        $this->np_a_price = $this->round2($this->np_a_totalCost + (($this->np_a_totalCost*$this->np_a_markup)/100));
+        $this->np_b_price = $this->round2($this->np_b_totalCost + (($this->np_b_totalCost*$this->np_b_markup)/100));
 
-        $this->np_a_revenue = $this->np_a_price * $this->np_a_unitSold;
-        $this->np_b_revenue = $this->np_b_price * $this->np_b_unitSold;
+        $this->np_a_revenue = $this->round2($this->np_a_price * $this->np_a_unitSold);
+        $this->np_b_revenue = $this->round2($this->np_b_price * $this->np_b_unitSold);
+    }
+    public function round2($value)
+    {
+        return round($value,2);
     }
 
 
-
-    public function render()
+    public function setManufacturingOfBudget($manufacturing , $np_marketPlaceId)
     {
-        $this->calculateData();
-        $this->updateDB();
-        return view('livewire.revenue-np');
+        $budgets_for_np = Budget::where('user_id',$this->userId)->where('game_id',$this->gameId)->where('marketplace_id',$np_marketPlaceId)->first();
+
+        $budgets_for_np->manufacturing = $manufacturing;
+        $budgets_for_np->save();
     }
 }

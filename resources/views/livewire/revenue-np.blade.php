@@ -67,17 +67,20 @@
                         Units Sold
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-3">
+                <div class="row revenue_radio_box">
+                    <div class="col-md-2 revenue_radio">
+                        <input type="radio"  class="form-control input-field input_unitsold"  wire:model="np_a_unitSold" value="0"/> 0
+                    </div>
+                    <div class="col-md-2 revenue_radio">
                         <input type="radio"  class="form-control input-field input_unitsold"  wire:model="np_a_unitSold" value="20"/> 20
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2 revenue_radio">
                         <input type="radio"  class="form-control input-field input_unitsold"  wire:model="np_a_unitSold" value="30"/> 30
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2 revenue_radio">
                         <input type="radio"  class="form-control input-field input_unitsold"  wire:model="np_a_unitSold" value="40"/> 40
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2 revenue_radio">
                         <input type="radio"  class="form-control input-field input_unitsold"  wire:model="np_a_unitSold" value="50"/> 50
                     </div>
                 </div>
@@ -159,17 +162,20 @@
                         Units Sold
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-3">
+                <div class="row revenue_radio_box">
+                    <div class="col-md-2 revenue_radio">
+                        <input type="radio"  class="form-control input-field input_unitsold"  wire:model="np_b_unitSold" value="0"/> 0
+                    </div>
+                    <div class="col-md-2 revenue_radio">
                         <input type="radio"  class="form-control input-field input_unitsold"  wire:model="np_b_unitSold" value="20"/> 20
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2 revenue_radio">
                         <input type="radio"  class="form-control input-field input_unitsold"  wire:model="np_b_unitSold" value="30"/> 30
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2 revenue_radio">
                         <input type="radio"  class="form-control input-field input_unitsold"  wire:model="np_b_unitSold" value="40"/> 40
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2 revenue_radio">
                         <input type="radio"  class="form-control input-field input_unitsold"  wire:model="np_b_unitSold" value="50"/> 50
                     </div>
                 </div>
