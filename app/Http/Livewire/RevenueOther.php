@@ -247,9 +247,7 @@ class RevenueOther extends Component
         ->addColumn('AM2',$this->bn_AM2_revenue,'#00B050')
         ->addColumn('BM2',$this->bn_BM2_revenue,'#FF0000')
         ->setAnimated($this->firstRun)
-        ->sparklined()
-        ->withoutDataLabels()
-        // ->withoutLegend()
+        
         ->withOnColumnClickEventName('onColumnClick');
 
         $product_2  =  (new ColumnChartModel())
