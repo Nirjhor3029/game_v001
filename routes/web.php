@@ -46,3 +46,10 @@ Route::post('add-revenes', [\App\Http\Controllers\AjaxRequestController::class, 
 Route::post('add-expenses', [\App\Http\Controllers\AjaxRequestController::class, 'addExpenses']);
 Route::post('add-cash-flow-revenes', [\App\Http\Controllers\AjaxRequestController::class, 'addCashFlowRevenue']);
 Route::post('add-cash-flow-expenses', [\App\Http\Controllers\AjaxRequestController::class, 'addCashFlowExpenses']);
+
+
+
+// will Delete this routes
+Route::get('/demo ', function () {
+    return "hello";
+});
