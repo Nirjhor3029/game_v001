@@ -35,6 +35,13 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('decision-driven', [\App\Http\Controllers\GamePageController::class, 'decisionDriven'])->name('decision-driven');
     Route::get('course-points', [\App\Http\Controllers\GamePageController::class, 'coursePoints'])->name('course-points');
 
+    // Ajax routes
+    Route::get('update-revenue-chart/{marketPlace}/{product}/{month}', [\App\Http\Controllers\Game\DecisionDrivenController::class, 'updateRevenueChart'])->name('updateRevenueChart');
+    Route::get('update-cost-chart', [\App\Http\Controllers\Game\DecisionDrivenController::class, 'updateCostChart'])->name('updateCostChart');
+    Route::get('update-unit-sales-chart', [\App\Http\Controllers\Game\DecisionDrivenController::class, 'updateUnitSalesChart'])->name('updateUnitSalesChart');
+    Route::get('update-pricing-competition-chart', [\App\Http\Controllers\Game\DecisionDrivenController::class, 'updatePricingCompetitionChart'])->name('updatePricingCompetitionChart');
+
+
 
     // Later moved to admin middleware 
     Route::get('admin', [\App\Http\Controllers\Admin\AdminController::class, 'takeInput'])->name('course-points');
@@ -46,6 +53,8 @@ Route::post('add-revenes', [\App\Http\Controllers\AjaxRequestController::class, 
 Route::post('add-expenses', [\App\Http\Controllers\AjaxRequestController::class, 'addExpenses']);
 Route::post('add-cash-flow-revenes', [\App\Http\Controllers\AjaxRequestController::class, 'addCashFlowRevenue']);
 Route::post('add-cash-flow-expenses', [\App\Http\Controllers\AjaxRequestController::class, 'addCashFlowExpenses']);
+
+
 
 
 

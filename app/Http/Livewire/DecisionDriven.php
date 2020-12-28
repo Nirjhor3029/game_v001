@@ -33,6 +33,8 @@ class DecisionDriven extends Component
     public $market_share;
     //    market share
     public $MARKET_TOTAL_SELL_VALUE = 1000;
+    public $marketShareValues=[];
+    public $marketShareLabels=[];
 
 
     //    Revenue
@@ -61,6 +63,11 @@ class DecisionDriven extends Component
 
     public $marketPlaces;
     public $products;
+    public $months;
+
+    public $selectedMarketPlace;
+//    public $products;
+//    public $months;
 
     // code for check null/empty value and show error message
     public $check_null = 1;
@@ -78,6 +85,11 @@ class DecisionDriven extends Component
 
     public function mount()
     {
+        $this->marketPlaces = Marketplace::all();
+        $this->products = Product::all();
+        $this->months = [
+            1,2
+        ];
 
         if ($this->check_null) {
             $this->calculateMarketShare();
@@ -97,11 +109,9 @@ class DecisionDriven extends Component
 
     }
 
-    public $marketShareValues=[];
-    public $marketShareLabels=[];
+
     public function calculateMarketShare()
     {
-
         $revenue = $this->calculateRevenueArray();
         //dd($revenue);
         $this->total_revenue_array = $revenue;
@@ -129,15 +139,13 @@ class DecisionDriven extends Component
         // $this->market_share = 5;
     }
 
+    
     public function calculateRevenue()
     {
-
         $calculated_revenues = [];
         foreach ($this->total_revenue_array as $revenue) {
 
-
             $revenue_other = RevenueOther::where('revenue_id', $revenue['id'])->first();
-
             if (!is_null($revenue_other)) {
                 $calculated_revenues[] = [
                     "id" => $revenue['id'],
@@ -149,8 +157,6 @@ class DecisionDriven extends Component
                     "revenue_m2" => $revenue_other->month2_revenue,
                 ];
             }
-
-
         }
 
         $this->calculated_unit_sales = $calculated_revenues;
