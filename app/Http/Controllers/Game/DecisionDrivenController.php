@@ -43,7 +43,7 @@ class DecisionDrivenController extends Controller
         $total_revenue = [
             "values" => $data_array['values'],
             "labels" => $data_array['keys'],
-            "chart_label" => '',
+            "chart_label" => 'Total Revenue',
         ];
 
         return response()->json(['data' => $total_revenue]);

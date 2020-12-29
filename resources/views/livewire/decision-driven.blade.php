@@ -202,12 +202,12 @@
                     label: 'Total Revenue',
                     data: [{{$bn_total_revenue}}, {{$np_total_revenue}}],
                     backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
+                        'rgba(255, 99, 132, 0.8)',
+                        'rgba(54, 162, 235, 0.8)',
+                        'rgba(255, 206, 86, 0.8)',
+                        'rgba(75, 192, 192, 0.8)',
+                        'rgba(153, 102, 255, 0.8)',
+                        'rgba(255, 159, 64, 0.8)'
                     ],
                     borderColor: [
                         'rgba(255, 99, 132, 1)',
@@ -356,12 +356,12 @@
                     label: 'Total Revenue',
                     data: [{{$bn_total_revenue}}, {{$np_total_revenue}}],
                     backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
+                        'rgba(255, 99, 132, 0.8)',
+                        'rgba(54, 162, 235, 0.8)',
+                        'rgba(255, 206, 86, 0.8)',
+                        'rgba(75, 192, 192, 0.8)',
+                        'rgba(153, 102, 255, 0.8)',
+                        'rgba(255, 159, 64, 0.8)'
                     ],
                     borderColor: [
                         'rgba(255, 99, 132, 1)',
@@ -386,11 +386,11 @@
             $.ajax({
                 url: "/update-revenue-chart/"+$("#marketPlace").val()+"/"+1+"/"+1,
                 success: function (result) {
-                    console.log(result.data.values);
+                    console.log(result.data);
                     mylineChart.data = {
                         labels: result.data.labels,
                         datasets: [{
-                            label: 'result.data.chart_label',
+                            label: result.data.chart_label,
                             data: result.data.values,
                             backgroundColor: [
                                 'rgba(255, 99, 132, 0.8)',
