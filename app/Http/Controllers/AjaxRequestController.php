@@ -14,7 +14,7 @@ class AjaxRequestController extends Controller
 {
     public function addRevenue(Request $request)
     {
-        // return $request->totalreview;
+
         $financial = FinancialStatement::where(['game_id' => Session::get('game_id'), 'user_id' => Auth::guard('web')->user()->id, 'session_id' => Session::getId()])->get()->first();
         if (is_null($financial)) {
             $financial = new FinancialStatement();
@@ -78,13 +78,12 @@ class AjaxRequestController extends Controller
     }
 
 
-
     public function addCashFlowRevenue(Request $request)
     {
         // return ($request->totalreview);
 
         $financial = CashFlowStatement::where(['game_id' => Session::get('game_id'), 'user_id' => Auth::guard('web')->user()->id, 'session_id' => Session::getId()])->get()->first();
-        
+
         if (is_null($financial)) {
             $financial = new CashFlowStatement();
             $financial->session_id = Session::getId();
@@ -112,7 +111,6 @@ class AjaxRequestController extends Controller
             $final_items->save();
         }
     }
-
 
 
     public function addCashFlowExpenses(Request $request)
