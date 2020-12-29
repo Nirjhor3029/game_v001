@@ -169,16 +169,16 @@
                 datasets: [{
                     data: [{{$marketShareValues[0]}}, {{$marketShareValues[1]}}, {{$marketShareValues[2]}}],
                     backgroundColor: [
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
+                        'rgba(54, 162, 235, 0.8)',
+                        'rgba(255, 99, 132, 0.8)',
+                        'rgba(255, 206, 86, 0.8)',
+                        'rgba(75, 192, 192, 0.8)',
+                        'rgba(153, 102, 255, 0.8)',
+                        'rgba(255, 159, 64, 0.8)'
                     ],
                     borderColor: [
-                        'rgba(255, 99, 132, 1)',
                         'rgba(54, 162, 235, 1)',
+                        'rgba(255, 99, 132, 1)',
                         'rgba(255, 206, 86, 1)',
                         'rgba(75, 192, 192, 1)',
                         'rgba(153, 102, 255, 1)',
@@ -203,7 +203,8 @@
 
                         }
                     }]
-                }
+                },
+                
             }
         });
 
@@ -264,8 +265,8 @@
                     label: 'Total cost',
                     data: [{{$bn_total_cost}}, {{$np_total_cost}}],
                     backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 99, 132, 0.8)',
+                        'rgba(54, 162, 235, 0.8)',
 
                     ],
                     borderColor: [
@@ -377,10 +378,10 @@
                 datasets: [{
                     label: 'Bangladesh',
                     barThickness:20,
-                    data: [{{$price_arr[0],$price_arr[1]}}, {{$compt_arr[0]+$compt_arr[1]}}],
+                    data: [{{$price_arr[0]+$price_arr[1]}}, {{$compt_arr[0]+$compt_arr[1]}}],
                     backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 99, 132, 0.8)',
+                        'rgba(54, 162, 235, 0.8)',
 
                     ],
                     borderColor: [
@@ -414,10 +415,10 @@
                 datasets: [{
                     label: 'Nepal',
                     barThickness:20,
-                    data: [{{$price_arr[2],$price_arr[3]}}, {{$compt_arr[2]+$compt_arr[3]}}],
+                    data: [{{$price_arr[2]+$price_arr[3]}}, {{$compt_arr[2]+$compt_arr[3]}}],
                     backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 99, 132, 0.8)',
+                        'rgba(54, 162, 235, 0.8)',
                     ],
                     borderColor: [
                         'rgba(255, 99, 132, 1)',
