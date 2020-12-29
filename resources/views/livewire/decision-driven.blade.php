@@ -123,18 +123,40 @@
             </div>
         </div>
 
-
+        {{-- Pricing vs. Competition Chart --}}
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
-                    <canvas id="pricingvscompetition" width="400" height="400"></canvas>
+                    <canvas id="pricingvscompetition_line" width="400" height="400"></canvas>
                     <p style="margin-top:10px;text-align:center;font-weight:bolder;font-size:22px">Pricing vs. Competition
+                    <p>
+                </div>
+            </div>
+        </div>
+    {{-- end of row --}}
+    </div>
 
+    <div class="row" style="margin-top: 25px">
+        {{-- Pricing vs. Competition Chart --}}
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <canvas id="pricingvscompetition" width="400" ></canvas>
+                    <p style="margin-top:10px;text-align:center;font-weight:bolder;font-size:22px">Pricing vs. Competition
                     <p>
                 </div>
             </div>
         </div>
 
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <canvas id="pricingvscompetition_np" width="400" ></canvas>
+                    <p style="margin-top:10px;text-align:center;font-weight:bolder;font-size:22px">Pricing vs. Competition
+                    <p>
+                </div>
+            </div>
+        </div>
     </div>
     <!--end graph -->
 
@@ -265,8 +287,7 @@
                 }
             }
         });
-
-        /******************* cost graph Decision Driven *****************/
+        /******************* cost graph Decision Driven-end *****************/
 
 
         /******************* unitSales graph Decision Driven *****************/
@@ -276,7 +297,7 @@
             data: {
                 datasets: [
                     {
-                        label: 'Red Team',
+                        label: 'Bangladesh',
                         data: [{{$bn_unit_sales}}],
                         type: 'line',
                         backgroundColor: "transparent",
@@ -284,7 +305,7 @@
 
                     },
                     {
-                        label: 'Green Team',
+                        label: 'Nepal',
                         data: [{{$np_unit_sales}}],
                         type: 'line',
                         backgroundColor: "transparent",
@@ -309,13 +330,13 @@
 
 
         /******************* Competitors Vs Price graph Decision Driven *****************/
-        var pricing_compitision = document.getElementById('pricingvscompetition').getContext('2d');
-        let price_compitision = new Chart(pricing_compitision, {
+        var pricingvscompetition_line = document.getElementById('pricingvscompetition_line').getContext('2d');
+        let price_compitision_line = new Chart(pricingvscompetition_line, {
             type: 'line',
             data: {
                 datasets: [
                     {
-                        label: 'Red Team',
+                        label: 'Price',
                         data: [{{$price}}],
                         type: 'line',
                         backgroundColor: "transparent",
@@ -323,7 +344,7 @@
 
                     },
                     {
-                        label: 'Green Team',
+                        label: 'Competitors price',
                         data: [{{$competitor}}],
                         type: 'line',
                         backgroundColor: "transparent",
@@ -345,38 +366,71 @@
                 }
             }
         });
-        /******************* Competitors Vs Price graph Decision Driven *****************/
+        /******************* Competitors Vs Price graph Decision Driven-end *****************/
 
-        // setInterval(updateChart, 3000);
-        function updateChart() {
-
-            mylineChart.data = {
-                labels: ['Bangladesh', 'Nepal'],
+        /******************* cost graph Decision Driven *****************/
+        var pricing_compitision = document.getElementById('pricingvscompetition').getContext('2d');
+        var price_compitision = new Chart(pricing_compitision, {
+            type: 'horizontalBar',
+            data: {
+                labels: ['Price', 'Competitors price'],
                 datasets: [{
-                    label: 'Total Revenue',
-                    data: [{{$bn_total_revenue}}, {{$np_total_revenue}}],
+                    label: 'Bangladesh',
+                    data: [{{$price[1]}}, {{$competitor[0]}}],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
+
                     ],
                     borderColor: [
                         'rgba(255, 99, 132, 1)',
                         'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
+
                     ],
                     borderWidth: 1
                 }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
             }
-            mylineChart.update();
-            console.log(mylineChart.data);
-        }
+        });
+        var pricingvscompetition_np = document.getElementById('pricingvscompetition_np').getContext('2d');
+        var price_compitision_np = new Chart(pricingvscompetition_np, {
+            type: 'horizontalBar',
+            data: {
+                labels: ['Price', 'Competitors price'],
+                datasets: [{
+                    label: 'Nepal',
+                    data: [{{$price}}, {{$competitor}}],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
 
     </script>
 
@@ -435,5 +489,4 @@
     </script>
 
 
-    <button>Get External Content</button>
 </div>
