@@ -9,7 +9,7 @@
             {{-- <livewire:chart.decison-driven-market-share/> --}}
             {{-- {{$MARKET_TOTAL_SELL_VALUE}} --}}
 
-            <div wire:poll.750ms>
+            <div>
                 <div class="card">
                     <div class="card-body">
                         <canvas id="PieChartDicisionDriven" width="400" height="400"></canvas>
@@ -31,7 +31,7 @@
             <div class="card">
                 <div class="card-header">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="input-group mb-3">
                                 {{-- <div class="input-group-prepend">
                                     <label class="input-group-text" for="inputGroupSelect01">Options</label>
@@ -45,11 +45,11 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        {{--<div class="col-md-4">
                             <div class="input-group mb-3">
-                                {{-- <div class="input-group-prepend">
+                                --}}{{-- <div class="input-group-prepend">
                                     <label class="input-group-text" for="inputGroupSelect01">Options</label>
-                                </div> --}}
+                                </div> --}}{{--
                                 <select class="custom-select" id="product" wire:model="selectedMarketPlace">
                                     <option value="0" selected>Product...</option>
                                     @foreach ($products as $item)
@@ -61,9 +61,9 @@
                         </div>
                         <div class="col-md-4">
                             <div class="input-group mb-3">
-                                {{-- <div class="input-group-prepend">
+                                --}}{{-- <div class="input-group-prepend">
                                     <label class="input-group-text" for="inputGroupSelect01">Options</label>
-                                </div> --}}
+                                </div> --}}{{--
                                 <select class="custom-select" id="month">
                                     <option value="0" selected >months...</option>
                                     @foreach ($months as $item)
@@ -72,7 +72,7 @@
                                     <option value="0">All</option>
                                 </select>
                             </div>
-                        </div>
+                        </div>--}}
                     </div>
                 </div>
                 <div class="card-body">
@@ -381,10 +381,10 @@
     </script>
 
     <script>
-        
+
         function updateRevenueChart () {
             $.ajax({
-                url: "/update-revenue-chart/"+$("#marketPlace").val()+"/"+$("#product").val()+"/"+$("#month").val(),
+                url: "/update-revenue-chart/"+$("#marketPlace").val()+"/"+1+"/"+1,
                 success: function (result) {
                     console.log(result.data.values);
                     mylineChart.data = {
@@ -431,7 +431,7 @@
                 }
             });
         };
-    
+
     </script>
 
 
