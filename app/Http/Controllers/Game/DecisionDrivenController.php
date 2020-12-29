@@ -25,19 +25,30 @@ class DecisionDrivenController extends Controller
     //Ajax request method
     function updateRevenueChart(int $marketPlace, int $product, $month)
     {
-        $market_value = $marketPlace === 1 ? 'Bangladesh' : ($marketPlace === 2 ? 'Nepal' : '');
-        $product_value = $product == 1 ? 'A' : ($marketPlace == 2 ? 'B' : '');
-
-
-        $calculated_revenues = collect($this->calculateRevenueWithMonth());
-        $data_values = $calculated_revenues->filter(function ($val, $key) use ($market_value) {
-            return $val['country'] == $market_value;
-        });
-
         $data_array = [];
-        foreach ($data_values as $data_value) {
-            $data_array['keys'][] = $data_value['product'];
-            $data_array['values'][] = $data_value['revenue_m1'] + $data_value['revenue_m2'];
+        $market_value = $marketPlace === 1 ? 'Bangladesh' : ($marketPlace === 2 ? 'Nepal' : 0);
+        $calculated_revenues = collect($this->calculateRevenueWithMonth());
+
+        if($market_value === 0){
+            $data_values = $calculated_revenues->mapToGroups(function($val, $key){
+                return [$val['country'] => $val['revenue_m1'] + $val['revenue_m2']];
+            })->toArray();
+
+            foreach ($data_values as $key => $item) {
+
+                $data_array['keys'][] = $key;
+                $data_array['values'][] = array_sum($item);
+            }
+
+        }else{
+            $data_values = $calculated_revenues->filter(function ($val, $key) use ($market_value) {
+                return $val['country'] == $market_value;
+            });
+
+            foreach ($data_values as $data_value) {
+                $data_array['keys'][] = $data_value['product'];
+                $data_array['values'][] = $data_value['revenue_m1'] + $data_value['revenue_m2'];
+            }
         }
 
         $total_revenue = [
