@@ -48,26 +48,6 @@
 
                                     {{-- All Expenses --}}
 
-                                    {{-- Cash to suppliers --}}
-                                    <div
-                                        style="background-color: #002060;margin-bottom: 5px;padding: 5px 10px;margin-bottom:5px;margin-top:30px;">
-                                        <p style="padding: 0px; color: white;margin: 0px;">Cash to suppliers</p>
-                                    </div>
-                                    <div class="" style=";width:100%;border:1px solid rgb(224, 224, 224);">
-                                        <ul id="expenses_cash_to_suppliers" class="revinew_left_list"
-                                            style="height:190px;overflow-y:auto">
-
-                                            @if(!is_null($expensesData))
-                                                @foreach($expensesData as $ree)
-                                                    <li data-tag="{{$ree->title}}"
-                                                        data-pay="{{$ree->value}}"> {{$ree->title}} <span
-                                                            style="float: right">{{$ree->value}} BDT</span></li>
-                                                    <?php $mimnus_data[] = $ree->title;?>
-                                                @endforeach
-                                            @endif
-                                        </ul>
-                                    </div>
-
                                     {{-- Cash for operating Expenses --}}
                                     <div
                                         style="background-color: #002060;margin-bottom: 5px;padding: 5px 10px;margin-bottom:5px;margin-top:30px;">
@@ -88,6 +68,28 @@
                                         </ul>
                                     </div>
 
+                                    {{-- Cash to suppliers --}}
+                                    <div
+                                        style="background-color: #002060;margin-bottom: 5px;padding: 5px 10px;margin-bottom:5px;margin-top:30px;">
+                                        <p style="padding: 0px; color: white;margin: 0px;">Cash to suppliers</p>
+                                    </div>
+                                    <div class="" style=";width:100%;border:1px solid rgb(224, 224, 224);">
+                                        <ul id="expenses_cash_to_suppliers" class="revinew_left_list"
+                                            style="height:190px;overflow-y:auto">
+
+                                            {{-- @if(!is_null($expensesData))
+                                                @foreach($expensesData as $ree)
+                                                    <li data-tag="{{$ree->title}}"
+                                                        data-pay="{{$ree->value}}"> {{$ree->title}} <span
+                                                            style="float: right">{{$ree->value}} BDT</span></li>
+                                                    <?php $mimnus_data[] = $ree->title;?>
+                                                @endforeach
+                                            @endif --}}
+                                        </ul>
+                                    </div>
+
+                                    
+
                                     {{-- Cash for interest --}}
                                     <div
                                         style="background-color: #002060;margin-bottom: 5px;padding: 5px 10px;margin-bottom:5px;margin-top:30px;">
@@ -97,14 +99,14 @@
                                         <ul id="expenses" class="revinew_left_list"
                                             style="height:190px;overflow-y:auto">
 
-                                            @if(!is_null($expensesData))
+                                            {{-- @if(!is_null($expensesData))
                                                 @foreach($expensesData as $ree)
                                                     <li data-tag="{{$ree->title}}"
                                                         data-pay="{{$ree->value}}"> {{$ree->title}} <span
                                                             style="float: right">{{$ree->value}} BDT</span></li>
                                                     <?php $mimnus_data[] = $ree->title;?>
                                                 @endforeach
-                                            @endif
+                                            @endif --}}
                                         </ul>
                                     </div>
 
@@ -117,14 +119,14 @@
                                         <ul id="expenses" class="revinew_left_list"
                                             style="height:190px;overflow-y:auto">
 
-                                            @if(!is_null($expensesData))
+                                            {{-- @if(!is_null($expensesData))
                                                 @foreach($expensesData as $ree)
                                                     <li data-tag="{{$ree->title}}"
                                                         data-pay="{{$ree->value}}"> {{$ree->title}} <span
                                                             style="float: right">{{$ree->value}} BDT</span></li>
                                                     <?php $mimnus_data[] = $ree->title;?>
                                                 @endforeach
-                                            @endif
+                                            @endif --}}
                                         </ul>
                                     </div>
                                     <p style="background-color:#F4F5F7;margin-top:5px;padding:5px;">Total Expenses <span
