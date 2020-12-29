@@ -141,7 +141,7 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <canvas id="pricingvscompetition" width="400" ></canvas>
+                    <canvas id="pricingvscompetition" width="400" height="150"></canvas>
                     <p style="margin-top:10px;text-align:center;font-weight:bolder;font-size:22px">Pricing vs. Competition
                     <p>
                 </div>
@@ -151,7 +151,7 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <canvas id="pricingvscompetition_np" width="400" ></canvas>
+                    <canvas id="pricingvscompetition_np" width="400" height="150"></canvas>
                     <p style="margin-top:10px;text-align:center;font-weight:bolder;font-size:22px">Pricing vs. Competition
                     <p>
                 </div>
