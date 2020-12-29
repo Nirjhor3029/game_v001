@@ -61,6 +61,10 @@ class RevenueOther extends Component
 
 
 
+    public function round2($value)
+    {
+        return round($value,2);
+    }
 
 
     public function updateDB(){
@@ -150,7 +154,7 @@ class RevenueOther extends Component
                             if(strtolower($marketPlace->name) == "bangladesh"){
                                 //dd("bangladesh");
                                 if(strtolower($product->name) == "a"){
-                                    $this->bn_AM1_revenue = $revenue->revenue;
+                                    $this->bn_AM1_revenue = $this->round2($revenue->revenue);
 
                                 }elseif(strtolower($product->name) == "b"){
                                     $this->bn_BM1_revenue = $revenue->revenue;
@@ -180,7 +184,7 @@ class RevenueOther extends Component
                                 }elseif(strtolower($product->name) == "b"){
                                     $this->bn_BM1_revenue = $revenue_other->month1_revenue;
                                     $this->bn_BM2 = $revenue_other->month2_unit;
-                                    $this->bn_BM2_revenue = $revenue_other->month2_revenue;
+                                    $this->bn_BM2_revenue = $this->round2($revenue_other->month2_revenue);
                                 }
 
                             }elseif(strtolower($marketPlace->name) == "nepal"){
