@@ -65,6 +65,10 @@ class AdminInput extends Component
     public $userId;
     public  $gameId;
 
+    public function round2($value)
+    {
+        return round($value,2);
+    }
 
     // code for check null/empty value and show error message
     public $check_null = 1;
@@ -82,12 +86,12 @@ class AdminInput extends Component
         if($this->check_null){
             $this->setField();
             //dd($this->calculateRevenueArray());
-            $this->market_share_actual_value = $this->calculateMarketShare();
-            $this->revenue_actual_value = $this->calculateRevenue();
-            $this->cost_actual_value = $this->calculateCost();
-            $this->usic_actual_value = $this->calculateUnitSales();
-            $this->net_profit_actual_value = $this->calculateNetIncome();
-            $this->cm_price_actual_value = $this->calculatePriceVsCompetition();
+            $this->market_share_actual_value = $this->round2($this->calculateMarketShare());
+            $this->revenue_actual_value = $this->round2($this->calculateRevenue());
+            $this->cost_actual_value = $this->round2($this->calculateCost());
+            $this->usic_actual_value = $this->round2($this->calculateUnitSales());
+            $this->net_profit_actual_value = $this->round2($this->calculateNetIncome());
+            $this->cm_price_actual_value = $this->round2($this->calculatePriceVsCompetition());
         }
     }
 
@@ -119,7 +123,7 @@ class AdminInput extends Component
                 $this->{$single_subname."_assigned_value"} = $result_process->assigned_value;
                 $this->{$single_subname."_actual_value"} = $result_process->actual_value;
                 $this->{$single_subname."_point_value"} = $result_process->point_value;
-                $this->{$single_subname."_mark_value"} = $result_process->mark_value;
+                $this->{$single_subname."_mark_value"} = $this->round2($result_process->mark_value);
             }
         }
     }

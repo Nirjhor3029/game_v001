@@ -23,7 +23,7 @@
 
                                     <div
                                         style="background-color: #002060;margin-bottom: 5px;padding: 5px 10px;margin-bottom:5px;">
-                                        <p style="padding: 0px; color: white;margin: 0px;">Revenue</p>
+                                        <p style="padding: 0px; color: white;margin: 0px;">Cash from customer</p>
                                     </div>
                                     <div class="" style=";width:100%;border:1px solid rgb(224, 224, 224);">
                                         <ul id="revenue" class="revinew_left_list" style="height:190px;overflow-y:auto">
@@ -44,9 +44,74 @@
                                     </p>
 
 
+                                    
+
+                                    {{-- All Expenses --}}
+
+                                    {{-- Cash to suppliers --}}
                                     <div
                                         style="background-color: #002060;margin-bottom: 5px;padding: 5px 10px;margin-bottom:5px;margin-top:30px;">
-                                        <p style="padding: 0px; color: white;margin: 0px;">Expenses</p>
+                                        <p style="padding: 0px; color: white;margin: 0px;">Cash to suppliers</p>
+                                    </div>
+                                    <div class="" style=";width:100%;border:1px solid rgb(224, 224, 224);">
+                                        <ul id="expenses_cash_to_suppliers" class="revinew_left_list"
+                                            style="height:190px;overflow-y:auto">
+
+                                            @if(!is_null($expensesData))
+                                                @foreach($expensesData as $ree)
+                                                    <li data-tag="{{$ree->title}}"
+                                                        data-pay="{{$ree->value}}"> {{$ree->title}} <span
+                                                            style="float: right">{{$ree->value}} BDT</span></li>
+                                                    <?php $mimnus_data[] = $ree->title;?>
+                                                @endforeach
+                                            @endif
+                                        </ul>
+                                    </div>
+
+                                    {{-- Cash for operating Expenses --}}
+                                    <div
+                                        style="background-color: #002060;margin-bottom: 5px;padding: 5px 10px;margin-bottom:5px;margin-top:30px;">
+                                        <p style="padding: 0px; color: white;margin: 0px;">Cash for operating Expenses</p>
+                                    </div>
+                                    <div class="" style=";width:100%;border:1px solid rgb(224, 224, 224);">
+                                        <ul id="expenses" class="revinew_left_list"
+                                            style="height:190px;overflow-y:auto">
+
+                                            @if(!is_null($expensesData))
+                                                @foreach($expensesData as $ree)
+                                                    <li data-tag="{{$ree->title}}"
+                                                        data-pay="{{$ree->value}}"> {{$ree->title}} <span
+                                                            style="float: right">{{$ree->value}} BDT</span></li>
+                                                    <?php $mimnus_data[] = $ree->title;?>
+                                                @endforeach
+                                            @endif
+                                        </ul>
+                                    </div>
+
+                                    {{-- Cash for interest --}}
+                                    <div
+                                        style="background-color: #002060;margin-bottom: 5px;padding: 5px 10px;margin-bottom:5px;margin-top:30px;">
+                                        <p style="padding: 0px; color: white;margin: 0px;">Cash for interest</p>
+                                    </div>
+                                    <div class="" style=";width:100%;border:1px solid rgb(224, 224, 224);">
+                                        <ul id="expenses" class="revinew_left_list"
+                                            style="height:190px;overflow-y:auto">
+
+                                            @if(!is_null($expensesData))
+                                                @foreach($expensesData as $ree)
+                                                    <li data-tag="{{$ree->title}}"
+                                                        data-pay="{{$ree->value}}"> {{$ree->title}} <span
+                                                            style="float: right">{{$ree->value}} BDT</span></li>
+                                                    <?php $mimnus_data[] = $ree->title;?>
+                                                @endforeach
+                                            @endif
+                                        </ul>
+                                    </div>
+
+                                    {{-- Cash for Taxes --}}
+                                    <div
+                                        style="background-color: #002060;margin-bottom: 5px;padding: 5px 10px;margin-bottom:5px;margin-top:30px;">
+                                        <p style="padding: 0px; color: white;margin: 0px;">Cash for Taxes</p>
                                     </div>
                                     <div class="" style=";width:100%;border:1px solid rgb(224, 224, 224);">
                                         <ul id="expenses" class="revinew_left_list"
@@ -180,6 +245,29 @@
                 var resultExpensesData = [];
                 var total_expenses = 0;
                 $("#expenses").children().each(function (idx, val) {
+                    var resultEx = {
+                        'tag': $(val).data('tag'),
+                        'pay': parseFloat($(val).data('pay')),
+                    }
+                    total_expenses += parseFloat($(val).data('pay'));
+                    resultExpensesData.push(resultEx);
+                });
+                sendExpenses(resultExpensesData, total_expenses);
+                $("#total_expenses").html(total_expenses + " BDT");
+                net_total_exp = total_expenses;
+                netincome = net_total_rev - net_total_exp;
+                $("#netincome_result").html(netincome + " BDT");
+            }
+        });
+        
+        // cash to suppliers
+        $("#expenses_cash_to_suppliers").sortable({
+            connectWith: "#sortable",
+            update: function (e, ui) {
+                //var revenue = $("#revenue").sortable('serialize').toString();
+                var resultExpensesData = [];
+                var total_expenses = 0;
+                $("#expenses_cash_to_suppliers").children().each(function (idx, val) {
                     var resultEx = {
                         'tag': $(val).data('tag'),
                         'pay': parseFloat($(val).data('pay')),
