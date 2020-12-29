@@ -219,6 +219,8 @@ class DecisionDriven extends Component
     }
 
 
+    public $price_arr;
+    public $compt_arr;
     public function calculatePriceVsCompetition()
     {
         //        dd($this->total_revenue_array);
@@ -233,7 +235,11 @@ class DecisionDriven extends Component
             $this->price[] = $item->price;
             $this->competitor[] = $item->competitor;
         }
+        $this->price_arr = $this->price;
+        $this->compt_arr = $this->competitor;
+        // dd($this->compt_arr[1]);
         $this->price = collect($this->price)->implode(',');
+        // dd($this->price);
         $this->competitor = collect($this->competitor)->implode(',');
         //        $this->pricelabel = collect($this->pricelabel)->implode(',');
         $this->pricelabel = json_encode($this->pricelabel);

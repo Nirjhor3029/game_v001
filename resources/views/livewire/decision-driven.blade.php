@@ -191,7 +191,6 @@
                     "{{$marketShareLabels[0]}}",
                     "{{$marketShareLabels[1]}}",
                     "{{$marketShareLabels[2]}}",
-
                 ]
             },
             options: {
@@ -368,6 +367,7 @@
         });
         /******************* Competitors Vs Price graph Decision Driven-end *****************/
 
+        // console.log({{$price}});
         /******************* cost graph Decision Driven *****************/
         var pricing_compitision = document.getElementById('pricingvscompetition').getContext('2d');
         var price_compitision = new Chart(pricing_compitision, {
@@ -376,7 +376,8 @@
                 labels: ['Price', 'Competitors price'],
                 datasets: [{
                     label: 'Bangladesh',
-                    data: [{{$price[1]}}, {{$competitor[0]}}],
+                    barThickness:20,
+                    data: [{{$price_arr[0],$price_arr[1]}}, {{$compt_arr[0]+$compt_arr[1]}}],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
@@ -396,6 +397,11 @@
                         ticks: {
                             beginAtZero: true
                         }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
                     }]
                 }
             }
@@ -407,7 +413,8 @@
                 labels: ['Price', 'Competitors price'],
                 datasets: [{
                     label: 'Nepal',
-                    data: [{{$price}}, {{$competitor}}],
+                    barThickness:20,
+                    data: [{{$price_arr[2],$price_arr[3]}}, {{$compt_arr[2]+$compt_arr[3]}}],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
@@ -423,6 +430,11 @@
             options: {
                 scales: {
                     yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }],
+                    xAxes: [{
                         ticks: {
                             beginAtZero: true
                         }

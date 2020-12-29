@@ -68,8 +68,6 @@ class DecisionDrivenController extends Controller
 
     function updateUnitSalesChart()
     {
-
-
         $values = [];
         $labels = [];
         $total_revenue = [
@@ -77,7 +75,6 @@ class DecisionDrivenController extends Controller
             "labels" => $labels,
             "chart_label" => "Unit sales",
         ];
-
         return response()->json(['data' => $total_revenue]);
     }
 
