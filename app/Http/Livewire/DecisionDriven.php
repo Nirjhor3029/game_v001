@@ -32,18 +32,20 @@ class DecisionDriven extends Component
 
     public $market_share;
     //    market share
-    public $MARKET_TOTAL_SELL_VALUE = 2000;
+    public $MARKET_TOTAL_SELL_VALUE = 1000;
+    public $marketShareValues=[];
+    public $marketShareLabels=[];
 
 
-//    Revenue
+    //    Revenue
     public $bn_total_revenue;
     public $np_total_revenue;
 
-//    Cost
+    //    Cost
     public $bn_total_cost;
     public $np_total_cost;
 
-//    unit sales in country
+    //    unit sales in country
     public $calculated_unit_sales;
 
     public $net_income;
@@ -54,26 +56,42 @@ class DecisionDriven extends Component
     public $price = [];
     public $competitor = [];
 
-    public $bn_unit_sales =[];
-    public $np_unit_sales =[];
+    public $bn_unit_sales = [];
+    public $np_unit_sales = [];
 
     public $pricelabel = [];
 
+    public $marketPlaces;
+    public $products;
+    public $months;
+
+    public $selectedMarketPlace;
+//    public $products;
+//    public $months;
+
     // code for check null/empty value and show error message
     public $check_null = 1;
+
     public function updated($propertyName)
     {
-        if($this->$propertyName == ""){
+        if ($this->$propertyName == "") {
             $this->check_null = 0;
-        }else{
+        } else {
             $this->check_null = 1;
         }
-        
+
     }
 
 
-    public function mount(){
-        if($this->check_null){
+    public function mount()
+    {
+        $this->marketPlaces = Marketplace::all();
+        $this->products = Product::all();
+        $this->months = [
+            1,2
+        ];
+
+        if ($this->check_null) {
             $this->calculateMarketShare();
             $this->calculateRevenue();
             $this->calculateCost();
@@ -85,87 +103,50 @@ class DecisionDriven extends Component
 
     public function render()
     {
-        if($this->check_null){
-        return view('livewire.decision-driven');
+        if ($this->check_null) {
+            return view('livewire.decision-driven');
         }
-        
+
     }
 
-//    public function calculateMarketShare()
-//    {
-//
-//        $this->user_id = Auth::user()->id;
-//
-//        $this->game_id = Session::get('game_id');
-//
-//        $this->bangladesh_id = Marketplace::where('name','Bangladesh')->first()->id;
-//        $this->nepal_id = Marketplace::where('name','Nepal')->first()->id;
-//
-//        $market_places = Marketplace::all();
-//        $products = Product::all();
-//
-//        $revenue = [];
-//        foreach($market_places as $market_place){
-//
-//            foreach($products as $product){
-//                $revenue_row = Revenue::where('user_id',$this->user_id)
-//                    ->where('game_id',$this->game_id)
-//                    ->where('market_place_id',$market_place->id)
-//                    ->where('product_id',$product->id)->first();
-//                $revenue[] = [
-//                    "id" => $revenue_row->id,
-//                    "country" => $market_place->name,
-//                    "product" => $product->name,
-//                    "revenue" => $revenue_row->revenue,
-//                    "product_cost" => $revenue_row->product_cost,
-//                    "price" => $revenue_row->price,
-//                    "competitor" => $revenue_row->competitors_price
-//
-//                ];
-//
-//                $this->total_revenue_array = $revenue;
-//
-//            }
-//        }
-//
-//        $this->total_revenue_array = $revenue;
-//
-//        $total_revenue = 0  ;
-//
-//        // Bangladesh & Nepal ( Product A & B ) revenues
-//        foreach($revenue as $value){
-//            $total_revenue += $value['revenue'];
-//        }
-//        $this->market_share = $total_revenue/$this->MARKET_TOTAL_SELL_VALUE;
-//
-//        $this->market_share = 5;
-//    }
 
-    public function calculateMarketShare(){
-
+    public function calculateMarketShare()
+    {
         $revenue = $this->calculateRevenueArray();
+        //dd($revenue);
         $this->total_revenue_array = $revenue;
-        $total_revenue = 0  ;
+        $total_revenue_bd = 0;
+        $total_revenue_np = 0;
 
         // Bangladesh & Nepal ( Product A & B ) revenues
-        foreach($revenue as $value){
-            $total_revenue += $value['revenue'];
+        foreach ($revenue as $value) {
+            if(strtolower($value['country']) == "bangladesh" ){
+                $total_revenue_bd += $value['revenue'];
+            }else{
+                $total_revenue_np += $value['revenue'];
+            }
         }
-        $this->market_share = $total_revenue/$this->MARKET_TOTAL_SELL_VALUE;
+        $total_revenue = $total_revenue_bd+$total_revenue_np;
 
+        $tMart_already_have = ($this->MARKET_TOTAL_SELL_VALUE/100)*25;
+        $restOfTheMarketShare = $this->MARKET_TOTAL_SELL_VALUE - $tMart_already_have;
+        // dd($total_revenue_bd);
+
+        $this->market_share = $total_revenue_bd*($restOfTheMarketShare/$this->MARKET_TOTAL_SELL_VALUE);
+
+        $this->marketShareLabels = ["total","WalKart","T mart"];
+        $this->marketShareValues = [$this->MARKET_TOTAL_SELL_VALUE,$this->market_share,$tMart_already_have];
         // $this->market_share = 5;
     }
 
-    public function calculateRevenue(){
-
+    
+    public function calculateRevenue()
+    {
         $calculated_revenues = [];
-        foreach($this->total_revenue_array as $revenue){
+        foreach ($this->total_revenue_array as $revenue) {
 
-
-
-            $revenue_other = RevenueOther::where('revenue_id',$revenue['id'])->first();
-
-            if(!is_null($revenue_other)){
+            $revenue_other = RevenueOther::where('revenue_id', $revenue['id'])->first();
+            if (!is_null($revenue_other)) {
                 $calculated_revenues[] = [
                     "id" => $revenue['id'],
                     "country" => $revenue['country'],
@@ -176,47 +157,43 @@ class DecisionDriven extends Component
                     "revenue_m2" => $revenue_other->month2_revenue,
                 ];
             }
-            
-
-
         }
 
         $this->calculated_unit_sales = $calculated_revenues;
         //        dd($calculated_revenues);
-        foreach($calculated_revenues as $calculated_revenue){
-            if($calculated_revenue['country']=="Bangladesh"){
+        foreach ($calculated_revenues as $calculated_revenue) {
+            if ($calculated_revenue['country'] == "Bangladesh") {
                 $this->bn_total_revenue += ($calculated_revenue['revenue_m1'] + $calculated_revenue['revenue_m2']);
-            }elseif($calculated_revenue['country']=="Nepal"){
+            } elseif ($calculated_revenue['country'] == "Nepal") {
                 $this->np_total_revenue += ($calculated_revenue['revenue_m1'] + $calculated_revenue['revenue_m2']);
             }
         }
     }
 
 
-
     public function calculateCost()
     {
-        foreach($this->total_revenue_array as $cost){
-            if($cost['country']=="Bangladesh"){
+        foreach ($this->total_revenue_array as $cost) {
+            if ($cost['country'] == "Bangladesh") {
                 $this->bn_total_cost += $cost['product_cost'];
-            }elseif($cost['country']=="Nepal"){
-                $this->np_total_cost += $cost['product_cost'] ;
+            } elseif ($cost['country'] == "Nepal") {
+                $this->np_total_cost += $cost['product_cost'];
             }
         }
         //        dd($this->np_total_cost);
     }
 
 
-
-    public function calculateUnitSales(){
+    public function calculateUnitSales()
+    {
         //        dd($this->calculated_unit_sales);
-        foreach($this->calculated_unit_sales as $unit_sale){
-            if($unit_sale['country']=="Bangladesh"){
-                $this->bn_unit_sales[]= $unit_sale['unit_m1'];
-                $this->bn_unit_sales[]= $unit_sale['unit_m2'];
-            }elseif($unit_sale['country']=="Nepal"){
-                $this->np_unit_sales[]= $unit_sale['unit_m1'] ;
-                $this->np_unit_sales[]= $unit_sale['unit_m2'] ;
+        foreach ($this->calculated_unit_sales as $unit_sale) {
+            if ($unit_sale['country'] == "Bangladesh") {
+                $this->bn_unit_sales[] = $unit_sale['unit_m1'];
+                $this->bn_unit_sales[] = $unit_sale['unit_m2'];
+            } elseif ($unit_sale['country'] == "Nepal") {
+                $this->np_unit_sales[] = $unit_sale['unit_m1'];
+                $this->np_unit_sales[] = $unit_sale['unit_m2'];
             }
         }
 
@@ -227,29 +204,31 @@ class DecisionDriven extends Component
         //        dd($this->np_unit_sales);
     }
 
-    
 
-    public function calculateNetIncome(){
-        $finansial_statements = FinancialStatement::where('user_id',$this->user_id)
-        ->where('game_id',$this->game_id)->first();
+    public function calculateNetIncome()
+    {
+        $finansial_statements = FinancialStatement::where('user_id', $this->user_id)
+            ->where('game_id', $this->game_id)->first();
         // dd($finansial_statements);
-        $this->net_income = $finansial_statements->total_revenue - $finansial_statements->total_expanses;
+        if (!is_null($finansial_statements)) {
+            $this->net_income = $finansial_statements->total_revenue - $finansial_statements->total_expanses;
 
-        
-        
+        }
+
+
     }
 
 
-
-    public function calculatePriceVsCompetition(){
+    public function calculatePriceVsCompetition()
+    {
         //        dd($this->total_revenue_array);
 
-        foreach($this->total_revenue_array as $item){
-            $item = (object) $item;
+        foreach ($this->total_revenue_array as $item) {
+            $item = (object)$item;
             $this->total_price += $item->price;
             $this->total_competitor_price += $item->competitor;
 
-            $this->pricelabel[] = (($item->country=='Bangladesh')? 'Bn' :'Np') .'_'.$item->product;
+            $this->pricelabel[] = (($item->country == 'Bangladesh') ? 'Bn' : 'Np') . '_' . $item->product;
 
             $this->price[] = $item->price;
             $this->competitor[] = $item->competitor;
@@ -257,13 +236,11 @@ class DecisionDriven extends Component
         $this->price = collect($this->price)->implode(',');
         $this->competitor = collect($this->competitor)->implode(',');
         //        $this->pricelabel = collect($this->pricelabel)->implode(',');
-        $this->pricelabel =  json_encode($this->pricelabel);
+        $this->pricelabel = json_encode($this->pricelabel);
 
         //        dd($this->pricelabel);
 
-}
+    }
 
-    
 
-    
 }
