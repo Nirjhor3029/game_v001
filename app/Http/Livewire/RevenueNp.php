@@ -219,14 +219,14 @@ class RevenueNp extends Component
 
     public function calculateData(){
         
-        $this->np_a_totalCost = $this->np_a_productCost+$this->np_a_opex;
-        $this->np_b_totalCost = $this->np_b_productCost+$this->np_b_opex;
+        $this->np_a_totalCost = ceil($this->np_a_productCost+$this->np_a_opex);
+        $this->np_b_totalCost = ceil($this->np_b_productCost+$this->np_b_opex);
 
         $this->np_a_price = $this->round2($this->np_a_totalCost + (($this->np_a_totalCost*$this->np_a_markup)/100));
         $this->np_b_price = $this->round2($this->np_b_totalCost + (($this->np_b_totalCost*$this->np_b_markup)/100));
 
-        $this->np_a_revenue = $this->round2($this->np_a_price * $this->np_a_unitSold);
-        $this->np_b_revenue = $this->round2($this->np_b_price * $this->np_b_unitSold);
+        $this->np_a_revenue = ceil($this->np_a_price * $this->np_a_unitSold);
+        $this->np_b_revenue = ceil($this->round2($this->np_b_price * $this->np_b_unitSold));
     }
     public function round2($value)
     {

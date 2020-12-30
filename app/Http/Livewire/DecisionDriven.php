@@ -184,24 +184,34 @@ class DecisionDriven extends Component
     }
 
 
+    public $unitSalesLabel = [];
     public function calculateUnitSales()
     {
-        //        dd($this->calculated_unit_sales);
+        //dd($this->calculated_unit_sales);
+        $marketPlace = "";
         foreach ($this->calculated_unit_sales as $unit_sale) {
             if ($unit_sale['country'] == "Bangladesh") {
+                $marketPlace = "Bn";
                 $this->bn_unit_sales[] = $unit_sale['unit_m1'];
                 $this->bn_unit_sales[] = $unit_sale['unit_m2'];
+
+                $this->unitSalesLabel[] = $unit_sale['product']."M1";
+                $this->unitSalesLabel[] = $unit_sale['product']."M2";
+                
             } elseif ($unit_sale['country'] == "Nepal") {
+                $marketPlace = "Np";
                 $this->np_unit_sales[] = $unit_sale['unit_m1'];
                 $this->np_unit_sales[] = $unit_sale['unit_m2'];
             }
+            
         }
 
         $this->bn_unit_sales = collect($this->bn_unit_sales)->implode(',');
         $this->np_unit_sales = collect($this->np_unit_sales)->implode(',');
+        $this->unitSalesLabel = json_encode($this->unitSalesLabel);
+        //dd($this->unitSalesLabel);
 
-
-        //        dd($this->np_unit_sales);
+        //dd($this->np_unit_sales);
     }
 
 
@@ -221,30 +231,54 @@ class DecisionDriven extends Component
 
     public $price_arr;
     public $compt_arr;
+
+    public $price_bd;
+    public $compt_bd;
+    public $price_np;
+    public $compt_np;
+    
     public function calculatePriceVsCompetition()
     {
         //        dd($this->total_revenue_array);
 
+        $price_bd_arr = [];
+        $compt_bd_arr = [];
+        $price_np_arr = [];
+        $compt_np_arr = [];
+        
         foreach ($this->total_revenue_array as $item) {
             $item = (object)$item;
             $this->total_price += $item->price;
             $this->total_competitor_price += $item->competitor;
 
             $this->pricelabel[] = (($item->country == 'Bangladesh') ? 'Bn' : 'Np') . '_' . $item->product;
-
+            if($item->country == 'Bangladesh'){
+                $price_bd_arr[] = $item->price;
+                $compt_bd_arr[] = $item->competitor;
+            }else{
+                $price_np_arr[] = $item->price;
+                $compt_np_arr[] = $item->competitor;
+            }
             $this->price[] = $item->price;
             $this->competitor[] = $item->competitor;
         }
+
+
         $this->price_arr = $this->price;
         $this->compt_arr = $this->competitor;
         // dd($this->compt_arr[1]);
         $this->price = collect($this->price)->implode(',');
         // dd($this->price);
         $this->competitor = collect($this->competitor)->implode(',');
-        //        $this->pricelabel = collect($this->pricelabel)->implode(',');
+        //$this->pricelabel = collect($this->pricelabel)->implode(',');
         $this->pricelabel = json_encode($this->pricelabel);
 
-        //        dd($this->pricelabel);
+        //dd($this->pricelabel);
+
+        $this->price_bd = collect($price_bd_arr)->implode(',');
+        $this->compt_bd = collect($compt_bd_arr)->implode(',');
+        $this->price_np = collect($price_np_arr)->implode(',');
+        $this->compt_np = collect($compt_np_arr)->implode(',');
 
     }
 

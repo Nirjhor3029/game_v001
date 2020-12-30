@@ -19,7 +19,7 @@
                 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     @if (!request()->routeIs('dashboard'))
-                        @foreach(DB::table("navbars")->get() as $navbar)
+                        @foreach(DB::table("navbars")->orderBy('priority')->get() as $navbar)
                         {{-- {{dd($navbar->slug)}} --}}
                         {{-- {{dd(request()->routeIs(trim($navbar->slug)))}} --}}
                             <x-jet-nav-link href="{{ url($navbar->slug) }}" :active="request()->routeIs('{{trim($navbar->slug)}}')">
