@@ -44,14 +44,13 @@
                                     </p>
 
 
-                                    
-
                                     {{-- All Expenses --}}
 
                                     {{-- Cash for operating Expenses --}}
                                     <div
                                         style="background-color: #002060;margin-bottom: 5px;padding: 5px 10px;margin-bottom:5px;margin-top:30px;">
-                                        <p style="padding: 0px; color: white;margin: 0px;">Cash for operating Expenses</p>
+                                        <p style="padding: 0px; color: white;margin: 0px;">Cash for operating
+                                            Expenses</p>
                                     </div>
                                     <div class="" style=";width:100%;border:1px solid rgb(224, 224, 224);">
                                         <ul id="expenses" class="revinew_left_list"
@@ -88,7 +87,6 @@
                                         </ul>
                                     </div>
 
-                                    
 
                                     {{-- Cash for interest --}}
                                     <div
@@ -261,7 +259,7 @@
                 $("#netincome_result").html(netincome + " BDT");
             }
         });
-        
+
         // cash to suppliers
         $("#expenses_cash_to_suppliers").sortable({
             connectWith: "#sortable",

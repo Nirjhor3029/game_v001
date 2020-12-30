@@ -88,6 +88,15 @@
                                                         style="float: right">{{$option->value}} BDT</span></li>
                                             @endif
                                         @endforeach
+                                        <?php $i = 0;?>
+                                        @foreach($options_dynamic as $key => $val)
+                                            @if(!in_array(trim($key),$mimnus_data))
+                                                <?php $i++;?>
+                                                <li data-tag="{{$key}}"
+                                                    data-pay="{{$val}}"> {{ucfirst($key)}} <span
+                                                        style="float: right">{{$val}} BDT</span></li>
+                                            @endif
+                                        @endforeach
 
                                     </ul>
                                 </div>
@@ -164,6 +173,7 @@
 
 
         $("#expenses").sortable({
+            cursor: "move",
             connectWith: "#sortable",
             update: function (e, ui) {
                 //var revenue = $("#revenue").sortable('serialize').toString();

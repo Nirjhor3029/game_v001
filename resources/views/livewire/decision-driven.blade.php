@@ -1,7 +1,7 @@
 <div>
-    {{-- Success is as dangerous as failure. --}}
+{{-- Success is as dangerous as failure. --}}
 
-    <!--start graph 1st row -->
+<!--start graph 1st row -->
     <div class="row">
         {{-- Market Share --}}
         <div class="col-md-4">
@@ -77,7 +77,8 @@
                 </div>
                 <div class="card-body">
                     <canvas id="BoundaryDicisionDriven" width="400" height="400"></canvas>
-                    <p style="margin-top:10px;text-align:center;font-weight:bolder;font-size:22px">Revenue {{$selectedMarketPlace}} / {{$bn_total_revenue}} <p>
+                    <p style="margin-top:10px;text-align:center;font-weight:bolder;font-size:22px">
+                        Revenue {{$selectedMarketPlace}} / {{$bn_total_revenue}} <p>
                 </div>
             </div>
         </div>
@@ -104,7 +105,8 @@
             <div class="card">
                 <div class="card-body">
                     <canvas id="unitSales" width="400" height="400"></canvas>
-                    <p style="margin-top:10px;text-align:center;font-weight:bolder;font-size:22px">Unit sales in countries
+                    <p style="margin-top:10px;text-align:center;font-weight:bolder;font-size:22px">Unit sales in
+                        countries
 
                     <p>
                 </div>
@@ -128,12 +130,13 @@
             <div class="card">
                 <div class="card-body">
                     <canvas id="pricingvscompetition_line" width="400" height="400"></canvas>
-                    <p style="margin-top:10px;text-align:center;font-weight:bolder;font-size:22px">Pricing vs. Competition
+                    <p style="margin-top:10px;text-align:center;font-weight:bolder;font-size:22px">Pricing vs.
+                        Competition
                     <p>
                 </div>
             </div>
         </div>
-    {{-- end of row --}}
+        {{-- end of row --}}
     </div>
 
     <div class="row" style="margin-top: 25px">
@@ -142,7 +145,8 @@
             <div class="card">
                 <div class="card-body">
                     <canvas id="pricingvscompetition" width="400" height="150"></canvas>
-                    <p style="margin-top:10px;text-align:center;font-weight:bolder;font-size:22px">Pricing vs. Competition
+                    <p style="margin-top:10px;text-align:center;font-weight:bolder;font-size:22px">Pricing vs.
+                        Competition
                     <p>
                 </div>
             </div>
@@ -152,7 +156,8 @@
             <div class="card">
                 <div class="card-body">
                     <canvas id="pricingvscompetition_np" width="400" height="150"></canvas>
-                    <p style="margin-top:10px;text-align:center;font-weight:bolder;font-size:22px">Pricing vs. Competition
+                    <p style="margin-top:10px;text-align:center;font-weight:bolder;font-size:22px">Pricing vs.
+                        Competition
                     <p>
                 </div>
             </div>
@@ -204,7 +209,7 @@
                         }
                     }]
                 },
-                
+
             }
         });
 
@@ -223,6 +228,7 @@
                 datasets: [{
                     label: 'Total Revenue',
                     data: [{{$bn_total_revenue}}, {{$np_total_revenue}}],
+                    // barThickness: 50,
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.8)',
                         'rgba(54, 162, 235, 0.8)',
@@ -246,11 +252,21 @@
                 scales: {
                     yAxes: [{
                         ticks: {
-                            beginAtZero: true
+                            beginAtZero: true,
+                            display: false
+                        },
+                        gridLines: {
+                            display: true
                         }
                     }]
+                },
+                title: {
+                    display: false,
+                    text: 'Custom Chart Title',
+                    position: 'bottom'
                 }
-            }
+            },
+
         });
         /******************* revenue Decision Driven *****************/
 
@@ -377,7 +393,7 @@
                 labels: ['Price', 'Competitors price'],
                 datasets: [{
                     label: 'Bangladesh',
-                    barThickness:20,
+                    barThickness: 20,
                     data: [{{$price_arr[0]+$price_arr[1]}}, {{$compt_arr[0]+$compt_arr[1]}}],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.8)',
@@ -414,7 +430,7 @@
                 labels: ['Price', 'Competitors price'],
                 datasets: [{
                     label: 'Nepal',
-                    barThickness:20,
+                    barThickness: 20,
                     data: [{{$price_arr[2]+$price_arr[3]}}, {{$compt_arr[2]+$compt_arr[3]}}],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.8)',
@@ -448,9 +464,9 @@
 
     <script>
 
-        function updateRevenueChart () {
+        function updateRevenueChart() {
             $.ajax({
-                url: "/update-revenue-chart/"+$("#marketPlace").val()+"/"+1+"/"+1,
+                url: "/update-revenue-chart/" + $("#marketPlace").val() + "/" + 1 + "/" + 1,
                 success: function (result) {
                     console.log(result.data);
                     mylineChart.data = {
@@ -461,18 +477,12 @@
                             backgroundColor: [
                                 'rgba(255, 99, 132, 0.8)',
                                 'rgba(54, 162, 235, 0.8)',
-                                'rgba(255, 206, 86, 0.8)',
-                                'rgba(75, 192, 192, 0.8)',
-                                'rgba(153, 102, 255, 0.8)',
-                                'rgba(255, 159, 64, 0.8)'
+
                             ],
                             borderColor: [
                                 'rgba(255, 99, 132, 1)',
                                 'rgba(54, 162, 235, 1)',
-                                'rgba(255, 206, 86, 1)',
-                                'rgba(75, 192, 192, 1)',
-                                'rgba(153, 102, 255, 1)',
-                                'rgba(255, 159, 64, 1)'
+
                             ],
                             borderWidth: 2
                         }]
@@ -481,22 +491,7 @@
                 }
             });
         };
-        function updateCostChart () {
-            $.ajax({
-                url: "/demo",
-                success: function (result) {
-                    console.log($("#marketPlace").val());
-                }
-            });
-        };
-        function updateUnitSalesChart () {
-            $.ajax({
-                url: "/demo",
-                success: function (result) {
-                    console.log($("#marketPlace").val());
-                }
-            });
-        };
+
 
     </script>
 

@@ -42,20 +42,16 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('update-pricing-competition-chart', [\App\Http\Controllers\Game\DecisionDrivenController::class, 'updatePricingCompetitionChart'])->name('updatePricingCompetitionChart');
 
 
-
-    // Later moved to admin middleware 
+    // Later moved to admin middleware
     Route::get('admin', [\App\Http\Controllers\Admin\AdminController::class, 'takeInput'])->name('course-points');
 });
 
 
-//ajax request route for Drag & Drop part 
-Route::post('add-revenes', [\App\Http\Controllers\AjaxRequestController::class, 'addRevenue']);
+//ajax request route for Drag & Drop part
+Route::post('add-revenues', [\App\Http\Controllers\AjaxRequestController::class, 'addRevenue']);
 Route::post('add-expenses', [\App\Http\Controllers\AjaxRequestController::class, 'addExpenses']);
 Route::post('add-cash-flow-revenes', [\App\Http\Controllers\AjaxRequestController::class, 'addCashFlowRevenue']);
 Route::post('add-cash-flow-expenses', [\App\Http\Controllers\AjaxRequestController::class, 'addCashFlowExpenses']);
-
-
-
 
 
 // will Delete this routes

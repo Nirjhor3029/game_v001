@@ -14,7 +14,7 @@ class AjaxRequestController extends Controller
 {
     public function addRevenue(Request $request)
     {
-
+        //return($request);
         $financial = FinancialStatement::where(['game_id' => Session::get('game_id'), 'user_id' => Auth::guard('web')->user()->id, 'session_id' => Session::getId()])->get()->first();
         if (is_null($financial)) {
             $financial = new FinancialStatement();
@@ -31,16 +31,18 @@ class AjaxRequestController extends Controller
 
         //remove old items
         FinancialStatementItems::where(['session_id' => Session::getId(), 'financial_id' => $financial->id, 'type' => 'revenue'])->delete();
-
-        foreach ($request->sendData as $items) {
-            //add new items
-            $final_items = new FinancialStatementItems();
-            $final_items->financial_id = $financial->id;
-            $final_items->title = $items['tag'];
-            $final_items->value = $items['pay'];
-            $final_items->session_id = Session::getId();
-            $final_items->save();
+        if ($request->filled('sendData')) {
+            foreach ($request->sendData as $items) {
+                //add new items
+                $final_items = new FinancialStatementItems();
+                $final_items->financial_id = $financial->id;
+                $final_items->title = $items['tag'];
+                $final_items->value = $items['pay'];
+                $final_items->session_id = Session::getId();
+                $final_items->save();
+            }
         }
+
     }
 
 
@@ -63,18 +65,20 @@ class AjaxRequestController extends Controller
         //remove old items
         FinancialStatementItems::where(['session_id' => Session::getId(), 'financial_id' => $financial->id, 'type' => 'expenses'])->delete();
 
-        foreach ($request->sendData as $items) {
-            //add new items
-            $final_items = new FinancialStatementItems();
-            $final_items->financial_id = $financial->id;
-            $final_items->title = $items['tag'];
-            $final_items->value = $items['pay'];
-            $final_items->session_id = Session::getId();
-            $final_items->type = 'expenses';
-            $final_items->save();
+        if ($request->filled('sendData')) {
+            foreach ($request->sendData as $items) {
+                //add new items
+                $final_items = new FinancialStatementItems();
+                $final_items->financial_id = $financial->id;
+                $final_items->title = $items['tag'];
+                $final_items->value = $items['pay'];
+                $final_items->session_id = Session::getId();
+                $final_items->type = 'expenses';
+                $final_items->save();
+            }
         }
 
-        print_r($request->sendData);
+        // print_r($request->sendData);
     }
 
 

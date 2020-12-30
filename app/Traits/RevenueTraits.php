@@ -58,10 +58,10 @@ trait RevenueTraits{
                         "product_cost" => $revenue_row->product_cost,
                         "price" => $revenue_row->price,
                         "competitor" => $revenue_row->competitors_price
-    
+
                     ];
                 }
-                
+
 
                 $this->total_revenue_array = $revenue;
 
@@ -89,6 +89,7 @@ trait RevenueTraits{
                     "revenue_m1" => $revenue['revenue'],
                     "unit_m2" => $revenue_other->month2_unit,
                     "revenue_m2" => $revenue_other->month2_revenue,
+                    "total" => ''
                 ];
             }
         }

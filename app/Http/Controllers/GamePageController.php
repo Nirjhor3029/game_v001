@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Game\Budget;
 use App\Models\Game\FinancialOptions;
 use App\Models\Game\ResultProcess;
+use App\Models\Recruitment;
+use App\Models\Revenue;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Auth;
 use Session;
+use Config;
+use DB;
 use App\Models\Game\FinancialStatement;
 use App\Models\Game\FinancialStatementItems;
 use App\Models\Game\CashFlowStatement;
@@ -53,7 +59,52 @@ class GamePageController extends Controller
 
     public function financialStatements()
     {
-        $options = FinancialOptions::get();
+        $financial_options = array_column(
+            array_filter(Config::get('game.financialOption'), function ($key, $val) {
+                return $key['status'] == 1; //manually filter by status 1
+            }, ARRAY_FILTER_USE_BOTH), 'name');
+
+
+        $records = DB::table('revenues')
+            ->join('revenue_others', 'revenues.id', '=', 'revenue_others.revenue_id')
+            ->join('products', 'revenues.product_id', '=', 'products.id')
+            ->join('marketplaces', 'revenues.market_place_id', '=', 'marketplaces.id')
+            ->select('marketplaces.name as market', 'products.name', 'revenues.revenue', 'revenue_others.*')
+            ->where(['revenues.game_id' => Session::get('game_id'), 'revenues.user_id' => Auth::guard('web')->user()->id])
+            ->get();
+       // dd($records);
+        $revenue = array();
+        if ($records->isNotEmpty()) {
+            foreach ($records as $key => $val) {
+                $total = $val->revenue + $val->month2_revenue;
+                array_key_exists($val->name, $revenue) ? $revenue["$val->name"] += $total : $revenue["$val->name"] = $total;
+            }
+        }
+
+        $budgeting_results = Budget::where(['game_id' => Session::get('game_id'), 'user_id' => Auth::guard('web')->user()->id])->get();
+
+        $total_budgeting = 0;
+        if ($budgeting_results->isNotEmpty()) {
+
+            $budgeting_data = $budgeting_results->map(function ($item, $key) {
+                return ($item->recruitment + $item->manufacturing + $item->launch + $item->other);
+            })->toArray();
+            $total_budgeting = array_sum($budgeting_data);
+        }
+        // calculate budgeting/OPEX/salary expense
+
+        $recruitment_result = Recruitment::where(['game_id' => Session::get('game_id'), 'user_id' => Auth::guard('web')->user()->id])
+            ->get()->map(function ($item) {
+                return $item->hr_manager + $item->bdm + $item->sales_manager;
+            })->toArray();
+
+        $data_value = collect([$revenue, $total_budgeting, $recruitment_result])->flatten(); // arrange data value
+
+        $result_array = collect($financial_options)->combine($data_value); // combine financial_option with data value
+
+
+        $options = FinancialOptions::select(['title', 'value'])->whereStatus(0)->get();
+
 
         $financial = FinancialStatement::where(['game_id' => Session::get('game_id'), 'user_id' => Auth::guard('web')->user()->id, 'session_id' => Session::getId()])->get()->first();
 
@@ -75,6 +126,7 @@ class GamePageController extends Controller
             'revenueData' => $revenueData,
             'expensesData' => $expensesData,
             'options' => $options,
+            'options_dynamic' => $result_array,
             'total_revenue' => $total_revenue,
             'total_expenses' => $total_expenses,
             'total_income' => $total_income,
@@ -88,7 +140,6 @@ class GamePageController extends Controller
 
         $financial = CashFlowStatement::where(['game_id' => Session::get('game_id'), 'user_id' => Auth::guard('web')->user()->id, 'session_id' => Session::getId()])->get()->first();
 
-        // dd($financial);
         $revenueData = null;
         $expensesData = null;
         $total_revenue = 0;
