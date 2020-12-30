@@ -234,14 +234,14 @@ class Revenue extends Component
 
 
     public function calculateData(){
-        $this->bn_a_totalCost = $this->bn_a_productCost+$this->bn_a_opex;
-        $this->bn_b_totalCost = $this->bn_b_productCost+$this->bn_b_opex;
+        $this->bn_a_totalCost = ceil($this->bn_a_productCost+$this->bn_a_opex);
+        $this->bn_b_totalCost = ceil($this->bn_b_productCost+$this->bn_b_opex);
 
         $this->bn_a_price = round(($this->bn_a_totalCost + (($this->bn_a_totalCost*$this->bn_a_markup)/100)),2);
         $this->bn_b_price = round(($this->bn_b_totalCost + (($this->bn_b_totalCost*$this->bn_b_markup)/100)),2);
         
-        $this->bn_a_revenue = round(($this->bn_a_price*$this->bn_a_unitSold),2);
-        $this->bn_b_revenue = round(($this->bn_b_price * $this->bn_b_unitSold),2);
+        $this->bn_a_revenue = ceil(round(($this->bn_a_price*$this->bn_a_unitSold),2));
+        $this->bn_b_revenue = ceil(round(($this->bn_b_price * $this->bn_b_unitSold),2));
         
     }
 

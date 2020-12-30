@@ -82,7 +82,7 @@
 <div class="history-tl-container">
     <ul class="tl">
         <?php
-            $tutorials = DB::table('tutorials')->get();
+            $tutorials = DB::table('tutorials')->orderBy('priority')->get();
         ?>
         @foreach($tutorials as $index => $tutorial)
             @if(url()->current() == strtolower(url(trim($tutorial->title))))

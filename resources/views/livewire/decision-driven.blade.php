@@ -136,8 +136,7 @@
     {{-- end of row --}}
     </div>
 
-    <div class="row" style="margin-top: 25px">
-        {{-- Pricing vs. Competition Chart --}}
+    {{-- <div class="row" style="margin-top: 25px">
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
@@ -157,8 +156,40 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <!--end graph -->
+
+    <div class="row" style="margin-top: 25px">
+        {{-- Pricing vs. Competition Chart --}}
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <canvas id="pricingvscompetition_bd_bar" width="400" height="300"></canvas>
+                    <p style="margin-top:10px;text-align:center;font-weight:bolder;font-size:16px">
+                        <span style="font-size:22px">
+                            Bangladesh:
+                        </span>
+                        Pricing vs. Competition
+                    <p>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <canvas id="pricingvscompetition_np_bar" width="400" height="300"></canvas>
+                    <p style="margin-top:10px;text-align:center;font-weight:bolder;font-size:16px">
+                        <span style="font-size:22px">
+                            Nepal:
+                        </span>
+                        Pricing vs. Competition
+                    <p>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <script>
@@ -197,12 +228,18 @@
                 scales: {
                     yAxes: [{
                         ticks: {
-                            // beginAtZero: false
+                            // beginAtZero: false,
                             min: 1,
-                            max:{{$MARKET_TOTAL_SELL_VALUE}}
-
+                            max:{{$MARKET_TOTAL_SELL_VALUE}},
+                        },
+                        gridLines: {
+                            // display: true,
+                            // drawOnChartArea: false,
+                            // drawTicks: false,
                         }
-                    }]
+                    }],
+                    
+                    
                 },
                 
             }
@@ -261,30 +298,53 @@
             type: 'bar',
             data: {
                 labels: ['Bangladesh', 'Nepal'],
-                datasets: [{
-                    label: 'Total cost',
-                    data: [{{$bn_total_cost}}, {{$np_total_cost}}],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.8)',
-                        'rgba(54, 162, 235, 0.8)',
+                datasets: [
+                    {
+                        label: 'Total Production Cost',
+                        data: [{{$bn_total_cost}}, {{$np_total_cost}}],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.8)',
+                            'rgba(54, 162, 235, 0.8)',
 
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
 
-                    ],
-                    borderWidth: 1
-                }]
+                        ],
+                        borderWidth: 1
+                    },
+                    
+                
+                ],
+                
             },
             options: {
                 scales: {
                     yAxes: [{
                         ticks: {
                             beginAtZero: true
+                        },
+                        gridLines: {
+                            // display: true,
+                            drawOnChartArea: false,
+                            // drawTicks: false,
                         }
-                    }]
-                }
+                        
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        },
+                        gridLines: {
+                            // display: true,
+                            drawOnChartArea: false,
+                            // drawTicks: false,
+                        }
+                        
+                    }],
+                    
+                },
             }
         });
         /******************* cost graph Decision Driven-end *****************/
@@ -313,7 +373,7 @@
 
                     }
                 ],
-                labels: ['', '', '', '']
+                labels: {!! $unitSalesLabel !!}
             },
             options: {
                 scales: {
@@ -370,27 +430,104 @@
 
         // console.log({{$price}});
         /******************* cost graph Decision Driven *****************/
-        var pricing_compitision = document.getElementById('pricingvscompetition').getContext('2d');
-        var price_compitision = new Chart(pricing_compitision, {
-            type: 'horizontalBar',
+
+        // Delete Below
+        // var pricing_compitision = document.getElementById('pricingvscompetition').getContext('2d');
+        // var price_compitision = new Chart(pricing_compitision, {
+        //     type: 'horizontalBar',
+        //     data: {
+        //         labels: ['Price', 'Competitors price'],
+        //         datasets: [{
+        //             label: 'Bangladesh',
+        //             barThickness:20,
+        //             data: [{{$price_arr[0]+$price_arr[1]}}, {{$compt_arr[0]+$compt_arr[1]}}],
+        //             backgroundColor: [
+        //                 'rgba(255, 99, 132, 0.8)',
+        //                 'rgba(54, 162, 235, 0.8)',
+
+        //             ],
+        //             borderColor: [
+        //                 'rgba(255, 99, 132, 1)',
+        //                 'rgba(54, 162, 235, 1)',
+
+        //             ],
+        //             borderWidth: 1
+        //         }]
+        //     },
+        //     options: {
+        //         scales: {
+        //             yAxes: [{
+        //                 ticks: {
+        //                     beginAtZero: true
+        //                 }
+        //             }],
+        //             xAxes: [{
+        //                 ticks: {
+        //                     beginAtZero: true
+        //                 }
+        //             }]
+        //         }
+        //     }
+        // });
+        // var pricingvscompetition_np = document.getElementById('pricingvscompetition_np').getContext('2d');
+        // var price_compitision_np = new Chart(pricingvscompetition_np, {
+        //     type: 'horizontalBar',
+        //     data: {
+        //         labels: ['Price', 'Competitors price'],
+        //         datasets: [{
+        //             label: 'Nepal',
+        //             barThickness:20,
+        //             data: [{{$price_arr[2]+$price_arr[3]}}, {{$compt_arr[2]+$compt_arr[3]}}],
+        //             backgroundColor: [
+        //                 'rgba(255, 99, 132, 0.8)',
+        //                 'rgba(54, 162, 235, 0.8)',
+        //             ],
+        //             borderColor: [
+        //                 'rgba(255, 99, 132, 1)',
+        //                 'rgba(54, 162, 235, 1)',
+
+        //             ],
+        //             borderWidth: 1
+        //         }]
+        //     },
+        //     options: {
+        //         scales: {
+        //             yAxes: [{
+        //                 ticks: {
+        //                     beginAtZero: true
+        //                 }
+        //             }],
+        //             xAxes: [{
+        //                 ticks: {
+        //                     beginAtZero: true
+        //                 }
+        //             }]
+        //         }
+        //     }
+        // });
+        // Delete Above
+
+
+        // Test
+        var pricingvscompetition_bd_bar = document.getElementById('pricingvscompetition_bd_bar').getContext('2d');
+        var price_compitision_bd_bar = new Chart(pricingvscompetition_bd_bar, {
+            type: 'bar',
             data: {
-                labels: ['Price', 'Competitors price'],
-                datasets: [{
-                    label: 'Bangladesh',
-                    barThickness:20,
-                    data: [{{$price_arr[0]+$price_arr[1]}}, {{$compt_arr[0]+$compt_arr[1]}}],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.8)',
-                        'rgba(54, 162, 235, 0.8)',
-
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-
-                    ],
-                    borderWidth: 1
-                }]
+                labels: ['A', 'B'],
+                datasets: [
+                    {
+                        label: "Price",
+                        barThickness:25,
+                        backgroundColor: "rgba(54, 162, 235, 0.8)",
+                        data: [{{$price_bd}}]
+                    },
+                    {
+                        label: "Comp Price",
+                        barThickness:20,
+                        backgroundColor: "rgba(255, 99, 132, 0.8)",
+                        data: [{{$compt_bd}}]
+                    },
+                ]
             },
             options: {
                 scales: {
@@ -407,26 +544,27 @@
                 }
             }
         });
-        var pricingvscompetition_np = document.getElementById('pricingvscompetition_np').getContext('2d');
-        var price_compitision_np = new Chart(pricingvscompetition_np, {
-            type: 'horizontalBar',
-            data: {
-                labels: ['Price', 'Competitors price'],
-                datasets: [{
-                    label: 'Nepal',
-                    barThickness:20,
-                    data: [{{$price_arr[2]+$price_arr[3]}}, {{$compt_arr[2]+$compt_arr[3]}}],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.8)',
-                        'rgba(54, 162, 235, 0.8)',
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
 
-                    ],
-                    borderWidth: 1
-                }]
+        // nepal
+        var pricingvscompetition_np_bar = document.getElementById('pricingvscompetition_np_bar').getContext('2d');
+        var price_compitision_np_bar = new Chart(pricingvscompetition_np_bar, {
+            type: 'bar',
+            data: {
+                labels: ['A', 'B'],
+                datasets: [
+                    {
+                        label: "Price",
+                        barThickness:25,
+                        backgroundColor: "rgba(54, 162, 235, 0.8)",
+                        data: [{{$price_np}}]
+                    },
+                    {
+                        label: "Comp Price",
+                        barThickness:25,
+                        backgroundColor: "rgba(255, 99, 132, 0.8)",
+                        data: [{{$compt_np}}]
+                    },
+                ]
             },
             options: {
                 scales: {

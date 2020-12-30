@@ -49,7 +49,7 @@
                     </div>
                     <div class="row single-field">
                         <div class="col-md-6 ">
-                            <input type="range" step="1"  class="form-control input-field" name="" wire:model="np_a_markup" min="0" max="100"/>
+                            <input type="range" step="1"  class="markUp_slider input-field" name="" wire:model="np_a_markup" min="0" max="100"/>
                             {{$np_a_markup}}%
                         </div>
                         <div class="col-md-6">
@@ -140,7 +140,7 @@
                     </div>
                     <div class="row single-field">
                         <div class="col-md-6 ">
-                            <input type="range" step="1"  class="form-control input-field" name="" wire:model="np_b_markup" min="0" max="100"/>
+                            <input type="range" step="1"  class="markUp_slider input-field" name="" wire:model="np_b_markup" min="0" max="100"/>
                             {{$np_b_markup}}%
                         </div>
                         <div class="col-md-6">

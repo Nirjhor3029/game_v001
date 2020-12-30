@@ -1,4 +1,6 @@
 <div>
+
+
     @if (session()->has('error'))
             <div class="alert alert-success">
                 {{ session('error') }}
@@ -50,7 +52,7 @@
                     </div>
                     <div class="row single-field">
                         <div class="col-md-6 ">
-                            <input type="range" step="1"  class="form-control input-field" name="" wire:model="bn_a_markup" min="0" max="100"/>
+                            <input type="range" step="1"  class="markUp_slider input-field" name="" wire:model="bn_a_markup" min="0" max="100" value="0"/>
                             {{$bn_a_markup}}%
                         </div>
                         <div class="col-md-6">
@@ -139,7 +141,7 @@
                     </div>
                     <div class="row single-field">
                         <div class="col-md-6 ">
-                            <input type="range" step="1"  class="form-control input-field" name="" wire:model="bn_b_markup" min="0" max="100"/>
+                            <input type="range" step="1"  class="markUp_slider input-field" name="" wire:model="bn_b_markup" min="0" max="100"  />
                             {{$bn_b_markup}}%
                         </div>
                         <div class="col-md-6">
