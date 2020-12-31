@@ -104,17 +104,27 @@ class GamePageController extends Controller
         $total_expenses = 0;
         $total_income = 0;
 
+        $expenses_type = [
+            "operating_expenses" => 2,
+            "cash_to_suppliers" => 3,
+            "cash_for_interest" => 4,
+            "cash_for_taxes" => 5,
+        ];
         if (!is_null($financial)) {
             $total_revenue = $financial->total_revenue;
             $total_expenses = $financial->total_expanses;
             $total_income = $total_revenue - $total_expenses;
-            $revenueData = CashFlowStatementItems::where(['cash_flow_statement_id' => $financial->id, 'type' => 'revenue'])->get();
-            $expensesData = CashFlowStatementItems::where(['cash_flow_statement_id' => $financial->id, 'type' => 'expenses'])->get();
+            $revenueData = CashFlowStatementItems::where(['cash_flow_statement_id' => $financial->id, 'type' => 1])->get();
+
+            $expensesData = CashFlowStatementItems::where(['cash_flow_statement_id' => $financial->id])->get();
 
         }
+
+        // dd($total_expenses);
         return view('game_views.cash-flow-statement', [
             'revenueData' => $revenueData,
             'expensesData' => $expensesData,
+            'expensesType' => $expenses_type,
             'options' => $options,
             'total_revenue' => $total_revenue,
             'total_expenses' => $total_expenses,

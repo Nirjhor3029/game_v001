@@ -165,6 +165,41 @@ input[type=number] {
     width: 90px !important;
 }
 
+
+/* Cash-flow-statement */
+
+.expense_title {
+    background-color: #009968;
+    /* margin-bottom: 5px; */
+    padding: 5px 10px;
+    /* margin-bottom: 5px; */
+    /* margin-right: 20%; */
+}
+
+.expense_item_box {
+    width: 100%;
+    border: 1px solid rgb(224, 224, 224);
+    padding: 10px 5px;
+}
+
+.revinew_right_list li {
+    cursor: pointer;
+}
+
+.revinew_left_list>li {
+    cursor: pointer;
+}
+
+.item_list {
+    position: fixed;
+    width: 300px;
+    padding: 5px;
+    background-color: #F4F5F7;
+}
+
+
+/* course-point page : Progress */
+
 progress[value] {
     /* Reset the default appearance */
     /* -webkit-appearance: none; */

@@ -104,8 +104,8 @@ class AjaxRequestController extends Controller
 
 
         //remove old items
+        CashFlowStatementItems::where(['session_id' => Session::getId(), 'cash_flow_statement_id' => $financial->id, 'type' => $request->dataId])->delete();
         if ($request->filled('sendData')) {
-            CashFlowStatementItems::where(['session_id' => Session::getId(), 'cash_flow_statement_id' => $financial->id, 'type' => $request->dataId])->delete();
             foreach ($request->sendData as $items) {
                 //add new items
                 $final_items = new CashFlowStatementItems();
