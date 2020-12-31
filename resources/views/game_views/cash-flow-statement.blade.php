@@ -26,7 +26,7 @@
                                         <p style="padding: 0px; color: white;margin: 0px;">Cash from customer</p>
                                     </div>
                                     <div class="" style=";width:100%;border:1px solid rgb(224, 224, 224);">
-                                        <ul id="revenue" class="revinew_left_list" style="height:190px;overflow-y:auto">
+                                        <ul id="revenue" class="revinew_left_list" style="height:190px;overflow-y:auto" data-id="1">
                                             <?php $mimnus_data = array();?>
                                             @if(!is_null($revenueData))
                                                 @foreach($revenueData as $ree)
@@ -53,7 +53,7 @@
                                             Expenses</p>
                                     </div>
                                     <div class="" style=";width:100%;border:1px solid rgb(224, 224, 224);">
-                                        <ul id="expenses" class="revinew_left_list"
+                                        <ul id="cash_operating_expenses" class="revinew_left_list" data-id="2"
                                             style="height:190px;overflow-y:auto">
 
                                             @if(!is_null($expensesData))
@@ -73,7 +73,7 @@
                                         <p style="padding: 0px; color: white;margin: 0px;">Cash to suppliers</p>
                                     </div>
                                     <div class="" style=";width:100%;border:1px solid rgb(224, 224, 224);">
-                                        <ul id="expenses_cash_to_suppliers" class="revinew_left_list"
+                                        <ul id="cash_to_suppliers" class="revinew_left_list" data-id="3"
                                             style="height:190px;overflow-y:auto">
 
                                             {{-- @if(!is_null($expensesData))
@@ -94,7 +94,7 @@
                                         <p style="padding: 0px; color: white;margin: 0px;">Cash for interest</p>
                                     </div>
                                     <div class="" style=";width:100%;border:1px solid rgb(224, 224, 224);">
-                                        <ul id="expenses" class="revinew_left_list"
+                                        <ul id="cash_for_interest" class="revinew_left_list" data-id="4"
                                             style="height:190px;overflow-y:auto">
 
                                             {{-- @if(!is_null($expensesData))
@@ -114,7 +114,7 @@
                                         <p style="padding: 0px; color: white;margin: 0px;">Cash for Taxes</p>
                                     </div>
                                     <div class="" style=";width:100%;border:1px solid rgb(224, 224, 224);">
-                                        <ul id="expenses" class="revinew_left_list"
+                                        <ul id="cash_for_taxes" class="revinew_left_list" data-id="5"
                                             style="height:190px;overflow-y:auto">
 
                                             {{-- @if(!is_null($expensesData))
@@ -132,18 +132,16 @@
                                     </p>
 
                                     <p style="background-color:#0070C0;margin-top:5px;padding:5px;font-weight:bold;color:white">
-                                        Net Cash flow <span id="netincome_result" style="float:right;font-weight:bold">{{$total_income}} BDT</span>
+                                        Net Cash flow <span id="net_income" style="float:right;font-weight:bold">{{$total_income}} BDT</span>
                                     </p>
 
 
                                 </div>
 
                             </div>
-
+                           {{-- right side statement list--}}
                             <div class="col-md-6">
-
                                 {{-- {{dd($mimnus_data)}} --}}
-
                                 <div style="padding:5px;background-color:#F4F5F7;" class="">
                                     <ul id="sortable" class="revinew_right_list" style="min-height: 600px;">
                                         <?php $i = 0;?>
@@ -159,41 +157,31 @@
                                     </ul>
                                 </div>
 
-
                             </div>
-
                         </div>
-
-
                     </div>
                 </div>
-
-
             </div>
         </div>
     </div>
 
     <script>
 
-        // $(document).ready(function(){
-
-        // });
-
         $("#sortable").sortable({
-            connectWith: ["#revenue", "#expenses"]
+            connectWith: ["#revenue", "#cash_for_taxes","#cash_for_interest","#cash_to_suppliers","#cash_operating_expenses"]
         });
 
-        var netincome = 0;
-        var net_total_rev = 0;
-        var net_total_exp = 0;
-
-        $("#revenue").sortable({
+        var in_total = 0;
+        var in_revenue = 0;
+        var in_expense = 0;
+        $("#revenue, #cash_operating_expenses, #cash_to_suppliers, #cash_for_interest, #cash_for_taxes").sortable({
             connectWith: "#sortable",
             update: function (e, ui) {
-                //var revenue = $("#revenue").sortable('serialize').toString();
+                let index_id = $(this).attr('id'); /* get attribute id name */
+                let data_id = $(this).data('id'); /* get attribute data id */
                 var resultData = [];
                 var total_revenues = 0;
-                $("#revenue").children().each(function (idx, val) {
+                $('#'+index_id).children().each(function (idx, val) {
                     var result = {
                         'tag': $(val).data('tag'),
                         'pay': parseFloat($(val).data('pay')),
@@ -202,17 +190,40 @@
                     resultData.push(result);
                 });
 
-                sendRevenues(resultData, total_revenues);
-                $("#total_revenues").html(total_revenues + " BDT");
-                net_total_rev = total_revenues;
-                netincome = net_total_rev - net_total_exp;
-                $("#netincome_result").html(netincome + " BDT");
+                let totalData = calculateData(data_id, total_revenues);
+                sendRevenues(data_id, index_id, resultData, totalData);
+                $("#total_revenues").html(totalData.revenue + " BDT");
+                $("#total_expenses").html(totalData.expense + " BDT");
+                $("#net_income").html(totalData.total + " BDT");
 
             }
         });
+        var expense = new Map();
+        function calculateData(id, total){
+            if(id === 1){
+                in_revenue = total;
+            }else{
+                expense[id] = total;
+                in_expense = sum(expense);
+            }
 
+            function sum( obj ) {
+                var e = 0;
+                for( var el in obj ) {
+                    if( obj.hasOwnProperty( el ) ) {
+                        e += parseFloat( obj[el] );
+                    }
+                }
+                return e;
+            }
+            return {
+                'revenue': in_revenue,
+                'expense': in_expense,
+                'total': in_revenue - in_expense,
+            };
+        }
 
-        function sendRevenues(senddata, total_revenues) {
+        function sendRevenues(dataId, indexId, sendData, total_revenues) {
             $(document).ready(function () {
                 $.ajaxSetup({
                     headers: {
@@ -220,10 +231,10 @@
                     }
                 });
 
-                var data = {sendData: senddata, totalreview: total_revenues};
+                let data = {dataId:dataId ,id:indexId, sendData: sendData, totalreview: total_revenues};
                 $.ajax({
                     type: "POST",
-                    url: "add-cash-flow-revenes",
+                    url: "add_cash_flow",
                     data: data,
                     success: function (data) {
                         console.log(data);
@@ -233,79 +244,6 @@
             });
 
         }
-
-
-        //'grand-total':parseFloat($(val).data('grandtotal'))
-
-
-        $("#expenses").sortable({
-            connectWith: "#sortable",
-            update: function (e, ui) {
-                //var revenue = $("#revenue").sortable('serialize').toString();
-                var resultExpensesData = [];
-                var total_expenses = 0;
-                $("#expenses").children().each(function (idx, val) {
-                    var resultEx = {
-                        'tag': $(val).data('tag'),
-                        'pay': parseFloat($(val).data('pay')),
-                    }
-                    total_expenses += parseFloat($(val).data('pay'));
-                    resultExpensesData.push(resultEx);
-                });
-                sendExpenses(resultExpensesData, total_expenses);
-                $("#total_expenses").html(total_expenses + " BDT");
-                net_total_exp = total_expenses;
-                netincome = net_total_rev - net_total_exp;
-                $("#netincome_result").html(netincome + " BDT");
-            }
-        });
-
-        // cash to suppliers
-        $("#expenses_cash_to_suppliers").sortable({
-            connectWith: "#sortable",
-            update: function (e, ui) {
-                //var revenue = $("#revenue").sortable('serialize').toString();
-                var resultExpensesData = [];
-                var total_expenses = 0;
-                $("#expenses_cash_to_suppliers").children().each(function (idx, val) {
-                    var resultEx = {
-                        'tag': $(val).data('tag'),
-                        'pay': parseFloat($(val).data('pay')),
-                    }
-                    total_expenses += parseFloat($(val).data('pay'));
-                    resultExpensesData.push(resultEx);
-                });
-                sendExpenses(resultExpensesData, total_expenses);
-                $("#total_expenses").html(total_expenses + " BDT");
-                net_total_exp = total_expenses;
-                netincome = net_total_rev - net_total_exp;
-                $("#netincome_result").html(netincome + " BDT");
-            }
-        });
-
-
-        function sendExpenses(senddata, total_revenues) {
-            $(document).ready(function () {
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-
-                var data = {sendData: senddata, totalreview: total_revenues};
-                $.ajax({
-                    type: "POST",
-                    url: "add-cash-flow-expenses",
-                    data: data,
-                    success: function (data) {
-                        console.log(data);
-                    }
-                });
-
-            });
-
-        }
-
     </script>
 
 </x-app-layout>

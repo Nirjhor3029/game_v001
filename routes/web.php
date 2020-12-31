@@ -50,7 +50,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
 //ajax request route for Drag & Drop part
 Route::post('add-revenues', [\App\Http\Controllers\AjaxRequestController::class, 'addRevenue']);
 Route::post('add-expenses', [\App\Http\Controllers\AjaxRequestController::class, 'addExpenses']);
-Route::post('add-cash-flow-revenes', [\App\Http\Controllers\AjaxRequestController::class, 'addCashFlowRevenue']);
+Route::post('add_cash_flow', [\App\Http\Controllers\AjaxRequestController::class, 'addCashFlow']);
 Route::post('add-cash-flow-expenses', [\App\Http\Controllers\AjaxRequestController::class, 'addCashFlowExpenses']);
 
 
