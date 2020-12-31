@@ -143,7 +143,7 @@ class GamePageController extends Controller
         foreach ($resultProcess as $result) {
             $min_max[] = [
                 "process_id" => $result->process_id,
-                "max" => $result->assigned_value,
+                "max" => $result->point_value,
                 "actual" => $result->mark_value
             ];
         }
