@@ -59,49 +59,7 @@ class GamePageController extends Controller
 
     public function financialStatements()
     {
-        $financial_options = array_column(
-            array_filter(Config::get('game.financialOption'), function ($key, $val) {
-                return $key['status'] == 1; //manually filter by status 1
-            }, ARRAY_FILTER_USE_BOTH), 'name');
-
-
-        $records = DB::table('revenues')
-            ->join('revenue_others', 'revenues.id', '=', 'revenue_others.revenue_id')
-            ->join('products', 'revenues.product_id', '=', 'products.id')
-            ->join('marketplaces', 'revenues.market_place_id', '=', 'marketplaces.id')
-            ->select('marketplaces.name as market', 'products.name', 'revenues.revenue', 'revenue_others.*')
-            ->where(['revenues.game_id' => Session::get('game_id'), 'revenues.user_id' => Auth::guard('web')->user()->id])
-            ->get();
-       // dd($records);
-        $revenue = array();
-        if ($records->isNotEmpty()) {
-            foreach ($records as $key => $val) {
-                $total = $val->revenue + $val->month2_revenue;
-                array_key_exists($val->name, $revenue) ? $revenue["$val->name"] += $total : $revenue["$val->name"] = $total;
-            }
-        }
-
-        $budgeting_results = Budget::where(['game_id' => Session::get('game_id'), 'user_id' => Auth::guard('web')->user()->id])->get();
-
-        $total_budgeting = 0;
-        if ($budgeting_results->isNotEmpty()) {
-
-            $budgeting_data = $budgeting_results->map(function ($item, $key) {
-                return ($item->recruitment + $item->manufacturing + $item->launch + $item->other);
-            })->toArray();
-            $total_budgeting = array_sum($budgeting_data);
-        }
-        // calculate budgeting/OPEX/salary expense
-
-        $recruitment_result = Recruitment::where(['game_id' => Session::get('game_id'), 'user_id' => Auth::guard('web')->user()->id])
-            ->get()->map(function ($item) {
-                return $item->hr_manager + $item->bdm + $item->sales_manager;
-            })->toArray();
-
-        $data_value = collect([$revenue, $total_budgeting, $recruitment_result])->flatten(); // arrange data value
-
-        $result_array = collect($financial_options)->combine($data_value); // combine financial_option with data value
-
+        $result_array = $this->statement_data();
 
         $options = FinancialOptions::select(['title', 'value'])->whereStatus(0)->get();
 
@@ -191,5 +149,53 @@ class GamePageController extends Controller
         }
 
         return view('game_views.course-points', compact('min_max'));
+    }
+
+    public function statement_data():object
+    {
+        $financial_options = array_column(
+            array_filter(Config::get('game.financialOption'), function ($key, $val) {
+                return $key['status'] == 1; //manually filter by status 1
+            }, ARRAY_FILTER_USE_BOTH), 'name');
+
+
+        $records = DB::table('revenues')
+            ->join('revenue_others', 'revenues.id', '=', 'revenue_others.revenue_id')
+            ->join('products', 'revenues.product_id', '=', 'products.id')
+            ->join('marketplaces', 'revenues.market_place_id', '=', 'marketplaces.id')
+            ->select('marketplaces.name as market', 'products.name', 'revenues.revenue', 'revenue_others.*')
+            ->where(['revenues.game_id' => Session::get('game_id'), 'revenues.user_id' => Auth::guard('web')->user()->id])
+            ->get();
+        // dd($records);
+        $revenue = array('A' =>0, 'B' => 0);
+        if ($records->isNotEmpty()) {
+            foreach ($records as $key => $val) {
+                $total = $val->revenue + $val->month2_revenue;
+                array_key_exists($val->name, $revenue) ? $revenue["$val->name"] += $total : $revenue["$val->name"] = $total;
+            }
+        }
+
+        $budgeting_results = Budget::where(['game_id' => Session::get('game_id'), 'user_id' => Auth::guard('web')->user()->id])->get();
+
+        $total_budgeting = 0;
+        if ($budgeting_results->isNotEmpty()) {
+
+            $budgeting_data = $budgeting_results->map(function ($item, $key) {
+                return ($item->recruitment + $item->manufacturing + $item->launch + $item->other);
+            })->toArray();
+            $total_budgeting = array_sum($budgeting_data);
+        }
+        // calculate budgeting/OPEX/salary expense
+
+        $recruitment_result = Recruitment::where(['game_id' => Session::get('game_id'), 'user_id' => Auth::guard('web')->user()->id])
+            ->get()->map(function ($item) {
+                return $item->hr_manager + $item->bdm + $item->sales_manager;
+            })->toArray();
+        $recruitment_result = !empty($recruitment_result)?:0;
+        // dd([$revenue, $total_budgeting, $recruitment_result]);
+        $data_value = collect([$revenue, $total_budgeting, $recruitment_result])->flatten(); // arrange data value
+
+         return $result_object = collect($financial_options)->combine($data_value); // combine financial_option with data value
+
     }
 }

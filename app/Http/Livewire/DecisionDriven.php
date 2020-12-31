@@ -139,7 +139,7 @@ class DecisionDriven extends Component
         // $this->market_share = 5;
     }
 
-    
+
     public function calculateRevenue()
     {
         $calculated_revenues = [];
@@ -197,13 +197,13 @@ class DecisionDriven extends Component
 
                 $this->unitSalesLabel[] = $unit_sale['product']."M1";
                 $this->unitSalesLabel[] = $unit_sale['product']."M2";
-                
+
             } elseif ($unit_sale['country'] == "Nepal") {
                 $marketPlace = "Np";
                 $this->np_unit_sales[] = $unit_sale['unit_m1'];
                 $this->np_unit_sales[] = $unit_sale['unit_m2'];
             }
-            
+
         }
 
         $this->bn_unit_sales = collect($this->bn_unit_sales)->implode(',');
@@ -236,7 +236,7 @@ class DecisionDriven extends Component
     public $compt_bd;
     public $price_np;
     public $compt_np;
-    
+
     public function calculatePriceVsCompetition()
     {
         //        dd($this->total_revenue_array);
@@ -245,7 +245,7 @@ class DecisionDriven extends Component
         $compt_bd_arr = [];
         $price_np_arr = [];
         $compt_np_arr = [];
-        
+
         foreach ($this->total_revenue_array as $item) {
             $item = (object)$item;
             $this->total_price += $item->price;

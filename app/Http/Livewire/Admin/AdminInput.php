@@ -25,36 +25,36 @@ class AdminInput extends Component
 
 
     public $market_share_assigned_value=10;
-    public $market_share_actual_value = 2;  //come from actual market share 
+    public $market_share_actual_value = 2;  //come from actual market share
     public $market_share_point_value;
     public $market_share_mark_value;
 
 
     public $revenue_assigned_value=1;
-    public $revenue_actual_value = 2;  //come from actual revenue share 
+    public $revenue_actual_value = 2;  //come from actual revenue share
     public $revenue_point_value;
     public $revenue_mark_value;
 
 
     public $cost_assigned_value=1;
-    public $cost_actual_value = 2;  //come from actual cost share 
+    public $cost_actual_value = 2;  //come from actual cost share
     public $cost_point_value;
     public $cost_mark_value;
 
     public $usic_assigned_value=1;
-    public $usic_actual_value = 2;  //come from actual usic share 
+    public $usic_actual_value = 2;  //come from actual usic share
     public $usic_point_value;
     public $usic_mark_value;
 
 
     public $net_profit_assigned_value=1;
-    public $net_profit_actual_value = 2;  //come from actual net_profit share 
+    public $net_profit_actual_value = 2;  //come from actual net_profit share
     public $net_profit_point_value;
     public $net_profit_mark_value;
 
 
     public $cm_price_assigned_value=1;
-    public $cm_price_actual_value = 2;  //come from actual cm_price share 
+    public $cm_price_actual_value = 2;  //come from actual cm_price share
     public $cm_price_point_value;
     public $cm_price_mark_value;
 
@@ -79,7 +79,7 @@ class AdminInput extends Component
         }else{
             $this->check_null = 1;
         }
-        
+
     }
     public function mount()
     {
@@ -101,7 +101,7 @@ class AdminInput extends Component
             $this->CalculateAllMainField();
             $this->updateDb();
         }
-        
+
         return view('livewire.admin.admin-input');
     }
 
@@ -157,17 +157,17 @@ class AdminInput extends Component
     public function CalculateAllMainField()
     {
         $this->market_share_mark_value = round($this->checkMarkValue($this->market_share_point_value , ($this->market_share_actual_value/$this->market_share_assigned_value)*$this->market_share_point_value),2);
-        
+
 
         $this->revenue_mark_value = round($this->checkMarkValue($this->revenue_point_value , ($this->revenue_actual_value/$this->revenue_assigned_value)*$this->revenue_point_value),2);
 
-        $this->cost_mark_value = round($this->checkMarkValue($this->cost_point_value , ($this->cost_actual_value/$this->cost_assigned_value)*$this->cost_point_value),2); 
-        
-        $this->usic_mark_value = round($this->checkMarkValue($this->usic_point_value , ($this->usic_actual_value/$this->usic_assigned_value)*$this->usic_point_value),2); 
-    
-        $this->net_profit_mark_value = round($this->checkMarkValue($this->net_profit_point_value , ($this->net_profit_actual_value/$this->net_profit_assigned_value)*$this->net_profit_point_value),2); 
-    
-        // $this->cm_price_mark_value = round($this->checkMarkValue($this->cm_price_point_value , ($this->cm_price_actual_value/$this->cm_price_assigned_value)*$this->cm_price_point_value),2); 
+        $this->cost_mark_value = round($this->checkMarkValue($this->cost_point_value , ($this->cost_actual_value/$this->cost_assigned_value)*$this->cost_point_value),2);
+
+        $this->usic_mark_value = round($this->checkMarkValue($this->usic_point_value , ($this->usic_actual_value/$this->usic_assigned_value)*$this->usic_point_value),2);
+
+        $this->net_profit_mark_value = round($this->checkMarkValue($this->net_profit_point_value , ($this->net_profit_actual_value/$this->net_profit_assigned_value)*$this->net_profit_point_value),2);
+
+        // $this->cm_price_mark_value = round($this->checkMarkValue($this->cm_price_point_value , ($this->cm_price_actual_value/$this->cm_price_assigned_value)*$this->cm_price_point_value),2);
     }
 
     public function checkMarkValue($pointValue,$markValue)
@@ -178,7 +178,7 @@ class AdminInput extends Component
             return $markValue;
         }
     }
-    
+
 
 
 
@@ -260,7 +260,7 @@ class AdminInput extends Component
 
     public function calculateUnitSales()
     {
-        //dd($this->calculated_unit_sales);
+       // dd($this->calculated_unit_sales);
         $unitSales =0;
         foreach($this->calculated_unit_sales as $unit_sale){
             $unitSales += ($unit_sale['unit_m1']+$unit_sale['unit_m2']);
@@ -278,7 +278,7 @@ class AdminInput extends Component
         if(!is_null($finansial_statements)){
             return $net_income = $finansial_statements->total_revenue - $finansial_statements->total_expanses;
         }
-        
+
         return $net_income;
 
 
