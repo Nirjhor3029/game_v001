@@ -117,7 +117,12 @@ class GamePageController extends Controller
             $revenueData = CashFlowStatementItems::where(['cash_flow_statement_id' => $financial->id, 'type' => 1])->get();
 
             $expensesData = CashFlowStatementItems::where(['cash_flow_statement_id' => $financial->id])->get();
-
+            $calculated_data = $expensesData->mapToGroups(function($item , $key){
+                return [$item->type => $item->value];
+            })->map(function ($item){
+                return $item->sum();
+            });
+           // return([$expensesData, $calculated_data]);
         }
 
         // dd($total_expenses);
@@ -129,6 +134,7 @@ class GamePageController extends Controller
             'total_revenue' => $total_revenue,
             'total_expenses' => $total_expenses,
             'total_income' => $total_income,
+            'calculate_data' => $calculated_data
         ]);
     }
 
@@ -201,8 +207,8 @@ class GamePageController extends Controller
             ->get()->map(function ($item) {
                 return $item->hr_manager + $item->bdm + $item->sales_manager;
             })->toArray();
-        $recruitment_result = !empty($recruitment_result)?:0;
-        // dd([$revenue, $total_budgeting, $recruitment_result]);
+        $recruitment_result = $recruitment_result ?? 0;
+        //dd([$revenue, $total_budgeting, $recruitment_result]);
         $data_value = collect([$revenue, $total_budgeting, $recruitment_result])->flatten(); // arrange data value
 
          return $result_object = collect($financial_options)->combine($data_value); // combine financial_option with data value
