@@ -43,13 +43,22 @@ class StartGameController extends Controller
     public function store(Request $request)
     {
 
+        $userId = Auth::guard('web')->user()->id;
 
         DB::beginTransaction();
         try {
 
-            $obj = new StartGame();
-            $obj->user_id = Auth::guard('web')->user()->id;
-            $obj->save();
+            $game = StartGame::where('user_id',$userId)->latest('created_at')->first();
+            //return $game;
+            if($game->status){
+                $obj = new StartGame();
+                $obj->user_id = Auth::guard('web')->user()->id;
+                $obj->save();
+            }else{
+                $obj = $game;
+            }
+
+
             Session::put('game_id', $obj->id);
 
             foreach (Marketplace::all() as $market) {
@@ -72,6 +81,17 @@ class StartGameController extends Controller
         }
 
         return redirect('overview');
+    }
+
+    // Game submit-end game
+    public function submitGame()
+    {
+        $userId = Auth::guard('web')->user()->id;
+        $game = StartGame::find(Session::get('game_id'));
+        if($game->user_id == $userId ){
+            $game->status = 1;
+            $game->save();
+        }
     }
 
     /**

@@ -103,6 +103,7 @@ class GamePageController extends Controller
         $total_revenue = 0;
         $total_expenses = 0;
         $total_income = 0;
+        $calculated_data = 0;
 
         $expenses_type = [
             "operating_expenses" => 2,
@@ -122,9 +123,10 @@ class GamePageController extends Controller
             })->map(function ($item){
                 return $item->sum();
             });
-           // return([$expensesData, $calculated_data]);
+        //    return([$expensesData, $calculated_data]);
         }
 
+        
         // dd($total_expenses);
         return view('game_views.cash-flow-statement', [
             'revenueData' => $revenueData,

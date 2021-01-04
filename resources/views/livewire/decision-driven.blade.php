@@ -197,6 +197,13 @@
     </div>
 
 
+    <div class="row">
+        <a href="{{ route('submitGame') }}">
+            <Button class="btn lnr lnr-arrow-right white ">Submit</Button>
+        </a>
+    </div>
+
+
     <script>
         var piechartdicision = document.getElementById('PieChartDicisionDriven').getContext('2d');
         var myPieChart = new Chart(piechartdicision, {
