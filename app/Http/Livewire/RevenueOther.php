@@ -47,7 +47,7 @@ class RevenueOther extends Component
     public $np_BM2_revenue;
     public $firstRun = true;
 
-    public $previousUrl = "/budgeting";
+    public $previousUrl = "/revenue-np";
     public $nextUrl = "/financial-statements";
 
     public $check_previous_game = 1;
