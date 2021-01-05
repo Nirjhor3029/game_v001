@@ -157,6 +157,13 @@ class GamePageController extends Controller
         $this->gameId = Session::get("game_id");
         $resultProcess = ResultProcess::where('user_id', $this->userId)->where('game_id', $this->gameId)->get();
 
+        if(count($resultProcess) ){
+            $result_done = 1;
+        }else{
+            $result_done = 0;
+        }
+        // return $resultProcess;
+
         $min_max = [];
         foreach ($resultProcess as $result) {
             $min_max[] = [
@@ -166,7 +173,7 @@ class GamePageController extends Controller
             ];
         }
 
-        return view('game_views.course-points', compact('min_max'));
+        return view('game_views.course-points', compact('min_max','result_done'));
     }
 
     public function statement_data():object

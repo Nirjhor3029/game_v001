@@ -45,7 +45,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
 
 
     // Later moved to admin middleware
-    Route::get('admin', [\App\Http\Controllers\Admin\AdminController::class, 'takeInput'])->name('course-points');
+    Route::get('admin', [\App\Http\Controllers\Admin\AdminController::class, 'takeInput'])->name('admin');
 });
 
 

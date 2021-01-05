@@ -65,8 +65,12 @@
         {{-- nextUrl & previousUrl assigned from livewire individual views  --}}
         {{-- @yield('nextUrl') --}}
         <div class="next_previous_container">
-            <a href="@yield('nextUrl')" id="arrow_next" class="arrow"><span>&#9658;&#9658;</span></a>
-            <a href="@yield('previousUrl')" id="arrow_previous" class="arrow"><span>&#9668;&#9668;</span></a>
+            @if(\Illuminate\Support\Facades\View::hasSection('nextUrl'))
+                <a href="@yield('nextUrl')" id="arrow_next" class="arrow"><span>&#9658;&#9658;</span></a>
+            @endif
+            @if(\Illuminate\Support\Facades\View::hasSection('previousUrl'))
+                <a href="@yield('previousUrl')" id="arrow_previous" class="arrow"><span>&#9668;&#9668;</span></a>
+            @endif
         </div>
 
         
