@@ -1,5 +1,7 @@
 
 <div>
+    @section('nextUrl',$nextUrl)
+    @section('previousUrl',$previousUrl)
     <div class="col-md-12">
         @if (session()->has('error'))
                 <div class="alert alert-success">

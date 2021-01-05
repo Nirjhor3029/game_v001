@@ -1,12 +1,13 @@
 <div wire:poll.750ms>
+    @section('nextUrl',$nextUrl)
+    @section('previousUrl',$previousUrl)
+    
     <div class="card">
         <div class="card-body">
             <canvas id="PieChartDicisionDriven" width="400" height="400"></canvas>
             
             <p style="margin-top:10px;text-align:center;font-weight:bolder;font-size:22px">Market share<p>
         </div>
-       
-       
     </div>
 
     <script>

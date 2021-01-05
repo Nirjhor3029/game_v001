@@ -1,4 +1,11 @@
 <x-app-layout>
+    <?php 
+    $previousUrl = "/revenue-other";
+    $nextUrl = "/cash-flow-statements";
+    ?>
+    @section('nextUrl',$nextUrl)
+    @section('previousUrl',$previousUrl)
+
     @include('partials.subnavbar')
 
     <div class="py-12">

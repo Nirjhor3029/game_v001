@@ -9,6 +9,7 @@ use App\Models\Game\Marketplace;
 use Illuminate\Http\Request;
 use Auth;
 use Exception;
+use Illuminate\Support\Facades\Redirect;
 use Session;
 use DB;
 
@@ -43,27 +44,46 @@ class StartGameController extends Controller
     public function store(Request $request)
     {
 
+        $userId = Auth::guard('web')->user()->id;
 
         DB::beginTransaction();
         try {
 
-            $obj = new StartGame();
-            $obj->user_id = Auth::guard('web')->user()->id;
-            $obj->save();
-            Session::put('game_id', $obj->id);
+            $game = StartGame::where('user_id',$userId)->latest('created_at')->first();
+            // dd ($game);
 
-            foreach (Marketplace::all() as $market) {
-                $budget = new Budget();
-                $budget->marketplace_id = $market->id;
-                $budget->user_id = Auth::guard('web')->user()->id;
-                $budget->game_id = $obj->id;
-                $budget->save();
+            /* 
+                Null check for new registered users
+            */
+            if(is_null($game) || (!is_null($game) && $game->status)){
+                // dd("new");
+                $obj = new StartGame();
+                $obj->user_id = Auth::guard('web')->user()->id;
+                $obj->save();
+
+                $recruitment = new \App\Models\Recruitment();
+                $recruitment->user_id = Auth::guard('web')->user()->id;
+                $recruitment->game_id = $obj->id;
+                $recruitment->save();
+
+                foreach (Marketplace::all() as $market) {
+                    $budget = new Budget();
+                    $budget->marketplace_id = $market->id;
+                    $budget->user_id = Auth::guard('web')->user()->id;
+                    $budget->game_id = $obj->id;
+                    $budget->save();
+                }
+            }else{
+                // dd("old");
+                $obj = $game;
             }
 
-            $recruitment = new \App\Models\Recruitment();
-            $recruitment->user_id = Auth::guard('web')->user()->id;
-            $recruitment->game_id = $obj->id;
-            $recruitment->save();
+
+            Session::put('game_id', $obj->id);
+
+            
+
+            
 
             DB::commit();
         } catch (Exception $ex) {
@@ -72,6 +92,18 @@ class StartGameController extends Controller
         }
 
         return redirect('overview');
+    }
+
+    // Game submit-end game
+    public function submitGame()
+    {
+        $userId = Auth::guard('web')->user()->id;
+        $game = StartGame::find(Session::get('game_id'));
+        if($game->user_id == $userId ){
+            $game->status = 1;
+            $game->save();
+        }
+        return Redirect::to('dashboard');
     }
 
     /**

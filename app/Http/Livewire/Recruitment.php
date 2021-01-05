@@ -21,6 +21,9 @@ class Recruitment extends Component
     public $userId;
     public $gameId;
 
+    public $nextUrl = "/budgeting";
+    public $previousUrl = "/overview";
+
     public function updateDB()
     {
         $recruitment = \App\Models\Recruitment::where('user_id', $this->userId)

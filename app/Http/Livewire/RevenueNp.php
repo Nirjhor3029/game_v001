@@ -43,6 +43,10 @@ class RevenueNp extends Component
     public $np_product_a;
     public $np_product_b;
 
+    public $previousUrl = "/revenue";
+    public $nextUrl = "/revenue-other";
+  
+
     // code for check null/empty value and show error message
     public $check_null = 1;
     public function updated($propertyName)
