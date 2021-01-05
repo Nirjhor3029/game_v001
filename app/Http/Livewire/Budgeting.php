@@ -24,6 +24,9 @@ class Budgeting extends Component
 
     public $total_budget = 15;
 
+    public $nextUrl = "/revenue";
+    public $previousUrl = "/recruitment";
+
     // code for check null/empty value and show error message
     public $check_null = 1;
     public function updated($propertyName)

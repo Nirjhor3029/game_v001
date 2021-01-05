@@ -210,7 +210,7 @@ class GamePageController extends Controller
                 return $item->hr_manager + $item->bdm + $item->sales_manager;
             })->toArray();
         $recruitment_result = $recruitment_result ?? 0;
-        //dd([$revenue, $total_budgeting, $recruitment_result]);
+        // dd([$revenue, $total_budgeting, $recruitment_result]);
         $data_value = collect([$revenue, $total_budgeting, $recruitment_result])->flatten(); // arrange data value
 
          return $result_object = collect($financial_options)->combine($data_value); // combine financial_option with data value

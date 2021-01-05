@@ -65,6 +65,10 @@ class DecisionDriven extends Component
     public $products;
     public $months;
 
+    public $previousUrl = "/cash-flow-statements";
+    public $nextUrl = "/course-points";
+    
+
     public $selectedMarketPlace;
 //    public $products;
 //    public $months;
