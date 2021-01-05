@@ -23,6 +23,8 @@ class DecisonDrivenMarketShare extends Component
     public $market_share;
 
 
+    public $nextUrl = "https://www.google.com/";
+    public $previousUrl = "";
 
 //
 

@@ -47,6 +47,9 @@ class RevenueOther extends Component
     public $np_BM2_revenue;
     public $firstRun = true;
 
+    public $previousUrl = "/budgeting";
+    public $nextUrl = "/financial-statements";
+
     public $check_previous_game = 1;
     // code for check null/empty value and show error message
     public $check_null = 1;

@@ -59,7 +59,22 @@
     <!-- Page Content -->
     <main>
         {{ $slot }}
+        {{-- {{ $slot }} --}}
+
+        {{-- @yield('next_previous') --}}
+        {{-- nextUrl & previousUrl assigned from livewire individual views  --}}
+        {{-- @yield('nextUrl') --}}
+        <div class="next_previous_container">
+            <a href="@yield('nextUrl')" id="arrow_next" class="arrow"><span>&#9658;&#9658;</span></a>
+            <a href="@yield('previousUrl')" id="arrow_previous" class="arrow"><span>&#9668;&#9668;</span></a>
+        </div>
+
+        
+        
     </main>
+
+    
+
 </div>
 
 @stack('modals')

@@ -1,5 +1,6 @@
 <div>
-
+    @section('nextUrl',$nextUrl)
+    @section('previousUrl',$previousUrl)
 
     @if (session()->has('error'))
             <div class="alert alert-success">
