@@ -1,7 +1,14 @@
 <div>
+
+
     @if (session()->has('error'))
             <div class="alert alert-success">
                 {{ session('error') }}
+            </div>
+    @endif
+    @if (!$check_null)
+            <div class="alert alert-danger">
+                Field can not be empty
             </div>
     @endif
     {{-- BAngladesh Box Start --}}
@@ -13,9 +20,10 @@
                     <div class="row single-field">
                         <div class="col-md-6 ">
                             <input type="number"  class="form-control input-field" name="" wire:model="bn_a_productCost" />
+                            @error('bn_a_productCost') <span class="error">{{ $message }}</span> @enderror
                         </div>
                         <div class="col-md-6">
-                            Production cost 
+                            Production cost
                         </div>
                     </div>
                     <div class="row single-field">
@@ -44,7 +52,7 @@
                     </div>
                     <div class="row single-field">
                         <div class="col-md-6 ">
-                            <input type="range" step="1"  class="form-control input-field" name="" wire:model="bn_a_markup" min="0" max="100"/>
+                            <input type="range" step="1"  class="markUp_slider input-field" name="" wire:model="bn_a_markup" min="0" max="100" value="0"/>
                             {{$bn_a_markup}}%
                         </div>
                         <div class="col-md-6">
@@ -66,17 +74,20 @@
                         Units Sold
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-3">
+                <div class="row revenue_radio_box">
+                    <div class="col-md-2 revenue_radio">
+                        <input type="radio"  class="form-control input-field input_unitsold" wire:model="bn_a_unitSold" value="0" /> 0
+                    </div>
+                    <div class="col-md-2 revenue_radio">
                         <input type="radio"  class="form-control input-field input_unitsold" wire:model="bn_a_unitSold" value="20" /> 20
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2 revenue_radio">
                         <input type="radio"  class="form-control input-field input_unitsold" wire:model="bn_a_unitSold" value="30"/> 30
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2 revenue_radio">
                         <input type="radio"  class="form-control input-field input_unitsold" wire:model="bn_a_unitSold" value="40"/> 40
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2 revenue_radio">
                         <input type="radio"  class="form-control input-field input_unitsold" wire:model="bn_a_unitSold" value="50"/> 50
                     </div>
                 </div>
@@ -90,9 +101,9 @@
                         <input type="number"  class="form-control input-field" name="" wire:model="bn_a_revenue" readonly/>
                     </div>
                 </div>
-                
+
             </div>
-    
+
             <div class="col-md-6 ">
                 Product B
                 <div class="sub-box">
@@ -130,18 +141,18 @@
                     </div>
                     <div class="row single-field">
                         <div class="col-md-6 ">
-                            <input type="range" step="1"  class="form-control input-field" name="" wire:model="bn_b_markup" min="0" max="100"/>
+                            <input type="range" step="1"  class="markUp_slider input-field" name="" wire:model="bn_b_markup" min="0" max="100"  />
                             {{$bn_b_markup}}%
                         </div>
                         <div class="col-md-6">
                             Mark up %
                         </div>
-                        
+
                     </div>
 
-                    
+
                 </div>
-                
+
 
 
                 <div class="row row-price">
@@ -158,17 +169,20 @@
                         Units Sold
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-3">
+                <div class="row revenue_radio_box">
+                    <div class="col-md-2 revenue_radio">
+                        <input type="radio"  class="form-control input-field input_unitsold" wire:model="bn_b_unitSold" value="0"/> 0
+                    </div>
+                    <div class="col-md-2 revenue_radio">
                         <input type="radio"  class="form-control input-field input_unitsold" wire:model="bn_b_unitSold" value="20"/> 20
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2 revenue_radio">
                         <input type="radio"  class="form-control input-field input_unitsold" wire:model="bn_b_unitSold" value="30"/> 30
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2 revenue_radio">
                         <input type="radio"  class="form-control input-field input_unitsold" wire:model="bn_b_unitSold" value="40"/> 40
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2 revenue_radio">
                         <input type="radio"  class="form-control input-field input_unitsold" wire:model="bn_b_unitSold" value="50"/> 50
                     </div>
                 </div>
@@ -184,7 +198,7 @@
                     </div>
                 </div>
             </div>
-            
+
         </div>
 
         <div class="row row-title">
@@ -192,7 +206,7 @@
                 <h3>Bangladesh</h3>
             </div>
         </div>
-        
+
     </div>
 
 

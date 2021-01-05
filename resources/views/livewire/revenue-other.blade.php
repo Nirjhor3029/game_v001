@@ -4,6 +4,16 @@
                 {{ session('error') }}
             </div>
     @endif
+    @if (!$check_null)
+            <div class="alert alert-danger">
+                Field can not be empty
+            </div>
+    @endif
+    @if (!$check_previous_game)
+            <div class="alert alert-danger">
+                Play BD Revenue & Nepal Revenue 1st.
+            </div>
+    @endif
 
     {{-- New Page Bangladesh--}}
     <div class="row">

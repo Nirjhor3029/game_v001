@@ -1,31 +1,258 @@
+body,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+div {
+    font-family: 'Raleway', sans-serif;
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
+
 
 /* Firefox */
+
 input[type=number] {
-  -moz-appearance: textfield;
+    -moz-appearance: textfield;
 }
 
-.revinew_right_list{
-  list-style: none;
+.revinew_right_list {
+    list-style: none;
 }
-.revinew_right_list li{
-  color: white;
-  padding: 10px 10px;
-  background-color:#002060;
-  margin-bottom: 2px;
-  font-size: 13px;
+
+.revinew_right_list li {
+    color: white;
+    padding: 10px 10px;
+    background-color: #002060;
+    margin-bottom: 2px;
+    font-size: 13px;
+}
+
+.revinew_left_list {
+    list-style: none;
+}
+
+.revinew_left_list li {
+    font-size: 13px;
+    padding: 1px 10px;
+    margin-bottom: 2px;
 }
 
 
-.revinew_left_list{
-  list-style: none;
+/* Revenue Box by country-start */
+
+.box {
+    background-color: #EDEDED;
+    border: 2px solid #5B9BD5;
+    border-radius: 5%;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    margin-bottom: 50px;
+    font-size: 12px;
 }
-.revinew_left_list li{
-  font-size: 13px;
-  padding: 1px 10px;
-  margin-bottom: 2px;
+
+.input-field {
+    height: 70% !important;
+}
+
+.box-rev {
+    background-color: #FFF2CC;
+    border: 2px solid #5B9BD5;
+    border-radius: 5%;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    margin-bottom: 50px;
+}
+
+.sub-box {
+    background-color: #5B9BD5;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+
+
+/* .single-field{
+  margin-bottom: 10px;
+} */
+
+.single-field-rev {
+    margin-bottom: 10px;
+}
+
+.lbl {
+    background-color: #5B9BD5;
+    color: white;
+    display: block;
+    padding: 6px 14px;
+}
+
+.price-txt {
+    border: 2px solid #5B9BD5;
+    background-color: #000000;
+    color: white;
+    text-align: center;
+    font-size: 20px;
+}
+
+.row-price {
+    padding: 14px;
+}
+
+.row-unitsold {
+    padding: 10px 15px;
+    text-align: center;
+}
+
+.col-unitsold {
+    background-color: #5B9BD5;
+    padding: 10px;
+    /* text-align: center; */
+    color: white
+}
+
+.row-title {
+    text-align: center;
+}
+
+
+/* .box-rev > .row{
+  padding: 10px
+} */
+
+.input_unitsold {
+    width: 60% !important;
+    float: left !important;
+}
+
+.revenue_radio_box {
+    padding-left: 15px;
+}
+
+.revenue_radio {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+
+/* Revenue Box by country-end */
+
+
+/* Popup Modal */
+
+.alert_img {
+    height: 50px;
+    width: 50px;
+    display: inline;
+}
+
+
+/* Revenue Page */
+
+.markUp_slider {
+    width: 90px !important;
+}
+
+
+/* Cash-flow-statement */
+
+.expense_title {
+    background-color: #009968;
+    /* margin-bottom: 5px; */
+    padding: 5px 10px;
+    /* margin-bottom: 5px; */
+    /* margin-right: 20%; */
+}
+
+.expense_item_box {
+    width: 100%;
+    border: 1px solid rgb(224, 224, 224);
+    padding: 10px 5px;
+}
+
+.revinew_right_list li {
+    cursor: pointer;
+}
+
+.revinew_left_list>li {
+    cursor: pointer;
+}
+
+.item_list {
+    position: fixed;
+    width: 300px;
+    padding: 5px;
+    background-color: #F4F5F7;
+}
+
+
+/* course-point page : Progress */
+
+progress[value] {
+    /* Reset the default appearance */
+    /* -webkit-appearance: none; */
+    /* appearance: none; */
+    width: 100%;
+    height: 20px;
+}
+
+progress[value]::-webkit-progress-bar {
+    background-color: #eee;
+    border-radius: 2px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+    -webkit-animation: animate-stripes 5s linear infinite;
+    animation: animate-stripes 5s linear infinite;
+}
+
+progress[value]::-webkit-progress-value {
+    /* background-image: -webkit-linear-gradient(-45deg, transparent 33%, rgba(0, 0, 0, .1) 33%, rgba(0, 0, 0, .1) 66%, transparent 66%), -webkit-linear-gradient(top, rgba(255, 255, 255, .25), rgba(0, 0, 0, .25)), -webkit-linear-gradient(left, #09c, #f44); */
+    background-image: -webkit-linear-gradient(-45deg, transparent 33%, rgba(0, 0, 0, .1) 33%, rgba(0, 0, 0, .1) 66%, transparent 66%), -webkit-linear-gradient(top, rgba(255, 255, 255, .25), rgba(0, 0, 0, .25)), -webkit-linear-gradient(left, #09c, rgb(19, 200, 255));
+    border-radius: 2px;
+    background-size: 35px 20px, 100% 100%, 100% 100%;
+}
+
+@-webkit-keyframes animate-stripes {
+    100% {
+        background-position: -100px 0px;
+    }
+}
+
+@keyframes animate-stripes {
+    100% {
+        background-position: -100px 0px;
+    }
+}
+
+progress[value]::-webkit-progress-value::before {
+    content: '80%';
+    position: absolute;
+    right: 0;
+    top: -125%;
+}
+
+.progress-bar-container {
+    position: relative;
+    margin-bottom: 40px;
+}
+
+.progress-custom {
+    position: absolute;
+}
+
+.progress-inner-label {
+    position: absolute;
+    color: white;
+    font-weight: bold;
 }

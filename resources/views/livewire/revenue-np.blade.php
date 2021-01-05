@@ -4,6 +4,11 @@
                 {{ session('error') }}
             </div>
     @endif
+    @if (!$check_null)
+            <div class="alert alert-danger">
+                Field can not be empty
+            </div>
+    @endif
     {{-- Nepal Box Start --}}
     <div class="box">
         <div class="row">
@@ -44,7 +49,7 @@
                     </div>
                     <div class="row single-field">
                         <div class="col-md-6 ">
-                            <input type="range" step="1"  class="form-control input-field" name="" wire:model="np_a_markup" min="0" max="100"/>
+                            <input type="range" step="1"  class="markUp_slider input-field" name="" wire:model="np_a_markup" min="0" max="100"/>
                             {{$np_a_markup}}%
                         </div>
                         <div class="col-md-6">
@@ -67,17 +72,20 @@
                         Units Sold
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-3">
+                <div class="row revenue_radio_box">
+                    <div class="col-md-2 revenue_radio">
+                        <input type="radio"  class="form-control input-field input_unitsold"  wire:model="np_a_unitSold" value="0"/> 0
+                    </div>
+                    <div class="col-md-2 revenue_radio">
                         <input type="radio"  class="form-control input-field input_unitsold"  wire:model="np_a_unitSold" value="20"/> 20
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2 revenue_radio">
                         <input type="radio"  class="form-control input-field input_unitsold"  wire:model="np_a_unitSold" value="30"/> 30
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2 revenue_radio">
                         <input type="radio"  class="form-control input-field input_unitsold"  wire:model="np_a_unitSold" value="40"/> 40
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2 revenue_radio">
                         <input type="radio"  class="form-control input-field input_unitsold"  wire:model="np_a_unitSold" value="50"/> 50
                     </div>
                 </div>
@@ -132,7 +140,7 @@
                     </div>
                     <div class="row single-field">
                         <div class="col-md-6 ">
-                            <input type="range" step="1"  class="form-control input-field" name="" wire:model="np_b_markup" min="0" max="100"/>
+                            <input type="range" step="1"  class="markUp_slider input-field" name="" wire:model="np_b_markup" min="0" max="100"/>
                             {{$np_b_markup}}%
                         </div>
                         <div class="col-md-6">
@@ -159,17 +167,20 @@
                         Units Sold
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-3">
+                <div class="row revenue_radio_box">
+                    <div class="col-md-2 revenue_radio">
+                        <input type="radio"  class="form-control input-field input_unitsold"  wire:model="np_b_unitSold" value="0"/> 0
+                    </div>
+                    <div class="col-md-2 revenue_radio">
                         <input type="radio"  class="form-control input-field input_unitsold"  wire:model="np_b_unitSold" value="20"/> 20
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2 revenue_radio">
                         <input type="radio"  class="form-control input-field input_unitsold"  wire:model="np_b_unitSold" value="30"/> 30
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2 revenue_radio">
                         <input type="radio"  class="form-control input-field input_unitsold"  wire:model="np_b_unitSold" value="40"/> 40
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2 revenue_radio">
                         <input type="radio"  class="form-control input-field input_unitsold"  wire:model="np_b_unitSold" value="50"/> 50
                     </div>
                 </div>

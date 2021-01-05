@@ -7,7 +7,7 @@
 <x-app-layout>
     <x-slot name="header">
         {{-- <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            
+
             {{Form::open(['route'=>'start_the_game','method'=>'POST','style'=>'display:inline;'])}}
             <button class="btn btn-primary">Start the Game</button>
             {{Form::close()}}
@@ -33,7 +33,7 @@
                     </div>
 
                     <div class="mt-8 text-2xl">
-                        Welcome to The Game Platform!, <b>{{\Illuminate\Support\Facades\Auth::guard('web')->user()->name}}</b>
+                        Welcome to The Game Platform!, <b>{{ucfirst(\Illuminate\Support\Facades\Auth::guard('web')->user()->name)}}</b>
                     </div>
 
                     <div class="mt-6 text-gray-500">
