@@ -7,6 +7,17 @@ use Laravel\Jetstream\Events\TeamDeleted;
 use Laravel\Jetstream\Events\TeamUpdated;
 use Laravel\Jetstream\Team as JetstreamTeam;
 
+/**
+ * App\Models\Team
+ *
+ * @property-read \App\Models\User $owner
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
+ * @property-read int|null $users_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Team newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Team newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Team query()
+ * @mixin \Eloquent
+ */
 class Team extends JetstreamTeam
 {
     /**
