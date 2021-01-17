@@ -9,7 +9,6 @@ use App\Models\Game\Marketplace;
 use Illuminate\Http\Request;
 use Auth;
 use Exception;
-use Illuminate\Support\Facades\Redirect;
 use Session;
 use DB;
 
@@ -52,7 +51,7 @@ class StartGameController extends Controller
             $game = StartGame::where('user_id',$userId)->latest('created_at')->first();
             // dd ($game);
 
-            /* 
+            /*
                 Null check for new registered users
             */
             if(is_null($game) || (!is_null($game) && $game->status)){
@@ -81,9 +80,8 @@ class StartGameController extends Controller
 
             Session::put('game_id', $obj->id);
 
-            
 
-            
+
 
             DB::commit();
         } catch (Exception $ex) {

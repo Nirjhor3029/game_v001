@@ -23,5 +23,20 @@ return [
             'name' => 'salaries expenses',
             'status' => 0
         ]
+    ],
+    'type' =>[
+        [
+            'id' => 1,
+            'name' => 'school'
+        ],
+        [
+            'id' => 2,
+            'name' => 'organization'
+        ],
+        [
+            'id' => 1,
+            'name' => 'student'
+        ],
     ]
 ];
+
