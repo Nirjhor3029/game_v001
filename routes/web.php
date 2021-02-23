@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Game\FinancialOptions;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -55,8 +56,12 @@ Route::post('add-expenses', [\App\Http\Controllers\AjaxRequestController::class,
 Route::post('add_cash_flow', [\App\Http\Controllers\AjaxRequestController::class, 'addCashFlow']);
 Route::post('add-cash-flow-expenses', [\App\Http\Controllers\AjaxRequestController::class, 'addCashFlowExpenses']);
 
-
+$restaurant = ['testy treat','unimart','pizza roma','pizza hut','bella italia','north end','tabaq','peyala','Burger king','take out','kfc','salman\'s kitchen','kacchi bhai','glazed','star kabab','dhanshiri'];
 // will Delete this routes
-Route::get('/demo ', function () {
-    return "hello";
+Route::view('/demo','demo',['options' => $restaurant]);
+
+Route::name('gm2.')->prefix('gm2')->namespace('Gm2')->group(function (){
+    Route::get('overview', [\App\Http\Controllers\Gm2\GamePageController::class, 'overview']);
+    Route::get('strategic_group', [\App\Http\Controllers\Gm2\GamePageController::class, 'strategic_group']);
+    Route::get('market_scenario', [\App\Http\Controllers\Gm2\GamePageController::class, 'market_scenario']);
 });
