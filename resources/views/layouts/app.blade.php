@@ -45,7 +45,7 @@
 
 {{-- {{asset('css/app.css')}} --}}
 <div class="min-h-screen bg-gray-100">
-    @livewire('navigation-dropdown')
+    @livewire('navigation-dropdown',['nav' => $nav])
 
 
             <!-- Page Heading -->
@@ -73,11 +73,11 @@
             @endif
         </div>
 
-        
-        
+
+
     </main>
 
-    
+
 
 </div>
 

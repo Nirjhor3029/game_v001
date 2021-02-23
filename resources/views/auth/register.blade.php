@@ -20,7 +20,7 @@
             </div>
             <div class="mt-4">
                 <x-jet-label for="type" value="{{ __('Type') }}" />
-                <select class="form-select block mt-1 w-full"  name="type" required="required">
+                <select id="type" class="form-select block mt-1 w-full"  name="type" required="required">
                     <option>Select Type</option>
                     @foreach ( Config::get('game.type') as $val)
                         <option value="{{ $val['id'] }}">{{ Str::ucfirst($val['name']) }}</option>
