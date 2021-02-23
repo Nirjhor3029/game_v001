@@ -1,5 +1,11 @@
 <?php
 
+// Delete
+
+use App\Http\Controllers\Game\gm2\IndexController;
+use App\Models\Game\FinancialOptions;
+use App\Models\Game\FinancialStatementItems;
+// Delete-end
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -57,6 +63,21 @@ Route::post('add-cash-flow-expenses', [\App\Http\Controllers\AjaxRequestControll
 
 
 // will Delete this routes
-Route::get('/demo ', function () {
-    return "hello";
+// Route::get('/demo ', [\App\Http\Controllers\Game\gm2\IndexController::class,'index']);
+
+
+
+
+// game-2 routes
+
+Route::prefix('gm2')->group(function () {
+    Route::get('/drag', function () {
+        $options = FinancialOptions::select(['title', 'value'])->whereStatus(0)->get();
+        return view('game_views.drag',compact('options'));
+    });
+    
+    Route::get('/', [\App\Http\Controllers\Game\gm2\IndexController::class,'index']);
+    Route::get('/strategic_group ', [\App\Http\Controllers\Game\gm2\IndexController::class,'strategic_group']);
+    Route::get('/marketing_strategy ', [\App\Http\Controllers\Game\gm2\IndexController::class,'marketing_strategy']);
+    Route::get('/development_of_strategic_group', [\App\Http\Controllers\Game\gm2\IndexController::class,'development_of_strategic_group']);
 });
