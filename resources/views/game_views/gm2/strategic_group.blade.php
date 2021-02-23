@@ -6,7 +6,7 @@
     <div class="header">
         <div class="welcome">
             <h2 class="title">
-                Welcome To The Game
+                Welcome To The Strategic Game
             </h2>
             <p>
                 Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ex repellendus maxime reiciendis explicabo

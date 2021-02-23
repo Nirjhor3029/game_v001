@@ -27,4 +27,10 @@ class IndexController extends Controller
     {
         return view('game_views.gm2.development_of_strategic_group');
     }
+    public function game()
+    {
+        $restaurant = ['testy treat','unimart','pizza roma','pizza hut','bella italia','north end','tabaq','peyala','Burger king','take out','kfc','salman\'s kitchen','kacchi bhai','glazed','star kabab','dhanshiri'];
+        $options = $restaurant;
+        return view('game_views.gm2.demo',compact('options'));
+    }
 }

@@ -80,4 +80,5 @@ Route::prefix('gm2')->group(function () {
     Route::get('/strategic_group ', [\App\Http\Controllers\Game\gm2\IndexController::class,'strategic_group']);
     Route::get('/marketing_strategy ', [\App\Http\Controllers\Game\gm2\IndexController::class,'marketing_strategy']);
     Route::get('/development_of_strategic_group', [\App\Http\Controllers\Game\gm2\IndexController::class,'development_of_strategic_group']);
+    Route::get('/game', [\App\Http\Controllers\Game\gm2\IndexController::class,'game']);
 });
