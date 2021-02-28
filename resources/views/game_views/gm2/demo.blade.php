@@ -2,16 +2,6 @@
 
 @push('css')
 <style>
-.fill {
-    /* background-image: url('https://source.unsplash.com/random/150x150');
-            position: relative;
-            height: 150px;
-            width: 150px;
-            top: 5px;
-            left: 5px;
-            cursor: pointer; */
-}
-
 .empty {
     display: inline-block;
     height: 160px;
@@ -51,10 +41,6 @@
 .dragdrop_graph td {
     border-left: 2px solid rgba(0, 0, 0, 0.1);
     width: 30px;
-}
-
-.dragdrop_graph tr:last-child {
-    /* border-bottom: none; */
 }
 
 .dragdrop_graph td:last-child {

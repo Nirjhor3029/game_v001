@@ -2,7 +2,7 @@
 use App\Models\Admin\Navbar;
 $navbars = Navbar::orderBy('priority')->get();
 ?>
-<nav>
+<nav class="gm2_nav">
     <div class="logo">
         <h4>The Nav</h4>
     </div>
@@ -37,8 +37,8 @@ $navbars = Navbar::orderBy('priority')->get();
             </a>
         </li>
         <li>
-            <a href="marketing_strategy">
-                demo
+            <a href="market_scenario_2">
+                market scenario
             </a>
         </li>
         <li>

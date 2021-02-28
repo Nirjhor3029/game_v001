@@ -66,12 +66,18 @@ Route::post('add_graph', [\App\Http\Controllers\Gm2\GamePageController::class, '
 Route::name('gm2.')->prefix('gm2')->namespace('Gm2')->group(function (){
     Route::get('overview', [\App\Http\Controllers\Gm2\GamePageController::class, 'overview']);
     Route::get('strategic_group', [\App\Http\Controllers\Gm2\GamePageController::class, 'strategic_group']);
+
+    Route::get('market_scenario_2', [\App\Http\Controllers\Gm2\GamePageController::class, 'market_scenario_2']);
+    
     Route::view('/market_scenario', 'gm2.market_scenario');
     Route::post('subcat', function (Request $request) {
+        // dd($request->all());
         $parent_id = $request->input('cat_id');
+        // $type = $request->input('type');
         $subcategories = Cost::where('id',$parent_id)
             ->with('subCosts')
             ->get();
+            
 
         return response()->json([
             'subcategories' => $subcategories
@@ -86,5 +92,3 @@ Route::get('/', function () {
     return view('welcome',["categoris" => $categoris]);
 
 });
-
-
