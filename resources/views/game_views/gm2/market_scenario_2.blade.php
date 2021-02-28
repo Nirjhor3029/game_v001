@@ -22,9 +22,186 @@
 
 
     <div class="row">
+
+
         <div class="col-md-6">
             <div class="card gm2_card_rest">
                 <div class="card-header gm2_card_header" style="background-color: #4AD179;">Kacchi Bhai</div>
+                <div class="card-body">
+                    <div class="row inputField_row">
+                        <div class="col-md-3">
+                            Area
+                        </div>
+                        <div class="col-md-3">
+                            <!-- <input type="button" class="btn_input btn_input_plus " value="+">
+                            <input type="number" name="" id="">
+                            <input type="button" class="btn_input btn_input_minus " value="-"> -->
+                            <select name="" id="type" name="cat_id" class="type" data-type="1">
+                                <option selected>Select Areas</option>
+                                @foreach($typeArea as $item)
+                                <option value="{{$item->id}}">{{$item->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-3 subclass">
+                            <select name="" id="subcategory" class="subcategory">
+                            </select>
+                        </div>
+                        <div class="col-md-3 cost_class">
+                            <input type="text" id="cost_value" class="cost_value" disabled>
+                        </div>
+                    </div>
+
+                    <div class="row inputField_row">
+                        <div class="col-md-3">
+                            Quality
+                        </div>
+                        <div class="col-md-3">
+                            <select name="" id="typeQuantity" class="type" data-type="2">
+                                <option selected>Select Range</option>
+                                @foreach($typeQuantity as $item)
+                                <option value="{{$item->id}}">{{$item->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-3 subclass">
+                            <select name="" id="typeQuantity_subcategory" class="subcategory">
+                            </select>
+                        </div>
+                        <div class="col-md-3 cost_class">
+                            <input type="number" id="typeQuantity_cost_value" class="cost_value" disabled>
+                        </div>
+                    </div>
+
+                    <div class="row inputField_row">
+                        <div class="col-md-3">
+                            Marketing & Promotion
+                        </div>
+                        <div class="col-md-3">
+                            <select name="" id="">
+                                <option selected>Select Areas</option>
+                                <option value="">Discount within store</option>
+                                <option value="">Discount through Delivery services</option>
+                                <option value="">Advertising through social media</option>
+                                <option value="">Branding</option>
+                                <option value="">Other</option>
+                            </select>
+                        </div>
+                        <!-- <div class="col-md-3">
+                            <select name="" id="">
+                                <option selected>Select Areas</option>
+                            </select>
+                        </div> -->
+                        <div class="col-md-3">
+                            <input type="number">
+                        </div>
+                    </div>
+
+                    <div class="row inputField_row">
+                        <div class="col-md-4">
+                            Reserve for Competitor’s future move
+                        </div>
+                        <div class="col-md-8">
+                            <input type="number">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card gm2_card_rest">
+                <div class="card-header gm2_card_header" style="background-color: #ED375D;">
+                    Star Kabab
+                </div>
+                <div class="card-body">
+                    <div class="row inputField_row">
+                        <div class="col-md-3">
+                            Area
+                        </div>
+                        <div class="col-md-3">
+                            <!-- <input type="button" class="btn_input btn_input_plus " value="+">
+                            <input type="number" name="" id="">
+                            <input type="button" class="btn_input btn_input_minus " value="-"> -->
+                            <select name="" id="type" name="cat_id" class="type" data-type="1">
+                                <option selected>Select Areas</option>
+                                @foreach($typeArea as $item)
+                                <option value="{{$item->id}}">{{$item->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-3 subclass">
+                            <select name="" id="subcategory" class="subcategory">
+                            </select>
+                        </div>
+                        <div class="col-md-3 cost_class">
+                            <input type="text" id="cost_value" class="cost_value" disabled>
+                        </div>
+                    </div>
+
+                    <div class="row inputField_row">
+                        <div class="col-md-3">
+                            Quality
+                        </div>
+                        <div class="col-md-3">
+                            <select name="" id="typeQuantity" class="type" data-type="2">
+                                <option selected>Select Range</option>
+                                @foreach($typeQuantity as $item)
+                                <option value="{{$item->id}}">{{$item->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-3 subclass">
+                            <select name="" id="typeQuantity_subcategory" class="subcategory">
+                            </select>
+                        </div>
+                        <div class="col-md-3 cost_class">
+                            <input type="number" id="typeQuantity_cost_value" class="cost_value" disabled>
+                        </div>
+                    </div>
+
+                    <div class="row inputField_row">
+                        <div class="col-md-3">
+                            Marketing & Promotion
+                        </div>
+                        <div class="col-md-3">
+                            <select name="" id="">
+                                <option selected>Select Areas</option>
+                                <option value="">Discount within store</option>
+                                <option value="">Discount through Delivery services</option>
+                                <option value="">Advertising through social media</option>
+                                <option value="">Branding</option>
+                                <option value="">Other</option>
+                            </select>
+                        </div>
+                        <!-- <div class="col-md-3">
+                            <select name="" id="">
+                                <option selected>Select Areas</option>
+                            </select>
+                        </div> -->
+                        <div class="col-md-3">
+                            <input type="number">
+                        </div>
+                    </div>
+
+                    <div class="row inputField_row">
+                        <div class="col-md-4">
+                            Reserve for Competitor’s future move
+                        </div>
+                        <div class="col-md-8">
+                            <input type="number">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-6">
+            <div class="card gm2_card_rest">
+                <div class="card-header gm2_card_header" style="background-color: #FE8400;">
+                    Sultan's Dine
+                </div>
                 <div class="card-body">
                     <div class="row inputField_row">
                         <div class="col-md-3">
