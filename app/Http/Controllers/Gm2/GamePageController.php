@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Gm2;
 
 use App\Http\Controllers\Controller;
+
 use App\Models\Graph;
 use App\Models\GraphItem;
+
+use App\Models\Cost;
+
 use Illuminate\Http\Request;
 use Auth;
 use Session;
@@ -44,6 +48,16 @@ class GamePageController extends Controller
                 }
             }
         }
+    }
+
+    public function market_scenario_2()
+    {
+        $typeArea = Cost::where('parent_id',0)->whereType(1)->get();
+        $typeQuantity = Cost::where('parent_id',0)->whereType(2)->get();
+
+        $graphItems = Graph::all();
+        // return $costs;
+        return view("game_views.gm2.market_scenario_2",compact('typeArea','typeQuantity','graphItems'));
     }
 
 }

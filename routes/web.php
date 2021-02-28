@@ -62,42 +62,46 @@ Route::post('add-cash-flow-expenses', [\App\Http\Controllers\AjaxRequestControll
 // will Delete this routes
 $restaurant = \App\Models\Restaurant::get();
 Route::view('/demo', 'demo', ['options' => $restaurant]);
-Route::post('add_graph', [\App\Http\Controllers\Gm2\GamePageController::class, 'addGraph']);
+
 
 Route::name('gm2.')->prefix('gm2')->namespace('Gm2')->group(function () {
     Route::get('overview', [\App\Http\Controllers\Gm2\GamePageController::class, 'overview']);
-    Route::get('strategic_group', [\App\Http\Controllers\Gm2\GamePageController::class, 'strategic_group']);
+
     Route::view('/$graph', 'gm2.market_scenario');
+
+    Route::get('market_scenario_2', [\App\Http\Controllers\Gm2\GamePageController::class, 'market_scenario_2']);
+    
+    Route::view('/market_scenario', 'gm2.market_scenario');
+
     Route::post('subcat', function (Request $request) {
+        // dd($request->all());
         $parent_id = $request->input('cat_id');
-        $subcategories = Cost::where('id', $parent_id)
+        // $type = $request->input('type');
+        $subcategories = Cost::where('id',$parent_id)
             ->with('subCosts')
             ->get();
-
         return response()->json([
             'subcategories' => $subcategories
         ]);
-
     })->name('subcat');
 });
-/*Route::get('/', function () {
-
-    $categoris = Category::where('parent_id',0)->get();
-
-    return view('welcome',["categoris" => $categoris]);
-
-});*/
 
 
+
+
+// marge in ltr
 Route::prefix('gm2')->group(function () {
     Route::get('/drag', function () {
         $options = FinancialOptions::select(['title', 'value'])->whereStatus(0)->get();
-        return view('game_views.drag', compact('options'));
+        return view('game_views.drag',compact('options'));
     });
+    
+    Route::get('/', [\App\Http\Controllers\Game\gm2\IndexController::class,'index']);
+    Route::get('/strategic_group ', [\App\Http\Controllers\Game\gm2\IndexController::class,'strategic_group']);
+    Route::get('/marketing_strategy ', [\App\Http\Controllers\Game\gm2\IndexController::class,'marketing_strategy']);
+    Route::get('/development_of_strategic_group', [\App\Http\Controllers\Game\gm2\IndexController::class,'development_of_strategic_group']);
+    Route::get('/game', [\App\Http\Controllers\Game\gm2\IndexController::class,'game']);
 
-    Route::get('/', [\App\Http\Controllers\Game\gm2\IndexController::class, 'index']);
-    Route::get('/strategic_group ', [\App\Http\Controllers\Game\gm2\IndexController::class, 'strategic_group']);
-    Route::get('/marketing_strategy ', [\App\Http\Controllers\Game\gm2\IndexController::class, 'marketing_strategy']);
-    Route::get('/development_of_strategic_group', [\App\Http\Controllers\Game\gm2\IndexController::class, 'development_of_strategic_group']);
-    Route::get('/game', [\App\Http\Controllers\Game\gm2\IndexController::class, 'game']);
+    Route::post('add_graph', [\App\Http\Controllers\Gm2\GamePageController::class, 'addGraph']);
+
 });

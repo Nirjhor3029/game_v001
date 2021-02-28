@@ -29,8 +29,11 @@ class IndexController extends Controller
     }
     public function game()
     {
-        $restaurant = ['testy treat','unimart','pizza roma','pizza hut','bella italia','north end','tabaq','peyala','Burger king','take out','kfc','salman\'s kitchen','kacchi bhai','glazed','star kabab','dhanshiri'];
+    
+        $restaurant = \App\Models\Restaurant::get();
         $options = $restaurant;
+
+
         return view('game_views.gm2.demo',compact('options'));
     }
 }
