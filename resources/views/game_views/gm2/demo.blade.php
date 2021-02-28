@@ -34,18 +34,8 @@
     border-collapse: collapse;
 }
 
-.dragdrop_graph tr {
-    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
-}
 
-.dragdrop_graph td {
-    border-left: 2px solid rgba(0, 0, 0, 0.1);
-    width: 30px;
-}
 
-.dragdrop_graph td:last-child {
-    border-right: none;
-}
 
 .flex {
     display: flex;

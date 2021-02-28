@@ -84,10 +84,10 @@ Route::name('gm2.')->prefix('gm2')->namespace('Gm2')->group(function (){
     })->name('subcat');
 });
 
-Route::get('/', function () {
-    $categoris = Category::where('parent_id',0)->get();
-    return view('welcome',["categoris" => $categoris]);
-});
+// Route::get('/', function () {
+//     $categoris = Category::where('parent_id',0)->get();
+//     return view('welcome',["categoris" => $categoris]);
+// });
 
 
 
