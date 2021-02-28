@@ -44,11 +44,11 @@
         }
 
         .dragdrop_graph tr {
-           /* border-bottom: 2px solid rgba(0, 0, 0, 0.1);*/
+            /* border-bottom: 2px solid rgba(0, 0, 0, 0.1);*/
         }
 
         .dragdrop_graph td {
-           /* border-left: 2px solid rgba(0, 0, 0, 0.1);*/
+            /* border-left: 2px solid rgba(0, 0, 0, 0.1);*/
             width: 30px;
         }
 
@@ -102,12 +102,12 @@
                                 <?php $tcolor = ['red', 'gray', 'yellow', 'green', 'blue', 'indigo', 'purple', 'pink'];?>
                                 <?php $bcolor = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'];?>
                                 @foreach($options as $option)
-                                    @if(!in_array(trim($loop->index),$mimnus_data))
+                                    @if(!in_array(trim($option->id),$mimnus_data))
                                         <?php $i++;?>
-                                        <div data-tag="{{$loop->index}}" data-name="{{$option}}"
+                                        <div data-tag="{{$option->id}}" data-name="{{$option->name}}"
                                              draggable="true"
                                              class="option-item bg-{{$bcolor[rand(0,count($bcolor)-1)]}} ">
-                                            <span class="">{{Str::title($option)}}</span>
+                                            <span class="">{{Str::title($option->name)}}</span>
                                         </div>
                                     @endif
                                 @endforeach
@@ -180,15 +180,22 @@
             update: function (e, ui) {
                 let row = $(this).closest('tr').index();
                 let column = $(this).closest('td').index();
-                let data_id = $(this).children().data('tag');
-                let data_name = $(this).children().data('name');
-                let data_object = {id: data_id, name: data_name};
-                console.log(e.target);
-                console.log(`row ${row} & column ${column} & data id ${data_id} name ${data_name}`);
-                sendData(row, column, data_object);
+                /* each restaurant drop in every box so push restaurant Id & name array */
+                let restData = [];
+                $(this).children().each(function (idx, ele) {
+                    let result = {
+                        'restId': $(ele).data('tag'),
+                        'restName': $(ele).data('name'),
+                    }
+                    restData.push(result);
+                });
+
+                console.dir(restData);
+                sendData(row, column, restData);
             }
         });
-        function sendData(graphPointRow,graphPointColumn, restData) {
+
+        function sendData(graphPointRow, graphPointColumn, restData) {
             $(document).ready(function () {
                 $.ajaxSetup({
                     headers: {
@@ -202,7 +209,7 @@
                     url: "add_graph",
                     data: data,
                     success: function (data) {
-                          console.log(data);
+                        // console.log(data);
                     }
                 });
             });

@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Gm2;
 
 use App\Http\Controllers\Controller;
+use App\Models\Graph;
+use App\Models\GraphItem;
 use Illuminate\Http\Request;
+use Auth;
+use Session;
 
 class GamePageController extends Controller
 {
@@ -16,10 +20,29 @@ class GamePageController extends Controller
     public function addGraph(Request $request)
     {
         if ($request->ajax()) {
-            $graphPointRow = $request->input('graphPointRow') + 1;
-            $graphPointColumn = $request->input('graphPointColumn') + 1;
-            $restId = $request->restData['id'];
-            dd($request->all());
+            $restArray = [];
+            $graphItem = GraphItem::where(['user_id' => Auth::guard('web')->user()->id, 'session_id' => Session::getId()])->get()->first();
+            if (is_null($graphItem)) {
+                $graphItem = new GraphItem();
+                $graphItem->user_id = Auth::guard('web')->user()->id;
+                $graphItem->session_id = Session::getId();
+                $graphItem->save();
+            }
+            $restArray['graphPointRow'] = $request->input('graphPointRow') + 1;
+            $restArray['graphPointColumn'] = $request->input('graphPointColumn') + 1;
+            $graph_point = $restArray['graphPointRow'] . $restArray['graphPointColumn'];
+            //remove old graph data
+            Graph::where(['graph_point' => $graphItem->id, 'graph_point' => $graph_point])->delete();
+            if ($request->filled('restData')) {
+                foreach ($request->restData as $items) {
+                    //add new items
+                    $graph = new Graph();
+                    $graph->graph_item_id = $graphItem->id;
+                    $graph->rest_id = $items['restId'];
+                    $graph->graph_point = $restArray['graphPointRow'] . $restArray['graphPointRow'];
+                    $graph->save();
+                }
+            }
         }
     }
 

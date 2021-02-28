@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGraphsTable extends Migration
+class CreateGraphItemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateGraphsTable extends Migration
      */
     public function up()
     {
-        Schema::create('graphs', function (Blueprint $table) {
+        Schema::create('graph_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('graph_item_id')->constrained('graph_items');
-            $table->string('rest_id')->nullable();
-            $table->integer('graph_point');
+            $table->foreignId('user_id')->constrained('users');
+            $table->string('session_id',255);
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateGraphsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('graphs');
+        Schema::dropIfExists('graph_items');
     }
 }
