@@ -32,8 +32,8 @@ $navbars = Navbar::orderBy('priority')->get();
             </a>
         </li>
         <li>
-            <a href="marketing_strategy">
-                demo
+            <a href="game">
+                game
             </a>
         </li>
         <li>

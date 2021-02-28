@@ -22,3 +22,33 @@ const navSlide = () => {
     });
 }
 navSlide();
+
+
+
+$("#sortable").sortable({
+    connectWith: [".droppable"]
+});
+
+/*    $(function () {
+        $(".droppable").droppable({
+            drop: function (event, ui) {
+                // console.log(event.target);
+                // console.log(ui);
+                $(this)
+                    .addClass("ui-state-highlight")
+                    .html("Dropped!" + event.target);
+
+            }
+        });
+    });*/
+
+$(".droppable").sortable({
+    cursor: "move",
+    connectWith: "#sortable",
+    update: function(e, ui) {
+        let x = $(this).closest('tr').index();
+        let y = $(this).closest('td').index();
+        console.log(e.target);
+        console.log(`row ${x} & column ${y}`);
+    }
+});
