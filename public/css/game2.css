@@ -325,10 +325,30 @@ ul {
     margin-top: 9vh;
 }
 
+.title h2 {
+    color: var(--textColor_hover);
+}
+
+.title_strategy {
+    width: 70%;
+    background-color: white;
+    padding: 10px;
+    text-align: center;
+}
+
 .flex-direction-col {
     flex-direction: column !important;
 }
 
 .row {
     display: flex;
+}
+
+.color_graph_selected {
+    background-color: #afce8d;
+}
+
+.game-content {
+    margin: 2% 6%;
+    padding: 20px;
 }
