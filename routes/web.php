@@ -64,7 +64,7 @@ $restaurant = \App\Models\Restaurant::get();
 Route::view('/demo', 'demo', ['options' => $restaurant]);
 
 
-Route::name('gm2.')->prefix('gm2')->namespace('Gm2')->group(function () {
+Route::name('gm2.')->prefix('gm2')->namespace('Gm2')->middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('overview', [\App\Http\Controllers\Gm2\GamePageController::class, 'overview']);
 
     Route::view('/$graph', 'gm2.market_scenario');
@@ -90,7 +90,7 @@ Route::name('gm2.')->prefix('gm2')->namespace('Gm2')->group(function () {
 
 
 // marge in ltr
-Route::prefix('gm2')->group(function () {
+Route::prefix('gm2')->middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/drag', function () {
         $options = FinancialOptions::select(['title', 'value'])->whereStatus(0)->get();
         return view('game_views.drag',compact('options'));
