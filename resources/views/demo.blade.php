@@ -44,11 +44,11 @@
         }
 
         .dragdrop_graph tr {
-            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+           /* border-bottom: 2px solid rgba(0, 0, 0, 0.1);*/
         }
 
         .dragdrop_graph td {
-            border-left: 2px solid rgba(0, 0, 0, 0.1);
+           /* border-left: 2px solid rgba(0, 0, 0, 0.1);*/
             width: 30px;
         }
 
@@ -78,12 +78,14 @@
         .txt_xaxis {
             margin-left: 10%;
         }
-        .option-item{
+
+        .option-item {
             width: 100px;
             border: 1px solid #2d2b2b;
             margin-bottom: 2px;
         }
-        .droppable{
+
+        .droppable {
             min-width: 130px !important;
         }
     </style>
@@ -97,13 +99,14 @@
                         <div>
                             <div id="sortable" class="" style="min-height: 600px;">
                                 <?php $i = 0;?>
-                               <?php $tcolor = ['red', 'gray','yellow','green','blue','indigo','purple','pink'];?>
-                               <?php $bcolor = ['primary', 'secondary','success','danger','warning','info','light','dark'];?>
+                                <?php $tcolor = ['red', 'gray', 'yellow', 'green', 'blue', 'indigo', 'purple', 'pink'];?>
+                                <?php $bcolor = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'];?>
                                 @foreach($options as $option)
                                     @if(!in_array(trim($loop->index),$mimnus_data))
                                         <?php $i++;?>
-                                        <div  data-tag="{{$loop->index}}" data-pay="{{$option}}"
-                                            draggable="true" class="option-item bg-{{$bcolor[rand(0,count($bcolor)-1)]}} ">
+                                        <div data-tag="{{$loop->index}}" data-name="{{$option}}"
+                                             draggable="true"
+                                             class="option-item bg-{{$bcolor[rand(0,count($bcolor)-1)]}} ">
                                             <span class="">{{Str::title($option)}}</span>
                                         </div>
                                     @endif
@@ -166,129 +169,43 @@
         </div>
     </div>
 
-
     <script>
         $("#sortable").sortable({
             connectWith: [".droppable"]
         });
 
-    /*    $(function () {
-            $(".droppable").droppable({
-                drop: function (event, ui) {
-                    // console.log(event.target);
-                    // console.log(ui);
-                    $(this)
-                        .addClass("ui-state-highlight")
-                        .html("Dropped!" + event.target);
-
-                }
-            });
-        });*/
-
         $(".droppable").sortable({
             cursor: "move",
             connectWith: "#sortable",
             update: function (e, ui) {
-             let x =   $(this).closest('tr').index();
-             let y =   $(this).closest('td').index();
-                console.log( e.target);
-                console.log(`row ${x} & column ${y}`);
+                let row = $(this).closest('tr').index();
+                let column = $(this).closest('td').index();
+                let data_id = $(this).children().data('tag');
+                let data_name = $(this).children().data('name');
+                let data_object = {id: data_id, name: data_name};
+                console.log(e.target);
+                console.log(`row ${row} & column ${column} & data id ${data_id} name ${data_name}`);
+                sendData(row, column, data_object);
             }
         });
+        function sendData(graphPointRow,graphPointColumn, restData) {
+            $(document).ready(function () {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                let data = {graphPointRow: graphPointRow, graphPointColumn: graphPointColumn, restData: restData};
+                $.ajax({
+                    type: "POST",
+                    url: "add_graph",
+                    data: data,
+                    success: function (data) {
+                          console.log(data);
+                    }
+                });
+            });
+        }
     </script>
-
-    <!-- <script>
-        const fills = document.querySelectorAll('.fill');
-        const empties = document.querySelectorAll('.empty');
-        const empties2 = document.querySelectorAll('.empty2');
-
-
-        //Fil listeners
-        for (const fill of fills) {
-            // console.log(fill);
-            fill.addEventListener('dragstart', dragStart);
-            fill.addEventListener('dragend', dragEnd);
-
-        }
-
-
-        //Loop through empties and all drag events
-        for (const empty of empties) {
-
-            empty.addEventListener("dragover", dragOver);
-            empty.addEventListener("dragenter", dragEnter);
-            empty.addEventListener("dragleave", dragLeave);
-            empty.addEventListener("drop", dragDrop);
-
-        }
-
-        // Loop through empties and all drag events
-        for (const empty of empties2) {
-            console.log(empty);
-            empty.addEventListener("dragover", dragOver);
-            empty.addEventListener("dragenter", dragEnter);
-            empty.addEventListener("dragleave", dragLeave2);
-            empty.addEventListener("drop", dragDrop2);
-
-        }
-
-        // Drag Functions
-        function dragStart(e) {
-            var eventTarget = e.target;
-            console.log(eventTarget);
-            // console.log(empties);
-            console.log("drag start");
-            this.className += " hold";
-            setTimeout(() => (this.className = "invisible"), 0);
-        }
-
-        function dragEnd() {
-            console.log("drag end");
-
-            this.className = 'fill';
-        }
-
-        function dragOver(e) {
-            console.log("drag over");
-            e.preventDefault();
-
-
-        }
-
-        function dragEnter(e) {
-            console.log("drag enter");
-            e.preventDefault();
-            this.className += " hovered";
-
-        }
-
-        function dragLeave() {
-            console.log("drag leave");
-            this.className = "empty";
-
-        }
-
-        function dragDrop() {
-            console.log("drag drop");
-            this.className = "empty";
-            this.append(fill);
-
-        }
-
-
-        function dragLeave2() {
-            console.log("drag leave");
-            this.className = "empty2";
-
-        }
-
-        function dragDrop2() {
-            console.log("drag drop" + fills[0]);
-            this.className = "empty2";
-            this.append(fills[0]);
-
-        }
-    </script> -->
-
-
 </x-app-layout>

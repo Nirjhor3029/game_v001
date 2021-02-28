@@ -1,7 +1,9 @@
 <?php
 
+use App\Models\Cost;
 use App\Models\Game\FinancialOptions;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,9 +61,30 @@ Route::post('add-cash-flow-expenses', [\App\Http\Controllers\AjaxRequestControll
 $restaurant = ['testy treat','unimart','pizza roma','pizza hut','bella italia','north end','tabaq','peyala','Burger king','take out','kfc','salman\'s kitchen','kacchi bhai','glazed','star kabab','dhanshiri'];
 // will Delete this routes
 Route::view('/demo','demo',['options' => $restaurant]);
+Route::post('add_graph', [\App\Http\Controllers\Gm2\GamePageController::class, 'addGraph']);
 
 Route::name('gm2.')->prefix('gm2')->namespace('Gm2')->group(function (){
     Route::get('overview', [\App\Http\Controllers\Gm2\GamePageController::class, 'overview']);
     Route::get('strategic_group', [\App\Http\Controllers\Gm2\GamePageController::class, 'strategic_group']);
-    Route::get('market_scenario', [\App\Http\Controllers\Gm2\GamePageController::class, 'market_scenario']);
+    Route::view('/market_scenario', 'gm2.market_scenario');
+    Route::post('subcat', function (Request $request) {
+        $parent_id = $request->input('cat_id');
+        $subcategories = Cost::where('id',$parent_id)
+            ->with('subCosts')
+            ->get();
+
+        return response()->json([
+            'subcategories' => $subcategories
+        ]);
+
+    })->name('subcat');
 });
+Route::get('/', function () {
+
+    $categoris = Category::where('parent_id',0)->get();
+
+    return view('welcome',["categoris" => $categoris]);
+
+});
+
+

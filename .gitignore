@@ -3,6 +3,7 @@
 /public/storage
 /storage/*.key
 /vendor
+/storage/debugbar
 .idea
 .env
 .env.backup
