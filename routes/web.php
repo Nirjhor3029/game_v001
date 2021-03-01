@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Gm2\AjaxController;
+use App\Http\Controllers\Gm2\Gm2AjaxController;
 use App\Models\Cost;
 use App\Models\Game\FinancialOptions;
 use Illuminate\Support\Facades\Route;
@@ -84,6 +86,8 @@ Route::name('gm2.')->prefix('gm2')->namespace('Gm2')->middleware(['auth:sanctum'
             'subcategories' => $subcategories
         ]);
     })->name('subcat');
+
+    Route::post('gm2_update_market', [Gm2AjaxController::class,'updateMarket'])->name('gm2_update_market');
 });
 
 
