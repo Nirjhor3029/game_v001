@@ -13,5 +13,10 @@ class Graph extends Model
         'graph_item_id', 'rest_id', 'graph_point'
     ];
 
+    public function allRestaurant()
+    {
+        return $this->belongsTo(Restaurant::class, 'rest_id', 'id');
+    }
+
 
 }

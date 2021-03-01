@@ -37,6 +37,34 @@ return [
             'id' => 1,
             'name' => 'student'
         ],
+    ],
+    'game2' =>[
+        'options' => [
+            [
+                'id' => 1,
+                'name' => 'Product Range'
+            ],
+            [
+                'id' => 2,
+                'name' => 'Price'
+            ],
+            [
+                'id' => 3,
+                'name' => 'Location Breadth'
+            ],
+            [
+                'id' => 4,
+                'name' => 'Vertical Integration'
+            ],
+            [
+                'id' => 5,
+                'name' => 'Product Quality'
+            ],
+            [
+                'id' => 6,
+                'name' => 'Dining Option'
+            ],
+        ]
     ]
 ];
 
