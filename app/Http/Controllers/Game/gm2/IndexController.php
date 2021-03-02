@@ -37,15 +37,29 @@ class IndexController extends Controller
 
     public function game()
     {
+        // get all restaurant
         $restaurants = \App\Models\Restaurant::get();
+        // check graph item set on this user
         $graphItem = GraphItem::where(['user_id' => Auth::guard('web')->user()->id, 'session_id' => Session::getId()])->get()->first();
+        if (is_null($graphItem)) {
+            $graphItem = new GraphItem();
+            $graphItem->user_id = Auth::guard('web')->user()->id;
+            $graphItem->session_id = Session::getId();
+            $graphItem->save();
+        }
+        // old restaurant item get form graph table
         $records = DB::table('graphs')
             ->join('restaurants', 'graphs.rest_id', '=', 'restaurants.id')
             ->select('graphs.id as graph_id', 'graphs.rest_id as restaurant_id', 'restaurants.name', 'graphs.graph_point')
             ->where('graph_item_id', $graphItem->id)
             ->get();
-        $added_restaurant = $records->pluck('restaurant_id')->all();
 
+        $added_restaurant = [];
+        // get restaurant id & name
+        if(!is_null($records)){
+            $added_restaurant = $records->pluck('restaurant_id')->all();
+        }
+        // set x-axis & y-axis option from config file
         $gType = Config::get('game.game2.options');
 
         return view('game_views.gm2.demo', compact('restaurants', 'records', 'gType', 'added_restaurant'));

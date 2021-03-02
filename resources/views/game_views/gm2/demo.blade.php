@@ -128,15 +128,14 @@
         }
 
         $(document).ready(function () {
-            let records = {!! $records !!}
+            let records = @json($records);
             records.forEach(function (ele) {
                 let point = ele.graph_point;
-                let row = (String(point).slice(0, 1)) - 1;
-                let col = (String(point).slice(-1)) - 1;
+                let row = (String(point).slice(0, 1)) -1;
+                let col = (String(point).slice(-1)) -1;
                 $('.dragdrop_graph tr').eq(row).children(':eq(' + col + ')').append(
                     '<div data-tag="' + ele.restaurant_id + '" data-name="' + ele.name + '" draggable="true" class="option-item bg-light ui-sortable-handle" style=""><span class="">' + titleCase(ele.name) + '</span></div>');
-            })
-
+            });
         });
 
     </script>
