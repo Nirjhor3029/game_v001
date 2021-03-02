@@ -5,7 +5,7 @@ const navSlide = () => {
     const navLinks = document.querySelectorAll('.nav-links li');
 
     burger.addEventListener('click', () => {
-        console.log(nav.classList);
+        // console.log(nav.classList);
         nav.classList.toggle('nav-active');
 
         // animate links
@@ -48,8 +48,128 @@ $(".droppable").sortable({
     update: function(e, ui) {
         let x = $(this).closest('tr').index();
         let y = $(this).closest('td').index();
-        console.log(e.target);
-        console.log(`row ${x} & column ${y}`);
+        // console.log(e.target);
+        // console.log(`row ${x} & column ${y}`);
     }
 });
 
+
+
+
+// market_scenario_2.blade.php ::start
+$(document).ready(function() {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $('.type').on('change', function(e) {
+        let that = $(this);
+        let cat_id = e.target.value;
+        let type = that.data('type');
+        // console.log(type);
+        // return;
+        $.ajax({
+            type: "POST",
+            url: "subcat",
+            data: {
+                cat_id: cat_id,
+                type: type,
+
+            },
+            success: function(data) {
+                // console.log(data); return;
+                let subCat = that.parent().siblings('.subclass').children('.subcategory')
+                    // console.log(subCat);subCat.css("background-color", "red"); return;
+                subCat.empty();
+                subCat.append(
+                    '<option selected>Select type</option>');
+                $.each(data
+                    .subcategories[0].sub_costs,
+                    function(index, subcategory) {
+                        subCat.append('<option data-cost="' + subcategory.value + '" value="' + subcategory.id + '" >' + subcategory.name + '</option>');
+                    })
+
+            }
+        })
+    });
+    $('.subcategory').on('change', function(e) {
+
+        let that = $(this);
+        let subCatParent = that.parent();
+        let costField = subCatParent.siblings('.cost_class').children('.cost_value')
+
+        let cost = that.find(':selected').data('cost')
+        costField.val(cost);
+
+        let card = subCatParent.parents('.card');
+        console.log(card);
+        // total
+        gm2_calculateTotal(card);
+
+    });
+
+    $('.competitors_move,.ajx_input_market_promotion').on('change', function(e) {
+        let that = $(this);
+        let card = that.parents('.card');
+        // console.log(card);
+        gm2_calculateTotal(card);
+    });
+
+    function gm2_calculateTotal(card) {
+        let total = card.find(".gm2-total-value");
+        let cost_value = card.find(".cost_value");
+        let type = card.find(".type");
+        let sub_type = card.find(".subcategory");
+        console.log(sub_type);
+        let competitorsMove = card.find(".competitors_move")[0];
+        let rest_id = card.find(".rest_id")[0];
+        // market promotions inputs
+        let ajx_input_market_promotion = card.find(".ajx_input_market_promotion");
+
+        let discountWithStore = ajx_input_market_promotion[0];
+        let discountThroughDeliveryService = ajx_input_market_promotion[1];
+        let AdvertisingThroughSocialMedia = ajx_input_market_promotion[2];
+        let Branding = ajx_input_market_promotion[3];
+        let Other = ajx_input_market_promotion[4];
+
+        // console.log(discountWithStore.value);
+
+
+        let area = cost_value[0];
+        let quality = cost_value[1];
+        let totalValue = parseInt(area.value) + parseInt(quality.value) + parseInt(competitorsMove.value) +
+            parseInt(discountWithStore.value) + parseInt(discountThroughDeliveryService.value) +
+            parseInt(AdvertisingThroughSocialMedia.value) + parseInt(Branding.value) + parseInt(Other.value);
+
+        total.text(totalValue);
+        // console.log(rest_id.value);
+
+        // Update Database
+        $.ajax({
+            type: "POST",
+            url: "gm2_update_market",
+            data: {
+                area: area.value,
+                quality: quality.value,
+                competitorsMove: competitorsMove.value,
+                totalValue: totalValue,
+                rest_id: rest_id.value,
+
+                discountWithStore: discountWithStore.value,
+                discountThroughDeliveryService: discountThroughDeliveryService.value,
+                AdvertisingThroughSocialMedia: AdvertisingThroughSocialMedia.value,
+                Branding: Branding.value,
+                Other: Other.value,
+            },
+            success: function(data) {
+                // console.log(data);
+                //return;
+            }
+        })
+    }
+
+
+});
+// market_scenario_2.blade.php ::end
