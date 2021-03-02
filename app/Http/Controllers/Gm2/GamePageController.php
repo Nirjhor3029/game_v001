@@ -57,5 +57,14 @@ class GamePageController extends Controller
         // return $costs;
         return view("game_views.gm2.market_scenario_2", compact('typeArea', 'typeQuantity', 'graphItems'));
     }
+    public function market_scenario_defend()
+    {
+        $typeArea = Cost::where('parent_id', 0)->whereType(1)->get();
+        $typeQuantity = Cost::where('parent_id', 0)->whereType(2)->get();
+
+        $graphItems = Graph::all();
+        // return $costs;
+        return view("game_views.gm2.market_scenario_defend", compact('typeArea', 'typeQuantity', 'graphItems'));
+    }
 
 }

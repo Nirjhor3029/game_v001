@@ -70,6 +70,7 @@ Route::name('gm2.')->prefix('gm2')->namespace('Gm2')->middleware(['auth:sanctum'
     Route::view('/graph', 'gm2.market_scenario');
 
     Route::get('market_scenario_2', [\App\Http\Controllers\Gm2\GamePageController::class, 'market_scenario_2']);
+    Route::get('market_scenario_defend', [\App\Http\Controllers\Gm2\GamePageController::class, 'market_scenario_defend'])->name('market_scenario_defend');
 
     Route::view('/market_scenario', 'gm2.market_scenario');
 

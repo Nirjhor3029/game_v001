@@ -171,5 +171,36 @@ $(document).ready(function() {
     }
 
 
+
+    var gm2NumberOfGrapchBox = 0;
+    // Game page
+    $('#gm2_number_of_group').on('change', function(e) {
+        let that = $(this);
+        let numberOfBox = that.find(':selected').val();
+        let gm2_select_group_txt = $('#gm2_select_group_txt');
+        let empty2 = $('.empty2');
+        gm2_select_group_txt.text("Select " + numberOfBox + " Boxes from Below.");
+        empty2.addClass("jquery_dragdrop_box");
+        empty2.removeClass("droppable");
+        // $('.empty2').addClass("jquery_droppable");
+
+        gm2NumberOfGrapchBox = numberOfBox;
+    });
+
+
+    $('.jquery_drop_box').click(function(e) {
+
+
+        if (gm2NumberOfGrapchBox > 0) {
+            let that = $(this);
+            that.addClass('jquery_selected_box droppable');
+            console.log(that);
+            gm2NumberOfGrapchBox--;
+        } else {
+            $('.empty2').removeClass('jquery_dragdrop_box');
+        }
+    });
+
+
 });
 // market_scenario_2.blade.php ::end
