@@ -108,3 +108,9 @@ Route::prefix('gm2')->middleware(['auth:sanctum', 'verified'])->group(function (
     Route::post('add_graph', [\App\Http\Controllers\Gm2\GamePageController::class, 'addGraph']);
 
 });
+
+Route::get('/test', function (){
+    $promotion_options = Config::get('game.game2.promotion_options');
+    $market_promotion_values = [0,10,20];
+    return $promotion_options[0]['name'];
+});

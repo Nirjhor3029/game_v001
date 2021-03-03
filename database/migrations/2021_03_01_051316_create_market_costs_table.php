@@ -26,14 +26,10 @@ class CreateMarketCostsTable extends Migration
             
             $table->integer("area")->default(0);
             $table->integer("quality")->default(0);
-            $table->integer("marketing_promotion")->default(0);
+
             $table->integer("competitors_move")->default(0);
 
-            $table->integer("discount_with_store")->default(0);
-            $table->integer("discount_through_delivery_service")->default(0);
-            $table->integer("advertising_through_social_media")->default(0);
-            $table->integer("Branding")->default(0);
-            $table->integer("Other")->default(0);
+            
 
             $table->timestamps();
         });

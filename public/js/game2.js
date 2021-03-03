@@ -100,11 +100,11 @@ $(document).ready(function() {
         let subCatParent = that.parent();
         let costField = subCatParent.siblings('.cost_class').children('.cost_value')
 
-        let cost = that.find(':selected').data('cost')
+        let cost = that.find(':selected').data('cost');
         costField.val(cost);
 
         let card = subCatParent.parents('.card');
-        console.log(card);
+        // console.log(card);
         // total
         gm2_calculateTotal(card);
 
@@ -120,14 +120,36 @@ $(document).ready(function() {
     function gm2_calculateTotal(card) {
         let total = card.find(".gm2-total-value");
         let cost_value = card.find(".cost_value");
+
         let type = card.find(".type");
         let sub_type = card.find(".subcategory");
-        console.log(sub_type);
+
+        let type_selected = type.find(':selected');
+        let area_type = type_selected[0].value;
+        let quelity_type = type_selected[1].value;
+
+        let sub_type_selected = sub_type.find(':selected');
+        let quelity_sub_type = 0;
+        let area_sub_type = 0;
+        if (sub_type_selected.length <= 0) {
+            area_sub_type = 0;
+            quelity_sub_type = 0;
+        } else if (sub_type_selected.length >= 2) {
+            area_sub_type = sub_type_selected[0].value;
+            quelity_sub_type = sub_type_selected[1].value;
+        } else {
+            area_sub_type = sub_type_selected[0].value;
+        }
+
+
+        // console.log(type.find(':selected')[0].value);
+        // console.log(quelity_sub_type);
+
         let competitorsMove = card.find(".competitors_move")[0];
         let rest_id = card.find(".rest_id")[0];
+
         // market promotions inputs
         let ajx_input_market_promotion = card.find(".ajx_input_market_promotion");
-
         let discountWithStore = ajx_input_market_promotion[0];
         let discountThroughDeliveryService = ajx_input_market_promotion[1];
         let AdvertisingThroughSocialMedia = ajx_input_market_promotion[2];
@@ -153,6 +175,13 @@ $(document).ready(function() {
             data: {
                 area: area.value,
                 quality: quality.value,
+
+                area_type: area_type,
+                quelity_type: quelity_type,
+                area_sub_type: area_sub_type,
+                quelity_sub_type: quelity_sub_type,
+
+
                 competitorsMove: competitorsMove.value,
                 totalValue: totalValue,
                 rest_id: rest_id.value,

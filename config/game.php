@@ -64,7 +64,28 @@ return [
                 'id' => 6,
                 'name' => 'Dining Option'
             ],
-        ]
+        ],
+        'promotion_options' => [
+            [
+                'id' => 1,
+                'name' => 'discount_within_store'
+            ],
+            [
+                'id' => 2,
+                'name' => 'discount_through_delivery_services'
+            ],
+            [
+                'id' => 3,
+                'name' => 'advertising_through_social_media'
+            ],
+            [
+                'id' => 4,
+                'name' => 'branding'
+            ],
+            [
+                'id' => 5,
+                'name' => 'other'
+            ],
+        ],
     ]
 ];
-
