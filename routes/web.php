@@ -63,7 +63,7 @@ Route::post('add-cash-flow-expenses', [\App\Http\Controllers\AjaxRequestControll
 $restaurant = \App\Models\Restaurant::get();
 Route::view('/demo', 'demo', ['options' => $restaurant]);
 
-
+// added robin hossain
 Route::name('gm2.')->prefix('gm2')->namespace('Gm2')->middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('overview', [\App\Http\Controllers\Gm2\GamePageController::class, 'overview']);
 
@@ -87,10 +87,12 @@ Route::name('gm2.')->prefix('gm2')->namespace('Gm2')->middleware(['auth:sanctum'
     })->name('subcat');
 
     Route::post('gm2_update_market', [Gm2AjaxController::class,'updateMarket'])->name('gm2_update_market');
+    Route::view('level_table','gm2.level_table');
 });
 
 
-// marge in ltr
+// added by nirjhor
+
 Route::prefix('gm2')->middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/drag', function () {
         $options = FinancialOptions::select(['title', 'value'])->whereStatus(0)->get();

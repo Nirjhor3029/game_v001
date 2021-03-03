@@ -206,7 +206,7 @@ $(document).ready(function() {
 
                         <div class="left-side-container">
                             <div class="row">
-                                <div class="col-sm-4 txt-center">Heigh</div>
+                                <div class="col-sm-4 txt-center">High</div>
                                 <div class="col-sm-4"></div>
                                 <div class="col-sm-4"></div>
                             </div>
@@ -281,7 +281,7 @@ $(document).ready(function() {
                                         </select>
                                     </div>
                                     <div class="col-sm-4 txt-center">
-                                        Heigh
+                                        High
                                     </div>
                                 </div>
 
