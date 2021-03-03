@@ -50,12 +50,18 @@ class GamePageController extends Controller
 
     public function market_scenario_2()
     {
+        $user_id = Auth::user()->id;
+        $session_id = Session::getId();
         $typeArea = Cost::where('parent_id', 0)->whereType(1)->get();
         $typeQuantity = Cost::where('parent_id', 0)->whereType(2)->get();
 
-        $graphItems = Graph::all();
-        // return $costs;
-        return view("game_views.gm2.market_scenario_2", compact('typeArea', 'typeQuantity', 'graphItems'));
+        $graphItem = GraphItem::where('user_id',$user_id)
+                    ->where('session_id',$session_id)
+                    ->first();
+                    
+        $graphs = Graph::where('graph_item_id',$graphItem->id)->get();
+        // return $graphs;
+        return view("game_views.gm2.market_scenario_2", compact('typeArea', 'typeQuantity', 'graphs'));
     }
     public function market_scenario_defend()
     {

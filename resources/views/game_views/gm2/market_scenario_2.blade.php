@@ -6,8 +6,8 @@
 
 use App\Models\Restaurant;
 
-$restaurants = $graphItems;
-    $colors = ["#4AD179", "#ED375D", "#FE8400"];
+$restaurants = $graphs;
+$colors = ["#4AD179", "#ED375D", "#FE8400"];
     
 ?>
 
@@ -145,7 +145,7 @@ $restaurants = $graphItems;
                             <input type="button" class="btn_input btn_input_minus " value="-"> -->
                             <select name="" id="type" name="cat_id" class="form-control-sm form-control type"
                                 data-type="1">
-                                <option selected>Select Areas</option>
+                                <option selected value="0">Select Areas</option>
                                 @foreach($typeArea as $item)
                                 <option value="{{$item->id}}">{{$item->name}}</option>
                                 @endforeach
@@ -166,7 +166,7 @@ $restaurants = $graphItems;
                         </div>
                         <div class="col-md-3">
                             <select name="" id="typeQuantity" class="form-control-sm form-control type" data-type="2">
-                                <option selected>Select Range</option>
+                                <option selected value="0">Select Range</option>
                                 @foreach($typeQuantity as $item)
                                 <option value="{{$item->id}}">{{$item->name}}</option>
                                 @endforeach
@@ -298,6 +298,7 @@ $restaurants = $graphItems;
                 </div>
             </div>
         </div>
+
         @endforeach
 
 

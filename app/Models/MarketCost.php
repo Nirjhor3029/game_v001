@@ -14,4 +14,9 @@ class MarketCost extends Model
         return $this->belongsTo(Market::class);
     }
 
+    public function gm2MarketPromotion()
+    {
+        return $this->hasMany(Gm2MarketPromotion::class,'market_cost_id','id');
+    }
+
 }

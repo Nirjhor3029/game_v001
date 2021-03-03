@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Gm2;
 
 use App\Http\Controllers\Controller;
+use App\Models\Gm2MarketPromotion;
 use App\Models\Market;
+use App\Models\MarketCost;
 use Auth;
+use Config;
 use Illuminate\Http\Request;
 
 class Gm2AjaxController extends Controller
@@ -16,6 +19,12 @@ class Gm2AjaxController extends Controller
         // dd($request->all());
         $area = $request->input('area');
         $quality = $request->input('quality');
+
+        $area_type = $request->input('area_type');
+        $quelity_type = $request->input('quelity_type');
+        $area_sub_type = $request->input('area_sub_type');
+        $quelity_sub_type = $request->input('quelity_sub_type');
+
         $competitorsMove = $request->input('competitorsMove');
         $totalValue = $request->input('totalValue');
         $rest_id = $request->input('rest_id'); //restaurant id
@@ -25,6 +34,8 @@ class Gm2AjaxController extends Controller
         $AdvertisingThroughSocialMedia = $request->input('AdvertisingThroughSocialMedia');
         $Branding = $request->input('Branding');
         $Other = $request->input('Other');
+        $market_promotion_values  = [$discountWithStore,$discountThroughDeliveryService,
+                            $AdvertisingThroughSocialMedia,$Branding,$Other];
 
         $market = Market::where('user_id',$user_id)->where('restaurant_id',$rest_id)->get();
         if($market->isEmpty()){
@@ -40,9 +51,45 @@ class Gm2AjaxController extends Controller
         
 
         // Market cost
-        
+        $market_cost = MarketCost::where('market_id',$market->id)->get();
+        if($market_cost->isEmpty()){
+            $market_cost = new MarketCost();
+            $market_cost->market_id = $market->id;
+        }else{
+            $market_cost = $market_cost[0];
+        }
+        $market_cost->area_type = $area_type;
+        $market_cost->quality_type = $quelity_type;
+        $market_cost->area_sub_type = $area_sub_type ;
+        $market_cost->quality_sub_type = $quelity_sub_type;
+        $market_cost->area = $area;
+        $market_cost->quality = $quality;
+        $market_cost->competitors_move = $competitorsMove;
+        $market_cost->save();
 
 
+         // Market & Promotion
+         $mode = 1; // attack=1 & defend =2
+        $promotion_options = Config::get('game.game2.promotion_options');
+
+        foreach($promotion_options as $key=>$promotion_option){
+            $market_promotion = Gm2MarketPromotion::where('market_cost_id',$market_cost->id)
+                                ->where('promotion_id',$promotion_option['id'])->get();
+            if($market_promotion->isEmpty()){
+                $market_promotion = new Gm2MarketPromotion();
+                $market_promotion->market_cost_id = $market_cost->id;
+            }else{
+                $market_promotion = $market_promotion[0];
+            }
+            $market_promotion->promotion_id = $promotion_option['id'];
+            $market_promotion->value = $market_promotion_values[$key];
+            $market_promotion->mode = $mode;
+            $market_promotion->save();
+        }
+
+       
+       
+        // $market_promotions
         
         
         
