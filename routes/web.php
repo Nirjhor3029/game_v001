@@ -124,3 +124,9 @@ Route::get('/test', function (){
     $market_promotion_values = [0,10,20];
     return $promotion_options[0]['name'];
 });
+
+Route::get('/migrate', function (){
+    Artisan::call('migrate', [
+        '--path'     => "app/database/migrations"
+        ]);
+});
