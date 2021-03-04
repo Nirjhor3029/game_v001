@@ -115,6 +115,7 @@
         font-family: 'Poppins', sans-serif;
         background-color: white;
         position: fixed;
+        top: 0;
         width: 100%;
     }
     
@@ -427,6 +428,11 @@
         background-color: #E9ECEF;
     }
     
+    .gm2_admin_selected_box {
+        background-color: #E9ECEF;
+        border: 1px solid rgba(0, 0, 0, 0.383);
+    }
+    
     .padding_10 {
         padding: 10px;
     }
@@ -469,4 +475,10 @@
     
     .txt-center {
         text-align: center;
+    }
+    
+    .group_input {
+        border: #908f8f 1px solid;
+        margin-bottom: 5px;
+        padding: 5px 5px;
     }

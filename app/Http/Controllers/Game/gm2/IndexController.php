@@ -72,11 +72,14 @@ class IndexController extends Controller
     }
     public function critaria_combination_post(Request $request)
     {
-       return $request;
+        return $request;
     }
 
     public function setGroup()
     {
-        return view('game_views.gm2.admin.set_group');
+        $restaurants = Restaurant::all();
+        // return $restaurants;
+        $gType = Config::get('game.game2.options');
+        return view('game_views.gm2.admin.set_group',compact('gType','restaurants'));
     }
 }

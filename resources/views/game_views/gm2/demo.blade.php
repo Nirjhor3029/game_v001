@@ -188,11 +188,11 @@ $(document).ready(function() {
                                                 <td class="empty2 droppable jquery_drop_box"></td>
                                             </tr>
                                             <tr>
-                                                <td class="empty2 jquery_drop_box"></td>
-                                                <td class="empty2 jquery_drop_box"></td>
-                                                <td class="empty2 jquery_drop_box"></td>
-                                                <td class="empty2 jquery_drop_box"></td>
-                                                <td class="empty2 jquery_drop_box"></td>
+                                                <td class="empty2 droppable jquery_drop_box"></td>
+                                                <td class="empty2 droppable jquery_drop_box"></td>
+                                                <td class="empty2 droppable jquery_drop_box"></td>
+                                                <td class="empty2 droppable jquery_drop_box"></td>
+                                                <td class="empty2 droppable jquery_drop_box"></td>
                                             </tr>
                                         </table>
                                     </div>

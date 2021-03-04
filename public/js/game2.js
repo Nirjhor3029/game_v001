@@ -231,5 +231,56 @@ $(document).ready(function() {
     });
 
 
+    // set_group.blade.php
+    $(".group_input_plus").click(function(e) {
+        let that = $(this);
+        let groupInputContainer = $('#group_input_container');
+        let groupInput = that.parents('.group_input');
+
+        let clone_input = groupInput.clone();
+        clone_input.find(".group_input_minus").removeClass('invisible');
+        clone_input.find(".group_input_plus").remove();
+        clone_input.appendTo(groupInputContainer)
+    });
+
+    $(document).on("click", ".group_input_minus", function(e) {
+        let that = $(this);
+        let groupInput = that.parents('.group_input');
+        groupInput.remove();
+    });
+
+    // $(document).on("change", '.gm2-row', function(e) {
+    //     let that = $(this);
+    //     let groupInput = that.parents('.group_input');
+    // });
+
+    $(document).on("change", '.gm2-column', function(e) {
+        let that = $(this);
+        let groupInput = that.parents('.group_input');
+
+        let groupName = groupInput.find('.group_name');
+        let groupNameText = groupName.val();
+
+        let groupRow = groupInput.find('.group_row');
+        groupRow = groupRow.find(':selected');
+
+        let groupColumn = groupInput.find('.group_column');
+        groupColumn = groupColumn.find(':selected');
+
+        let table = $('.dragdrop_graph');
+        let row_column = groupRow.val() + '' + groupColumn.val();
+        let group = table.find("#" + row_column);
+        // console.log(group);
+        group.addClass('gm2_admin_selected_box');
+
+        group.empty();
+        group.append(groupNameText);
+    });
+
+
 });
 // market_scenario_2.blade.php ::end
+
+
+
+//
