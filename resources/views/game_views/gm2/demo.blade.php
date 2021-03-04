@@ -1,74 +1,7 @@
 @extends('game_views.gm2.layout.app')
 
 @push('css')
-<style>
-.empty {
-    display: inline-block;
-    height: 160px;
-    width: 80%;
-    margin: 10px;
-    border: 3px solid cyan;
-    background-color: white;
-}
 
-.hold {
-    border: 4px solid #ccc;
-}
-
-.hovered {
-    background: #f4f4f4;
-    border: 2px dashed black !important;
-}
-
-.invisible {
-    display: none;
-}
-
-
-/* Table */
-
-.dragdrop_graph {
-    /* background-color: aliceblue; */
-    width: 80%;
-    height: 400px;
-    border-collapse: collapse;
-}
-
-
-.flex {
-    display: flex;
-    align-items: center;
-}
-
-.flex h1 {
-    /* Rotate from top left corner (not default) */
-    /* transform-origin: 0 0; */
-    transform: rotate(-90deg);
-}
-
-.chart {
-    width: 900px;
-}
-
-.txt_xaxis {
-    margin-left: 10%;
-}
-
-.option-item {
-    width: 100px;
-    border: 1px solid #2d2b2b;
-    margin-bottom: 2px;
-    cursor: pointer;
-    border-radius: 10px;
-    text-align: center;
-}
-
-.droppable {
-    min-width: 30px !important;
-    max-width: 40px !important;
-}
-
-</style>
 @endpush
 
 @push('js')
@@ -178,7 +111,7 @@ $(document).ready(function() {
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg" style="padding:40px;box-sizing:border-box">
 
                 <div class="row mt-9vh">
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <div>
                             <div id="sortable" class="" style="min-height: 600px;">
                                 @foreach($restaurants as $restaurant)
@@ -193,9 +126,9 @@ $(document).ready(function() {
                         </div>
                     </div>
 
-                    <div class="col-md-8">
+                    <div class="col-md-10">
                         <div class="row">
-                            <select class="" id="gm2_number_of_group">
+                            <select class="form-control" id="gm2_number_of_group">
                                 <option value="2">2</option>
                                 <option value="3">3</option>
                                 <option value="4">4</option>
@@ -212,10 +145,7 @@ $(document).ready(function() {
                             </div>
 
                             <div class="flex">
-
-
                                 <!-- <h1>Price</h1> -->
-
                                 <select name="" id="y-axis" class="form-control form-control-sm select_criteria"
                                     data-type="1">
                                     <option selected>Select criteria</option>
@@ -227,43 +157,46 @@ $(document).ready(function() {
 
 
                                 <div class="chart">
-                                    <table class="dragdrop_graph " id="">
-                                        <tr>
-                                            <td class="empty2 droppable jquery_drop_box"></td>
-                                            <td class="empty2 droppable jquery_drop_box"></td>
-                                            <td class="empty2 droppable jquery_drop_box"></td>
-                                            <td class="empty2 droppable jquery_drop_box"></td>
-                                            <td class="empty2 droppable jquery_drop_box"></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="empty2 droppable jquery_drop_box"></td>
-                                            <td class="empty2 droppable jquery_drop_box"></td>
-                                            <td class="empty2 droppable jquery_drop_box"></td>
-                                            <td class="empty2 droppable jquery_drop_box"></td>
-                                            <td class="empty2 droppable jquery_drop_box"></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="empty2 droppable jquery_drop_box"></td>
-                                            <td class="empty2 droppable jquery_drop_box"></td>
-                                            <td class="empty2 droppable jquery_drop_box"></td>
-                                            <td class="empty2 droppable jquery_drop_box"></td>
-                                            <td class="empty2 droppable jquery_drop_box"></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="empty2 droppable jquery_drop_box"></td>
-                                            <td class="empty2 droppable jquery_drop_box"></td>
-                                            <td class="empty2 droppable jquery_drop_box"></td>
-                                            <td class="empty2 droppable jquery_drop_box"></td>
-                                            <td class="empty2 droppable jquery_drop_box"></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="empty2 jquery_drop_box"></td>
-                                            <td class="empty2 jquery_drop_box"></td>
-                                            <td class="empty2 jquery_drop_box"></td>
-                                            <td class="empty2 jquery_drop_box"></td>
-                                            <td class="empty2 jquery_drop_box"></td>
-                                        </tr>
-                                    </table>
+                                    <div class="table-responsive">
+                                        <table class="dragdrop_graph " id="">
+                                            <tr>
+                                                <td class="empty2 droppable jquery_drop_box"></td>
+                                                <td class="empty2 droppable jquery_drop_box"></td>
+                                                <td class="empty2 droppable jquery_drop_box"></td>
+                                                <td class="empty2 droppable jquery_drop_box"></td>
+                                                <td class="empty2 droppable jquery_drop_box"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="empty2 droppable jquery_drop_box"></td>
+                                                <td class="empty2 droppable jquery_drop_box"></td>
+                                                <td class="empty2 droppable jquery_drop_box"></td>
+                                                <td class="empty2 droppable jquery_drop_box"></td>
+                                                <td class="empty2 droppable jquery_drop_box"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="empty2 droppable jquery_drop_box"></td>
+                                                <td class="empty2 droppable jquery_drop_box"></td>
+                                                <td class="empty2 droppable jquery_drop_box"></td>
+                                                <td class="empty2 droppable jquery_drop_box"></td>
+                                                <td class="empty2 droppable jquery_drop_box"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="empty2 droppable jquery_drop_box"></td>
+                                                <td class="empty2 droppable jquery_drop_box"></td>
+                                                <td class="empty2 droppable jquery_drop_box"></td>
+                                                <td class="empty2 droppable jquery_drop_box"></td>
+                                                <td class="empty2 droppable jquery_drop_box"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="empty2 jquery_drop_box"></td>
+                                                <td class="empty2 jquery_drop_box"></td>
+                                                <td class="empty2 jquery_drop_box"></td>
+                                                <td class="empty2 jquery_drop_box"></td>
+                                                <td class="empty2 jquery_drop_box"></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
                                 </div>
                             </div>
                             <div>
@@ -272,8 +205,7 @@ $(document).ready(function() {
                                         Low
                                     </div>
                                     <div class="col-md-4 mt-3">
-                                        <select name="" id="x-axis" class="form-control form-control-sm txt-center"
-                                            data-type="2">
+                                        <select name="" id="x-axis" class="form-control form-control-sm " data-type="2">
                                             <option selected>Select criteria</option>
                                             @foreach($gType as $item)
                                             <option value="{{$item['id']}}">{{$item['name']}}</option>
