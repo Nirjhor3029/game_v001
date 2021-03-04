@@ -448,7 +448,7 @@
     .gm2_select_group_txt {
         margin: 10px;
         text-align: right;
-        border: #263238 1px solid;
+        /* border: #263238 1px solid; */
         font-size: 18px;
     }
     
@@ -481,4 +481,11 @@
         border: #908f8f 1px solid;
         margin-bottom: 5px;
         padding: 5px 5px;
+    }
+    
+    .attack_box {}
+    
+    .defend_card {
+        position: sticky;
+        top: 10vh;
     }

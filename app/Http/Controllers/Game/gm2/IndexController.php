@@ -104,4 +104,11 @@ class IndexController extends Controller
         $gType = Config::get('game.game2.options');
         return view('game_views.gm2.admin.set_group',compact('gType','restaurants'));
     }
+    public function setRestaurant()
+    {
+        $restaurants = Restaurant::all();
+        // return $restaurants;
+        $gType = Config::get('game.game2.options');
+        return view('game_views.gm2.admin.set_restaurant',compact('gType','restaurants'));
+    }
 }

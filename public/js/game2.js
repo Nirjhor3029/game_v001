@@ -208,7 +208,7 @@ $(document).ready(function() {
         let numberOfBox = that.find(':selected').val();
         let gm2_select_group_txt = $('#gm2_select_group_txt');
         let empty2 = $('.empty2');
-        gm2_select_group_txt.text("Select " + numberOfBox + " Boxes from Below.");
+        gm2_select_group_txt.text("Select " + numberOfBox + " Boxes from Chart.");
         empty2.addClass("jquery_dragdrop_box");
         empty2.removeClass("droppable");
         // $('.empty2').addClass("jquery_droppable");
@@ -279,7 +279,38 @@ $(document).ready(function() {
 
 
 });
-// market_scenario_2.blade.php ::end
+
+var GroupLeaders = [];
+$(".leader").on("change", function(e) {
+    let that = $(this);
+    let parent = that.parents('.restaurant_container');
+    let group = parent.find('.group');
+    let groupValue = group.val();
+    if (that.is(":checked")) {
+        GroupLeaders.push(groupValue);
+        group.prop('disabled', true);
+    } else {
+        GroupLeaders.pop(groupValue);
+        group.prop('disabled', false);
+    }
+    console.log(GroupLeaders);
+})
+
+$(".group").on("change", function(e) {
+        let that = $(this);
+        let parent = that.parents('.restaurant_container');
+        let groupValue = parent.find('.group').val();
+        let checkBox = parent.find('.leader');
+        if (jQuery.inArray(groupValue, GroupLeaders) !== -1) {
+            checkBox.prop('disabled', true);
+            // console.log(groupValue + " found in");
+        } else {
+            checkBox.prop('disabled', false);
+            // console.log("not found");
+        }
+        // console.log(GroupLeaders);
+    })
+    // market_scenario_2.blade.php ::end
 
 
 
