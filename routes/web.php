@@ -91,11 +91,11 @@ Route::name('gm2.')->prefix('gm2')->namespace('Gm2')->middleware(['auth:sanctum'
     Route::view('level_table','gm2.level_table');
 
 
-    Route::get('admin/critaria-combination',[\App\Http\Controllers\Game\gm2\IndexController::class,'critaria_combination'])->name('admin.critaria_combination');
-    Route::post('admin/critaria-combination',[\App\Http\Controllers\Game\gm2\IndexController::class,'critaria_combination_post'])->name('admin.critaria_combination');
+    Route::get('admin/criteria_combination',[\App\Http\Controllers\Game\gm2\IndexController::class,'criteria_combination'])->name('admin.criteria_combination');
+    Route::post('admin/criteria_combination',[\App\Http\Controllers\Game\gm2\IndexController::class,'criteria_combination_post'])->name('admin.criteria_combination');
 
-    Route::get('admin/set-group',[\App\Http\Controllers\Game\gm2\IndexController::class,'setGroup'])->name('admin.set_group');
-    
+    Route::get('admin/set_group',[\App\Http\Controllers\Game\gm2\IndexController::class,'setGroup'])->name('admin.set_group');
+
 });
 
 
