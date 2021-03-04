@@ -279,7 +279,38 @@ $(document).ready(function() {
 
 
 });
-// market_scenario_2.blade.php ::end
+
+var GroupLeaders = [];
+$(".leader").on("change", function(e) {
+    let that = $(this);
+    let parent = that.parents('.restaurant_container');
+    let group = parent.find('.group');
+    let groupValue = group.val();
+    if (that.is(":checked")) {
+        GroupLeaders.push(groupValue);
+        group.prop('disabled', true);
+    } else {
+        GroupLeaders.pop(groupValue);
+        group.prop('disabled', false);
+    }
+    console.log(GroupLeaders);
+})
+
+$(".group").on("change", function(e) {
+        let that = $(this);
+        let parent = that.parents('.restaurant_container');
+        let groupValue = parent.find('.group').val();
+        let checkBox = parent.find('.leader');
+        if (jQuery.inArray(groupValue, GroupLeaders) !== -1) {
+            checkBox.prop('disabled', true);
+            // console.log(groupValue + " found in");
+        } else {
+            checkBox.prop('disabled', false);
+            // console.log("not found");
+        }
+        // console.log(GroupLeaders);
+    })
+    // market_scenario_2.blade.php ::end
 
 
 
