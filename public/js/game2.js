@@ -208,7 +208,7 @@ $(document).ready(function() {
         let numberOfBox = that.find(':selected').val();
         let gm2_select_group_txt = $('#gm2_select_group_txt');
         let empty2 = $('.empty2');
-        gm2_select_group_txt.text("Select " + numberOfBox + " Boxes from Below.");
+        gm2_select_group_txt.text("Select " + numberOfBox + " Boxes from Chart.");
         empty2.addClass("jquery_dragdrop_box");
         empty2.removeClass("droppable");
         // $('.empty2').addClass("jquery_droppable");
