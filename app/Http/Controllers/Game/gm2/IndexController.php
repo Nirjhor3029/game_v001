@@ -64,4 +64,19 @@ class IndexController extends Controller
 
         return view('game_views.gm2.demo', compact('restaurants', 'records', 'gType', 'added_restaurant'));
     }
+
+    public function critaria_combination()
+    {
+        $gType = Config::get('game.game2.options');
+        return view('game_views.gm2.admin.critaria_combination',compact('gType'));
+    }
+    public function critaria_combination_post(Request $request)
+    {
+       return $request;
+    }
+
+    public function setGroup()
+    {
+        return view('game_views.gm2.admin.set_group');
+    }
 }

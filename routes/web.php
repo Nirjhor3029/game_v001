@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Game\gm2\IndexController;
 use App\Http\Controllers\Gm2\AjaxController;
 use App\Http\Controllers\Gm2\Gm2AjaxController;
 use App\Models\Cost;
@@ -88,6 +89,13 @@ Route::name('gm2.')->prefix('gm2')->namespace('Gm2')->middleware(['auth:sanctum'
 
     Route::post('gm2_update_market', [Gm2AjaxController::class,'updateMarket'])->name('gm2_update_market');
     Route::view('level_table','gm2.level_table');
+
+
+    Route::get('admin/critaria-combination',[\App\Http\Controllers\Game\gm2\IndexController::class,'critaria_combination'])->name('admin.critaria_combination');
+    Route::post('admin/critaria-combination',[\App\Http\Controllers\Game\gm2\IndexController::class,'critaria_combination_post'])->name('admin.critaria_combination');
+
+    Route::get('admin/set-group',[\App\Http\Controllers\Game\gm2\IndexController::class,'setGroup'])->name('admin.set_group');
+    
 });
 
 
