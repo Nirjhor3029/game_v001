@@ -88,6 +88,8 @@ Route::name('gm2.')->prefix('gm2')->namespace('Gm2')->middleware(['auth:sanctum'
     })->name('subcat');
     Route::view('graph_view','gm2.graph');
     Route::post('gm2_update_market', [Gm2AjaxController::class,'updateMarket'])->name('gm2_update_market');
+    Route::post('admin/gm2_update_group', [Gm2AjaxController::class,'updateGroup'])->name('gm2_update_group');
+    Route::post('admin/gm2_update_restaurant_group', [Gm2AjaxController::class,'updateRestaurantGroup'])->name('admin.gm2_update_restaurant_group');
     Route::view('level_table','gm2.level_table');
 
 
