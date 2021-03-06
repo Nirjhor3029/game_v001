@@ -7,6 +7,7 @@ use App\Models\Admin\Navbar;
 use App\Models\CriteriaCombination;
 use App\Models\Graph;
 use App\Models\GraphItem;
+use App\Models\GraphLevel;
 use App\Models\Restaurant;
 use App\Models\RestaurantGroup;
 use Auth;
@@ -110,13 +111,25 @@ class IndexController extends Controller
         $restaurants = Restaurant::all();
         // return $restaurants;
         $gType = Config::get('game.game2.options');
-        return view('game_views.gm2.admin.set_group',compact('gType','restaurants'));
+
+        $user_id = Auth::user()->id;
+        $restaurantGroups = RestaurantGroup::where('user_id',$user_id)->get();
+        $graphLevel = GraphLevel::where('user_id',$user_id)->first();
+
+
+        // return $graphLevel[0]->x_level;
+
+        return view('game_views.gm2.admin.set_group',compact('gType','restaurants','restaurantGroups','graphLevel'));
     }
     public function setRestaurant()
     {
+        $user_id = Auth::user()->id;
         $restaurants = Restaurant::all();
         // return $restaurants;
         $gType = Config::get('game.game2.options');
-        return view('game_views.gm2.admin.set_restaurant',compact('gType','restaurants'));
+
+        $restaurantGroups = RestaurantGroup::where('user_id',$user_id)->get();
+
+        return view('game_views.gm2.admin.set_restaurant',compact('gType','restaurants','restaurantGroups'));
     }
 }
