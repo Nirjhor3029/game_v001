@@ -34,7 +34,7 @@
                             <div class="col-sm-2">
                                 <div class="form-group">
                                     <label for="row">Row</label>
-                                    <select name="row" id="row" class="form-control form-control-sm group_row">
+                                    <select name="row" id="row" class="form-control form-control-sm group_row gm2-row">
                                         <option value="null">Select Row</option>
                                         @for ($i=1; $i <= $rows; $i++)
                                             <option value="{{$i}}">{{$i}}</option>
