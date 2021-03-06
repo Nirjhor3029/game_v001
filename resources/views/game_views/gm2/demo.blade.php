@@ -56,30 +56,6 @@ function sendData(graphPointRow, graphPointColumn, restData) {
     });
 }
 
-function sendData(graphPointRow, graphPointColumn, restData) {
-    $(document).ready(function() {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        let data = {
-            graphPointRow: graphPointRow,
-            graphPointColumn: graphPointColumn,
-            restData: restData
-        };
-        $.ajax({
-            type: "POST",
-            url: "add_graph",
-            data: data,
-            success: function(data) {
-                // console.log(data);
-            }
-        });
-    });
-}
-
 function titleCase(str) {
     return str.toLowerCase().split(' ').map(function(word) {
         return (word.charAt(0).toUpperCase() + word.slice(1));

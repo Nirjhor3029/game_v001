@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Graph;
 use App\Models\GraphItem;
 use App\Models\Cost;
+use App\Models\RestaurantGroup;
 use Illuminate\Http\Request;
 use Auth;
 use Session;
@@ -58,7 +59,7 @@ class GamePageController extends Controller
         $graphItem = GraphItem::where('user_id',$user_id)
                     ->where('session_id',$session_id)
                     ->first();
-                    
+
         $graphs = Graph::where('graph_item_id',$graphItem->id)->get();
         // return $graphs;
         return view("game_views.gm2.market_scenario_2", compact('typeArea', 'typeQuantity', 'graphs'));
@@ -71,6 +72,11 @@ class GamePageController extends Controller
         $graphItems = Graph::all();
         // return $costs;
         return view("game_views.gm2.market_scenario_defend", compact('typeArea', 'typeQuantity', 'graphItems'));
+    }
+
+    public function show_users_graph()
+    {
+        $rest_groups = RestaurantGroup::where('user_id',Auth::user()->id)->get();
     }
 
 }

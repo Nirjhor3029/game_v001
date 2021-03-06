@@ -8,6 +8,7 @@ use App\Models\CriteriaCombination;
 use App\Models\Graph;
 use App\Models\GraphItem;
 use App\Models\Restaurant;
+use App\Models\RestaurantGroup;
 use Auth;
 use Config;
 use DB;
@@ -64,6 +65,13 @@ class IndexController extends Controller
         $gType = Config::get('game.game2.options');
 
         return view('game_views.gm2.demo', compact('restaurants', 'records', 'gType', 'added_restaurant'));
+    }
+
+    public function game_view()
+    {
+        $restaurant_group = RestaurantGroup::where('user_id',Auth::guard('web')->user()->id)->findOrFail();
+
+
     }
 
     public function criteria_combination()
