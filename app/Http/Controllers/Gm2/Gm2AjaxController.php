@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Gm2;
 
 use App\Http\Controllers\Controller;
 use App\Models\Gm2MarketPromotion;
+use App\Models\GraphLevel;
 use App\Models\Market;
 use App\Models\MarketCost;
+use App\Models\RestaurantGroup;
+use App\Models\RestaurantPoint;
 use Auth;
 use Config;
 use Illuminate\Http\Request;
@@ -15,6 +18,9 @@ class Gm2AjaxController extends Controller
     //
     public function updateMarket(Request $request)
     {
+        // return response()->json([
+        //     'status' => "ok",
+        // ]);
         $user_id = Auth::user()->id;
         // dd($request->all());
         $area = $request->input('area');
@@ -67,11 +73,9 @@ class Gm2AjaxController extends Controller
         $market_cost->competitors_move = $competitorsMove;
         $market_cost->save();
 
-
-         // Market & Promotion
-         $mode = 1; // attack=1 & defend =2
+        // Market & Promotion
+        $mode = 1; // attack=1 & defend =2
         $promotion_options = Config::get('game.game2.promotion_options');
-
         foreach($promotion_options as $key=>$promotion_option){
             $market_promotion = Gm2MarketPromotion::where('market_cost_id',$market_cost->id)
                                 ->where('promotion_id',$promotion_option['id'])->get();
@@ -87,17 +91,82 @@ class Gm2AjaxController extends Controller
             $market_promotion->save();
         }
 
-       
-       
         // $market_promotions
-        
-        
-        
-
         return response()->json([
             'status' => "ok",
             'rest_id' => $rest_id,
             'user_id' => $user_id,
+        ]);
+    }
+
+    public  function updateGroup(Request $request)
+    {
+        // return ($request);
+
+        $user_id = Auth::user()->id;
+        
+        $xAxisValue = $request->input('xAxisValue');
+        $yAxisValue = $request->input('yAxisValue');
+        $groupNames = $request->input('groupNames');
+        $groupRows = $request->input('groupRows');
+        $groupColumns = $request->input('groupColumns');
+
+        $restaurantGroups = RestaurantGroup::where('user_id',$user_id)->delete();
+        // if(!$restaurantGroups->isEmpty()){
+        //     $restaurantGroups->delete();
+        // }
+
+        
+        foreach($groupColumns as $key => $column){
+            $restaurantGroup = new RestaurantGroup();
+            $restaurantGroup->user_id = $user_id;
+            $restaurantGroup->name = $groupNames[$key];
+            $restaurantGroup->point = $groupRows[$key].$column;
+            $restaurantGroup->save();
+        }
+        
+        $graphLevel = GraphLevel::where('user_id',$user_id)->get();
+        if($graphLevel->isEmpty()){
+            $graphLevel = new GraphLevel();
+            $graphLevel->user_id = $user_id;
+        }else{
+            $graphLevel = $graphLevel[0];
+        }
+        $graphLevel->x_level = $xAxisValue;
+        $graphLevel->y_level = $yAxisValue;
+        $graphLevel->save();
+        
+        
+        return response()->json([
+            'status' => $groupColumns[0],
+        ]);
+    }
+
+    public function updateRestaurantGroup(Request $request )
+    {
+        $user_id = Auth::user()->id;
+        $restId = $request->input('restId');
+        $groupValue = $request->input('groupValue');
+        $leader = $request->input('leader');
+        if($groupValue == null){
+            $groupValue = 0;
+        }
+
+        $restaurantPoint = RestaurantPoint::where('user_id',$user_id)
+                            ->where('res_id',$restId)->get();
+        if($restaurantPoint->isEmpty()){
+            $restaurantPoint = new RestaurantPoint();
+            $restaurantPoint->user_id = $user_id;
+            $restaurantPoint->res_id = $restId;
+        }else{
+            $restaurantPoint = $restaurantPoint[0];
+        }
+        $restaurantPoint->res_group_id = $groupValue;
+        $restaurantPoint->leader = $leader;
+        $restaurantPoint->save();
+
+        return response()->json([
+            'status' => "ok",
         ]);
     }
 }

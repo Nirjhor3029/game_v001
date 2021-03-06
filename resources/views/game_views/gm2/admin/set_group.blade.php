@@ -22,60 +22,146 @@
 
                     <div class="col-sm-6" id="group_input_container">
 
+                    @if(!$restaurantGroups->count())
                         <div class="row group_input">
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="group_name">Group Name</label>
                                     <input type="text" id="group_name" class="form-control form-control-sm group_name"
-                                        value="group 1">
+                                        value="Group 1">
                                 </div>
                             </div>
 
-                            <div class="col-sm-2">
+                            <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="row">Row</label>
                                     <select name="row" id="row" class="form-control form-control-sm group_row gm2-row">
                                         <option value="null">Select Row</option>
                                         @for ($i=1; $i <= $rows; $i++)
-                                            <option value="{{$i}}">{{$i}}</option>
+                                            <option value="{{$i}}"  >{{$i}}</option>
+                                        @endfor
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="column">Column</label>
+                                    <select name="column" disabled id="column" class="form-control form-control-sm gm2-column group_column">
+                                        <option value="null" >Select Column</option>
+                                        @for ($i=1; $i <= $columns; $i++)
+                                            <option value="{{$i}}"  >{{$i}}</option>
                                         @endfor
                                     </select>
                                 </div>
                             </div>
 
                             <div class="col-sm-2">
-                                <div class="form-group">
-                                    <label for="column">Column</label>
-                                    <select name="column" disabled id="column" class="form-control form-control-sm gm2-column group_column">
-                                        <option value="null" >Select Column</option>
-                                        @for ($i=1; $i <= $columns; $i++)
-                                            <option value="{{$i}}">{{$i}}</option>
-                                        @endfor
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label for="column">Restaurant</label>
-                                    <select name="" id="" class="form-control form-control-sm gm2-column">
-                                        <option value="null">Select Column</option>
-                                        @foreach($restaurants as $restaurant)
-                                            <option value="{{$restaurant->id}}">{{$restaurant->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-1">
                                 <input type="button" value="+" class="btn btn-success btn-sm form-control group_input_plus">
                                 <input type="button" value="-" class="invisible btn btn-danger btn-sm form-control group_input_minus">
                             </div>
 
                         </div>
+                    @endif
+                    
+                        @foreach($restaurantGroups as $key => $item)
+                        <?php
+                            $firstInput = $restaurantGroups;
+                            $row = substr($item->point, 0, 1);
+                            $column= substr($item->point, 1, 2);
+                        ?>
+                        @if($key==0)
+                        
+                        <div class="row group_input">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="group_name">Group Name</label>
+                                        <input type="text" id="group_name" class="form-control form-control-sm group_name"
+                                            value="{{$item->name}}">
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="row">Row</label>
+                                        <select name="row" id="row" class="form-control form-control-sm group_row gm2-row">
+                                            <option value="null">Select Row</option>
+                                            @for ($i=1; $i <= $rows; $i++)
+                                                <option value="{{$i}}" {{ ( $row == $i )? "selected" : ""}} >{{$i}}</option>
+                                            @endfor
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="column">Column</label>
+                                        <select name="column" disabled id="column" class="form-control form-control-sm gm2-column group_column">
+                                            <option value="null" >Select Column</option>
+                                            @for ($i=1; $i <= $columns; $i++)
+                                                <option value="{{$i}}" {{ ( $row == $i )? "selected" : ""}} >{{$i}}</option>
+                                            @endfor
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <input type="button" value="+" class="btn btn-success btn-sm form-control group_input_plus">
+                                    <input type="button" value="-" class="invisible btn btn-danger btn-sm form-control group_input_minus">
+                                </div>
+
+                            </div>
+                        @endif
+                        <div class="row group_input">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="group_name">Group Name</label>
+                                    <input type="text" id="group_name" class="form-control form-control-sm group_name"
+                                        value="{{$item->name}}">
+                                </div>
+                            </div>
+
+                                <?php
+                                    $row = substr($item->point, 0, 1);
+                                    $column= substr($item->point, 1, 2);
+                                ?>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="row">Row</label>
+                                    <select name="row" id="row" class="form-control form-control-sm group_row gm2-row">
+                                        <option value="null">Select Row</option>
+                                        @for ($i=1; $i <= $rows; $i++)
+                                            <option value="{{$i}}" {{ ( $row == $i )? "selected" : ""}} >{{$i}}</option>
+                                        @endfor
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="column">Column</label>
+                                    <select name="column" disabled id="column" class="form-control form-control-sm gm2-column group_column">
+                                        <option value="null" >Select Column</option>
+                                        @for ($i=1; $i <= $columns; $i++)
+                                            <option value="{{$i}}" {{ ( $column == $i )? "selected" : ""}} >{{$i}}</option>
+                                        @endfor
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-2">
+                                
+                                <input type="button" value="-" class=" btn btn-danger btn-sm form-control group_input_minus">
+                            </div>
+
+                        </div>
+                        @endforeach
+                        
                         
 
                     </div>
+
+
                     <div class="col-sm-6">
                     <div class="left-side-container">
                             <div class="row">
@@ -86,11 +172,11 @@
 
                             <div class="flex">
                                 <!-- <h1>Price</h1> -->
-                                <select name="" id="y-axis" class="form-control form-control-sm select_criteria"
+                                <select name="" id="gm2-y-axis" class="form-control form-control-sm select_criteria"
                                     data-type="1">
-                                    <option selected>Select criteria</option>
+                                    <option selected value="0" disabled>Select criteria</option>
                                     @foreach($gType as $item)
-                                    <option value="{{$item['id']}}" class="">{{$item['name']}}
+                                    <option value="{{$item['id']}}" class="" {{ ( optional($graphLevel)->x_level == $item['id'] )? "selected" : ""}}>{{$item['name']}}
                                     </option>
                                     @endforeach
                                 </select>
@@ -117,10 +203,10 @@
                                         Low
                                     </div>
                                     <div class="col-md-4 mt-3">
-                                        <select name="" id="x-axis" class="form-control form-control-sm " data-type="2">
-                                            <option selected>Select criteria</option>
+                                        <select name="" id="gm2-x-axis" class="form-control form-control-sm " data-type="2">
+                                            <option selected value="0" disabled>Select criteria</option>
                                             @foreach($gType as $item)
-                                            <option value="{{$item['id']}}">{{$item['name']}}</option>
+                                            <option value="{{$item['id']}}" {{ ( optional($graphLevel)->y_level == $item['id'] )? "selected" : ""}}>{{$item['name']}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -134,6 +220,8 @@
                         </div>
                     </div>
                 </div>
+
+                <input type="button" value="Set" class="btn btn-success" id="gm2Goup_set">
 
             </div>
         </div>
