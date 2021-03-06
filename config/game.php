@@ -64,6 +64,10 @@ return [
                 'id' => 6,
                 'name' => 'Dining Option'
             ],
+            [
+                'id' => 7,
+                'name' => 'types of food'
+            ],
         ],
         'promotion_options' => [
             [

@@ -54,6 +54,7 @@ class IndexController extends Controller
             ->join('restaurants', 'graphs.rest_id', '=', 'restaurants.id')
             ->select('graphs.id as graph_id', 'graphs.rest_id as restaurant_id', 'restaurants.name', 'graphs.graph_point')
             ->where('graph_item_id', $graphItem->id)
+            ->where('level', '1')
             ->get();
 
         $added_restaurant = [];
@@ -61,7 +62,7 @@ class IndexController extends Controller
         if (!is_null($records)) {
             $added_restaurant = $records->pluck('restaurant_id')->all();
         }
-        // set x-axis & y-axis option from config file
+        // get x-axis & y-axis option from config file
         $gType = Config::get('game.game2.options');
 
         return view('game_views.gm2.demo', compact('restaurants', 'records', 'gType', 'added_restaurant'));
