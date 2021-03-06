@@ -10,6 +10,8 @@ use App\Models\GraphItem;
 use App\Models\GraphLevel;
 use App\Models\Restaurant;
 use App\Models\RestaurantGroup;
+use App\Models\RestaurantPoint;
+use App\Models\User;
 use Auth;
 use Config;
 use DB;
@@ -132,5 +134,14 @@ class IndexController extends Controller
         $restaurantGroups = RestaurantGroup::where('user_id',$user_id)->get();
 
         return view('game_views.gm2.admin.set_restaurant',compact('gType','restaurants','restaurantGroups'));
+    }
+
+    public function assignStudent()
+    {
+        $restaurants = Restaurant::all();
+        $students = User::where('type',3)->get();
+        
+        // return $restaurants;
+        return view('game_views.gm2.admin.assign_student',compact('students','restaurants'));
     }
 }

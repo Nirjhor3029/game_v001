@@ -169,4 +169,11 @@ class Gm2AjaxController extends Controller
             'status' => "ok",
         ]);
     }
+
+    public function assignStudent(Request $request)
+    {
+        return response()->json([
+            'status' => "ok",
+        ]);
+    }
 }

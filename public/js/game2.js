@@ -366,7 +366,7 @@ $(document).ready(function() {
 
     function updateRestaurantGroup(restId, groupValue, leader) {
 
-        console.log(leader);
+        // console.log(leader);
 
         $.ajax({
             type: "POST",
@@ -384,7 +384,28 @@ $(document).ready(function() {
         });
     }
 
-    // Set_restaurant
+    // assign_Student
+
+    $(".set").on("click", function(e) {
+        let that = $(this);
+        let parent = that.parents(".restaurant_container");
+        let studentId = parent.find('.student_name').val();
+        let restId = parent.find('.restaurant_select').children("option:selected").val();
+
+        $.ajax({
+            type: "POST",
+            url: "assign_student",
+            data: {
+                studentId: studentId,
+                restId: restId,
+            },
+            success: function(data) {
+                console.log(data);
+                // $(this).prop("disabled", "true");
+                //return;
+            }
+        });
+    });
 
 
 

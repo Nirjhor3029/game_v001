@@ -90,6 +90,7 @@ Route::name('gm2.')->prefix('gm2')->namespace('Gm2')->middleware(['auth:sanctum'
     Route::post('gm2_update_market', [Gm2AjaxController::class,'updateMarket'])->name('gm2_update_market');
     Route::post('admin/gm2_update_group', [Gm2AjaxController::class,'updateGroup'])->name('gm2_update_group');
     Route::post('admin/gm2_update_restaurant_group', [Gm2AjaxController::class,'updateRestaurantGroup'])->name('admin.gm2_update_restaurant_group');
+    Route::post('admin/assign_student', [Gm2AjaxController::class,'assignStudent'])->name('admin.assign_student');
     Route::view('level_table','gm2.level_table');
 
 
@@ -99,6 +100,8 @@ Route::name('gm2.')->prefix('gm2')->namespace('Gm2')->middleware(['auth:sanctum'
     Route::get('admin/set_group',[\App\Http\Controllers\Game\gm2\IndexController::class,'setGroup'])->name('admin.set_group');
 
     Route::get('admin/set_restaurant',[\App\Http\Controllers\Game\gm2\IndexController::class,'setRestaurant'])->name('admin.set_restaurant');
+
+    Route::get('admin/assign_student',[\App\Http\Controllers\Game\gm2\IndexController::class,'assignStudent'])->name('admin.assign_student');
     
     Route::get('admin/user-role',[\App\Http\Controllers\Game\gm2\Gm2AdminController::class,'userRole'])->name('admin.user_role');
 
@@ -130,7 +133,5 @@ Route::get('/test', function (){
 });
 
 Route::get('/migrate', function (){
-    Artisan::call('migrate', [
-        '--path'     => "app/database/migrations"
-        ]);
+    Artisan::call('migrate',);
 });
