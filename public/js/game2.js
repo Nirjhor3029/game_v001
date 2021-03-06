@@ -249,10 +249,13 @@ $(document).ready(function() {
         groupInput.remove();
     });
 
-    // $(document).on("change", '.gm2-row', function(e) {
-    //     let that = $(this);
-    //     let groupInput = that.parents('.group_input');
-    // });
+    $(document).on("change", '.gm2-row', function(e) {
+        let that = $(this);
+        let groupInput = that.parents('.group_input');
+        let groupColumn = groupInput.find(".gm2-column");
+        groupColumn.prop("disabled", false);
+        console.log(groupColumn);
+    });
 
     $(document).on("change", '.gm2-column', function(e) {
         let that = $(this);
