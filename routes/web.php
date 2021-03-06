@@ -97,6 +97,8 @@ Route::name('gm2.')->prefix('gm2')->namespace('Gm2')->middleware(['auth:sanctum'
     Route::get('admin/set_group',[\App\Http\Controllers\Game\gm2\IndexController::class,'setGroup'])->name('admin.set_group');
 
     Route::get('admin/set_restaurant',[\App\Http\Controllers\Game\gm2\IndexController::class,'setRestaurant'])->name('admin.set_restaurant');
+    
+    Route::get('admin/user-role',[\App\Http\Controllers\Game\gm2\Gm2AdminController::class,'userRole'])->name('admin.user_role');
 
 });
 
