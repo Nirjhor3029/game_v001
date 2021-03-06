@@ -103,8 +103,10 @@ $(document).ready(function() {
                     </div>
 
                     <div class="col-md-10">
+                        Number Of Group: 
                         <div class="row">
-                            <select class="form-control" id="gm2_number_of_group">
+
+                            <select class="form-control col-sm-3" id="gm2_number_of_group">
                                 <option value="2">2</option>
                                 <option value="3">3</option>
                                 <option value="4">4</option>

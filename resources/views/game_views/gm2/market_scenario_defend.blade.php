@@ -29,94 +29,21 @@ $restaurants = $graphItems;
     </div>
 
 
+
     <div class="row">
-        <div class="offset-md-3 col-md-6 market_scenario_table_box">
-            <div>
-                <h3 class="text-center">Table 2</h3>
-            </div>
-            <table class="table table-hover table-bordered">
-                <thead>
-                    <tr>
-                        <th scope="col" colspan="4" class="text-center">Cost of Additional Outlet with
-                            everything as it is <br>(in millions)
-                        </th>
-                        <th scope="col" colspan="4" class="text-center">Cost per outlet for offering a new
-                            line
-                            of product / change the quality within the existing setup
-                            <br>(in millions)
-                        </th>
-                    </tr>
-                    <tr>
-                        <th>Type/Area</th>
-                        <th>Tri state Areas</th>
-                        <th>Mid end Area</th>
-                        <th>Low end Areas</th>
-                        <th>Type/Quality</th>
-                        <th>High</th>
-                        <th>Mid</th>
-                        <th>Low</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">Continental/Intl Chain</th>
-                        <td>10</td>
-                        <td>8</td>
-                        <td>6</td>
-                        <th scope="row">Continental/Intl Chain</th>
-                        <td>2</td>
-                        <td>1</td>
-                        <td>1</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Fast Food</th>
-                        <td>5</td>
-                        <td>4</td>
-                        <td>3</td>
-                        <th scope="row">Fast Food</th>
-                        <td>1.5</td>
-                        <td>1</td>
-                        <td>1</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Coffee/Bistro</th>
-                        <td>3</td>
-                        <td>2</td>
-                        <td>1</td>
-                        <th scope="row">Coffee/Bistro</th>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Desi</th>
-                        <td>4</td>
-                        <td>3</td>
-                        <td>2</td>
-                        <th scope="row">Desi</th>
-                        <td>1</td>
-                        <td>0.5</td>
-                        <td>0.5</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="col-sm-12">
+            <h4>Use the template provided in table 2 to complete table 3 for your restaurant and wait for your
+                competitor(s) to make a move!
+            </h4>
         </div>
+        
     </div>
 
     <div class="row">
-        <h4>Use the template provided in table 2 to complete table 3 for your restaurant and wait for your
-            competitor(s) to make a move!
-        </h4>
-    </div>
-
-
-
-
-    <div class="row">
-
 
         <!-- Attack -->
-        <div class="col-md-6">
+        <div class="col-md-6 attack_box">
+
             <div class="card gm2_card_rest">
                 <div class="card-header gm2_card_header" style="background-color: <?php echo $colors[rand(0,2)] ?>;">
                     <div class="row">
@@ -128,7 +55,7 @@ $restaurants = $graphItems;
                         </div>
                         <div class="col-sm-4 go-right">
                             <span class="gm2-total-text">Total: </span>
-                            <span class="gm2-total-value">0</span>
+                            <span class="gm2-total-value">21</span>
                         </div>
                     </div>
 
@@ -137,7 +64,7 @@ $restaurants = $graphItems;
                     <div class="row">
                         <div class="col-sm-4"></div>
                         <div class="col-sm-4 ">Attack</div>
-                        <div class="col-sm-4 ">Defend</div>
+                        
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-4">
@@ -147,9 +74,7 @@ $restaurants = $graphItems;
                         <div class="col-sm-4">
                             <input type="number" class="form-control" id="" readonly value="10">
                         </div>
-                        <div class="col-sm-4">
-                            <input type="number" class="form-control" id="">
-                        </div>
+                       
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-4">
@@ -159,9 +84,7 @@ $restaurants = $graphItems;
                         <div class="col-sm-4">
                             <input type="number" class="form-control" id="" readonly value="0">
                         </div>
-                        <div class="col-sm-4">
-                            <input type="number" class="form-control" id="">
-                        </div>
+                       
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-4">
@@ -170,9 +93,7 @@ $restaurants = $graphItems;
                         <div class="col-sm-4">
                             <input type="number" class="form-control" id="" readonly value="2">
                         </div>
-                        <div class="col-sm-4">
-                            <input type="number" class="form-control" id="">
-                        </div>
+                       
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-4">
@@ -181,9 +102,7 @@ $restaurants = $graphItems;
                         <div class="col-sm-4">
                             <input type="number" class="form-control" id="" readonly value="4">
                         </div>
-                        <div class="col-sm-4">
-                            <input type="number" class="form-control" id="">
-                        </div>
+                        
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-4">
@@ -192,6 +111,313 @@ $restaurants = $graphItems;
                         <div class="col-sm-4">
                             <input type="number" class="form-control" id="" readonly value="5">
                         </div>
+                       
+                    </div>
+
+
+                </div>
+            </div>
+
+
+
+            <div class="card gm2_card_rest">
+                <div class="card-header gm2_card_header" style="background-color: <?php echo $colors[rand(0,2)] ?>;">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <?php 
+                                // $item = Restaurant::find($restaurant->rest_id);
+                            ?>
+                            Burger King
+                        </div>
+                        <div class="col-sm-4 go-right">
+                            <span class="gm2-total-text">Total: </span>
+                            <span class="gm2-total-value">21</span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-4"></div>
+                        <div class="col-sm-4 ">Attack</div>
+                        
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <label for="" class="col-form-label">Discount within
+                                store</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" id="" readonly value="10">
+                        </div>
+                       
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <label for="" class="col-form-label">Discount through Delivery
+                                services</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" id="" readonly value="0">
+                        </div>
+                       
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <label for="" class="col-form-label">Advertising through social media</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" id="" readonly value="2">
+                        </div>
+                       
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <label for="" class="col-form-label">Branding</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" id="" readonly value="4">
+                        </div>
+                        
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <label for="" class="col-form-label">Other</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" id="" readonly value="5">
+                        </div>
+                       
+                    </div>
+
+
+                </div>
+            </div>
+
+
+            <div class="card gm2_card_rest">
+                <div class="card-header gm2_card_header" style="background-color: <?php echo $colors[rand(0,2)] ?>;">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <?php 
+                                // $item = Restaurant::find($restaurant->rest_id);
+                            ?>
+                            Burger King
+                        </div>
+                        <div class="col-sm-4 go-right">
+                            <span class="gm2-total-text">Total: </span>
+                            <span class="gm2-total-value">21</span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-4"></div>
+                        <div class="col-sm-4 ">Attack</div>
+                        
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <label for="" class="col-form-label">Discount within
+                                store</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" id="" readonly value="10">
+                        </div>
+                       
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <label for="" class="col-form-label">Discount through Delivery
+                                services</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" id="" readonly value="0">
+                        </div>
+                       
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <label for="" class="col-form-label">Advertising through social media</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" id="" readonly value="2">
+                        </div>
+                       
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <label for="" class="col-form-label">Branding</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" id="" readonly value="4">
+                        </div>
+                        
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <label for="" class="col-form-label">Other</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" id="" readonly value="5">
+                        </div>
+                       
+                    </div>
+
+
+                </div>
+            </div>
+
+
+            <div class="card gm2_card_rest">
+                <div class="card-header gm2_card_header" style="background-color: <?php echo $colors[rand(0,2)] ?>;">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <?php 
+                                // $item = Restaurant::find($restaurant->rest_id);
+                            ?>
+                            Burger King
+                        </div>
+                        <div class="col-sm-4 go-right">
+                            <span class="gm2-total-text">Total: </span>
+                            <span class="gm2-total-value">21</span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-4"></div>
+                        <div class="col-sm-4 ">Attack</div>
+                        
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <label for="" class="col-form-label">Discount within
+                                store</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" id="" readonly value="10">
+                        </div>
+                       
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <label for="" class="col-form-label">Discount through Delivery
+                                services</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" id="" readonly value="0">
+                        </div>
+                       
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <label for="" class="col-form-label">Advertising through social media</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" id="" readonly value="2">
+                        </div>
+                       
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <label for="" class="col-form-label">Branding</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" id="" readonly value="4">
+                        </div>
+                        
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <label for="" class="col-form-label">Other</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" id="" readonly value="5">
+                        </div>
+                       
+                    </div>
+
+
+                </div>
+            </div>
+
+
+            
+        </div>
+
+
+
+
+
+         <!-- Defend -->
+         <div class="col-md-6">
+            <div class="card gm2_card_rest defend_card">
+                <div class="card-header gm2_card_header" style="background-color: #00e5ff;">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <?php 
+                                // $item = Restaurant::find($restaurant->rest_id);
+                            ?>
+                            Pizza Hut
+                        </div>
+                        <div class="col-sm-4 go-right">
+                            <span class="gm2-total-text">Total: </span>
+                            <span class="gm2-total-value">0</span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-4"></div>
+                        <div class="col-sm-4 ">Defend</div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <label for="" class="col-form-label">Discount within
+                                store</label>
+                        </div>
+                        
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" id="">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <label for="" class="col-form-label">Discount through Delivery
+                                services</label>
+                        </div>
+                        
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" id="">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <label for="" class="col-form-label">Advertising through social media</label>
+                        </div>
+                       
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" id="">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <label for="" class="col-form-label">Branding</label>
+                        </div>
+                       
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" id="">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <label for="" class="col-form-label">Other</label>
+                        </div>
+                        
                         <div class="col-sm-4">
                             <input type="number" class="form-control" id="">
                         </div>

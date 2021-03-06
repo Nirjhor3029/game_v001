@@ -8,6 +8,9 @@ use App\Models\Restaurant;
 
 $restaurants = $graphs;
 $colors = ["#4AD179", "#ED375D", "#FE8400"];
+
+    $groups = ["group_1","group_2","group_3","group_4",];
+
     
 ?>
 
@@ -295,6 +298,27 @@ $colors = ["#4AD179", "#ED375D", "#FE8400"];
                             <input type="number" value="0" class="form-control-sm form-control competitors_move">
                         </div>
                     </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            Attack on group:
+                            
+                        </div>
+                        <div class="col-sm-6">
+                        @foreach($groups as $group)
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="" name="attack_group" value="{{$group}}">
+                            <label class="form-check-label" for="">{{$group}}</label>
+                        </div>
+                        @endforeach
+                        </div>
+                        <div class="col-sm-2">
+                            
+                            <input type="submit" value="Attack" class="  btn btn-success">
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
         </div>
