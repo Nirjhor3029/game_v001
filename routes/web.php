@@ -86,7 +86,8 @@ Route::name('gm2.')->prefix('gm2')->namespace('Gm2')->middleware(['auth:sanctum'
             'subcategories' => $subcategories
         ]);
     })->name('subcat');
-    Route::view('graph_view','gm2.graph');
+    Route::get('user_graph',[\App\Http\Controllers\Gm2\GamePageController::class,'show_users_graph']);
+    Route::post('add_user_graph',[\App\Http\Controllers\Gm2\GamePageController::class,'add_users_graph']);
     Route::post('gm2_update_market', [Gm2AjaxController::class,'updateMarket'])->name('gm2_update_market');
     Route::post('admin/gm2_update_group', [Gm2AjaxController::class,'updateGroup'])->name('gm2_update_group');
     Route::post('admin/gm2_update_restaurant_group', [Gm2AjaxController::class,'updateRestaurantGroup'])->name('admin.gm2_update_restaurant_group');
@@ -99,8 +100,9 @@ Route::name('gm2.')->prefix('gm2')->namespace('Gm2')->middleware(['auth:sanctum'
     Route::get('admin/set_group',[\App\Http\Controllers\Game\gm2\IndexController::class,'setGroup'])->name('admin.set_group');
 
     Route::get('admin/set_restaurant',[\App\Http\Controllers\Game\gm2\IndexController::class,'setRestaurant'])->name('admin.set_restaurant');
-    
+
     Route::get('admin/user-role',[\App\Http\Controllers\Game\gm2\Gm2AdminController::class,'userRole'])->name('admin.user_role');
+    Route::get('admin/user-manage/{id}',[\App\Http\Controllers\Game\gm2\Gm2AdminController::class,'userManage'])->name('admin.user_manage');
 
 });
 

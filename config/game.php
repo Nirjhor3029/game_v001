@@ -27,11 +27,11 @@ return [
     'type' =>[
         [
             'id' => 1,
-            'name' => 'school'
+            'name' => 'admin'
         ],
         [
             'id' => 2,
-            'name' => 'organization'
+            'name' => 'teacher'
         ],
         [
             'id' => 1,

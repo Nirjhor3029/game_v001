@@ -16,4 +16,9 @@ class Gm2AdminController extends Controller
         $users = User::all();
         return view('game_views.gm2.admin.user_role', compact('users'));;
     }
+
+    public function userManage()
+    {
+
+    }
 }

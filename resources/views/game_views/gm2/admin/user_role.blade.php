@@ -18,41 +18,41 @@
                 <div class="card-body">
                     <table id="example1" class="table table-bordered table-striped">
                         <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th>Name</th>
-                                <th>Role</th>
-                                <th>Manage</th>
+                        <tr>
+                            <th>No.</th>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Manage</th>
 
-                            </tr>
+                        </tr>
                         </thead>
                         <tbody>
-                            @foreach ($users as $key => $user)
-                                <tr>
-                                    <td>{{ $key }}</td>
-                                    <td>
-                                        {{ $user->name }}
-                                    </td>
-                                    <td>
-                                        {{-- {{ $user->name }} --}}
-                                    </td>
-                                    <td>
-                                        <a class="btn btn-app" href="{{ route('user-manage', ['id' => 1]) }}">
-                                            <i class="fas fa-edit"></i> Edit
-                                        </a>
-                                    </td>
-                                </tr>
-                            @endforeach
+                        @foreach ($users as $key => $user)
+                            <tr>
+                                <td>{{ $key }}</td>
+                                <td>
+                                    {{ $user->name }}
+                                </td>
+                                <td>
+                                    {{-- {{ $user->name }} --}}
+                                </td>
+                                <td>
+                                    <a class="btn btn-app" href="{{ route('gm2.admin.user_manage', ['id' => 1]) }}">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
 
 
                         </tbody>
                         <tfoot>
-                            <tr>
-                                <th>No.</th>
-                                <th>Name</th>
-                                <th>Role</th>
-                                <th>Manage</th>
-                            </tr>
+                        <tr>
+                            <th>No.</th>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Manage</th>
+                        </tr>
                         </tfoot>
                     </table>
                 </div>
@@ -66,7 +66,7 @@
 
 
     <script>
-        $(function() {
+        $(function () {
             $("#example1").DataTable({
                 "responsive": true,
                 "lengthChange": false,
@@ -84,8 +84,8 @@
             });
         });
 
-    @endsection
+@endsection
 
-    @push('js')
+@push('js')
 
-    @endpush
+@endpush
