@@ -69,10 +69,12 @@
                 let row = (String(point).slice(0, 1)) - 1;
                 let col = (String(point).slice(-1)) - 1;
                 $('.dragdrop_graph tr').eq(row).children(':eq(' + col + ')').append(
-                    '<div data-tag="' + ele.id + '" data-name="' + ele.name +
+                    '<div class="selected_div" data-tag="' + ele.id + '" data-name="' + ele.name +
                     '"><span class="">' +
                     titleCase(ele.name) + '</span></div>');
             });
+
+            $(".selected_div").parent('.empty2').addClass("selected_td");
         });
     </script>
 

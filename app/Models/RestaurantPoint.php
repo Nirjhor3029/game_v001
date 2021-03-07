@@ -11,12 +11,12 @@ class RestaurantPoint extends Model
 
     public function restaurant()
     {
-        return $this->belongsTo(Restaurant::class);
+        return $this->belongsTo(Restaurant::class,'res_id','id');
     }
 
     public function restaurantGroup()
     {
-        return $this->belongsTo(RestaurantGroup::class);
+        return $this->belongsTo(RestaurantGroup::class,'res_group_id','id');
     }
 
 }

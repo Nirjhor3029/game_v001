@@ -113,4 +113,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(StartGame::class);
     }
+
+    public function restaurantUser()
+    {
+        return $this->hasMany(RestaurantUser::class);
+
+    }
 }

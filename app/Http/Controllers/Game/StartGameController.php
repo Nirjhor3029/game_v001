@@ -11,6 +11,7 @@ use Auth;
 use Exception;
 use Session;
 use DB;
+use Redirect;
 
 class StartGameController extends Controller
 {
@@ -42,6 +43,7 @@ class StartGameController extends Controller
      */
     public function store(Request $request)
     {
+
 
         $userId = Auth::guard('web')->user()->id;
 
@@ -90,6 +92,40 @@ class StartGameController extends Controller
         }
 
         return redirect('overview');
+    }
+
+    public function startGame2(Request $request)
+    {
+        
+
+        $userId = Auth::guard('web')->user()->id;
+
+        DB::beginTransaction();
+        try {
+
+            $game = StartGame::where('user_id',$userId)->latest('created_at')->first();
+            // dd ($game);
+
+            /*
+                Null check for new registered users
+            */
+            if(is_null($game) || (!is_null($game) && $game->status)){
+                // dd("new");
+                $obj = new StartGame();
+                $obj->user_id = Auth::guard('web')->user()->id;
+                $obj->save();
+            }else{
+                // dd("old");
+                $obj = $game;
+            }
+            Session::put('game_id', $obj->id);
+            DB::commit();
+        } catch (Exception $ex) {
+            DB::rollBack();
+            return $ex->getMessage();
+        }
+
+        return redirect()->route('gm2.strategic_group');
     }
 
     // Game submit-end game

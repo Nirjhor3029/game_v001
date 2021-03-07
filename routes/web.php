@@ -36,7 +36,8 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 
 
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
-    Route::post('start-the-game', [\App\Http\Controllers\Game\StartGameController::class, 'store'])->name('start_the_game');
+    // Route::post('start-the-game', [\App\Http\Controllers\Game\StartGameController::class, 'store'])->name('start_the_game');
+    
     Route::get('submit-game', [\App\Http\Controllers\Game\StartGameController::class, 'submitGame'])->name('submitGame');
 
     Route::get('overview', [\App\Http\Controllers\GamePageController::class, 'overview'])->name('overview');
@@ -73,6 +74,9 @@ Route::view('/demo', 'demo', ['options' => $restaurant]);
 
 // added robin hossain
 Route::name('gm2.')->prefix('gm2')->namespace('Gm2')->middleware(['auth:sanctum', 'verified'])->group(function () {
+
+    Route::post('start-the-game', [\App\Http\Controllers\Game\StartGameController::class, 'startGame2'])->name('startGame2');
+
     Route::get('overview', [\App\Http\Controllers\Gm2\GamePageController::class, 'overview']);
 
     // Route::view('/graph', 'gm2.market_scenario');
@@ -93,7 +97,7 @@ Route::name('gm2.')->prefix('gm2')->namespace('Gm2')->middleware(['auth:sanctum'
             'subcategories' => $subcategories
         ]);
     })->name('subcat');
-    Route::get('user_graph', [\App\Http\Controllers\Gm2\GamePageController::class, 'show_users_graph']);
+    Route::get('user_graph', [\App\Http\Controllers\Gm2\GamePageController::class, 'show_users_graph'])->name('user_graph');
     Route::post('add_user_graph', [\App\Http\Controllers\Gm2\GamePageController::class, 'add_users_graph']);
     Route::post('gm2_update_market', [Gm2AjaxController::class, 'updateMarket'])->name('gm2_update_market');
 
@@ -103,6 +107,8 @@ Route::name('gm2.')->prefix('gm2')->namespace('Gm2')->middleware(['auth:sanctum'
     Route::post('admin/assign_student', [Gm2AjaxController::class, 'assignStudent'])->name('admin.assign_student');
     Route::post('set_student_criteria', [Gm2AjaxController::class, 'setStudentCriteria'])->name('set_student_criteria');
     Route::post('user_set_group', [Gm2AjaxController::class, 'userSetGroup'])->name('user_set_group');
+
+    Route::post('defend_market', [IndexController::class, 'defendMarket'])->name('defend_market');
 
 
     Route::view('level_table', 'gm2.level_table');
@@ -129,14 +135,14 @@ Route::name('gm2.')->prefix('gm2')->namespace('Gm2')->middleware(['auth:sanctum'
 
 // added by nirjhor
 
-Route::prefix('gm2')->middleware(['auth:sanctum', 'verified'])->group(function () {
+Route::name('gm2.')->prefix('gm2')->middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/drag', function () {
         $options = FinancialOptions::select(['title', 'value'])->whereStatus(0)->get();
         return view('game_views.drag', compact('options'));
     });
 
     Route::get('/', [\App\Http\Controllers\Game\gm2\IndexController::class, 'index']);
-    Route::get('/strategic_group ', [\App\Http\Controllers\Game\gm2\IndexController::class, 'strategic_group']);
+    Route::get('/strategic_group', [\App\Http\Controllers\Game\gm2\IndexController::class, 'strategic_group'])->name("strategic_group");
     Route::get('/marketing_strategy ', [\App\Http\Controllers\Game\gm2\IndexController::class, 'marketing_strategy']);
     Route::get('/development_of_strategic_group', [\App\Http\Controllers\Game\gm2\IndexController::class, 'development_of_strategic_group']);
     Route::get('/game', [\App\Http\Controllers\Game\gm2\IndexController::class, 'game']);

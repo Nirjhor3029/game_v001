@@ -7,9 +7,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Graph;
 use App\Models\GraphItem;
 use App\Models\Cost;
+use App\Models\Gm2MarketPromotion;
 use App\Models\GraphLevel;
+use App\Models\Market;
 use App\Models\Restaurant;
 use App\Models\RestaurantGroup;
+use App\Models\RestaurantPoint;
 use App\Models\RestaurantUser;
 use Config;
 use DB;
@@ -46,31 +49,81 @@ class GamePageController extends Controller
         // return $graphs;
 
         $resturentUser = RestaurantUser::where('user_id',$user_id)->first();
-        $restaurant = Restaurant::where('id',optional($resturentUser)->restaurant_id)->get();
+        
         // return $restaurant;
 
-        $restaurantGroups = RestaurantGroup::all();
+        $resGroup = RestaurantPoint::where('res_id',optional($resturentUser)->restaurant_id)->with('restaurant','restaurantGroup')->first();
+
+        $investment = config('game.game2.asset.invest');
+
+        
+        $restaurantGroups = RestaurantGroup::whereNotIn('id',[optional($resGroup)->res_group_id])->get();
+
+// dd($restaurantGroups);
+// return $resGroup->restaurant->name;
+
+        
+
+    if(isset($resGroup)){
+        $userInfo = [
+            "student_id"=> Auth::user()->id,
+            "assigned_res_id"=> $resGroup->restaurant->id,
+            "assigned_group_id"=> $resGroup->restaurantGroup->id,
+        ];
+        session(["student_info"=>$userInfo]);
+        // $session = Session::all();
+        // return $session;
+        return view("game_views.gm2.market_scenario_2", compact('typeArea', 'typeQuantity', 'resGroup','restaurantGroups','investment'));
+    }else{
+        return view("game_views.gm2.market_scenario_1");
+    }
+        
 
 
-        return view("game_views.gm2.market_scenario_2", compact('typeArea', 'typeQuantity', 'restaurant','restaurantGroups'));
+        
     }
 
     public function market_scenario_defend()
     {
         $user_id = Auth::user()->id;
-        $typeArea = Cost::where('parent_id', 0)->whereType(1)->get();
-        $typeQuantity = Cost::where('parent_id', 0)->whereType(2)->get();
-        $graphItems = Graph::all();
 
-        $restaurantUser = RestaurantUser::where('user_id',$user_id)->first();
-        $restaurant = Restaurant::find(optional($restaurantUser)->restaurant_id);
-        // return $restaurant;
-        // return $costs;
-        return view("game_views.gm2.market_scenario_defend", compact('typeArea', 'typeQuantity', 'graphItems'));
+        $student_info = session('student_info');
+        $assigned_res_id = $student_info['assigned_res_id'];
+        $assigned_group_id = $student_info['assigned_group_id'];
+
+        $resUser = RestaurantUser::where('rest_group_id',$assigned_group_id)->get();
+        if($resUser->isEmpty()){
+            return view("game_views.gm2.market_scenario_defend_empty");
+        }
+        $res_ids = $resUser->pluck('restaurant_id')->all();
+        // return $res_ids;
+        
+
+        $attackMarkets = Market::whereIn('restaurant_id',$res_ids)
+        ->with('restaurant')
+        ->with('marketCost.gm2MarketPromotion', function ($query) {
+            $query->where('mode','=','1');
+        })
+        ->get();
+
+        $defendMarket = Market::where(['user_id'=>$user_id,'restaurant_id'=>$assigned_res_id])->with('marketCost','restaurant')->first();
+
+        $defendMarketPromotions= null;
+        $defendMarketPromotions = Gm2MarketPromotion::where('market_cost_id',optional($defendMarket)->marketCost[0]->id)->where('mode',2)->get();
+        // return ($defendCost->marketCost[0]->competitors_move);
+        // return ($attackMarkets[0]->marketCost[0]->gm2MarketPromotion[0]->value);
+
+        // return $defendMarketPromotions;
+        // return $defendMarket;
+
+        $promotions = config('game.game2.promotion_options');
+        return view("game_views.gm2.market_scenario_defend", compact('attackMarkets','defendMarket','promotions','defendMarketPromotions'));
     }
 
     public function show_users_graph()
     {
+        $user_id = Auth::user()->id;
+        $teacher_id = RestaurantUser::where('user_id',$user_id)->select('teacher_id')->first();
         // check graph item set on this user
         $graphItem = GraphItem::where(['user_id' => Auth::guard('web')->user()->id, 'session_id' => Session::getId()])->get()->first();
         if (is_null($graphItem)) {
@@ -86,8 +139,9 @@ class GamePageController extends Controller
             ->where('graph_item_id', $graphItem->id)
             ->where('level', '2')
             ->get();
-        $rest_groups = RestaurantGroup::where('user_id', Auth::user()->id)->get();
-        $graph_level = GraphLevel::where('user_id', Auth::user()->id)->get()->first();
+        $rest_groups = RestaurantGroup::where('user_id', $teacher_id->teacher_id)->get();
+        $graph_level = GraphLevel::where('user_id', $teacher_id->teacher_id)->get()->first();
+        // return $teacher_id->teacher_id;
         // get all restaurant
         $restaurants = \App\Models\Restaurant::get();
         // get x-axis & y-axis option from config file

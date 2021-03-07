@@ -3,8 +3,8 @@
 @section('content')
 
 <?php
-use App\Models\Restaurant;
-$restaurants = $restaurant;
+
+// $restaurants = $restaurant;
 $colors = ["#4AD179", "#ED375D", "#FE8400"];
 $groups = ["group_1","group_2","group_3","group_4",];
 
@@ -114,16 +114,19 @@ $groups = ["group_1","group_2","group_3","group_4",];
     <div class="row">
 
 
-        @foreach($restaurants as $restaurant)
         <div class="col-md-6">
             <div class="card gm2_card_rest">
                 <div class="card-header gm2_card_header" style="background-color: <?php echo $colors[rand(0,2)] ?>;">
                     <div class="row">
-                        <div class="col-sm-8">
-                            {{$restaurant->name}} ()
-                            <input type="number" name="rest_id" class="rest_id" value="{{$restaurant->id}}" hidden>
+                        <div class="col-sm-6">
+                            {{$resGroup->restaurant->name}} ({{$resGroup->restaurantGroup->name}})
+                            <input type="number" name="rest_id" class="rest_id" value="{{$resGroup->restaurant->id}}" hidden>
                         </div>
-                        <div class="col-sm-4 go-right">
+                        <div class="col-sm-3 go-right">
+                            <span class="gm2-total-text">Max: </span>
+                            <span class="">{{$investment}}</span>
+                        </div>
+                        <div class="col-sm-3 go-right">
                             <span class="gm2-total-text">Total: </span>
                             <span class="gm2-total-value">0</span>
                         </div>
@@ -131,6 +134,11 @@ $groups = ["group_1","group_2","group_3","group_4",];
 
                 </div>
                 <div class="card-body">
+
+                    <div class="" id="alert_invest">
+                        
+                    </div>
+
                     <div class="row inputField_row">
                         <div class="col-md-3">
                             Area
@@ -317,7 +325,6 @@ $groups = ["group_1","group_2","group_3","group_4",];
             </div>
         </div>
 
-        @endforeach
 
 
     </div>

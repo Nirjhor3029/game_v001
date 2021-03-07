@@ -8,7 +8,7 @@
     <x-slot name="header">
         {{-- <h2 class="font-semibold text-xl text-gray-800 leading-tight">
 
-            {{Form::open(['route'=>'start_the_game','method'=>'POST','style'=>'display:inline;'])}}
+            {{Form::open(['route'=>'startGame2','method'=>'POST','style'=>'display:inline;'])}}
             <button class="btn btn-primary">Start the Game</button>
             {{Form::close()}}
         </h2> --}}
@@ -46,7 +46,7 @@
 
                 <div class="bg-gray-200 bg-opacity-25 grid grid-cols-1 md:grid-cols-2">
                     <div class="p-6 paddin-30">
-                        {{Form::open(['route'=>'start_the_game','method'=>'POST','style'=>'display:inline;'])}}
+                        {{Form::open(['route'=>'gm2.startGame2','method'=>'POST','style'=>'display:inline;'])}}
                         <button class="btn btn-primary">Start the Game</button>
                         {{Form::close()}}
                     </div>

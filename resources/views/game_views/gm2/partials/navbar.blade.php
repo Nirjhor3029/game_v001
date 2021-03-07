@@ -37,6 +37,11 @@ $navbars = Navbar::orderBy('priority')->get();
             </a>
         </li>
         <li>
+            <a href="{{route('gm2.user_graph')}}">
+                game2
+            </a>
+        </li>
+        <li>
             <a href="{{route('gm2.market_scenario')}}">
                 market scenario
             </a>
@@ -54,7 +59,7 @@ $navbars = Navbar::orderBy('priority')->get();
                 <a class="dropdown-item" href="#">Dashboard</a>
                 <a class="dropdown-item" href="#">Edit Profile</a>
                 <form method="POST" action="{{route('logout')}}">
-                    <input type="hidden" name="_token" value="zGR9vq1weRxS2fuOfnuH4wcTnuwR4ZvuJm36bjDs">
+                        @csrf
                         <a class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out" href="{{route('logout')}}" onclick="event.preventDefault();this.closest('form').submit();">Logout</a>
                 </form>
             </div>

@@ -91,5 +91,9 @@ return [
                 'name' => 'other'
             ],
         ],
+
+        'asset' => [
+            'invest' => 20,
+        ],
     ]
 ];

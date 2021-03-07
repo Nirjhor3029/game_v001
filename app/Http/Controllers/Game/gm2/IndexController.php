@@ -5,17 +5,21 @@ namespace App\Http\Controllers\Game\gm2;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Navbar;
 use App\Models\CriteriaCombination;
+use App\Models\Gm2MarketPromotion;
 use App\Models\Graph;
 use App\Models\GraphItem;
 use App\Models\GraphLevel;
 use App\Models\Restaurant;
 use App\Models\RestaurantGroup;
 use App\Models\RestaurantPoint;
+use App\Models\RestaurantUser;
 use App\Models\User;
 use Auth;
+use Barryvdh\Reflection\DocBlock\Type\Collection;
 use Config;
 use DB;
 use Illuminate\Http\Request;
+use Redirect;
 use Session;
 
 class IndexController extends Controller
@@ -144,15 +148,57 @@ class IndexController extends Controller
     public function assignStudent()
     {
         
-        $students = User::where('type',3)->get();
+        $students = User::where('type',3)->with('restaurantUser')->get();
+        // return $students[0]->restaurantUser[0]->restaurant_id;
 
-        $restaurantPoints = RestaurantPoint::where('leader',1)->get()->toArray();
+        $restaurantPoints = RestaurantPoint::with(['restaurant','restaurantGroup'])->where('leader',1)->get();
+        $restaurantUsers = RestaurantUser::all();
+
+        $restaurants = [];
+        foreach ($restaurantPoints as $key => $item) {
+            $restaurants[] = [
+                "res_id" => $item->res_id,
+                "res_name" => $item->restaurant->name,
+                "group_id" => $item->res_group_id,
+                "group_name" => $item->restaurantGroup->name,
+            ];
+        }
+
+
+
+        // $restaurants = collect($restaurants) ;
+        // dd ($restaurants);
         
         // $restaurants = Restaurant::all();
-        $restaurants = Restaurant::whereIn('id',$restaurantPoints)->get();
-        // return $restaurantPoints;
+  
+        // dd($restaurantPoints[0]) ;
 
         // return $restaurants;
-        return view('game_views.gm2.admin.assign_student',compact('students','restaurants'));
+        return view('game_views.gm2.admin.assign_student',compact('students','restaurants','restaurantUsers'));
+    }
+
+
+    public function defendMarket(Request $request)
+    {
+        $mode = 2; //defend mode =2
+        
+        $promotionIds = $request->promotion_ids;
+
+        $marketCostId = $request->market_cost_id;
+        $previousPormotionCost = Gm2MarketPromotion::where(['market_cost_id'=>$marketCostId,"mode"=>$mode])->delete();
+        
+        foreach ($promotionIds as $key => $id) {
+            $promotionCost = new Gm2MarketPromotion();
+            $promotionCost->market_cost_id = $marketCostId;
+            $promotionCost->promotion_id = $id;
+            $promotionCost->value = $request->promotion_values[$key];
+            $promotionCost->mode = $mode;
+            $promotionCost->save();
+        }
+        
+        // return $request;
+        $request->session()->flash('alert-success', 'Defend Succesfull');
+        return Redirect::back();
+
     }
 }

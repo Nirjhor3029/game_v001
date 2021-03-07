@@ -454,6 +454,30 @@ $(document).ready(function() {
     });
 
 
+    // Market Scenario defend page
+    $(".defends_option").on("change", function(e) {
+        console.log("changed");
+        let that = $(this);
+        let parent = that.parents(".card");
+        let total = 0;
+        let inputs = parent.find(".defends_option").each(function(index) {
+            let item = parseInt($(this).val());
+            total += item;
+        });
+
+        // total = parseInt(inputs[0].value) + parseInt(inputs[1].value) + parseInt(inputs[2].value) + parseInt(inputs[3].value) + parseInt(inputs[4].value);
+
+        parent.find(".gm2-total-value").text(total);
+        let defendCost = parseInt(parent.find("#defend_cost").text());
+        if (defendCost < total) {
+            alert("You Crossed Your Defend Budget: " + defendCost);
+            that.val(0);
+        }
+
+
+        console.log(defendCost);
+    })
+
 
 });
 

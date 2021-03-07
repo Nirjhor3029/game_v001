@@ -173,6 +173,7 @@ class Gm2AjaxController extends Controller
 
     public function assignStudent(Request $request)
     {
+        $teacher_id = Auth::user()->id;
 
         $userId = $request->input('studentId');
         $restId = $request->input('restId');
@@ -186,7 +187,10 @@ class Gm2AjaxController extends Controller
             $restaurantUser = $restaurantUser[0];
         }
         $restaurantUser->restaurant_id = $restId;
+        $restaurantUser->teacher_id = $teacher_id;
         $restaurantUser->save();
+
+        
         
         return response()->json([
             'status' => "ok",
@@ -234,4 +238,6 @@ class Gm2AjaxController extends Controller
             'status' => "Ok",
         ]);
     }
+
+    
 }

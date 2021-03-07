@@ -13,8 +13,10 @@ class RestaurantGroup extends Model
     {
         return $this->hasMany(MarketCost::class, 'market_id', 'id');
     }
+
+
     public function restaurantPoint()
     {
-        return $this->hasMany(RestaurantPoint::class, 'res_group_id', 'id');
+        return $this->hasMany(RestaurantPoint::class,'id','res_group_id' );
     }
 }
