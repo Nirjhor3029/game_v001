@@ -68,12 +68,12 @@ Route::view('/demo', 'demo', ['options' => $restaurant]);
 Route::name('gm2.')->prefix('gm2')->namespace('Gm2')->middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('overview', [\App\Http\Controllers\Gm2\GamePageController::class, 'overview']);
 
-    Route::view('/graph', 'gm2.market_scenario');
+    // Route::view('/graph', 'gm2.market_scenario');
 
-    Route::get('market_scenario_2', [\App\Http\Controllers\Gm2\GamePageController::class, 'market_scenario_2']);
+    Route::get('market_scenario', [\App\Http\Controllers\Gm2\GamePageController::class, 'market_scenario_2'])->name("market_scenario");
     Route::get('market_scenario_defend', [\App\Http\Controllers\Gm2\GamePageController::class, 'market_scenario_defend'])->name('market_scenario_defend');
 
-    Route::view('/market_scenario', 'gm2.market_scenario');
+    // Route::view('/market_scenario', 'gm2.market_scenario');
 
     Route::post('subcat', function (Request $request) {
         // dd($request->all());
@@ -91,7 +91,12 @@ Route::name('gm2.')->prefix('gm2')->namespace('Gm2')->middleware(['auth:sanctum'
     Route::post('admin/gm2_update_group', [Gm2AjaxController::class,'updateGroup'])->name('gm2_update_group');
     Route::post('admin/gm2_update_restaurant_group', [Gm2AjaxController::class,'updateRestaurantGroup'])->name('admin.gm2_update_restaurant_group');
     Route::post('admin/assign_student', [Gm2AjaxController::class,'assignStudent'])->name('admin.assign_student');
+    Route::post('set_student_criteria', [Gm2AjaxController::class,'setStudentCriteria'])->name('set_student_criteria');
+    Route::post('user_set_group', [Gm2AjaxController::class,'userSetGroup'])->name('user_set_group');
+
+
     Route::view('level_table','gm2.level_table');
+    Route::view('result','gm2.result');
 
 
     Route::get('admin/criteria_combination',[\App\Http\Controllers\Game\gm2\IndexController::class,'criteria_combination'])->name('admin.criteria_combination');

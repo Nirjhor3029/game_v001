@@ -208,7 +208,7 @@ $(document).ready(function() {
         let numberOfBox = that.find(':selected').val();
         let gm2_select_group_txt = $('#gm2_select_group_txt');
         let empty2 = $('.empty2');
-        gm2_select_group_txt.text("Select " + numberOfBox + " Boxes from Chart.");
+        gm2_select_group_txt.text("Select " + numberOfBox + " boxes from the chart.");
         empty2.addClass("jquery_dragdrop_box");
         empty2.removeClass("droppable");
         // $('.empty2').addClass("jquery_droppable");
@@ -398,6 +398,52 @@ $(document).ready(function() {
             data: {
                 studentId: studentId,
                 restId: restId,
+            },
+            success: function(data) {
+                console.log(data);
+                // $(this).prop("disabled", "true");
+                //return;
+            }
+        });
+    });
+
+
+    // Game page
+    $(".ajx_select_criteria").on("change", function(e) {
+
+        let xAxis = $('#x-axis').children("option:selected").val()
+        let yAxis = $('#y-axis').children("option:selected").val()
+
+
+        $.ajax({
+            type: "POST",
+            url: "set_student_criteria",
+            data: {
+                xAxis: xAxis,
+                yAxis: yAxis,
+            },
+            success: function(data) {
+                console.log(data);
+                // $(this).prop("disabled", "true");
+                //return;
+            }
+        });
+    });
+
+    // market_scenario page
+    $(".attack").on("click", function(e) {
+
+        let group = $('input[name="attack_group"]:checked').val();
+        let rest_id = $('.rest_id').val();
+        // console.log(group);
+
+
+        $.ajax({
+            type: "POST",
+            url: "user_set_group",
+            data: {
+                group: group,
+                rest_id: rest_id,
             },
             success: function(data) {
                 console.log(data);
