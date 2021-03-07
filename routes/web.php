@@ -24,7 +24,14 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
+    $user_type = Auth::user()->type; //1=admin,2=teacher,3=student
+    if($user_type == 2){
+        return view('game_views.gm2.admin.dashboard');
+    }else{
+        return view('dashboard');
+    }
+    // return $user_type;
+    
 })->name('dashboard');
 
 
@@ -89,6 +96,8 @@ Route::name('gm2.')->prefix('gm2')->namespace('Gm2')->middleware(['auth:sanctum'
     Route::get('user_graph', [\App\Http\Controllers\Gm2\GamePageController::class, 'show_users_graph']);
     Route::post('add_user_graph', [\App\Http\Controllers\Gm2\GamePageController::class, 'add_users_graph']);
     Route::post('gm2_update_market', [Gm2AjaxController::class, 'updateMarket'])->name('gm2_update_market');
+
+
     Route::post('admin/gm2_update_group', [Gm2AjaxController::class, 'updateGroup'])->name('gm2_update_group');
     Route::post('admin/gm2_update_restaurant_group', [Gm2AjaxController::class, 'updateRestaurantGroup'])->name('admin.gm2_update_restaurant_group');
     Route::post('admin/assign_student', [Gm2AjaxController::class, 'assignStudent'])->name('admin.assign_student');
@@ -98,6 +107,7 @@ Route::name('gm2.')->prefix('gm2')->namespace('Gm2')->middleware(['auth:sanctum'
 
     Route::view('level_table', 'gm2.level_table');
     Route::view('result', 'gm2.result');
+    Route::view('admin/', 'game_views.gm2.admin.dashboard')->name('admin.dashboard');
 
 
     Route::get('admin/criteria_combination', [\App\Http\Controllers\Game\gm2\IndexController::class, 'criteria_combination'])->name('admin.criteria_combination');

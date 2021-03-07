@@ -106,7 +106,8 @@
         margin-left: 10%;
     }
     /* Gm2 - Navbar-start */
-    /* nav {
+    
+    nav {
         display: flex;
         justify-content: space-around;
         align-items: center;
@@ -179,6 +180,10 @@
         transform: rotate(45deg) translate(-5px, -6px) !important;
     }
     
+    .dropdown-toggle {
+        padding: 0 !important;
+    }
+    
     @keyframes navLinkFade {
         from {
             opacity: 0;
@@ -220,7 +225,7 @@
         .nav-links li {
             opacity: 0;
         }
-    } */
+    }
     /* Gm2 - Navbar-end */
     /* gm2- strategic group-start */
     

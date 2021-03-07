@@ -29,13 +29,14 @@
 </head>
 
 <body>
-@include('game_views.gm2.partials.navbar_boots')
+@include('game_views.gm2.partials.navbar')
 
 <div class="main_body">
     @yield('content')
 </div>
 
 <script src="{{ asset('js/game2.js') }}"></script>
+
 @stack('js')
 </body>
 

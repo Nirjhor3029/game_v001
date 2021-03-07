@@ -34,7 +34,7 @@ return [
             'name' => 'teacher'
         ],
         [
-            'id' => 1,
+            'id' => 3,
             'name' => 'student'
         ],
     ],

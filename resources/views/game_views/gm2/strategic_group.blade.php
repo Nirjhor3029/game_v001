@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="gm2">
-    <div class="header">
+    <div class="header mt-9vh">
         <div class="welcome">
             <h2 class="title">
                 Welcome To The Strategic Game

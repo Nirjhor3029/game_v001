@@ -1,4 +1,4 @@
-@extends('game_views.gm2.layout.app')
+@extends('game_views.gm2.admin.layout.gm2_admin_app')
 
 @push('css')
 

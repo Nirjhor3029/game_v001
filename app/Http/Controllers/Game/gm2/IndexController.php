@@ -89,6 +89,7 @@ class IndexController extends Controller
 
     public function criteria_combination_post(Request $request)
     {
+        // return $request;
         // get point values & check null
         $point_values = $request->point_value;
         $points_value = array_map(function ($item) {
@@ -149,7 +150,7 @@ class IndexController extends Controller
         
         // $restaurants = Restaurant::all();
         $restaurants = Restaurant::whereIn('id',$restaurantPoints)->get();
-        return $restaurantPoints;
+        // return $restaurantPoints;
 
         // return $restaurants;
         return view('game_views.gm2.admin.assign_student',compact('students','restaurants'));
