@@ -489,3 +489,7 @@
         position: sticky;
         top: 10vh;
     }
+    
+    .select_box {
+        text-align: center;
+    }

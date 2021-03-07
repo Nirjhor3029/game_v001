@@ -37,7 +37,7 @@ $navbars = Navbar::orderBy('priority')->get();
             </a>
         </li>
         <li>
-            <a href="market_scenario_2">
+            <a href="{{route('gm2.market_scenario')}}">
                 market scenario
             </a>
         </li>
@@ -47,9 +47,9 @@ $navbars = Navbar::orderBy('priority')->get();
             </a>
         </li>
         <li>
-            <a href="marketing_strategy">
-                demo
-            </a>
+        
+        
+                </div>
         </li>
     </ul>
 

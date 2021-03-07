@@ -8,7 +8,9 @@ use App\Models\Graph;
 use App\Models\GraphItem;
 use App\Models\Cost;
 use App\Models\GraphLevel;
+use App\Models\Restaurant;
 use App\Models\RestaurantGroup;
+use App\Models\RestaurantUser;
 use Config;
 use DB;
 use Illuminate\Http\Request;
@@ -36,21 +38,33 @@ class GamePageController extends Controller
         $typeArea = Cost::where('parent_id', 0)->whereType(1)->get();
         $typeQuantity = Cost::where('parent_id', 0)->whereType(2)->get();
 
-        $graphItem = GraphItem::where('user_id', $user_id)
-            ->where('session_id', $session_id)
-            ->first();
+        // $graphItem = GraphItem::where('user_id', $user_id)
+        //     ->where('session_id', $session_id)
+        //     ->first();
 
-        $graphs = Graph::where('graph_item_id', $graphItem->id)->get();
+        // $graphs = Graph::where('graph_item_id', $graphItem->id)->get();
         // return $graphs;
-        return view("game_views.gm2.market_scenario_2", compact('typeArea', 'typeQuantity', 'graphs'));
+
+        $resturentUser = RestaurantUser::where('user_id',$user_id)->first();
+        $restaurant = Restaurant::where('id',optional($resturentUser)->restaurant_id)->get();
+        // return $restaurant;
+
+        $restaurantGroups = RestaurantGroup::all();
+
+
+        return view("game_views.gm2.market_scenario_2", compact('typeArea', 'typeQuantity', 'restaurant','restaurantGroups'));
     }
 
     public function market_scenario_defend()
     {
+        $user_id = Auth::user()->id;
         $typeArea = Cost::where('parent_id', 0)->whereType(1)->get();
         $typeQuantity = Cost::where('parent_id', 0)->whereType(2)->get();
-
         $graphItems = Graph::all();
+
+        $restaurantUser = RestaurantUser::where('user_id',$user_id)->first();
+        $restaurant = Restaurant::find(optional($restaurantUser)->restaurant_id);
+        // return $restaurant;
         // return $costs;
         return view("game_views.gm2.market_scenario_defend", compact('typeArea', 'typeQuantity', 'graphItems'));
     }

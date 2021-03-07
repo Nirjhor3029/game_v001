@@ -9,6 +9,7 @@ use App\Models\Market;
 use App\Models\MarketCost;
 use App\Models\RestaurantGroup;
 use App\Models\RestaurantPoint;
+use App\Models\RestaurantUser;
 use Auth;
 use Config;
 use Illuminate\Http\Request;
@@ -167,6 +168,70 @@ class Gm2AjaxController extends Controller
 
         return response()->json([
             'status' => "ok",
+        ]);
+    }
+
+    public function assignStudent(Request $request)
+    {
+
+        $userId = $request->input('studentId');
+        $restId = $request->input('restId');
+        $restaurantUser = RestaurantUser::where('user_id',$userId)->get();
+        // dd($restaurantUser);
+        if($restaurantUser->isEmpty()){
+            $restaurantUser = new RestaurantUser();
+            $restaurantUser->user_id = $userId;
+            
+        }else{
+            $restaurantUser = $restaurantUser[0];
+        }
+        $restaurantUser->restaurant_id = $restId;
+        $restaurantUser->save();
+        
+        return response()->json([
+            'status' => "ok",
+        ]);
+    }
+
+    public function setStudentCriteria(Request $request)
+    {
+        $user_id = Auth::user()->id;
+        $xAxis = $request->input('xAxis');
+        $yAxis = $request->input('yAxis');
+
+        $graphLevel = GraphLevel::where('user_id',$user_id)->get();
+
+        if($graphLevel->isEmpty()){
+            $graphLevel = new GraphLevel();
+            $graphLevel->user_id = $user_id;
+        }else{
+            $graphLevel = $graphLevel[0];
+        }
+        $graphLevel->x_level = $xAxis;
+        $graphLevel->y_level = $yAxis;
+        $graphLevel->save();
+
+
+        return response()->json([
+            'status' => $xAxis,
+        ]);
+    }
+
+    public function userSetGroup(Request $request)
+    {
+        // Attack
+        $user_id = Auth::user()->id;
+        $group = $request->input('group');
+        $rest_id = $request->input('rest_id');
+
+        $restaurantUser = RestaurantUser::where('user_id',$user_id)->where('restaurant_id',$rest_id)->first();
+
+        $restaurantUser->rest_group_id = $group;
+        $restaurantUser->save();
+        
+
+        return response()->json([
+            'status' => "Ok",
         ]);
     }
 }

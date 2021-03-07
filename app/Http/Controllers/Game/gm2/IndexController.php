@@ -10,6 +10,8 @@ use App\Models\GraphItem;
 use App\Models\GraphLevel;
 use App\Models\Restaurant;
 use App\Models\RestaurantGroup;
+use App\Models\RestaurantPoint;
+use App\Models\User;
 use Auth;
 use Config;
 use DB;
@@ -40,6 +42,7 @@ class IndexController extends Controller
 
     public function game()
     {
+        $user_id = Auth::user()->id;
         // get all restaurant
         $restaurants = \App\Models\Restaurant::get();
         // check graph item set on this user
@@ -66,7 +69,9 @@ class IndexController extends Controller
         // get x-axis & y-axis option from config file
         $gType = Config::get('game.game2.options');
 
-        return view('game_views.gm2.demo', compact('restaurants', 'records', 'gType', 'added_restaurant'));
+        $graphLevel = GraphLevel::where('user_id',$user_id)->first();
+
+        return view('game_views.gm2.game', compact('restaurants', 'records', 'gType', 'added_restaurant','graphLevel'));
     }
 
     public function game_view()
@@ -103,7 +108,8 @@ class IndexController extends Controller
                 'point' => $points_value[$key],
             ]);
         }
-        return back()->withInput();
+        $request->session()->flash('alert-success', 'Criteria value set successfuly !');
+        return redirect()->route("gm2.admin.criteria_combination");
 
     }
 
@@ -132,5 +138,20 @@ class IndexController extends Controller
         $restaurantGroups = RestaurantGroup::where('user_id',$user_id)->get();
 
         return view('game_views.gm2.admin.set_restaurant',compact('gType','restaurants','restaurantGroups'));
+    }
+
+    public function assignStudent()
+    {
+        
+        $students = User::where('type',3)->get();
+
+        $restaurantPoints = RestaurantPoint::where('leader',1)->get()->toArray();
+        
+        // $restaurants = Restaurant::all();
+        $restaurants = Restaurant::whereIn('id',$restaurantPoints)->get();
+        return $restaurantPoints;
+
+        // return $restaurants;
+        return view('game_views.gm2.admin.assign_student',compact('students','restaurants'));
     }
 }

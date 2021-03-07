@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use phpDocumentor\Reflection\Types\Nullable;
 
 class CreateRestaurantUserTable extends Migration
 {
@@ -17,7 +18,7 @@ class CreateRestaurantUserTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('restaurant_id')->constrained('restaurants');
-            $table->foreignId('rest_group_id')->constrained('restaurant_groups');
+            $table->foreignId('rest_group_id')->nullable()->constrained('restaurant_groups');
             $table->timestamps();
         });
     }

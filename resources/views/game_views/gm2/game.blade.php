@@ -103,16 +103,18 @@ $(document).ready(function() {
                     </div>
 
                     <div class="col-md-10">
-                        Number Of Group: 
+                        <div class="select_box">
+                        How many group You want to create: 
                         <div class="row">
-
-                            <select class="form-control col-sm-3" id="gm2_number_of_group">
+                            <select class="form-control offset-sm-4 col-sm-3" id="gm2_number_of_group">
+                                <option value="" selected>Select</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
                                 <option value="4">4</option>
                                 <option value="5">5</option>
                             </select>
                             <p id="gm2_select_group_txt" class="gm2_select_group_txt"></p>
+                        </div>
                         </div>
 
                         <div class="left-side-container">
@@ -124,11 +126,11 @@ $(document).ready(function() {
 
                             <div class="flex">
                                 <!-- <h1>Price</h1> -->
-                                <select name="" id="y-axis" class="form-control form-control-sm select_criteria"
+                                <select name="" id="y-axis" class="form-control form-control-sm select_criteria ajx_select_criteria"
                                     data-type="1">
-                                    <option selected>Select criteria</option>
+                                    <option selected value="0">Select criteria</option>
                                     @foreach($gType as $item)
-                                    <option value="{{$item['id']}}" class="">{{$item['name']}}
+                                    <option value="{{$item['id']}}" class="" {{(optional($graphLevel)->y_level==$item['id'])? "selected":""}}>{{$item['name']}}
                                     </option>
                                     @endforeach
                                 </select>
@@ -183,10 +185,10 @@ $(document).ready(function() {
                                         Low
                                     </div>
                                     <div class="col-md-4 mt-3">
-                                        <select name="" id="x-axis" class="form-control form-control-sm " data-type="2">
-                                            <option selected>Select criteria</option>
+                                        <select name="" id="x-axis" class="form-control form-control-sm ajx_select_criteria" data-type="2">
+                                            <option selected value="0">Select criteria</option>
                                             @foreach($gType as $item)
-                                            <option value="{{$item['id']}}">{{$item['name']}}</option>
+                                            <option value="{{$item['id']}}" {{(optional($graphLevel)->x_level==$item['id'])? "selected":""}} >{{$item['name']}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -200,6 +202,8 @@ $(document).ready(function() {
                         </div>
                     </div>
                 </div>
+
+                <a href="{{route('gm2.market_scenario')}}" class="btn btn-success float-right">Next</a>
             </div>
         </div>
     </div>

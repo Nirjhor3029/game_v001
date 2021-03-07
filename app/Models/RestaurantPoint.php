@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class RestaurantPoint extends Model
 {
     use HasFactory;
+
+    public function restaurant()
+    {
+        return $this->belongsTo(Restaurant::class);
+    }
+
+    public function restaurantGroup()
+    {
+        return $this->belongsTo(RestaurantGroup::class);
+    }
+
 }

@@ -3,15 +3,11 @@
 @section('content')
 
 <?php
-
 use App\Models\Restaurant;
-
-$restaurants = $graphs;
+$restaurants = $restaurant;
 $colors = ["#4AD179", "#ED375D", "#FE8400"];
+$groups = ["group_1","group_2","group_3","group_4",];
 
-    $groups = ["group_1","group_2","group_3","group_4",];
-
-    
 ?>
 
 <div class="gm2">
@@ -124,11 +120,8 @@ $colors = ["#4AD179", "#ED375D", "#FE8400"];
                 <div class="card-header gm2_card_header" style="background-color: <?php echo $colors[rand(0,2)] ?>;">
                     <div class="row">
                         <div class="col-sm-8">
-                            <?php 
-                                $item = Restaurant::find($restaurant->rest_id);
-                            ?>
-                            {{$item->name}}
-                            <input type="number" name="rest_id" class="rest_id" value="{{$item->id}}" hidden>
+                            {{$restaurant->name}} ()
+                            <input type="number" name="rest_id" class="rest_id" value="{{$restaurant->id}}" hidden>
                         </div>
                         <div class="col-sm-4 go-right">
                             <span class="gm2-total-text">Total: </span>
@@ -300,22 +293,23 @@ $colors = ["#4AD179", "#ED375D", "#FE8400"];
                     </div>
                 </div>
                 <div class="card-footer">
+
+                
                     <div class="row">
                         <div class="col-sm-4">
                             Attack on group:
                             
                         </div>
                         <div class="col-sm-6">
-                        @foreach($groups as $group)
+                        @foreach($restaurantGroups as $group)
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" id="" name="attack_group" value="{{$group}}">
-                            <label class="form-check-label" for="">{{$group}}</label>
+                            <input class="form-check-input" type="radio" id="" name="attack_group" value="{{$group->id}}">
+                            <label class="form-check-label" for="">{{$group->name}}</label>
                         </div>
                         @endforeach
                         </div>
                         <div class="col-sm-2">
-                            
-                            <input type="submit" value="Attack" class="  btn btn-success">
+                            <input type="submit" value="Attack" class="attack  btn btn-success">
                         </div>
                     </div>
                     

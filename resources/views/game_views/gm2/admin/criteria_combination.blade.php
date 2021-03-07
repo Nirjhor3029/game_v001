@@ -7,11 +7,26 @@
 
 @endpush
 @section('content')
+
+<?php
+
+use Illuminate\Support\Facades\Session;
+?>
     <div class="gm2">
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg"
                      style="padding:40px;box-sizing:border-box">
+
+                     <div class="flash-message mt-9vh">
+                        @foreach (['danger', 'warning', 'success', 'info'] as $msg)
+
+                        @if(Session::has('alert-' . $msg))
+
+                        <p class="alert alert-{{ $msg }}">{{ Session::get('alert-' . $msg) }} <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></p>
+                        @endif
+                        @endforeach
+                    </div> <!-- end .flash-message -->
 
                     @php
                         $level_options = Config::get('game.game2.options');
@@ -45,7 +60,7 @@
                                                     ?>
                                                     <div class="form-group">
                                                         <input type="number" name="point_value[]"
-                                                               class="form-control form-control-sm">
+                                                               class="form-control form-control-sm" value="0">
                                                         <input type="text" name="point[]" value="{{$input_name}}"
                                                                hidden>
                                                     </div>
