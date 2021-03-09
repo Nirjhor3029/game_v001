@@ -51,6 +51,11 @@ $navbars = Navbar::orderBy('priority')->get();
                 Defend
             </a>
         </li>
+        <li>
+            <a href="{{route('gm2.result')}}">
+                result
+            </a>
+        </li>
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" width="40" height="40" class="rounded-circle">
