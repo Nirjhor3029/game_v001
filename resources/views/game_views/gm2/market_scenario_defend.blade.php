@@ -39,7 +39,16 @@
         <!-- Attack -->
         <div class="col-md-6 attack_box">
 
+        <?php
+            $attackerRestId = [];
+        ?>
+
             @foreach($attackMarkets as $item)
+
+            <?php
+                $attackerRestId[] =  $item->restaurant_id;
+                
+            ?>
             <div class="card gm2_card_rest">
                 <div class="card-header gm2_card_header" style="background-color: <?php echo $colors[rand(0,2)] ?>;">
                     <div class="row">
@@ -96,6 +105,11 @@
                 </div>
             </div>
             @endforeach
+
+            <?php
+                $attackerRestId =  implode(",",$attackerRestId);
+                
+            ?>
         </div>
 
 
@@ -108,6 +122,8 @@
          <div class="col-md-6">
              <form action="{{route('gm2.defend_market')}}" method="post">
                  @csrf 
+
+                 <input type="text" name="attacker_res_id" value="{{$attackerRestId}}" hidden>
                 <div class="card gm2_card_rest defend_card">
                     <div class="card-header gm2_card_header" style="background-color: #00e5ff;">
                         <div class="row">

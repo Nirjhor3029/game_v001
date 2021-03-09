@@ -72,23 +72,28 @@ return [
         'promotion_options' => [
             [
                 'id' => 1,
-                'name' => 'discount_within_store'
+                'name' => 'discount_within_store',
+                'required_amount' => 4,
             ],
             [
                 'id' => 2,
-                'name' => 'discount_through_delivery_services'
+                'name' => 'discount_through_delivery_services',
+                'required_amount' => 5,
             ],
             [
                 'id' => 3,
-                'name' => 'advertising_through_social_media'
+                'name' => 'advertising_through_social_media',
+                'required_amount' => 6,
             ],
             [
                 'id' => 4,
-                'name' => 'branding'
+                'name' => 'branding',
+                'required_amount' => 8,
             ],
             [
                 'id' => 5,
-                'name' => 'other'
+                'name' => 'other',
+                'required_amount' => 10,
             ],
         ],
 

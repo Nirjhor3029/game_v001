@@ -112,7 +112,7 @@ Route::name('gm2.')->prefix('gm2')->namespace('Gm2')->middleware(['auth:sanctum'
 
 
     Route::view('level_table', 'gm2.level_table');
-    Route::view('result', 'gm2.result');
+    Route::get('result', [IndexController::class, 'result'])->name("result");
     Route::view('admin/', 'game_views.gm2.admin.dashboard')->name('admin.dashboard');
 
 
@@ -160,3 +160,5 @@ Route::get('/test', function () {
 Route::get('/migrate', function () {
     Artisan::call('migrate',);
 });
+
+Route::get('/test2', [IndexController::class,'test2']);

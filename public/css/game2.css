@@ -92,6 +92,15 @@
     .rest_icon{
         height: 1.5vw;
     }
+    .btn_attack_icon{
+        height: 1.5vw;
+    }
+    .promotion_icon{
+        height: 6vw;
+    }
+    .marketing-row{
+        padding-left: 10px;
+    }
     
     .chart {
         width: 900px;
@@ -438,6 +447,10 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        flex-direction: column;
+    }
+    .gm2_marketing_promotion_header h4{
+        font-size: 1rem;
     }
     
     .bg_like_disable_input {

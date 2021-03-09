@@ -45,9 +45,17 @@
                                                 <td>
                                                     <?php $input_name = strtolower(str_replace(' ', '',
                                                     $level1['id'] . '_' . $level2['id'])); ?>
+                                                    <?php 
+                                                    $value = 0; 
+                                                    if($combinations->isEmpty()){
+                                                        $value = 0;
+                                                    }else{
+                                                        $value = $combinations[$i-1]->point;
+                                                    }
+                                                    ?>
                                                     <div class="form-group">
                                                         <input type="number" name="point_value[]"
-                                                            class="form-control form-control-sm" value="0">
+                                                            class="form-control form-control-sm" value="{{$value}}">
                                                         <input type="text" name="point[]" value="{{ $input_name }}"
                                                             hidden>
                                                     </div>

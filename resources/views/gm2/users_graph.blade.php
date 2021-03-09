@@ -58,7 +58,8 @@
                     url: "add_user_graph",
                     data: data,
                     success: function (data) {
-                        // console.log(data);
+                        console.log(data);
+                        toastr.success(data.success);
                     }
                 });
             });

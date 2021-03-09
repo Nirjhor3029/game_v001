@@ -82,16 +82,99 @@ function titleCase(str) {
     });
 
 $(document).ready(function() {
+    var gm2NumberOfGrapchBox_selected = 0;
     let records = @json($records);
     records.forEach(function(ele) {
         let point = ele.graph_point;
         let row = (String(point).slice(0, 1)) - 1;
         let col = (String(point).slice(-1)) - 1;
-        $('.dragdrop_graph tr').eq(row).children(':eq(' + col + ')').append(
+        $('.dragdrop_graph tr').eq(row).children(':eq(' + col + ')').addClass("jquery_selected_box droppable").append(
             '<div data-tag="' + ele.restaurant_id + '" data-name="' + ele.name +
             '" draggable="true" class="option-item bg-light ui-sortable-handle" style=""><span class="">' +
             titleCase(ele.name) + '</span></div>');
+
+           
     });
+
+    gm2NumberOfGrapchBox_selected = $(".droppable").length;
+    console.log(gm2NumberOfGrapchBox_selected);
+    let gm2_number_of_group = $("#gm2_number_of_group select").val(gm2NumberOfGrapchBox_selected);
+
+        // Game page
+        var gm2NumberOfGrapchBox = 0;
+
+    $('#gm2_number_of_group').on('change', function (e) {
+        let that = $(this);
+        let numberOfBox = that.find(':selected').val();
+        let gm2_select_group_txt = $('#gm2_select_group_txt');
+        let empty2 = $('.empty2');
+        gm2_select_group_txt.text("Select " + numberOfBox + " boxes from the chart.");
+        empty2.addClass("jquery_dragdrop_box");
+        empty2.removeClass("droppable");
+        // $('.empty2').addClass("jquery_droppable");
+
+        gm2NumberOfGrapchBox = numberOfBox - gm2NumberOfGrapchBox_selected;
+        console.log("gm2NumberOfGrapchBox: " + gm2NumberOfGrapchBox);
+    });
+
+
+    $('.jquery_drop_box').on("click", function (e) {
+
+
+        if (gm2NumberOfGrapchBox > 0) {
+            let that = $(this);
+            that.addClass('jquery_selected_box droppable');
+            console.log(that);
+            gm2NumberOfGrapchBox--;
+        } else {
+            $('.empty2').removeClass('jquery_dragdrop_box');
+        }
+
+        $(".droppable").sortable({
+            cursor: "move",
+            connectWith: "#sortable",
+            update: function (e, ui) {
+                let row = $(this).closest('tr').index();
+                let column = $(this).closest('td').index();
+                console.log(`row ${row} & column ${column}`);
+                /* each restaurant drop in every box so push restaurant Id & name array */
+                let restData = [];
+                $(this).children().each(function (idx, ele) {
+                    let result = {
+                        'restId': $(ele).data('tag'),
+                        'restName': $(ele).data('name'),
+                    }
+                    restData.push(result);
+                });
+
+                console.dir(restData);
+                sendData(row, column, restData);
+            }
+        });
+    });
+
+
+    $(".droppable").sortable({
+            cursor: "move",
+            connectWith: "#sortable",
+            update: function (e, ui) {
+                let row = $(this).closest('tr').index();
+                let column = $(this).closest('td').index();
+                console.log(`row ${row} & column ${column}`);
+                /* each restaurant drop in every box so push restaurant Id & name array */
+                let restData = [];
+                $(this).children().each(function (idx, ele) {
+                    let result = {
+                        'restId': $(ele).data('tag'),
+                        'restName': $(ele).data('name'),
+                    }
+                    restData.push(result);
+                });
+
+                console.dir(restData);
+                sendData(row, column, restData);
+            }
+        });
 });
 </script>
 
@@ -159,39 +242,39 @@ $(document).ready(function() {
                                     <div class="table-responsive">
                                         <table class="dragdrop_graph " id="">
                                             <tr>
-                                                <td class="empty2 droppable jquery_drop_box"></td>
-                                                <td class="empty2 droppable jquery_drop_box"></td>
-                                                <td class="empty2 droppable jquery_drop_box"></td>
-                                                <td class="empty2 droppable jquery_drop_box"></td>
-                                                <td class="empty2 droppable jquery_drop_box"></td>
+                                                <td class="empty2 jquery_drop_box"></td>
+                                                <td class="empty2 jquery_drop_box"></td>
+                                                <td class="empty2 jquery_drop_box"></td>
+                                                <td class="empty2 jquery_drop_box"></td>
+                                                <td class="empty2 jquery_drop_box"></td>
                                             </tr>
                                             <tr>
-                                                <td class="empty2 droppable jquery_drop_box"></td>
-                                                <td class="empty2 droppable jquery_drop_box"></td>
-                                                <td class="empty2 droppable jquery_drop_box"></td>
-                                                <td class="empty2 droppable jquery_drop_box"></td>
-                                                <td class="empty2 droppable jquery_drop_box"></td>
+                                                <td class="empty2 jquery_drop_box"></td>
+                                                <td class="empty2 jquery_drop_box"></td>
+                                                <td class="empty2 jquery_drop_box"></td>
+                                                <td class="empty2 jquery_drop_box"></td>
+                                                <td class="empty2 jquery_drop_box"></td>
                                             </tr>
                                             <tr>
-                                                <td class="empty2 droppable jquery_drop_box"></td>
-                                                <td class="empty2 droppable jquery_drop_box"></td>
-                                                <td class="empty2 droppable jquery_drop_box"></td>
-                                                <td class="empty2 droppable jquery_drop_box"></td>
-                                                <td class="empty2 droppable jquery_drop_box"></td>
+                                                <td class="empty2 jquery_drop_box"></td>
+                                                <td class="empty2 jquery_drop_box"></td>
+                                                <td class="empty2 jquery_drop_box"></td>
+                                                <td class="empty2 jquery_drop_box"></td>
+                                                <td class="empty2 jquery_drop_box"></td>
                                             </tr>
                                             <tr>
-                                                <td class="empty2 droppable jquery_drop_box"></td>
-                                                <td class="empty2 droppable jquery_drop_box"></td>
-                                                <td class="empty2 droppable jquery_drop_box"></td>
-                                                <td class="empty2 droppable jquery_drop_box"></td>
-                                                <td class="empty2 droppable jquery_drop_box"></td>
+                                                <td class="empty2 jquery_drop_box"></td>
+                                                <td class="empty2 jquery_drop_box"></td>
+                                                <td class="empty2 jquery_drop_box"></td>
+                                                <td class="empty2 jquery_drop_box"></td>
+                                                <td class="empty2 jquery_drop_box"></td>
                                             </tr>
                                             <tr>
-                                                <td class="empty2 droppable jquery_drop_box"></td>
-                                                <td class="empty2 droppable jquery_drop_box"></td>
-                                                <td class="empty2 droppable jquery_drop_box"></td>
-                                                <td class="empty2 droppable jquery_drop_box"></td>
-                                                <td class="empty2 droppable jquery_drop_box"></td>
+                                                <td class="empty2 jquery_drop_box"></td>
+                                                <td class="empty2 jquery_drop_box"></td>
+                                                <td class="empty2 jquery_drop_box"></td>
+                                                <td class="empty2 jquery_drop_box"></td>
+                                                <td class="empty2 jquery_drop_box"></td>
                                             </tr>
                                         </table>
                                     </div>

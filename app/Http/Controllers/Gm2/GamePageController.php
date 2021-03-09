@@ -120,6 +120,8 @@ class GamePageController extends Controller
         return view("game_views.gm2.market_scenario_defend", compact('attackMarkets','defendMarket','promotions','defendMarketPromotions'));
     }
 
+    
+
     public function show_users_graph()
     {
         $user_id = Auth::user()->id;
@@ -162,6 +164,8 @@ class GamePageController extends Controller
     {
         // set restaurant in graph on task 2
         $this->set_graph_point($request, 2);
+
+        return response()->json(['success' => 'Task Log manual entry successfully updated']);
 
     }
 

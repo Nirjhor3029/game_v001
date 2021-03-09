@@ -28,7 +28,7 @@ $navbars = Navbar::orderBy('priority')->get();
         <li>
             <a href="development_of_strategic_group"
                 class="{{ Request::is('gm2/development_of_strategic_group') ? 'active' : '' }}">
-                Development of Strategic Group
+                Development
             </a>
         </li>
         <li>
@@ -48,7 +48,7 @@ $navbars = Navbar::orderBy('priority')->get();
         </li>
         <li>
             <a href="{{route('gm2.market_scenario_defend')}}">
-                Market Scenario Defend
+                Defend
             </a>
         </li>
         <li class="nav-item dropdown">
@@ -56,8 +56,9 @@ $navbars = Navbar::orderBy('priority')->get();
             <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" width="40" height="40" class="rounded-circle">
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="#">Dashboard</a>
-                <a class="dropdown-item" href="#">Edit Profile</a>
+                <a class="dropdown-item" href="#">{{Auth::user()->name}}</a>
+                <hr>
+                <!-- <a class="dropdown-item" href="#">Edit Profile</a> -->
                 <form method="POST" action="{{route('logout')}}">
                         @csrf
                         <a class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out" href="{{route('logout')}}" onclick="event.preventDefault();this.closest('form').submit();">Logout</a>

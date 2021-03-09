@@ -1,3 +1,5 @@
+
+
 const navSlide = () => {
     const burger = document.querySelector('.burger');
     const nav = document.querySelector('.nav-links');
@@ -193,7 +195,7 @@ $(document).ready(function () {
                 Other: Other.value,
             },
             success: function (data) {
-                console.log(data);
+                // console.log(data);
                 //return;
             }
         })
@@ -201,34 +203,7 @@ $(document).ready(function () {
 
 
 
-    var gm2NumberOfGrapchBox = 0;
-    // Game page
-    $('#gm2_number_of_group').on('change', function (e) {
-        let that = $(this);
-        let numberOfBox = that.find(':selected').val();
-        let gm2_select_group_txt = $('#gm2_select_group_txt');
-        let empty2 = $('.empty2');
-        gm2_select_group_txt.text("Select " + numberOfBox + " boxes from the chart.");
-        empty2.addClass("jquery_dragdrop_box");
-        empty2.removeClass("droppable");
-        // $('.empty2').addClass("jquery_droppable");
 
-        gm2NumberOfGrapchBox = numberOfBox;
-    });
-
-
-    $('.jquery_drop_box').click(function (e) {
-
-
-        if (gm2NumberOfGrapchBox > 0) {
-            let that = $(this);
-            that.addClass('jquery_selected_box droppable');
-            console.log(that);
-            gm2NumberOfGrapchBox--;
-        } else {
-            $('.empty2').removeClass('jquery_dragdrop_box');
-        }
-    });
 
 
     // set_group.blade.php
@@ -308,8 +283,9 @@ $(document).ready(function () {
                 // groupRestaurants: groupRestaurants,
             },
             success: function (data) {
-                console.log(data);
+                // console.log(data);
                 $(this).prop("disabled", "true");
+                // toastr.success(data.success);
                 //return;
             }
         });
@@ -377,7 +353,7 @@ $(document).ready(function () {
                 leader: leader,
             },
             success: function (data) {
-                console.log(data);
+                // console.log(data);
                 // $(this).prop("disabled", "true");
                 //return;
             }
@@ -400,7 +376,7 @@ $(document).ready(function () {
                 restId: restId,
             },
             success: function (data) {
-                console.log(data);
+                // console.log(data);
                 // $(this).prop("disabled", "true");
                 //return;
             }
@@ -413,7 +389,6 @@ $(document).ready(function () {
 
     // market_scenario page
     $(".attack").on("click", function (e) {
-
         let group = $('input[name="attack_group"]:checked').val();
         let rest_id = $('.rest_id').val();
         // console.log(group);
@@ -427,7 +402,7 @@ $(document).ready(function () {
                 rest_id: rest_id,
             },
             success: function (data) {
-                console.log(data);
+                // console.log(data);
                 // $(this).prop("disabled", "true");
                 //return;
             }

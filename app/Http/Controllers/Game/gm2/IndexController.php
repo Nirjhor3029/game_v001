@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Game\gm2;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Navbar;
+use App\Models\AttackDefend;
 use App\Models\CriteriaCombination;
 use App\Models\Gm2MarketPromotion;
 use App\Models\Graph;
 use App\Models\GraphItem;
 use App\Models\GraphLevel;
+use App\Models\Market;
 use App\Models\Restaurant;
 use App\Models\RestaurantGroup;
 use App\Models\RestaurantPoint;
@@ -88,11 +90,16 @@ class IndexController extends Controller
     public function criteria_combination()
     {
         $gType = Config::get('game.game2.options');
-        return view('game_views.gm2.admin.criteria_combination', compact('gType'));
+
+        $combinations = CriteriaCombination::all();
+        // return $combinations[0];
+
+        return view('game_views.gm2.admin.criteria_combination', compact('gType','combinations'));
     }
 
     public function criteria_combination_post(Request $request)
     {
+        $user_id = Auth::guard('web')->user()->id;
         // return $request;
         // get point values & check null
         $point_values = $request->point_value;
@@ -105,15 +112,22 @@ class IndexController extends Controller
             return explode('_', $item);
         }, $points);
 
+        $combinations = CriteriaCombination::where('user_id',$user_id);
+        if($combinations->get()->isEmpty()){
+            $msg = 'Criteria value set successfuly !';
+        }else{
+            $msg = 'Criteria value update successfuly !';
+        }
+        $combinations->delete();
         foreach ($axis_points as $key => $axis_point) {
             CriteriaCombination::create([
-                'user_id' => Auth::guard('web')->user()->id,
+                'user_id' => $user_id,
                 'x_axis' => $axis_point[0],
                 'y_axis' => $axis_point[1],
                 'point' => $points_value[$key],
             ]);
         }
-        $request->session()->flash('alert-success', 'Criteria value set successfuly !');
+        $request->session()->flash('alert-success',$msg );
         return redirect()->route("gm2.admin.criteria_combination");
 
     }
@@ -154,6 +168,8 @@ class IndexController extends Controller
         $restaurantPoints = RestaurantPoint::with(['restaurant','restaurantGroup'])->where('leader',1)->get();
         $restaurantUsers = RestaurantUser::all();
 
+        // return $restaurantPoints;
+
         $restaurants = [];
         foreach ($restaurantPoints as $key => $item) {
             $restaurants[] = [
@@ -180,8 +196,17 @@ class IndexController extends Controller
 
     public function defendMarket(Request $request)
     {
+        // return $request;
+        $session = Session('student_info');
+        $defender_res_id = $session['assigned_res_id'];
+        // return $request;
         $mode = 2; //defend mode =2
         
+        $attacker_res_id = $request->attacker_res_id;
+        $attacker_res_ids = explode(",",$attacker_res_id);
+
+       
+
         $promotionIds = $request->promotion_ids;
 
         $marketCostId = $request->market_cost_id;
@@ -196,9 +221,165 @@ class IndexController extends Controller
             $promotionCost->save();
         }
         
+        $attackerResults =  $this->defendActionCalculation($defender_res_id,$attacker_res_ids);
+
+        foreach ($attackerResults as $key => $value) {
+            $attack_defends = new AttackDefend();
+            $attack_defends->attacker = $key;
+            $attack_defends->defender = $defender_res_id;
+            $attack_defends->score = $value;
+            $attack_defends->save();
+        }
+        
+
+        // dd($attackerResults);
         // return $request;
         $request->session()->flash('alert-success', 'Defend Succesfull');
         return Redirect::back();
 
+    }
+    public function defendActionCalculation($defenderRestId,$attackerRestIds)
+    {
+        $defenderDetails = Market::where('restaurant_id',$defenderRestId)->with('marketCost.gm2MarketPromotion',function ($query) {
+            $query->where('mode','=','2');
+        })->get();
+        
+
+
+        $attackerDetails = Market::whereIn('restaurant_id',$attackerRestIds)->with('marketCost.gm2MarketPromotion',function ($query) {
+            $query->where('mode','=','1');
+        })->get();
+
+        $resultMarketCost = [];
+        $defenderPromotion = $defenderDetails[0]->marketCost[0]->gm2MarketPromotion;
+        // return $defenderPromotion[0]->market_cost_id;
+
+        foreach($attackerDetails as $attacker){
+            $attackPromotions = $attacker->marketCost[0]->gm2MarketPromotion;
+            foreach ($attackPromotions  as $key => $item) {
+                // return $item->market_cost_id;
+                if($item->promotion_id == $defenderPromotion[$key]->promotion_id){
+                    $resultMarketCost[$attacker->restaurant_id][$item->promotion_id] = ($item->value - $defenderPromotion[$key]->value);
+                }
+            }
+        }
+        $prmotion_options = config('game.game2.promotion_options');
+        $required_amounts = array_column($prmotion_options,"required_amount",'id');
+        // dd($required_amounts);
+        
+        return  $this->get_percentage($resultMarketCost ,$required_amounts);
+
+        // dd ($resultMarketCost,$required_amounts);
+    }
+
+
+    
+    function get_percentage($values, $tks)
+    {
+        $result = [];
+        // dd($values[17][1]);
+        // dd($tks[1]);
+        foreach ($values as  $resId=> $value) {
+            foreach($tks as $key => $tk){
+               
+                $result[] = round($value[$key]/$tk, 2);
+                
+            }
+            $result_sum[$resId]=  array_sum($result);
+            
+        }
+
+        return ($result_sum);
+        
+        
+       
+    }
+     
+
+    public function test2()
+    {
+        $user_id = Auth::user()->id;
+
+        $resGroup = RestaurantGroup::where('user_id',$user_id)->with('restaurantPoint')->get();
+        // $resPoints = RestaurantPoint::where('user_id',$user_id)->with('restaurantGroup')->get();
+
+        $teacherAssignedResPoints = [];
+        foreach($resGroup as $singleGroup){
+                $teacherAssignedResPoints[] = [
+                    'point' => (int)$singleGroup->point,
+                    'rest_id' => $singleGroup->restaurantPoint->pluck('res_id')->toArray(),
+                ];
+            
+        }
+
+        $student_id = 17;
+        $graphItem = GraphItem::where('user_id',$student_id)->latest()->first();
+        $graphs = Graph::where('graph_item_id',16)->where('level',2)->get();
+
+        $studentResPoints = [];
+        $rest_ids = [];
+        $tmpGraphPoint = 0;
+        foreach ($graphs as $key => $singleResPoint) {
+            // $tmpGraphPoint = $singleResPoint->graph_point;
+            $rest_ids[$singleResPoint->graph_point][] =  $singleResPoint->rest_id; 
+            $studentResPoints[$singleResPoint->graph_point] = [
+                'point' => $singleResPoint->graph_point,
+                'rest_id' =>  $rest_ids[$singleResPoint->graph_point],
+            ];
+        }
+
+        // $studentResPoints = array_values($studentResPoints);
+        // return array_values($studentResPoints);
+        // dd($teacherAssignedResPoints,$studentResPoints) ;
+        // return $studentResPoints[13]['rest_id'][0];
+        // return $graphs[0]->graph_point;
+
+        $result = [];
+        $dataSet = [];
+        $count = [];
+        foreach($teacherAssignedResPoints as $key => $teacherGPoint){
+            $point = $teacherGPoint['point'];
+            $teacherRestIds = $teacherGPoint['rest_id'];
+            
+            if(isset($studentResPoints[$point])){
+                $studentRestIds = $studentResPoints[$point]['rest_id'];
+                $dataSet[$point] =  array_map(function ($item) use ($studentRestIds)
+                {
+                    return (in_array($item,$studentRestIds))? "yes": "no"; 
+                },$teacherRestIds);
+            }else{
+                return "not found";
+            }
+
+            $count[$point] = array_count_values($dataSet[$point]);
+
+        }
+        $correct = array_sum(array_column($count,"yes"));
+        $wrong = array_sum(array_column($count,"no"));
+
+        $result = [
+            'Correct' => $correct,
+            'Wrong' => $wrong,
+            'dataSet' => $count,
+        ];
+
+        dd($result);
+
+    }
+
+    public function result()
+    {
+        $session_student = session("student_info");
+        $studentResId = $session_student["assigned_res_id"];
+        
+        $defender = AttackDefend::where('defender',$studentResId)->select('score')->get();
+        $attacker = AttackDefend::where('attacker',$studentResId)->select('score')->first();
+
+        $defenderSum = $defender->sum("score");
+        // $attackSum = ( 1 - $defenderSum );
+
+        // return $defenderSum;
+
+        return view("gm2.result",compact("defenderSum"));
     }
 }

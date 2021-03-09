@@ -40,6 +40,11 @@
         href="{{ asset($adminTle) }}/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
     <link rel="stylesheet" href="{{ asset($adminTle) }}/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+
+<!-- Toastr js & Css :End -->
+
 
     <!-- Custom -->
     <link rel="stylesheet" href="{{ asset('css/game2_admin.css') }}">
@@ -300,6 +305,9 @@
 
     <!-- Custom -->
 
+  <!-- Toastr js & Css :start -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+  
     <script src="{{ asset('js/game2_admin.js') }}"></script>
 </body>
 

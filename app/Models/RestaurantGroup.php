@@ -17,6 +17,6 @@ class RestaurantGroup extends Model
 
     public function restaurantPoint()
     {
-        return $this->hasMany(RestaurantPoint::class,'id','res_group_id' );
+        return $this->hasMany(RestaurantPoint::class,'res_group_id','id' );
     }
 }
