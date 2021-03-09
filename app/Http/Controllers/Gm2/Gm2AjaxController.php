@@ -217,7 +217,8 @@ class Gm2AjaxController extends Controller
 
 
         return response()->json([
-            'status' => $xAxis,
+            'status' => "ok",
+            'user Id' => $user_id,
         ]);
     }
 

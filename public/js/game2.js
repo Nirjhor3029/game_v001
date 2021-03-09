@@ -45,7 +45,7 @@ $("#sortable").sortable({
 $(".droppable").sortable({
     cursor: "move",
     connectWith: "#sortable",
-    update: function(e, ui) {
+    update: function (e, ui) {
         let x = $(this).closest('tr').index();
         let y = $(this).closest('td').index();
         // console.log(e.target);
@@ -57,14 +57,14 @@ $(".droppable").sortable({
 
 
 // market_scenario_2.blade.php ::start
-$(document).ready(function() {
+$(document).ready(function () {
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
 
-    $('.type').on('change', function(e) {
+    $('.type').on('change', function (e) {
         let that = $(this);
         let cat_id = e.target.value;
         let type = that.data('type');
@@ -78,23 +78,23 @@ $(document).ready(function() {
                 type: type,
 
             },
-            success: function(data) {
+            success: function (data) {
                 // console.log(data); return;
                 let subCat = that.parent().siblings('.subclass').children('.subcategory')
-                    // console.log(subCat);subCat.css("background-color", "red"); return;
+                // console.log(subCat);subCat.css("background-color", "red"); return;
                 subCat.empty();
                 subCat.append(
                     '<option selected>Select type</option>');
                 $.each(data
                     .subcategories[0].sub_costs,
-                    function(index, subcategory) {
+                    function (index, subcategory) {
                         subCat.append('<option data-cost="' + subcategory.value + '" value="' + subcategory.id + '" >' + subcategory.name + '</option>');
                     })
 
             }
         })
     });
-    $('.subcategory').on('change', function(e) {
+    $('.subcategory').on('change', function (e) {
 
         let that = $(this);
         let subCatParent = that.parent();
@@ -110,7 +110,7 @@ $(document).ready(function() {
 
     });
 
-    $('.competitors_move,.ajx_input_market_promotion').on('change', function(e) {
+    $('.competitors_move,.ajx_input_market_promotion').on('change', function (e) {
         let that = $(this);
         let card = that.parents('.card');
         // console.log(card);
@@ -192,7 +192,7 @@ $(document).ready(function() {
                 Branding: Branding.value,
                 Other: Other.value,
             },
-            success: function(data) {
+            success: function (data) {
                 console.log(data);
                 //return;
             }
@@ -203,7 +203,7 @@ $(document).ready(function() {
 
     var gm2NumberOfGrapchBox = 0;
     // Game page
-    $('#gm2_number_of_group').on('change', function(e) {
+    $('#gm2_number_of_group').on('change', function (e) {
         let that = $(this);
         let numberOfBox = that.find(':selected').val();
         let gm2_select_group_txt = $('#gm2_select_group_txt');
@@ -217,7 +217,7 @@ $(document).ready(function() {
     });
 
 
-    $('.jquery_drop_box').click(function(e) {
+    $('.jquery_drop_box').click(function (e) {
 
 
         if (gm2NumberOfGrapchBox > 0) {
@@ -232,7 +232,7 @@ $(document).ready(function() {
 
 
     // set_group.blade.php
-    $(".group_input_plus").click(function(e) {
+    $(".group_input_plus").click(function (e) {
         let that = $(this);
         let groupInputContainer = $('#group_input_container');
         let groupInput = that.parents('.group_input');
@@ -243,13 +243,13 @@ $(document).ready(function() {
         clone_input.appendTo(groupInputContainer)
     });
 
-    $(document).on("click", ".group_input_minus", function(e) {
+    $(document).on("click", ".group_input_minus", function (e) {
         let that = $(this);
         let groupInput = that.parents('.group_input');
         groupInput.remove();
     });
 
-    $(document).on("change", '.gm2-row', function(e) {
+    $(document).on("change", '.gm2-row', function (e) {
         let that = $(this);
         let groupInput = that.parents('.group_input');
         let groupColumn = groupInput.find(".gm2-column");
@@ -257,7 +257,7 @@ $(document).ready(function() {
         // console.log(groupColumn);
     });
 
-    $(document).on("change", '.gm2-column', function(e) {
+    $(document).on("change", '.gm2-column', function (e) {
         let that = $(this);
         let groupInput = that.parents('.group_input');
 
@@ -281,7 +281,7 @@ $(document).ready(function() {
     });
 
 
-    $('#gm2Goup_set').click(function(e) {
+    $('#gm2Goup_set').click(function (e) {
 
         let xAxisValue = $("#gm2-x-axis").children("option:selected").val();
         let yAxisValue = $("#gm2-y-axis").children("option:selected").val();
@@ -307,7 +307,7 @@ $(document).ready(function() {
                 groupColumns: groupColumns,
                 // groupRestaurants: groupRestaurants,
             },
-            success: function(data) {
+            success: function (data) {
                 console.log(data);
                 $(this).prop("disabled", "true");
                 //return;
@@ -319,7 +319,7 @@ $(document).ready(function() {
 
     // Set  Restaurant to group
     var GroupLeaders = [];
-    $(".leader").on("change", function(e) {
+    $(".leader").on("change", function (e) {
         let that = $(this);
         let parent = that.parents('.restaurant_container');
         let group = parent.find('.group');
@@ -341,7 +341,7 @@ $(document).ready(function() {
 
     })
 
-    $(".group").on("change", function(e) {
+    $(".group").on("change", function (e) {
         let that = $(this);
         let parent = that.parents('.restaurant_container');
         let groupValue = parent.find('.group').val();
@@ -376,7 +376,7 @@ $(document).ready(function() {
                 groupValue: groupValue,
                 leader: leader,
             },
-            success: function(data) {
+            success: function (data) {
                 console.log(data);
                 // $(this).prop("disabled", "true");
                 //return;
@@ -386,7 +386,7 @@ $(document).ready(function() {
 
     // assign_Student
 
-    $(".set").on("click", function(e) {
+    $(".set").on("click", function (e) {
         let that = $(this);
         let parent = that.parents(".restaurant_container");
         let studentId = parent.find('.student_name').val();
@@ -399,7 +399,7 @@ $(document).ready(function() {
                 studentId: studentId,
                 restId: restId,
             },
-            success: function(data) {
+            success: function (data) {
                 console.log(data);
                 // $(this).prop("disabled", "true");
                 //return;
@@ -409,29 +409,10 @@ $(document).ready(function() {
 
 
     // Game page
-    $(".ajx_select_criteria").on("change", function(e) {
 
-        let xAxis = $('#x-axis').children("option:selected").val()
-        let yAxis = $('#y-axis').children("option:selected").val()
-
-
-        $.ajax({
-            type: "POST",
-            url: "set_student_criteria",
-            data: {
-                xAxis: xAxis,
-                yAxis: yAxis,
-            },
-            success: function(data) {
-                console.log(data);
-                // $(this).prop("disabled", "true");
-                //return;
-            }
-        });
-    });
 
     // market_scenario page
-    $(".attack").on("click", function(e) {
+    $(".attack").on("click", function (e) {
 
         let group = $('input[name="attack_group"]:checked').val();
         let rest_id = $('.rest_id').val();
@@ -445,7 +426,7 @@ $(document).ready(function() {
                 group: group,
                 rest_id: rest_id,
             },
-            success: function(data) {
+            success: function (data) {
                 console.log(data);
                 // $(this).prop("disabled", "true");
                 //return;
@@ -455,12 +436,12 @@ $(document).ready(function() {
 
 
     // Market Scenario defend page
-    $(".defends_option").on("change", function(e) {
+    $(".defends_option").on("change", function (e) {
         console.log("changed");
         let that = $(this);
         let parent = that.parents(".card");
         let total = 0;
-        let inputs = parent.find(".defends_option").each(function(index) {
+        let inputs = parent.find(".defends_option").each(function (index) {
             let item = parseInt($(this).val());
             total += item;
         });

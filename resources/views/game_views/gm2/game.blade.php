@@ -62,6 +62,25 @@ function titleCase(str) {
     }).join(' ');
 }
 
+    $(".ajx_select_criteria").on("change", function(e) {
+        console.log("change");
+        let xAxis = $('#x-axis').children("option:selected").val();
+        let yAxis = $('#y-axis').children("option:selected").val();
+        $.ajax({
+            type: "POST",
+            url: "set_student_criteria",
+            data: {
+                xAxis: xAxis,
+                yAxis: yAxis,
+            },
+            success: function(data) {
+                console.log(data);
+                // $(this).prop("disabled", "true");
+                //return;
+            }
+        });
+    });
+
 $(document).ready(function() {
     let records = @json($records);
     records.forEach(function(ele) {

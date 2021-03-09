@@ -123,8 +123,14 @@ class GamePageController extends Controller
     public function show_users_graph()
     {
         $user_id = Auth::user()->id;
+         // get all restaurant
+        $restaurants = \App\Models\Restaurant::get();
+        
         $teacher_id = RestaurantUser::where('user_id',$user_id)->select('teacher_id')->first();
         // check graph item set on this user
+        if(!isset($teacher_id)){
+            return view('gm2.users_graph_empty',compact("restaurants"));
+        }
         $graphItem = GraphItem::where(['user_id' => Auth::guard('web')->user()->id, 'session_id' => Session::getId()])->get()->first();
         if (is_null($graphItem)) {
             $graphItem = new GraphItem();
@@ -139,15 +145,17 @@ class GamePageController extends Controller
             ->where('graph_item_id', $graphItem->id)
             ->where('level', '2')
             ->get();
+
+        $addedRestaurants = $records->pluck('restaurant_id')->all();
+
         $rest_groups = RestaurantGroup::where('user_id', $teacher_id->teacher_id)->get();
         $graph_level = GraphLevel::where('user_id', $teacher_id->teacher_id)->get()->first();
         // return $teacher_id->teacher_id;
-        // get all restaurant
-        $restaurants = \App\Models\Restaurant::get();
+       
         // get x-axis & y-axis option from config file
         $level_options = Config::get('game.game2.options');
 
-        return view('gm2.users_graph', compact('rest_groups', 'graph_level', 'level_options', 'restaurants','records'));
+        return view('gm2.users_graph', compact('rest_groups', 'graph_level', 'level_options', 'restaurants','records','addedRestaurants'));
     }
 
     public function add_users_graph(Request $request)

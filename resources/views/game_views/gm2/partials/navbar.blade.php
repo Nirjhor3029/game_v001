@@ -4,7 +4,7 @@ $navbars = Navbar::orderBy('priority')->get();
 ?>
 <nav class="gm2_nav">
     <div class="logo">
-        <h4>The Nav</h4>
+        <h4>Calibrate</h4>
     </div>
     <ul class="nav-links">
         <!-- @foreach($navbars as $item)
@@ -17,12 +17,12 @@ $navbars = Navbar::orderBy('priority')->get();
 
         <li>
             <a href="strategic_group" class="{{ Request::is('gm2/strategic_group') ? 'active' : '' }}">
-                strategic group
+                Strategic Group
             </a>
         </li>
         <li>
             <a href="marketing_strategy" class="{{ Request::is('gm2/marketing_strategy') ? 'active' : '' }}">
-                marketing strategy
+                Marketing Strategy
             </a>
         </li>
         <li>
@@ -33,17 +33,17 @@ $navbars = Navbar::orderBy('priority')->get();
         </li>
         <li>
             <a href="game">
-                game
+                Game
             </a>
         </li>
         <li>
             <a href="{{route('gm2.user_graph')}}">
-                game2
+                Game2
             </a>
         </li>
         <li>
             <a href="{{route('gm2.market_scenario')}}">
-                market scenario
+                Market Scenario
             </a>
         </li>
         <li>

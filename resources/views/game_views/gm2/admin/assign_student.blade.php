@@ -40,6 +40,7 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
+                                    @php $check = 1 @endphp
                                     <select name="group[]"   class="form-control form-control-sm  restaurant_select">
                                         <option value="null" selected disabled>Select Group</option>
                                         @foreach($restaurants as $item)
