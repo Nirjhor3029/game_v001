@@ -27,8 +27,6 @@ $(".droppable").sortable({
 });
 
 
-
-
 // market_scenario_2.blade.php ::start
 $(document).ready(function () {
     $.ajaxSetup({
@@ -59,7 +57,7 @@ $(document).ready(function () {
                 subCat.append(
                     '<option selected>Select type</option>');
                 $.each(data
-                    .subcategories[0].sub_costs,
+                        .subcategories[0].sub_costs,
                     function (index, subcategory) {
                         subCat.append('<option data-cost="' + subcategory.value + '" value="' + subcategory.id + '" >' + subcategory.name + '</option>');
                     })
@@ -173,8 +171,7 @@ $(document).ready(function () {
     }
 
 
-
-    var gm2NumberOfGrapchBox = 0;
+    var gm2NumberOfGraphBox = 0;
     // Game page
     $('#gm2_number_of_group').on('change', function (e) {
         let that = $(this);
@@ -186,18 +183,17 @@ $(document).ready(function () {
         empty2.removeClass("droppable");
         // $('.empty2').addClass("jquery_droppable");
 
-        gm2NumberOfGrapchBox = numberOfBox;
+        gm2NumberOfGraphBox = numberOfBox;
     });
 
 
     $('.jquery_drop_box').click(function (e) {
 
-
-        if (gm2NumberOfGrapchBox > 0) {
+        if (gm2NumberOfGraphBox > 0) {
             let that = $(this);
             that.addClass('jquery_selected_box droppable');
             console.log(that);
-            gm2NumberOfGrapchBox--;
+            gm2NumberOfGraphBox--;
         } else {
             $('.empty2').removeClass('jquery_dragdrop_box');
         }
@@ -219,42 +215,72 @@ $(document).ready(function () {
     $(document).on("click", ".group_input_minus", function (e) {
         let that = $(this);
         let groupInput = that.parents('.group_input');
+        let row_val = groupInput.find('.group_row').val();
+        let column_val = groupInput.find('.group_column').val();
+        select_graph_box(row_val, column_val, 'dragdrop_graph');
         groupInput.remove();
     });
 
-    $(document).on("change", '.gm2-row', function (e) {
+    /* $(document).on("change", '.group_row', function (e) {
+         let that = $(this);
+         let groupInput = that.parents('.group_input');
+         let groupColumn = groupInput.find(".gm2-column");
+         groupColumn.prop("disabled", false);
+         // console.log(groupColumn);
+     });*/
+
+    $('document').on('change', '.group_column,.group_row', function () {
         let that = $(this);
         let groupInput = that.parents('.group_input');
-        let groupColumn = groupInput.find(".gm2-column");
-        groupColumn.prop("disabled", false);
-        // console.log(groupColumn);
-    });
+        let groupName = groupInput.find('.group_name').val();
+        let RowVal = groupInput.find('.group_row').val();
+        let groupColumn = groupInput.find('.group_column').prop("disabled", false);
+        let ColumnVal = groupInput.find('.group_column').val();
+        /* RowColumnArray.push(RowVal + '' + ColumnVal);
+         if (RowColumnArray.length > 1) {
+             let rowColumn = RowColumnArray[0];
+             let arrays = rowColumn.split('');
+             let Row = arrays[0];
+             let Column = arrays[1];
+             let td = select_graph_box(Row, Column, 'dragdrop_graph');
+             RowColumnArray.shift();
 
-    $(document).on("change", '.gm2-column', function (e) {
-        let that = $(this);
-        let groupInput = that.parents('.group_input');
+         } else {
+             let td = select_graph_box(RowVal, ColumnVal, 'dragdrop_graph');
+             td.append(groupName);
+         }*/
+        let td = select_graph_box(RowVal, ColumnVal, 'dragdrop_graph');
+        td.append(groupName);
+    })
 
-        let groupName = groupInput.find('.group_name');
-        let groupNameText = groupName.val();
+    /*    $(document).on("change", '.group_column', function (e) {
+            let that = $(this);
+            let groupInput = that.parents('.group_input');
 
-        let groupRow = groupInput.find('.group_row');
-        groupRow = groupRow.find(':selected');
+            let groupName = groupInput.find('.group_name');
+            let groupNameText = groupName.val();
 
-        let groupColumn = groupInput.find('.group_column');
-        groupColumn = groupColumn.find(':selected');
+            let groupRow = groupInput.find('.group_row');
+            groupRow = groupRow.find(':selected').val();
 
-        let table = $('.dragdrop_graph');
-        let row_column = groupRow.val() + '' + groupColumn.val();
-        let group = table.find("#" + row_column);
+            let groupColumn = groupInput.find('.group_column');
+            groupColumn = groupColumn.find(':selected').val();
+            let table = 'dragdrop_graph';
+            let td = select_graph_box(groupRow, groupColumn, table);
+            td.append(groupNameText);
+        });*/
+
+    function select_graph_box(row, column, tableClassName) {
+        let table = $("." + tableClassName);
+        let group = table.find("#" + row + '' + column);
         // console.log(group);
-        group.addClass('gm2_admin_selected_box');
-
+        group.toggleClass('gm2_admin_selected_box');
         group.empty();
-        group.append(groupNameText);
-    });
+        return group;
+    }
 
 
-    $('#gm2Goup_set').click(function (e) {
+    $('#gm2_group_set').click(function (e) {
 
         let xAxisValue = $("#gm2-x-axis").children("option:selected").val();
         let yAxisValue = $("#gm2-y-axis").children("option:selected").val();
@@ -288,7 +314,6 @@ $(document).ready(function () {
             }
         });
     });
-
 
 
     // Set  Restaurant to group
@@ -428,12 +453,10 @@ $(document).ready(function () {
     });
 
 
-
 });
 
 
 // market_scenario_2.blade.php ::end
-
 
 
 //
