@@ -61,7 +61,7 @@ $colors = ["#4AD179", "#ED375D", "#FE8400"];
 
             </div>
             <div class="card-body">
-                
+                <h1>-{{$defenderSum}}%</h1>
             </div>
             
         </div>

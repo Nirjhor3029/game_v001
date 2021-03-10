@@ -9,12 +9,14 @@ class RestaurantGroup extends Model
 {
     use HasFactory;
 
-    public function marketCosts()
+    public function marketCost()
     {
         return $this->hasMany(MarketCost::class, 'market_id', 'id');
     }
-    public function restaurantPoints()
+
+
+    public function restaurantPoint()
     {
-        return $this->hasMany(RestaurantPoint::class, 'res_group_id', 'id');
+        return $this->hasMany(RestaurantPoint::class,'res_group_id','id' );
     }
 }

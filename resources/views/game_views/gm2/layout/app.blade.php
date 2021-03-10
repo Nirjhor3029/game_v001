@@ -25,17 +25,34 @@
             integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous">
     </script>
 
+<!-- Toastr js & Css :start -->
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+
+<!-- Toastr js & Css :End -->
+
     <link rel="stylesheet" href="{{ asset('css/game2.css') }}">
 </head>
 
 <body>
-@include('game_views.gm2.partials.navbar_boots')
+@include('game_views.gm2.partials.navbar')
 
 <div class="main_body">
+        <div class="flash-message mt-9vh">
+                @foreach (['danger', 'warning', 'success', 'info'] as $msg)
+
+                @if(Session::has('alert-' . $msg))
+
+                <p class="alert alert-{{ $msg }}">{{ Session::get('alert-' . $msg) }} <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></p>
+                @endif
+                @endforeach
+        </div> <!-- end .flash-message -->
     @yield('content')
 </div>
 
 <script src="{{ asset('js/game2.js') }}"></script>
+
 @stack('js')
 </body>
 

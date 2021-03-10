@@ -80,6 +80,27 @@
         /* transform-origin: 0 0; */
         transform: rotate(-90deg);
     }
+
+    .graph_label{
+        font-size: 1vw;
+        width: 22vh;
+    }
+    .res_name{
+        font-weight: lighter !important;
+    }
+
+    .rest_icon{
+        height: 1.5vw;
+    }
+    .btn_attack_icon{
+        height: 1.5vw;
+    }
+    .promotion_icon{
+        height: 6vw;
+    }
+    .marketing-row{
+        padding-left: 10px;
+    }
     
     .chart {
         width: 900px;
@@ -89,24 +110,27 @@
     }
     
     .option-item {
-        width: 100px;
-        border: 1px solid #2d2b2b;
+        /* width: 100px; */
+        border: 1px solid #bc8c05;;
         margin-bottom: 2px;
         cursor: pointer;
         border-radius: 10px;
         text-align: center;
+        font-size: 1vw;
+        z-index: 50;
     }
     
     .droppable {
         min-width: 30px !important;
-        max-width: 40px !important;
+        max-width: 50px !important;
     }
     
     .txt_xaxis {
         margin-left: 10%;
     }
     /* Gm2 - Navbar-start */
-    /* nav {
+    
+    nav {
         display: flex;
         justify-content: space-around;
         align-items: center;
@@ -179,6 +203,10 @@
         transform: rotate(45deg) translate(-5px, -6px) !important;
     }
     
+    .dropdown-toggle {
+        padding: 0 !important;
+    }
+    
     @keyframes navLinkFade {
         from {
             opacity: 0;
@@ -220,7 +248,7 @@
         .nav-links li {
             opacity: 0;
         }
-    } */
+    }
     /* Gm2 - Navbar-end */
     /* gm2- strategic group-start */
     
@@ -419,6 +447,10 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        flex-direction: column;
+    }
+    .gm2_marketing_promotion_header h4{
+        font-size: 1rem;
     }
     
     .bg_like_disable_input {
@@ -490,3 +522,12 @@
     .select_box {
         text-align: center;
     }
+    
+    .selected_td {
+        background-color: rgb(73, 126, 241);
+        /* border: 5px solid aliceblue; */
+        text-align: center;
+        border-radius: 40px;
+    }
+    
+    .selected_div {}

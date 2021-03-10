@@ -112,34 +112,38 @@ class Gm2AjaxController extends Controller
         $groupRows = $request->input('groupRows');
         $groupColumns = $request->input('groupColumns');
 
-        $restaurantGroups = RestaurantGroup::where('user_id',$user_id)->delete();
-        // if(!$restaurantGroups->isEmpty()){
-        //     $restaurantGroups->delete();
-        // }
 
-        
-        foreach($groupColumns as $key => $column){
-            $restaurantGroup = new RestaurantGroup();
-            $restaurantGroup->user_id = $user_id;
-            $restaurantGroup->name = $groupNames[$key];
-            $restaurantGroup->point = $groupRows[$key].$column;
-            $restaurantGroup->save();
-        }
-        
         $graphLevel = GraphLevel::where('user_id',$user_id)->get();
         if($graphLevel->isEmpty()){
             $graphLevel = new GraphLevel();
             $graphLevel->user_id = $user_id;
+            $msg = "Set label";
         }else{
             $graphLevel = $graphLevel[0];
+            $msg = "Update label";
         }
         $graphLevel->x_level = $xAxisValue;
         $graphLevel->y_level = $yAxisValue;
         $graphLevel->save();
-        
+
+
+        $restaurantGroups = RestaurantGroup::where('user_id',$user_id);
+        if($restaurantGroups->get()->isNotEmpty()){
+            // $restaurantGroups->delete();
+        }else{
+            foreach($groupColumns as $key => $column){
+                $restaurantGroup = new RestaurantGroup();
+                $restaurantGroup->user_id = $user_id;
+                $restaurantGroup->name = $groupNames[$key];
+                $restaurantGroup->point = $groupRows[$key].$column;
+                $restaurantGroup->save();
+            }
+        }
+
         
         return response()->json([
-            'status' => $groupColumns[0],
+            'status' => "ok",
+            'success' => $msg." Successfully ",
         ]);
     }
 
@@ -173,6 +177,7 @@ class Gm2AjaxController extends Controller
 
     public function assignStudent(Request $request)
     {
+        $teacher_id = Auth::user()->id;
 
         $userId = $request->input('studentId');
         $restId = $request->input('restId');
@@ -186,7 +191,10 @@ class Gm2AjaxController extends Controller
             $restaurantUser = $restaurantUser[0];
         }
         $restaurantUser->restaurant_id = $restId;
+        $restaurantUser->teacher_id = $teacher_id;
         $restaurantUser->save();
+
+        
         
         return response()->json([
             'status' => "ok",
@@ -213,7 +221,8 @@ class Gm2AjaxController extends Controller
 
 
         return response()->json([
-            'status' => $xAxis,
+            'status' => "ok",
+            'user Id' => $user_id,
         ]);
     }
 
@@ -234,4 +243,6 @@ class Gm2AjaxController extends Controller
             'status' => "Ok",
         ]);
     }
+
+    
 }

@@ -3,8 +3,8 @@
 @section('content')
 
 <?php
-use App\Models\Restaurant;
-$restaurants = $restaurant;
+
+// $restaurants = $restaurant;
 $colors = ["#4AD179", "#ED375D", "#FE8400"];
 $groups = ["group_1","group_2","group_3","group_4",];
 
@@ -29,11 +29,11 @@ $groups = ["group_1","group_2","group_3","group_4",];
 
 
     <div class="row">
-        <div class="offset-md-3 col-md-6 market_scenario_table_box">
+        <div class="col-md-12 col-sm-12 col-lg-6 offset-lg-3 market_scenario_table_box">
             <div>
                 <h3 class="text-center">Table 2</h3>
             </div>
-            <table class="table table-hover table-bordered">
+            <table class="table table-responsive table-hover table-bordered">
                 <thead>
                     <tr>
                         <th scope="col" colspan="4" class="text-center">Cost of Additional Outlet with
@@ -114,16 +114,19 @@ $groups = ["group_1","group_2","group_3","group_4",];
     <div class="row">
 
 
-        @foreach($restaurants as $restaurant)
         <div class="col-md-6">
             <div class="card gm2_card_rest">
                 <div class="card-header gm2_card_header" style="background-color: <?php echo $colors[rand(0,2)] ?>;">
                     <div class="row">
-                        <div class="col-sm-8">
-                            {{$restaurant->name}} ()
-                            <input type="number" name="rest_id" class="rest_id" value="{{$restaurant->id}}" hidden>
+                        <div class="col-sm-6">
+                            {{$resGroup->restaurant->name}} ({{$resGroup->restaurantGroup->name}})
+                            <input type="number" name="rest_id" class="rest_id" value="{{$resGroup->restaurant->id}}" hidden>
                         </div>
-                        <div class="col-sm-4 go-right">
+                        <div class="col-sm-3 go-right">
+                            <span class="gm2-total-text">Max: </span>
+                            <span class="">{{$investment}}</span>
+                        </div>
+                        <div class="col-sm-3 go-right">
                             <span class="gm2-total-text">Total: </span>
                             <span class="gm2-total-value">0</span>
                         </div>
@@ -131,6 +134,11 @@ $groups = ["group_1","group_2","group_3","group_4",];
 
                 </div>
                 <div class="card-body">
+
+                    <div class="" id="alert_invest">
+                        
+                    </div>
+
                     <div class="row inputField_row">
                         <div class="col-md-3">
                             Area
@@ -149,10 +157,12 @@ $groups = ["group_1","group_2","group_3","group_4",];
                         </div>
                         <div class="col-md-3 subclass">
                             <select name="" id="subcategory" class="form-control-sm form-control subcategory">
+                                <option selected value="0">Select Type</option>
                             </select>
                         </div>
                         <div class="col-md-3 cost_class">
                             <input type="text" class="form-control-sm form-control cost_value" disabled value="0">
+                            
                         </div>
                     </div>
 
@@ -171,6 +181,7 @@ $groups = ["group_1","group_2","group_3","group_4",];
                         <div class="col-md-3 subclass">
                             <select name="" id="typeQuantity_subcategory"
                                 class="form-control-sm form-control subcategory">
+                                <option selected value="0">Select Type</option>
                             </select>
                         </div>
                         <div class="col-md-3 cost_class">
@@ -183,8 +194,9 @@ $groups = ["group_1","group_2","group_3","group_4",];
 
                         <div class="gm2_market_promotion_inputs">
 
-                            <div class="row">
-                                <div class="col-sm-6 bg_like_disable_input gm2_marketing_promotion_header">
+                            <div class="row marketing-row" >
+                                <div class="col-sm-6 bg_like_disable_input gm2_marketing_promotion_header" >
+                                <img src="{{asset('assets/icons/career-promotion.svg')}}" alt="" class="promotion_icon">
                                     <h4>Marketing & Promotion</h4>
                                 </div>
                                 <div class="col-sm-6">
@@ -222,67 +234,6 @@ $groups = ["group_1","group_2","group_3","group_4",];
                             </div>
                         </div>
                     </div>
-
-
-                    <!-- <div class="gm2_market_promotion_container">
-                        <h4>Marketing & Promotion</h4>
-                        <div class="gm2_market_promotion_inputs">
-
-                            <div class="row">
-                                <div class="form-group col-sm-6">
-                                    <label for="">Discount within store</label>
-                                    <input type="number" class="form-control-sm form-control discount_within_store" id="" value="0">
-
-                                </div>
-                                <div class="form-group col-sm-6">
-                                    <label for="">Discount through Delivery services</label>
-                                    <input type="number" class="form-control-sm form-control discount_through_delivery_services" id=""
-                                        value="0">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-sm-6">
-                                    <label for="">Advertising through social media</label>
-                                    <input type="number" class="form-control-sm form-control advertising_through_social_media" id=""
-                                        value="0">
-                                </div>
-                                <div class="form-group col-sm-6">
-                                    <label for="">Branding</label>
-                                    <input type="number" class="form-control-sm form-control branding" id="" value="0">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-sm-6">
-                                    <label for="">Other</label>
-                                    <input type="number" class="form-control-sm form-control other" id="" value="0">
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
-
-
-
-
-                    <!-- <div class="row inputField_row">
-                        <div class="col-md-3">
-                            Marketing & Promotion
-                        </div>
-                        <div class="col-md-3">
-                            <select name="" id="">
-                                <option selected>Select Areas</option>
-                                <option value="">Discount within store</option>
-                                <option value="">Discount through Delivery services</option>
-                                <option value="">Advertising through social media</option>
-                                <option value="">Branding</option>
-                                <option value="">Other</option>
-                            </select>
-                        </div>
-
-                        <div class="col-md-3">
-                            <input type="number" value="0">
-                        </div>
-                    </div> -->
-
                     <div class="row inputField_row">
                         <div class="col-md-4">
                             Reserve for Competitor’s future move
@@ -296,7 +247,7 @@ $groups = ["group_1","group_2","group_3","group_4",];
 
                 
                     <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             Attack on group:
                             
                         </div>
@@ -308,8 +259,11 @@ $groups = ["group_1","group_2","group_3","group_4",];
                         </div>
                         @endforeach
                         </div>
-                        <div class="col-sm-2">
-                            <input type="submit" value="Attack" class="attack  btn btn-success">
+                        <div class="col-sm-3">
+                            <button type="submit" class="attack go-right  btn btn-success">
+                                <img src="{{asset('assets/icons/battle.svg')}}" alt="" class="btn_attack_icon">
+                                Attack
+                            </button>
                         </div>
                     </div>
                     
@@ -317,7 +271,6 @@ $groups = ["group_1","group_2","group_3","group_4",];
             </div>
         </div>
 
-        @endforeach
 
 
     </div>

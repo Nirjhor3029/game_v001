@@ -1,4 +1,4 @@
-@extends('game_views.gm2.layout.app')
+@extends('game_views.gm2.admin.layout.gm2_admin_app')
 
 @push('css')
 
@@ -8,32 +8,20 @@
 @endpush
 @section('content')
 
-<?php
-
-use Illuminate\Support\Facades\Session;
-?>
+    <?php use Illuminate\Support\Facades\Session; ?>
     <div class="gm2">
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg"
-                     style="padding:40px;box-sizing:border-box">
+                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg" style="padding:40px;box-sizing:border-box">
 
-                     <div class="flash-message mt-9vh">
-                        @foreach (['danger', 'warning', 'success', 'info'] as $msg)
 
-                        @if(Session::has('alert-' . $msg))
-
-                        <p class="alert alert-{{ $msg }}">{{ Session::get('alert-' . $msg) }} <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></p>
-                        @endif
-                        @endforeach
-                    </div> <!-- end .flash-message -->
 
                     @php
                         $level_options = Config::get('game.game2.options');
                     @endphp
-                    {{--create form--}}
+                    {{-- create form --}}
 
-                    <form action="{{route('gm2.admin.criteria_combination')}}" method="post" class="row mt-9vh">
+                    <form action="{{ route('gm2.admin.criteria_combination') }}" method="post" class="row mt-9vh">
                         @csrf
                         <div class="offset-sm-3 col-sm-6 ">
                             <table class="table ">
@@ -46,23 +34,30 @@ use Illuminate\Support\Facades\Session;
                                 <?php $i = 1; ?>
                                 @foreach ($level_options as $level1)
                                     @foreach ($level_options as $level2)
-                                        @if($level1['id'] == $level2['id'])
+                                        @if ($level1['id'] == $level2['id'])
                                             @continue
                                         @else
-                                            {{--create input field--}}
+                                            {{-- create input field --}}
                                             <tr>
                                                 <td>{{ $i }}</td>
                                                 <td>{{ $level1['name'] }}</td>
                                                 <td>{{ $level2['name'] }}</td>
                                                 <td>
-                                                    <?php
-                                                    $input_name = strtolower(str_replace(' ', '', $level1['id'] . "_" . $level2['id']));
+                                                    <?php $input_name = strtolower(str_replace(' ', '',
+                                                    $level1['id'] . '_' . $level2['id'])); ?>
+                                                    <?php 
+                                                    $value = 0; 
+                                                    if($combinations->isEmpty()){
+                                                        $value = 0;
+                                                    }else{
+                                                        $value = $combinations[$i-1]->point;
+                                                    }
                                                     ?>
                                                     <div class="form-group">
                                                         <input type="number" name="point_value[]"
-                                                               class="form-control form-control-sm" value="0">
-                                                        <input type="text" name="point[]" value="{{$input_name}}"
-                                                               hidden>
+                                                            class="form-control form-control-sm" value="{{$value}}">
+                                                        <input type="text" name="point[]" value="{{ $input_name }}"
+                                                            hidden>
                                                     </div>
                                                 </td>
                                             </tr>

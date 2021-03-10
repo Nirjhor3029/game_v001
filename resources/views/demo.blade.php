@@ -215,6 +215,8 @@
             });
         }
 
+        
+
         $(document).ready(function () {
             console.log('dfds')
             let c = $('.dragdrop_graph tr').eq(1).children(':eq(3)').append(' <span class="">robin</span>');

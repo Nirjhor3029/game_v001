@@ -6,11 +6,18 @@
 
 @push('js')
     <script>
-        $("#sortable").sortable({
+        
+
+        $(document).ready(function () {
+
+
+
+            $("#sortable").sortable({
             connectWith: [".droppable"]
         });
 
-        $(".droppable").sortable({
+        function initializeShortable() {
+            $(".droppable").sortable({
             cursor: "move",
             connectWith: "#sortable",
             update: function (e, ui) {
@@ -26,11 +33,12 @@
                     }
                     restData.push(result);
                 });
-
                 console.dir(restData);
                 sendData(row, column, restData);
             }
         });
+        }
+        
 
         function sendData(graphPointRow, graphPointColumn, restData) {
             $(document).ready(function () {
@@ -50,7 +58,8 @@
                     url: "add_user_graph",
                     data: data,
                     success: function (data) {
-                        // console.log(data);
+                        console.log(data);
+                        toastr.success(data.success);
                     }
                 });
             });
@@ -62,17 +71,60 @@
             }).join(' ');
         }
 
-        $(document).ready(function () {
+
+
             let records = @json($rest_groups);
+            let res_records = @json($records);
             records.forEach(function (ele) {
                 let point = ele.point;
                 let row = (String(point).slice(0, 1)) - 1;
                 let col = (String(point).slice(-1)) - 1;
-                $('.dragdrop_graph tr').eq(row).children(':eq(' + col + ')').append(
-                    '<div data-tag="' + ele.id + '" data-name="' + ele.name +
-                    '"><span class="">' +
-                    titleCase(ele.name) + '</span></div>');
+                $('.dragdrop_graph tr').eq(row).children(':eq(' + col + ')').append(setDroppableCard(ele));
+                // $(".droppable").sortable();
+                //    console.log(records);
+                initializeShortable();
             });
+            
+
+            function setDroppableCard(ele) {
+                // let box = $(".dropBox");
+                let box = $(".dropBox").clone().removeClass("dropBox");
+
+                let boxHeader = box.find(".card-header");
+                let boxBody = box.find(".card-body");
+                boxBody.data("name",ele.name);
+                boxBody.data("tag",ele.id);
+                boxHeader.text(ele.name);
+                // console.log(box);
+                return box;
+            }
+
+            res_records.forEach(function (ele) {
+                let point = ele.graph_point;
+                let row = (String(point).slice(0, 1)) - 1;
+                let col = (String(point).slice(-1)) - 1;
+                let demoRestaurantName = setSelectedOptionItem(ele);
+                // console.log($('.dragdrop_graph tr').eq(row).children(':eq(' + col + ')').find('.card-body'));
+                // return;
+                $('.dragdrop_graph tr').eq(row).children(':eq(' + col + ')').find('.card-body').append(demoRestaurantName);
+               // $(".droppable").sortable();
+                console.log(res_records);
+            //    initializeShortable();
+
+            });
+
+            function setSelectedOptionItem(ele){
+                let demo_option_item = $(".demo_option_item").clone().removeClass('demo_option_item');
+                demo_option_item.find('.res_name').text(ele.name);
+
+                demo_option_item.attr("data-tag",ele.restaurant_id);
+                demo_option_item.attr("data-name",ele.name);
+
+                return demo_option_item;
+                // console.log(demo_option_item);
+            }
+
+            $(".selected_div").parent('.empty2').addClass("selected_td");
         });
     </script>
 
@@ -80,23 +132,28 @@
 
 @section('content')
 
-    <?php $mimnus_data = [];?>
+    <?php $mimnus_data = $addedRestaurants;?>
     <div class="gm2">
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg"
-                     style="padding:40px;box-sizing:border-box">
-
+                        style="padding:40px;box-sizing:border-box">
+                        @php
+                            $rest_icons = ["diet","french-fries","hamburger","healthy-eating"];
+                        @endphp
                     <div class="row mt-9vh">
                         <div class="col-md-2">
                             <div>
                                 <div id="sortable" class="" style="min-height: 600px;">
                                     @foreach($restaurants as $restaurant)
                                         @if(!in_array(trim($restaurant->id),$mimnus_data))
+                                            <?php $url =  $rest_icons[rand(0,3)] ?>
                                             <div data-tag="{{$restaurant->id}}" data-name="{{$restaurant->name}}"
                                                  draggable="true"
-                                                 class="option-item bg-light">
-                                                <span class="">{{Str::title($restaurant->name)}}</span>
+                                                 class="option-item bg-light badge badge pill">
+                                                 
+                                                 <img src="{{asset('assets/icons/'.$url.'.svg')}}" alt="" class="rest_icon">
+                                                <span class="res_name">{{Str::title($restaurant->name)}}</span>
                                             </div>
                                         @endif
                                     @endforeach
@@ -114,45 +171,47 @@
                                 </div>
 
                                 <div class="flex">
-                                    <h1> {{ Str::title($level_options[($graph_level->x_level)-1]['name'])}} </h1>
+                                    <h1 class="graph_label"> {{ Str::title($level_options[($graph_level->x_level)-1]['name'])}} </h1>
 
                                     <div class="chart">
                                         <div class="table-responsive">
                                             <table class="dragdrop_graph " id="">
                                                 <tr>
-                                                    <td class="empty2 droppable jquery_drop_box"></td>
-                                                    <td class="empty2 droppable jquery_drop_box"></td>
-                                                    <td class="empty2 droppable jquery_drop_box"></td>
-                                                    <td class="empty2 droppable jquery_drop_box"></td>
-                                                    <td class="empty2 droppable jquery_drop_box"></td>
+                                                    <td class="empty2  jquery_drop_box">
+                                                       
+                                                    </td>
+                                                    <td class="empty2 jquery_drop_box"></td>
+                                                    <td class="empty2 jquery_drop_box"></td>
+                                                    <td class="empty2 jquery_drop_box"></td>
+                                                    <td class="empty2 jquery_drop_box"></td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="empty2 droppable jquery_drop_box"></td>
-                                                    <td class="empty2 droppable jquery_drop_box"></td>
-                                                    <td class="empty2 droppable jquery_drop_box"></td>
-                                                    <td class="empty2 droppable jquery_drop_box"></td>
-                                                    <td class="empty2 droppable jquery_drop_box"></td>
+                                                    <td class="empty2 jquery_drop_box"></td>
+                                                    <td class="empty2 jquery_drop_box"></td>
+                                                    <td class="empty2 jquery_drop_box"></td>
+                                                    <td class="empty2 jquery_drop_box"></td>
+                                                    <td class="empty2 jquery_drop_box"></td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="empty2 droppable jquery_drop_box"></td>
-                                                    <td class="empty2 droppable jquery_drop_box"></td>
-                                                    <td class="empty2 droppable jquery_drop_box"></td>
-                                                    <td class="empty2 droppable jquery_drop_box"></td>
-                                                    <td class="empty2 droppable jquery_drop_box"></td>
+                                                    <td class="empty2 jquery_drop_box"></td>
+                                                    <td class="empty2 jquery_drop_box"></td>
+                                                    <td class="empty2 jquery_drop_box"></td>
+                                                    <td class="empty2 jquery_drop_box"></td>
+                                                    <td class="empty2 jquery_drop_box"></td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="empty2 droppable jquery_drop_box"></td>
-                                                    <td class="empty2 droppable jquery_drop_box"></td>
-                                                    <td class="empty2 droppable jquery_drop_box"></td>
-                                                    <td class="empty2 droppable jquery_drop_box"></td>
-                                                    <td class="empty2 droppable jquery_drop_box"></td>
+                                                    <td class="empty2 jquery_drop_box"></td>
+                                                    <td class="empty2 jquery_drop_box"></td>
+                                                    <td class="empty2 jquery_drop_box"></td>
+                                                    <td class="empty2 jquery_drop_box"></td>
+                                                    <td class="empty2 jquery_drop_box"></td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="empty2 droppable jquery_drop_box"></td>
-                                                    <td class="empty2 droppable jquery_drop_box"></td>
-                                                    <td class="empty2 droppable jquery_drop_box"></td>
-                                                    <td class="empty2 droppable jquery_drop_box"></td>
-                                                    <td class="empty2 droppable jquery_drop_box"></td>
+                                                    <td class="empty2 jquery_drop_box"></td>
+                                                    <td class="empty2 jquery_drop_box"></td>
+                                                    <td class="empty2 jquery_drop_box"></td>
+                                                    <td class="empty2 jquery_drop_box"></td>
+                                                    <td class="empty2 jquery_drop_box"></td>
                                                 </tr>
                                             </table>
                                         </div>
@@ -165,7 +224,7 @@
                                             Low
                                         </div>
                                         <div class="col-md-4 mt-3">
-                                            <h1> {{ Str::title($level_options[($graph_level->y_level)-1]['name'])}} </h1>
+                                            <h1 class="graph_label"> {{ Str::title($level_options[($graph_level->y_level)-1]['name'])}} </h1>
                                         </div>
                                         <div class="col-sm-4 txt-center">
                                             High
@@ -180,6 +239,24 @@
                 </div>
             </div>
         </div>
+    </div>
+
+
+<!-- DemoDroppableCard -->
+    <div class="card dropBox" >
+        <div class="card-header" style="text-align: center;padding:0px !important"></div>
+        <div class="card-body droppable ui-sortable" data-tag="" data-name="" style="padding-left: 5px !important;" >
+            
+        </div>
+    </div>
+
+
+    <!--  -->
+    <div data-tag="" data-name="" draggable="true" class="demo_option_item option-item bg-light badge badge pill">
+        <?php $url =  $rest_icons[rand(0,3)] ?>
+        <img src="{{asset('assets/icons/'.$url.'.svg')}}" alt="" class="rest_icon">
+        <span class="res_name" >
+        </span>
     </div>
 
 @endsection

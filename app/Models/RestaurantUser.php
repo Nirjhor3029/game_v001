@@ -9,5 +9,14 @@ class RestaurantUser extends Model
 {
     use HasFactory;
     protected $table = "restaurant_user";
+
+    public function restaurant()
+    {
+        return $this->belongsTo(Restaurant::class,'restaurant_id','id');
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class,'user_id','id');
+    }
     
 }
