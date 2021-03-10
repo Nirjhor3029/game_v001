@@ -69,14 +69,14 @@ class IndexController extends Controller
         // get x-axis & y-axis option from config file
         $gType = Config::get('game.game2.options');
 
-        $graphLevel = GraphLevel::where('user_id',$user_id)->first();
+        $graphLevel = GraphLevel::where('user_id', $user_id)->first();
 
-        return view('game_views.gm2.game', compact('restaurants', 'records', 'gType', 'added_restaurant','graphLevel'));
+        return view('game_views.gm2.game', compact('restaurants', 'records', 'gType', 'added_restaurant', 'graphLevel'));
     }
 
     public function game_view()
     {
-        $restaurant_group = RestaurantGroup::where('user_id',Auth::guard('web')->user()->id)->findOrFail();
+        $restaurant_group = RestaurantGroup::where('user_id', Auth::guard('web')->user()->id)->findOrFail();
 
 
     }
@@ -120,14 +120,15 @@ class IndexController extends Controller
         $gType = Config::get('game.game2.options');
 
         $user_id = Auth::user()->id;
-        $restaurantGroups = RestaurantGroup::where('user_id',$user_id)->get();
-        $graphLevel = GraphLevel::where('user_id',$user_id)->first();
+        $restaurantGroups = RestaurantGroup::where('user_id', $user_id)->get();
+        $graphLevel = GraphLevel::where('user_id', $user_id)->first();
 
 
         // return $graphLevel[0]->x_level;
 
-        return view('game_views.gm2.admin.set_group',compact('gType','restaurants','restaurantGroups','graphLevel'));
+        return view('game_views.gm2.admin.set_group', compact('gType', 'restaurants', 'restaurantGroups', 'graphLevel'));
     }
+
     public function setRestaurant()
     {
         $user_id = Auth::user()->id;
@@ -135,23 +136,70 @@ class IndexController extends Controller
         // return $restaurants;
         $gType = Config::get('game.game2.options');
 
-        $restaurantGroups = RestaurantGroup::where('user_id',$user_id)->get();
+        $restaurantGroups = RestaurantGroup::where('user_id', $user_id)->get();
 
-        return view('game_views.gm2.admin.set_restaurant',compact('gType','restaurants','restaurantGroups'));
+        return view('game_views.gm2.admin.set_restaurant', compact('gType', 'restaurants', 'restaurantGroups'));
     }
 
     public function assignStudent()
     {
-        
-        $students = User::where('type',3)->get();
 
-        $restaurantPoints = RestaurantPoint::where('leader',1)->get()->toArray();
-        
+        $students = User::where('type', 3)->get();
+
+        $restaurantPoints = RestaurantPoint::where('leader', 1)->get()->toArray();
+        $rest_group_points = RestaurantGroup::with('restaurantPoints')->get();
+        foreach ($rest_group_points as $item) {
+            echo $item->name . 'group' . $item->restaurantPonts->rest_id;
+        }
+        exit();
         // $restaurants = Restaurant::all();
-        $restaurants = Restaurant::whereIn('id',$restaurantPoints)->get();
+        $restaurants = Restaurant::whereIn('id', $restaurantPoints)->get();
         return $restaurantPoints;
 
         // return $restaurants;
-        return view('game_views.gm2.admin.assign_student',compact('students','restaurants'));
+        return view('game_views.gm2.admin.assign_student', compact('students', 'restaurants'));
     }
+
+    public function get_task_one_result()
+    {
+
+        $user_id = Auth::user()->id;
+        // get X & Y level option value from graph level table
+        $get_xy_level = GraphLevel::where('user_id', $user_id)->get()->first();
+
+        //get level combination point value from criteria combination table assign by teacher id
+        // set teacher id form session
+
+        $results = CriteriaCombination::select(['x_axis', 'y_axis', 'point'])->where('user_id', $user_id)->get();
+
+        $point_value = $results->map(function ($item) use ($get_xy_level) {
+            return ($get_xy_level->x_level == $item->x_axis && $get_xy_level->y_level == $item->y_axis) ? $item->point : 0;
+        })->sum();
+        $result = get_percentage($point_value, 30);
+        dd($result);
+    }
+
+    public function get_task_two_result()
+    {
+        $user_id = Auth::user()->id;
+
+        // get restaurant point with restaurant from group & point table which is assign by teacher
+        // set teacher id form session
+
+        $rest_id_points = RestaurantGroup::with(array('restaurantPoints' => function ($q) {
+            $q->addselect('res_group_id', 'res_id');
+        }))->where('user_id', $user_id)->get();
+        $records = array();
+        foreach ($rest_id_points as $key => $item) {
+            $records[] = [
+                'point' => (int)$item->point,
+                'rest_ids' => $item->restaurantPoints->pluck('res_id')
+            ];
+        }
+        $rr =  Graph::where('level',2)->get();
+
+
+
+    }
+
 }

@@ -97,7 +97,7 @@ Route::name('gm2.')->prefix('gm2')->namespace('Gm2')->middleware(['auth:sanctum'
 
 
     Route::view('level_table', 'gm2.level_table');
-    Route::view('result', 'gm2.result');
+    Route::get('result', [\App\Http\Controllers\Game\gm2\IndexController::class, 'get_task_two_result']);
 
 
     Route::get('admin/criteria_combination', [\App\Http\Controllers\Game\gm2\IndexController::class, 'criteria_combination'])->name('admin.criteria_combination');

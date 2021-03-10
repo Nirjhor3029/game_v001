@@ -13,4 +13,6 @@ class GraphItem extends Model
         'user_id',
         'session_id'
     ];
+
+
 }
