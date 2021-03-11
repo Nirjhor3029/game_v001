@@ -1,4 +1,4 @@
-@extends('game_views.gm2.layout.app')
+@extends('game_views.gm2.admin.layout.gm2_admin_app')
 
 @push('css')
 
@@ -7,7 +7,6 @@
 @push('js')
     <script>
         
-
         $(document).ready(function () {
             $("#sortable").sortable({
             connectWith: [".droppable"]
@@ -70,15 +69,17 @@
 
 
 
-            let records = @json($rest_groups);
+            let res_group = @json($rest_groups);
             let res_records = @json($records);
-            records.forEach(function (ele) {
+            
+            console.log("hello");
+            res_group.forEach(function (ele) {
                 let point = ele.point;
                 let row = (String(point).slice(0, 1)) - 1;
                 let col = (String(point).slice(-1)) - 1;
                 $('.dragdrop_graph tr').eq(row).children(':eq(' + col + ')').append(setDroppableCard(ele).removeClass("invisible"));
-                // $(".droppable").sortable();
-                //    console.log(records);
+                
+                console.log(res_group);
                 initializeShortable();
             });
             
@@ -106,7 +107,7 @@
                 $('.dragdrop_graph tr').eq(row).children(':eq(' + col + ')').find('.card-body').append(demoRestaurantName.removeClass("invisible"));
                // $(".droppable").sortable();
                 console.log(res_records);
-            //    initializeShortable();
+                //    initializeShortable();
 
             });
 
@@ -129,6 +130,7 @@
 
 @section('content')
 
+        
     <?php $mimnus_data = $addedRestaurants;?>
     <div class="gm2">
         <div class="py-12">

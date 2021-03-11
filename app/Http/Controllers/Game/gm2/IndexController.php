@@ -158,6 +158,41 @@ class IndexController extends Controller
 
         return view('game_views.gm2.admin.set_restaurant',compact('gType','restaurants','restaurantGroups'));
     }
+    public function setRestaurant2()
+    {
+        $user_id = Auth::user()->id;
+        $restaurants = Restaurant::all();
+        $gType = Config::get('game.game2.options');
+        $restaurantGroups = RestaurantGroup::where('user_id',$user_id)->get();
+
+        $graphItem = GraphItem::where(['user_id' => Auth::guard('web')->user()->id, 'session_id' => Session::getId()])->get()->first();
+        if (is_null($graphItem)) {
+            $graphItem = new GraphItem();
+            $graphItem->user_id = Auth::guard('web')->user()->id;
+            $graphItem->session_id = Session::getId();
+            $graphItem->save();
+        }
+        // old restaurant item get form graph table
+        $records = DB::table('graphs')
+            ->join('restaurants', 'graphs.rest_id', '=', 'restaurants.id')
+            ->select('graphs.id as graph_id', 'graphs.rest_id as restaurant_id', 'restaurants.name', 'graphs.graph_point')
+            ->where('graph_item_id', $graphItem->id)
+            ->where('level', '2')
+            ->get();
+        // return $records;
+
+        $addedRestaurants = $records->pluck('restaurant_id')->all();
+
+        $rest_groups = RestaurantGroup::where('user_id', $user_id)->get();
+        $graph_level = GraphLevel::where('user_id', $user_id)->get()->first();
+        // return $rest_groups;
+        // return $teacher_id->teacher_id;
+       
+        // get x-axis & y-axis option from config file
+        $level_options = Config::get('game.game2.options');
+
+        return view('gm2.teacher_user_graph', compact('rest_groups', 'graph_level', 'level_options', 'restaurants','records','addedRestaurants'));
+    }
 
     public function assignStudent()
     {

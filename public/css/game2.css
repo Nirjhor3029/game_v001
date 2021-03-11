@@ -485,7 +485,7 @@
         /* border-right: #263238 1px solid; */
         /* border-top: #263238 1px solid; */
         border-radius: 20px;
-        background-color: #afce8d;
+        background-color: #ECEFF1;
         cursor: pointer;
     }
     
@@ -531,3 +531,13 @@
     }
     
     .selected_div {}
+
+    .modal-body {
+        background-image: url('http://myfunnymemes.com/wp-content/uploads/2015/04/Doge-Meme-Lion-In-All-Its-Majestic-Glory.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 400px;
+    }
+    .border_rd{
+        border: 2px solid red !important;
+    }

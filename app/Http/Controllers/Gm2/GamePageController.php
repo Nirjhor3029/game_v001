@@ -28,11 +28,7 @@ class GamePageController extends Controller
         return view('gm2.overview')->with('nav', $nav);
     }
 
-    public function addGraph(Request $request)
-    {
-        $this->set_graph_point($request, 1);
-
-    }
+    
 
     public function market_scenario_2()
     {
@@ -59,14 +55,17 @@ class GamePageController extends Controller
         
         $restaurantGroups = RestaurantGroup::whereNotIn('id',[optional($resGroup)->res_group_id])->get();
 
-// dd($restaurantGroups);
-// return $resGroup->restaurant->name;
+    // dd($restaurantGroups);
+    // return $resGroup->restaurant->name;
+    return $resGroup->restaurant;
+    $market = Market::where('user_id',$user_id)
+        ->get();
 
         
 
     if(isset($resGroup)){
         $userInfo = [
-            "student_id"=> Auth::user()->id,
+            "student_id"=> $user_id,
             "assigned_res_id"=> $resGroup->restaurant->id,
             "assigned_group_id"=> $resGroup->restaurantGroup->id,
         ];
@@ -160,12 +159,22 @@ class GamePageController extends Controller
         return view('gm2.users_graph', compact('rest_groups', 'graph_level', 'level_options', 'restaurants','records','addedRestaurants'));
     }
 
+
+
+    // Game page
+    public function addGraph(Request $request)
+    {
+        $this->set_graph_point($request, 1);
+        return response()->json(['success' => 'Restaurant position set successfully !']);
+    }
+
+
+    // users_graph page
     public function add_users_graph(Request $request)
     {
         // set restaurant in graph on task 2
         $this->set_graph_point($request, 2);
-
-        return response()->json(['success' => 'Task Log manual entry successfully updated']);
+        return response()->json(['success' => 'Restaurant position set successfully !']);
 
     }
 
