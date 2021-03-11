@@ -17,7 +17,7 @@ use Illuminate\Http\Request;
 class Gm2AjaxController extends Controller
 {
     //
-    public function updateMarket(Request $request)
+    public function gm2_attack(Request $request)
     {
         // return response()->json([
         //     'status' => "ok",
@@ -95,8 +95,7 @@ class Gm2AjaxController extends Controller
         // $market_promotions
         return response()->json([
             'status' => "ok",
-            'rest_id' => $rest_id,
-            'user_id' => $user_id,
+            'success' => "Attack Succesfully",
         ]);
     }
 
@@ -163,15 +162,20 @@ class Gm2AjaxController extends Controller
             $restaurantPoint = new RestaurantPoint();
             $restaurantPoint->user_id = $user_id;
             $restaurantPoint->res_id = $restId;
+            $msg = "Group Set";
         }else{
             $restaurantPoint = $restaurantPoint[0];
+            $msg = "Group Update";
         }
         $restaurantPoint->res_group_id = $groupValue;
         $restaurantPoint->leader = $leader;
         $restaurantPoint->save();
 
+        
+
         return response()->json([
             'status' => "ok",
+            'success' => $msg." Successfully ",
         ]);
     }
 
@@ -186,9 +190,11 @@ class Gm2AjaxController extends Controller
         if($restaurantUser->isEmpty()){
             $restaurantUser = new RestaurantUser();
             $restaurantUser->user_id = $userId;
+            $msg = "New Restaurant Set to student";
             
         }else{
             $restaurantUser = $restaurantUser[0];
+            $msg = "Restaurant Update to student";
         }
         $restaurantUser->restaurant_id = $restId;
         $restaurantUser->teacher_id = $teacher_id;
@@ -198,6 +204,7 @@ class Gm2AjaxController extends Controller
         
         return response()->json([
             'status' => "ok",
+            'success' => $msg." Successfully ",
         ]);
     }
 
@@ -223,6 +230,7 @@ class Gm2AjaxController extends Controller
         return response()->json([
             'status' => "ok",
             'user Id' => $user_id,
+            'success' => "Graph criteria changed successfully."
         ]);
     }
 

@@ -27,16 +27,16 @@
 
     <div class="row">
         <div class="col-sm-12">
-            <h4>Use the template provided in table 2 to complete table 3 for your restaurant and wait for your
+            <!-- <h4>Use the template provided in table 2 to complete table 3 for your restaurant and wait for your
                 competitor(s) to make a move!
-            </h4>
+            </h4> -->
         </div>
         
     </div>
 
-    <div class="row" style="text-align: center;">
+    <div class="row" style="text-align: center; margin-top:5vh">
 
-        <h4>Till Now No One Attack Your market place</h4>
+        <h4 style="text-align: center;">Till Now No One Attack Your market place</h4>
 
     </div>
 

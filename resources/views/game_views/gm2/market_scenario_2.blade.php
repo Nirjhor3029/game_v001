@@ -125,6 +125,7 @@ $groups = ["group_1","group_2","group_3","group_4",];
                         <div class="col-sm-3 go-right">
                             <span class="gm2-total-text">Max: </span>
                             <span class="">{{$investment}}</span>
+                            <input type="number" value="{{$investment}}" class="max_invest" hidden>
                         </div>
                         <div class="col-sm-3 go-right">
                             <span class="gm2-total-text">Total: </span>
@@ -148,7 +149,7 @@ $groups = ["group_1","group_2","group_3","group_4",];
                             <input type="number" name="" id="">
                             <input type="button" class="btn_input btn_input_minus " value="-"> -->
                             <select name="" id="type" name="cat_id" class="form-control-sm form-control type"
-                                data-type="1">
+                                data-type="1" >
                                 <option selected value="0">Select Areas</option>
                                 @foreach($typeArea as $item)
                                 <option value="{{$item->id}}">{{$item->name}}</option>
@@ -161,8 +162,7 @@ $groups = ["group_1","group_2","group_3","group_4",];
                             </select>
                         </div>
                         <div class="col-md-3 cost_class">
-                            <input type="text" class="form-control-sm form-control cost_value" disabled value="0">
-                            
+                            <input type="text" class="form-control-sm form-control cost_value" readonly value="0" required>
                         </div>
                     </div>
 
@@ -186,7 +186,7 @@ $groups = ["group_1","group_2","group_3","group_4",];
                         </div>
                         <div class="col-md-3 cost_class">
                             <input type="number" id="typeQuantity_cost_value"
-                                class="form-control-sm form-control cost_value" value="0" disabled>
+                                class="form-control-sm form-control cost_value" value="0" readonly required>
                         </div>
                     </div>
 
@@ -239,7 +239,7 @@ $groups = ["group_1","group_2","group_3","group_4",];
                             Reserve for Competitor’s future move
                         </div>
                         <div class="col-md-8">
-                            <input type="number" value="0" class="form-control-sm form-control competitors_move">
+                            <input type="number" value="{{$investment}}" readonly class="form-control-sm form-control competitors_move">
                         </div>
                     </div>
                 </div>
@@ -254,14 +254,14 @@ $groups = ["group_1","group_2","group_3","group_4",];
                         <div class="col-sm-6">
                         @foreach($restaurantGroups as $group)
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" id="" name="attack_group" value="{{$group->id}}">
+                            <input class="form-check-input" type="radio" id="" name="attack_group" value="{{$group->id}}" required>
                             <label class="form-check-label" for="">{{$group->name}}</label>
                         </div>
                         @endforeach
                         </div>
                         <div class="col-sm-3">
-                            <button type="submit" class="attack go-right  btn btn-success">
-                                <img src="{{asset('assets/icons/battle.svg')}}" alt="" class="btn_attack_icon">
+                            <button type="submit" id="attack" class="attack go-right  btn btn-success">
+                                <img src="{{asset('assets/icons/battle.svg')}}" alt=""  class="btn_attack_icon">
                                 Attack
                             </button>
                         </div>
@@ -275,6 +275,22 @@ $groups = ["group_1","group_2","group_3","group_4",];
 
     </div>
 
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="attackModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      
+      <div class="modal-body">
+        test
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 @endsection

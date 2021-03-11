@@ -59,6 +59,7 @@ $(".droppable").sortable({
 
 
 // market_scenario_2.blade.php ::start
+var MaxAttackAmount = 20;
 $(document).ready(function () {
     $.ajaxSetup({
         headers: {
@@ -96,8 +97,8 @@ $(document).ready(function () {
             }
         })
     });
-    $('.subcategory').on('change', function (e) {
 
+    $('.subcategory').on('change', function (e) {
         let that = $(this);
         let subCatParent = that.parent();
         let costField = subCatParent.siblings('.cost_class').children('.cost_value')
@@ -108,7 +109,7 @@ $(document).ready(function () {
         let card = subCatParent.parents('.card');
         // console.log(card);
         // total
-        gm2_calculateTotal(card);
+        gm2_calculateTotal(card, that, false); //updateDb = false
 
     });
 
@@ -116,23 +117,60 @@ $(document).ready(function () {
         let that = $(this);
         let card = that.parents('.card');
         // console.log(card);
-        gm2_calculateTotal(card);
+        gm2_calculateTotal(card, that, false); //updateDb = false
     });
 
-    function gm2_calculateTotal(card) {
+    $("#attack").on("click", function (e) {
+        console.log("Attacking");
+        // $("#attackModal").modal();
+        let that = $(this);
+        let card = that.parents('.card');
+        gm2_calculateTotal(card, that, true); //updateDb = true
+    });
+
+
+    // $(".attack").on("click", function (e) {
+    //     let group = $('input[name="attack_group"]:checked').val();
+    //     // console.log(group);
+    //     let rest_id = $('.rest_id').val();
+    //     // console.log(group);
+
+
+    //     $.ajax({
+    //         type: "POST",
+    //         url: "user_set_group",
+    //         data: {
+    //             group: group,
+    //             rest_id: rest_id,
+    //         },
+    //         success: function (data) {
+    //             // console.log(data);
+    //             // $(this).prop("disabled", "true");
+    //             //return;
+    //         }
+    //     });
+    // });
+
+
+    function gm2_calculateTotal(card, that, updateDb) {
+
+        let group = $('input[name="attack_group"]:checked').val();
+
+
+        let max_invest = parseInt(card.find(".max_invest").val());
+        // console.log(max_invest);
         let total = card.find(".gm2-total-value");
         let cost_value = card.find(".cost_value");
-
         let type = card.find(".type");
         let sub_type = card.find(".subcategory");
-
         let type_selected = type.find(':selected');
         let area_type = type_selected[0].value;
         let quelity_type = type_selected[1].value;
-
         let sub_type_selected = sub_type.find(':selected');
         let quelity_sub_type = 0;
         let area_sub_type = 0;
+
+
         if (sub_type_selected.length <= 0) {
             area_sub_type = 0;
             quelity_sub_type = 0;
@@ -142,14 +180,10 @@ $(document).ready(function () {
         } else {
             area_sub_type = sub_type_selected[0].value;
         }
-
-
         // console.log(type.find(':selected')[0].value);
         // console.log(quelity_sub_type);
-
         let competitorsMove = card.find(".competitors_move")[0];
         let rest_id = card.find(".rest_id")[0];
-
         // market promotions inputs
         let ajx_input_market_promotion = card.find(".ajx_input_market_promotion");
         let discountWithStore = ajx_input_market_promotion[0];
@@ -157,257 +191,87 @@ $(document).ready(function () {
         let AdvertisingThroughSocialMedia = ajx_input_market_promotion[2];
         let Branding = ajx_input_market_promotion[3];
         let Other = ajx_input_market_promotion[4];
-
         // console.log(discountWithStore.value);
-
-
         let area = cost_value[0];
         let quality = cost_value[1];
-        let totalValue = parseInt(area.value) + parseInt(quality.value) + parseInt(competitorsMove.value) +
+
+        let totalValue_without_move = parseInt(area.value) + parseInt(quality.value) +
             parseInt(discountWithStore.value) + parseInt(discountThroughDeliveryService.value) +
             parseInt(AdvertisingThroughSocialMedia.value) + parseInt(Branding.value) + parseInt(Other.value);
+        competitorsMove.value = max_invest - totalValue_without_move;
 
-        total.text(totalValue);
-        // console.log(rest_id.value);
-
-        // Update Database
-        $.ajax({
-            type: "POST",
-            url: "gm2_update_market",
-            data: {
-                area: area.value,
-                quality: quality.value,
-
-                area_type: area_type,
-                quelity_type: quelity_type,
-                area_sub_type: area_sub_type,
-                quelity_sub_type: quelity_sub_type,
-
-
-                competitorsMove: competitorsMove.value,
-                totalValue: totalValue,
-                rest_id: rest_id.value,
-
-                discountWithStore: discountWithStore.value,
-                discountThroughDeliveryService: discountThroughDeliveryService.value,
-                AdvertisingThroughSocialMedia: AdvertisingThroughSocialMedia.value,
-                Branding: Branding.value,
-                Other: Other.value,
-            },
-            success: function (data) {
-                // console.log(data);
-                //return;
-            }
-        })
-    }
-
-
-
-
-
-
-    // set_group.blade.php
-    $(".group_input_plus").click(function (e) {
-        let that = $(this);
-        let groupInputContainer = $('#group_input_container');
-        let groupInput = that.parents('.group_input');
-
-        let clone_input = groupInput.clone();
-        clone_input.find(".group_input_minus").removeClass('invisible');
-        clone_input.find(".group_input_plus").remove();
-        clone_input.appendTo(groupInputContainer)
-    });
-
-    $(document).on("click", ".group_input_minus", function (e) {
-        let that = $(this);
-        let groupInput = that.parents('.group_input');
-        groupInput.remove();
-    });
-
-    $(document).on("change", '.gm2-row', function (e) {
-        let that = $(this);
-        let groupInput = that.parents('.group_input');
-        let groupColumn = groupInput.find(".gm2-column");
-        groupColumn.prop("disabled", false);
-        // console.log(groupColumn);
-    });
-
-    $(document).on("change", '.gm2-column', function (e) {
-        let that = $(this);
-        let groupInput = that.parents('.group_input');
-
-        let groupName = groupInput.find('.group_name');
-        let groupNameText = groupName.val();
-
-        let groupRow = groupInput.find('.group_row');
-        groupRow = groupRow.find(':selected');
-
-        let groupColumn = groupInput.find('.group_column');
-        groupColumn = groupColumn.find(':selected');
-
-        let table = $('.dragdrop_graph');
-        let row_column = groupRow.val() + '' + groupColumn.val();
-        let group = table.find("#" + row_column);
-        // console.log(group);
-        group.addClass('gm2_admin_selected_box');
-
-        group.empty();
-        group.append(groupNameText);
-    });
-
-
-    $('#gm2Goup_set').click(function (e) {
-
-        let xAxisValue = $("#gm2-x-axis").children("option:selected").val();
-        let yAxisValue = $("#gm2-y-axis").children("option:selected").val();
-        let groupNames = $(".group_name").map((i, e) => e.value).get();
-        let groupRows = $(".gm2-row").map((i, e) => e.value).get();
-        let groupColumns = $(".gm2-column").map((i, e) => e.value).get();
-        // let groupRestaurants = $(".gm2-restaurant").map((i, e) => e.value).get();
-
-        if (xAxisValue <= 0 || yAxisValue <= 0) {
-            alert("You Must select X-label & Y-Label");
+        if (competitorsMove.value < 0) {
+            alert("Total Investment Crossed the Max Limit !!!");
+            that.val(0)
+            let totalValue_without_move = parseInt(area.value) + parseInt(quality.value) +
+                parseInt(discountWithStore.value) + parseInt(discountThroughDeliveryService.value) +
+                parseInt(AdvertisingThroughSocialMedia.value) + parseInt(Branding.value) + parseInt(Other.value);
+            competitorsMove.value = max_invest - totalValue_without_move;
             return;
         }
-        // console.log(groupRestaurants);
 
-        $.ajax({
-            type: "POST",
-            url: "gm2_update_group",
-            data: {
-                xAxisValue: xAxisValue,
-                yAxisValue: yAxisValue,
-                groupNames: groupNames,
-                groupRows: groupRows,
-                groupColumns: groupColumns,
-                // groupRestaurants: groupRestaurants,
-            },
-            success: function (data) {
-                // console.log(data);
-                $(this).prop("disabled", "true");
-                // toastr.success(data.success);
-                //return;
-            }
-        });
-    });
+        let totalValue = totalValue_without_move + parseInt(competitorsMove.value);
+        total.text(totalValue_without_move);
+        // return;
+        // console.log(rest_id.value);
 
+        console.log(cost_value[0].value);
 
-
-    // Set  Restaurant to group
-    var GroupLeaders = [];
-    $(".leader").on("change", function (e) {
-        let that = $(this);
-        let parent = that.parents('.restaurant_container');
-        let group = parent.find('.group');
-        let groupValue = group.val();
-        let restId = parent.find('.restaurant_name').val();
-
-        let leader = 0;
-        if (that.is(":checked")) {
-            GroupLeaders.push(groupValue);
-            group.prop('disabled', true);
-            leader = 1;
+        if (cost_value[0].value <= 0 || cost_value[1].value <= 0 || typeof group == "undefined") {
+            cost_value.addClass("border_rd");
+            card.find(".form-check").addClass("border_rd");
+            toastr.error("All Required Field Must need to fill!");
+            updateDb = 0;
         } else {
-            GroupLeaders.pop(groupValue);
-            group.prop('disabled', false);
-            leader = 0;
-        }
-        // console.log(GroupLeaders);
-        updateRestaurantGroup(restId, groupValue, leader);
-
-    })
-
-    $(".group").on("change", function (e) {
-        let that = $(this);
-        let parent = that.parents('.restaurant_container');
-        let groupValue = parent.find('.group').val();
-        let restId = parent.find('.restaurant_name').val();
-        let checkBox = parent.find('.leader');
-        let leader = 0;
-        if (jQuery.inArray(groupValue, GroupLeaders) !== -1) {
-            checkBox.prop('disabled', true);
-            // console.log(groupValue + " found in");
-        } else {
-            checkBox.prop('disabled', false);
-            // console.log("not found");
+            cost_value.removeClass("border_rd");
+            // updateDb = 1;
         }
 
-        if (checkBox.is(":checked")) {
-            leader = 1;
-        } else {
-            leader = 0;
+
+        // Update Database
+
+        // let required = $(":required");
+        // console.log(required);
+        if (updateDb) {
+            $.ajax({
+                type: "POST",
+                url: "gm2_attack",
+                data: {
+                    area: area.value,
+                    quality: quality.value,
+
+                    area_type: area_type,
+                    quelity_type: quelity_type,
+                    area_sub_type: area_sub_type,
+                    quelity_sub_type: quelity_sub_type,
+
+
+                    competitorsMove: competitorsMove.value,
+                    totalValue: totalValue,
+                    rest_id: rest_id.value,
+
+                    discountWithStore: discountWithStore.value,
+                    discountThroughDeliveryService: discountThroughDeliveryService.value,
+                    AdvertisingThroughSocialMedia: AdvertisingThroughSocialMedia.value,
+                    Branding: Branding.value,
+                    Other: Other.value,
+
+                    group: group,
+                },
+                success: function (data) {
+                    // console.log(data);
+                    toastr.success(data.success);
+                    //return;
+                }
+            })
         }
-        updateRestaurantGroup(restId, groupValue, leader);
-    })
 
-    function updateRestaurantGroup(restId, groupValue, leader) {
-
-        // console.log(leader);
-
-        $.ajax({
-            type: "POST",
-            url: "gm2_update_restaurant_group",
-            data: {
-                restId: restId,
-                groupValue: groupValue,
-                leader: leader,
-            },
-            success: function (data) {
-                // console.log(data);
-                // $(this).prop("disabled", "true");
-                //return;
-            }
-        });
     }
-
-    // assign_Student
-
-    $(".set").on("click", function (e) {
-        let that = $(this);
-        let parent = that.parents(".restaurant_container");
-        let studentId = parent.find('.student_name').val();
-        let restId = parent.find('.restaurant_select').children("option:selected").val();
-
-        $.ajax({
-            type: "POST",
-            url: "assign_student",
-            data: {
-                studentId: studentId,
-                restId: restId,
-            },
-            success: function (data) {
-                // console.log(data);
-                // $(this).prop("disabled", "true");
-                //return;
-            }
-        });
-    });
-
 
     // Game page
 
 
     // market_scenario page
-    $(".attack").on("click", function (e) {
-        let group = $('input[name="attack_group"]:checked').val();
-        let rest_id = $('.rest_id').val();
-        // console.log(group);
-
-
-        $.ajax({
-            type: "POST",
-            url: "user_set_group",
-            data: {
-                group: group,
-                rest_id: rest_id,
-            },
-            success: function (data) {
-                // console.log(data);
-                // $(this).prop("disabled", "true");
-                //return;
-            }
-        });
-    });
 
 
     // Market Scenario defend page
