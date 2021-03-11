@@ -105,6 +105,10 @@ Route::name('gm2.')->prefix('gm2')->namespace('Gm2')->middleware(['auth:sanctum'
     Route::post('admin/gm2_update_group', [Gm2AjaxController::class, 'updateGroup'])->name('gm2_update_group');
     Route::post('admin/gm2_update_restaurant_group', [Gm2AjaxController::class, 'updateRestaurantGroup'])->name('admin.gm2_update_restaurant_group');
     Route::post('admin/assign_student', [Gm2AjaxController::class, 'assignStudent'])->name('admin.assign_student');
+
+    Route::post('admin/add_restaurant_point', [Gm2AjaxController::class, 'addRestaurantPoint'])->name('admin.add_restaurant_Point');
+
+
     Route::post('set_student_criteria', [Gm2AjaxController::class, 'setStudentCriteria'])->name('set_student_criteria');
     Route::post('user_set_group', [Gm2AjaxController::class, 'userSetGroup'])->name('user_set_group');
 
@@ -130,6 +134,9 @@ Route::name('gm2.')->prefix('gm2')->namespace('Gm2')->middleware(['auth:sanctum'
 
     Route::get('admin/user-role', [\App\Http\Controllers\Game\gm2\Gm2AdminController::class, 'userRole'])->name('admin.user_role');
     Route::get('admin/user-manage/{id}', [\App\Http\Controllers\Game\gm2\Gm2AdminController::class, 'userManage'])->name('admin.user_manage');
+
+    Route::get('/task1', [IndexController::class,'get_task_one_result']);
+    Route::get('/task2', [IndexController::class,'get_task_two_result']);
 
 });
 

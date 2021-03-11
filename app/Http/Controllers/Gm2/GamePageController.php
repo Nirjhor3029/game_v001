@@ -57,7 +57,7 @@ class GamePageController extends Controller
 
     // dd($restaurantGroups);
     // return $resGroup->restaurant->name;
-    return $resGroup->restaurant;
+    // return $resGroup->restaurant;
     $market = Market::where('user_id',$user_id)
         ->get();
 
@@ -159,6 +159,10 @@ class GamePageController extends Controller
         return view('gm2.users_graph', compact('rest_groups', 'graph_level', 'level_options', 'restaurants','records','addedRestaurants'));
     }
 
+    
+
+
+
 
 
     // Game page
@@ -193,7 +197,7 @@ class GamePageController extends Controller
             $restArray['graphPointColumn'] = $request->input('graphPointColumn') + 1;
             $graph_point = $restArray['graphPointRow'] . $restArray['graphPointColumn'];
             //remove old graph data
-            Graph::where(['graph_point' => $graphItem->id, 'graph_point' => $graph_point,'level' => $level])->delete();
+            Graph::where(['graph_item_id' => $graphItem->id, 'graph_point' => $graph_point,'level' => $level])->delete();
             if ($request->filled('restData')) {
                 foreach ($request->restData as $items) {
                     //add new items

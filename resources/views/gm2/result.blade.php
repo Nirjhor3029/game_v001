@@ -25,7 +25,7 @@ $colors = ["#4AD179", "#ED375D", "#FE8400"];
                 </div>
             </div>
             <div class="card-body">
-                
+                {{$taskOneResult['result']}}
             </div>
             
         </div>
@@ -38,12 +38,12 @@ $colors = ["#4AD179", "#ED375D", "#FE8400"];
                     <div class="col-sm-8">
                     Task - 2(A) Result
                     </div>
-                    
                 </div>
 
             </div>
             <div class="card-body">
-                
+                Correct : {{$taskTwoResult['Correct']}} <br>
+                Wrong : {{$taskTwoResult['Wrong']}}
             </div>
             
         </div>
@@ -61,7 +61,13 @@ $colors = ["#4AD179", "#ED375D", "#FE8400"];
 
             </div>
             <div class="card-body">
-                <h1>-{{$defenderSum}}%</h1>
+                @if($defenderSum == 0)
+                    <h1>{{$defenderSum}}%</h1>
+                @else
+                    <h1>-{{$defenderSum}}%</h1>
+                @endif
+                
+                
             </div>
             
         </div>

@@ -9,19 +9,31 @@
         
         $(document).ready(function () {
             $("#sortable").sortable({
-            connectWith: [".droppable"]
+            connectWith: [".droppable"],
+            
             });
 
             function initializeShortable() {
                 $(".droppable").sortable({
                 cursor: "move",
                 connectWith: "#sortable",
+                cancel: ".not_shortable",
+                // disabled: ".not_shortable",
                 update: function (e, ui) {
                     let row = $(this).closest('tr').index();
                     let column = $(this).closest('td').index();
-                    console.log(`row ${row} & column ${column}`);
+                    // console.log(`row ${row} & column ${column}`);
                     /* each restaurant drop in every box so push restaurant Id & name array */
                     let restData = [];
+                    if ($(this).children().length > 6) {
+                        //ui.sender: will cancel the change.
+                        //Useful in the 'receive' callback.
+                        $(ui.sender).sortable('cancel');
+                        // alert("You Can not Add More than 6 Items !!");
+                        toastr.error("You Can not Add More than 6 Items !!");
+                        
+
+                    }
                     $(this).children().each(function (idx, ele) {
                         let result = {
                             'restId': $(ele).data('tag'),
@@ -30,13 +42,20 @@
                         restData.push(result);
                     });
                     console.dir(restData);
-                    sendData(row, column, restData);
+                    let groupId = $(this).attr("data-group");
+                    // console.log(groupId);
+                    // return;
+                    
+                    sendData(groupId, restData);
+                },
+                receive: function(event, ui) {
+                    // after drop this callback execute.
                 }
             });
             }
             
 
-            function sendData(graphPointRow, graphPointColumn, restData) {
+            function sendData(groupId, restData) {
                 $(document).ready(function () {
                     $.ajaxSetup({
                         headers: {
@@ -45,17 +64,16 @@
                     });
 
                     let data = {
-                        graphPointRow: graphPointRow,
-                        graphPointColumn: graphPointColumn,
+                        groupId: groupId,
                         restData: restData
                     };
                     $.ajax({
                         type: "POST",
-                        url: "add_user_graph",
+                        url: "add_restaurant_point",
                         data: data,
                         success: function (data) {
-                            console.log(data);
-                            toastr.success(data.success);
+                            // console.log(data);
+                            // toastr.success(data.success);
                         }
                     });
                 });
@@ -69,20 +87,45 @@
 
 
 
-            let res_group = @json($rest_groups);
-            let res_records = @json($records);
+
+
+
+
+            let res_group = @json($restaurantGroups);
             
-            console.log("hello");
+            // console.log("hello");
             res_group.forEach(function (ele) {
                 let point = ele.point;
                 let row = (String(point).slice(0, 1)) - 1;
                 let col = (String(point).slice(-1)) - 1;
                 $('.dragdrop_graph tr').eq(row).children(':eq(' + col + ')').append(setDroppableCard(ele).removeClass("invisible"));
-                
-                console.log(res_group);
+             
+
+                ele.restaurant_point.forEach(function (point_ele) {
+                    let point = ele.point;
+                    console.log(point);
+                    let row = (String(point).slice(0, 1)) - 1;
+                    let col = (String(point).slice(-1)) - 1;
+                    let demoRestaurantName = setSelectedOptionItem(point_ele);
+                    $('.dragdrop_graph tr').eq(row).children(':eq(' + col + ')').find('.card-body').append(demoRestaurantName.removeClass("invisible"));
+                });
+
                 initializeShortable();
             });
-            
+            function setSelectedOptionItem(ele){
+                let demo_option_item = $(".demo_option_item").clone().removeClass('demo_option_item');
+                demo_option_item.find('.res_name').text(ele.restaurant.name);
+                
+
+                demo_option_item.attr("data-tag",ele.res_id);
+                demo_option_item.attr("data-name",ele.restaurant.name);
+                if(ele.leader){
+                    demo_option_item.attr('draggable',false);
+                    demo_option_item.addClass('not_shortable');
+                    demo_option_item.append($(".leader").clone().removeClass("invisible leader"));
+                }
+                return demo_option_item;
+            }
 
             function setDroppableCard(ele) {
                 // let box = $(".dropBox");
@@ -90,37 +133,16 @@
 
                 let boxHeader = box.find(".card-header");
                 let boxBody = box.find(".card-body");
-                boxBody.data("name",ele.name);
-                boxBody.data("tag",ele.id);
+                
+                boxBody.attr("data-group",ele.id);
                 boxHeader.text(ele.name);
                 // console.log(box);
                 return box;
             }
 
-            res_records.forEach(function (ele) {
-                let point = ele.graph_point;
-                let row = (String(point).slice(0, 1)) - 1;
-                let col = (String(point).slice(-1)) - 1;
-                let demoRestaurantName = setSelectedOptionItem(ele);
-                // console.log($('.dragdrop_graph tr').eq(row).children(':eq(' + col + ')').find('.card-body'));
-                // return;
-                $('.dragdrop_graph tr').eq(row).children(':eq(' + col + ')').find('.card-body').append(demoRestaurantName.removeClass("invisible"));
-               // $(".droppable").sortable();
-                console.log(res_records);
-                //    initializeShortable();
+            
 
-            });
-
-            function setSelectedOptionItem(ele){
-                let demo_option_item = $(".demo_option_item").clone().removeClass('demo_option_item');
-                demo_option_item.find('.res_name').text(ele.name);
-
-                demo_option_item.attr("data-tag",ele.restaurant_id);
-                demo_option_item.attr("data-name",ele.name);
-
-                return demo_option_item;
-                // console.log(demo_option_item);
-            }
+            
 
             $(".selected_div").parent('.empty2').addClass("selected_td");
         });
@@ -131,7 +153,7 @@
 @section('content')
 
         
-    <?php $mimnus_data = $addedRestaurants;?>
+    <?php $mimnus_data = [];?>
     <div class="gm2">
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -244,7 +266,7 @@
     <!-- DemoDroppableCard -->
     <div class="card dropBox invisible" >
         <div class="card-header" style="text-align: center;padding:0px !important"></div>
-        <div class="card-body droppable ui-sortable" data-tag="" data-name="" style="padding-left: 5px !important;" >
+        <div class="card-body droppable ui-sortable" data-group="" style="padding-left: 5px !important;" >
             
         </div>
     </div>
@@ -257,5 +279,8 @@
         <span class="res_name" >
         </span>
     </div>
+
+    <!--Demo Start  -->
+    <img src="{{asset('assets/icons/favourites.svg')}}" alt="" class="leader leader-icon invisible">
 
 @endsection

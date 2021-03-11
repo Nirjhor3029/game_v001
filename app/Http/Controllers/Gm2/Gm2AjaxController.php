@@ -252,5 +252,27 @@ class Gm2AjaxController extends Controller
         ]);
     }
 
+    // Admin Restaurant set / admin user graph page
+    public function addRestaurantPoint(Request $request)
+    {
+        
+        
+        $user_id = Auth::user()->id;
+        $restId = $request->input('restData');
+        
+        $groupId = $request->input('groupId');
+        
+
+        $restaurantPoint = RestaurantPoint::where('user_id',$user_id)
+                            ->where('res_id',$restId)->get();
+        
+
+        return response()->json([
+            'status' => "ok",
+            'success' => $msg." Successfully ",
+        ]);
+        return response()->json(['success' => 'Restaurant position set successfully !']);
+    }
+
     
 }

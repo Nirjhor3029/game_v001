@@ -31,36 +31,47 @@
                                     <th>Y Axis</th>
                                     <th>Value/Mark</th>
                                 </tr>
-                                <?php $i = 1; ?>
+                                <?php
+                                    $i = 1; 
+                                    $x = [];
+                                    $y = [];
+                                ?>
                                 @foreach ($level_options as $level1)
                                     @foreach ($level_options as $level2)
-                                        @if ($level1['id'] == $level2['id'])
+                                        @if ($level1['id'] == $level2['id'])    <!-- same id check ex: 1,1/ 2,2 -->
                                             @continue
                                         @else
-                                            {{-- create input field --}}
-                                            <tr>
-                                                <td>{{ $i }}</td>
-                                                <td>{{ $level1['name'] }}</td>
-                                                <td>{{ $level2['name'] }}</td>
-                                                <td>
-                                                    <?php $input_name = strtolower(str_replace(' ', '',
-                                                    $level1['id'] . '_' . $level2['id'])); ?>
-                                                    <?php 
-                                                    $value = 0; 
-                                                    if($combinations->isEmpty()){
-                                                        $value = 0;
-                                                    }else{
-                                                        $value = $combinations[$i-1]->point;
-                                                    }
-                                                    ?>
-                                                    <div class="form-group">
-                                                        <input type="number" name="point_value[]"
-                                                            class="form-control form-control-sm" value="{{$value}}">
-                                                        <input type="text" name="point[]" value="{{ $input_name }}"
-                                                            hidden>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                            @php $x[] = $level1['id']; @endphp
+
+                                            @if((in_array($level2['id'],$x))) <!-- combination check ex: 1,2 & 2,1 -->
+                                                @continue
+                                            @else
+                                                {{-- create input field --}}
+                                                <tr>
+                                                    <td>{{ $i }}</td>
+                                                    <td>{{ $level1['name'] }} ({{$level1['id']}}) ({{$level2['id']}})</td>
+                                                    <td>{{ $level2['name'] }}</td>
+                                                    <td>
+                                                        <?php $input_name = strtolower(str_replace(' ', '',
+                                                        $level1['id'] . '_' . $level2['id'])); ?>
+                                                        <?php 
+                                                        $value = 0; 
+                                                        if($combinations->isEmpty()){
+                                                            $value = 0;
+                                                        }else{
+                                                            $value = $combinations[$i-1]->point;
+                                                        }
+                                                        ?>
+                                                        <div class="form-group">
+                                                            <input type="number" name="point_value[]"
+                                                                class="form-control form-control-sm" value="{{$value}}">
+                                                            <input type="text" name="point[]" value="{{ $input_name }}"
+                                                                hidden>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                            
                                             <?php $i++; ?>
                                         @endif
                                     @endforeach
