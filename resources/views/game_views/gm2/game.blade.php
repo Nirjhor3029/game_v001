@@ -33,7 +33,7 @@
             }
         });
     }
-    
+
 
     function sendData(graphPointRow, graphPointColumn, restData) {
         $(document).ready(function() {
@@ -142,7 +142,7 @@
         }
 
         gm2NumberOfGrapchBox_selected = $(".droppable").length-1;
-        console.log(gm2NumberOfGrapchBox_selected);
+        // console.log(gm2NumberOfGrapchBox_selected);
         let gm2_number_of_group = $("#gm2_number_of_group").val(gm2NumberOfGrapchBox_selected);
 
         // Game page
@@ -168,12 +168,12 @@
             console.log(that);
 
             if (gm2NumberOfGrapchBox > 0) {
-                
+                gm2NumberOfGrapchBox--;
                 // that.addClass('jquery_selected_box droppable');
                 that.append(setDroppableCard(e).removeClass("invisible")).removeClass('jquery_dragdrop_box');
                 console.log(that);
-                gm2NumberOfGrapchBox--;
-            } else {
+            }
+            if(gm2NumberOfGrapchBox == 0) {
                 $('.empty2').removeClass('jquery_dragdrop_box');
             }
 
@@ -369,7 +369,7 @@
     <div class="card dropBox invisible" >
         <div class="card-header" style="text-align: center;padding:0px !important"></div>
         <div class="card-body droppable ui-sortable" data-tag="" data-name="" style="padding-left: 5px !important;" >
-            
+
         </div>
     </div>
 
