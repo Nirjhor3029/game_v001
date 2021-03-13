@@ -28,7 +28,6 @@
                 </div>
 
 
-
             </div>
         </div>
     </div>
@@ -36,7 +35,8 @@
     @section('next_previous')
         {{-- nextUrl & previousUrl assigned from livewire individual views  --}}
         <div class="next_previous_container">
-            <a href="{{(isset($nextUrl))? $nextUrl : "#"}}" id="arrow_next" class="arrow"><span>&#9658;&#9658;</span></a>
+            <a href="{{(isset($nextUrl))? $nextUrl : "#"}}" id="arrow_next"
+               class="arrow"><span>&#9658;&#9658;</span></a>
 
         </div>
     @endsection

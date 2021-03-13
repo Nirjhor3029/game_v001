@@ -2,39 +2,39 @@
 
 @section('content')
 
-<?php
+    <?php
 
-// $restaurants = $restaurant;
-$colors = ["#4AD179", "#ED375D", "#FE8400"];
-$groups = ["group_1","group_2","group_3","group_4",];
+    // $restaurants = $restaurant;
+    $colors = ["#4AD179", "#ED375D", "#FE8400"];
+    $groups = ["group_1", "group_2", "group_3", "group_4",];
 
-?>
+    ?>
 
-<div class="gm2">
+    <div class="gm2">
 
-    <div class="header ">
-        <div class="welcome mt-9vh">
-            <h2 class="title">
-                Marketing Scenario
-            </h2>
-            <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ex repellendus maxime reiciendis explicabo
-                quos
-                vel iure architecto earum, voluptatum magnam pariatur, dolores necessitatibus aliquid incidunt! Iure
-                dolorem
-                officiis ex obcaecati!
-            </p>
-        </div>
-    </div>
-
-
-    <div class="row">
-        <div class="offset-md-3 col-md-6 market_scenario_table_box">
-            <div>
-                <h3 class="text-center">Table 2</h3>
+        <div class="header ">
+            <div class="welcome mt-9vh">
+                <h2 class="title">
+                    Marketing Scenario
+                </h2>
+                <p>
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ex repellendus maxime reiciendis explicabo
+                    quos
+                    vel iure architecto earum, voluptatum magnam pariatur, dolores necessitatibus aliquid incidunt! Iure
+                    dolorem
+                    officiis ex obcaecati!
+                </p>
             </div>
-            <table class="table table-hover table-bordered">
-                <thead>
+        </div>
+
+
+        <div class="row">
+            <div class="offset-md-3 col-md-6 market_scenario_table_box">
+                <div>
+                    <h3 class="text-center">Table 2</h3>
+                </div>
+                <table class="table table-hover table-bordered">
+                    <thead>
                     <tr>
                         <th scope="col" colspan="4" class="text-center">Cost of Additional Outlet with
                             everything as it is <br>(in millions)
@@ -55,8 +55,8 @@ $groups = ["group_1","group_2","group_3","group_4",];
                         <th>Mid</th>
                         <th>Low</th>
                     </tr>
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
                     <tr>
                         <th scope="row">Continental/Intl Chain</th>
                         <td>10</td>
@@ -97,23 +97,19 @@ $groups = ["group_1","group_2","group_3","group_4",];
                         <td>0.5</td>
                         <td>0.5</td>
                     </tr>
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>
+
+        <div class="row">
+            <h3>
+                Until Teacher Assigned You under a Restaurant.
+                You Can't play rest of the game.
+            </h3>
+        </div>
+
+
     </div>
-
-    <div class="row">
-        <h3>
-            Until Teacher Assigned You under a Restaurant.
-                    You Can't play rest of the game. 
-        </h3>
-    </div>
-
-
-
-
-    
-
-</div>
 
 @endsection

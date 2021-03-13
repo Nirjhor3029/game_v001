@@ -62,7 +62,7 @@
             }).join(' ');
         }
 
-        
+
     </script>
 
 @endpush

@@ -1,4 +1,3 @@
-
 // Game-2 Admin Js::start
 $(document).ready(function () {
     $.ajaxSetup({
@@ -118,7 +117,6 @@ $(document).ready(function () {
     });
 
 
-
     // set_restaurant to group
     var GroupLeaders = [];
     $(".leader").on("change", function (e) {
@@ -164,6 +162,7 @@ $(document).ready(function () {
         }
         updateRestaurantGroup(restId, groupValue, leader);
     })
+
     function updateRestaurantGroup(restId, groupValue, leader) {
 
         // console.log(leader);
@@ -184,8 +183,6 @@ $(document).ready(function () {
             }
         });
     }
-
-
 
 
     // assign_Student

@@ -6,54 +6,54 @@
 
 @push('js')
     <script>
-        
+
         $(document).ready(function () {
             $("#sortable").sortable({
-            connectWith: [".droppable"],
-            
+                connectWith: [".droppable"],
+
             });
 
             function initializeShortable() {
                 $(".droppable").sortable({
-                cursor: "move",
-                connectWith: "#sortable",
-                cancel: ".not_shortable",
-                // disabled: ".not_shortable",
-                update: function (e, ui) {
-                    let row = $(this).closest('tr').index();
-                    let column = $(this).closest('td').index();
-                    // console.log(`row ${row} & column ${column}`);
-                    /* each restaurant drop in every box so push restaurant Id & name array */
-                    let restData = [];
-                    if ($(this).children().length > 6) {
-                        //ui.sender: will cancel the change.
-                        //Useful in the 'receive' callback.
-                        $(ui.sender).sortable('cancel');
-                        // alert("You Can not Add More than 6 Items !!");
-                        toastr.error("You Can not Add More than 6 Items !!");
-                        
+                    cursor: "move",
+                    connectWith: "#sortable",
+                    cancel: ".not_shortable",
+                    // disabled: ".not_shortable",
+                    update: function (e, ui) {
+                        let row = $(this).closest('tr').index();
+                        let column = $(this).closest('td').index();
+                        // console.log(`row ${row} & column ${column}`);
+                        /* each restaurant drop in every box so push restaurant Id & name array */
+                        let restData = [];
+                        if ($(this).children().length > 6) {
+                            //ui.sender: will cancel the change.
+                            //Useful in the 'receive' callback.
+                            $(ui.sender).sortable('cancel');
+                            // alert("You Can not Add More than 6 Items !!");
+                            toastr.error("You Can not Add More than 6 Items !!");
 
-                    }
-                    $(this).children().each(function (idx, ele) {
-                        let result = {
-                            'restId': $(ele).data('tag'),
-                            'restName': $(ele).data('name'),
+
                         }
-                        restData.push(result);
-                    });
-                    console.dir(restData);
-                    let groupId = $(this).attr("data-group");
-                    // console.log(groupId);
-                    // return;
-                    
-                    sendData(groupId, restData);
-                },
-                receive: function(event, ui) {
-                    // after drop this callback execute.
-                }
-            });
+                        $(this).children().each(function (idx, ele) {
+                            let result = {
+                                'restId': $(ele).data('tag'),
+                                'restName': $(ele).data('name'),
+                            }
+                            restData.push(result);
+                        });
+                        console.dir(restData);
+                        let groupId = $(this).attr("data-group");
+                        // console.log(groupId);
+                        // return;
+
+                        sendData(groupId, restData);
+                    },
+                    receive: function (event, ui) {
+                        // after drop this callback execute.
+                    }
+                });
             }
-            
+
 
             function sendData(groupId, restData) {
                 $(document).ready(function () {
@@ -86,20 +86,15 @@
             }
 
 
-
-
-
-
-
             let res_group = @json($restaurantGroups);
-            
+
             // console.log("hello");
             res_group.forEach(function (ele) {
                 let point = ele.point;
                 let row = (String(point).slice(0, 1)) - 1;
                 let col = (String(point).slice(-1)) - 1;
                 $('.dragdrop_graph tr').eq(row).children(':eq(' + col + ')').append(setDroppableCard(ele).removeClass("invisible"));
-             
+
 
                 ele.restaurant_point.forEach(function (point_ele) {
                     let point = ele.point;
@@ -112,15 +107,16 @@
 
                 initializeShortable();
             });
-            function setSelectedOptionItem(ele){
+
+            function setSelectedOptionItem(ele) {
                 let demo_option_item = $(".demo_option_item").clone().removeClass('demo_option_item');
                 demo_option_item.find('.res_name').text(ele.restaurant.name);
-                
 
-                demo_option_item.attr("data-tag",ele.res_id);
-                demo_option_item.attr("data-name",ele.restaurant.name);
-                if(ele.leader){
-                    demo_option_item.attr('draggable',false);
+
+                demo_option_item.attr("data-tag", ele.res_id);
+                demo_option_item.attr("data-name", ele.restaurant.name);
+                if (ele.leader) {
+                    demo_option_item.attr('draggable', false);
                     demo_option_item.addClass('not_shortable');
                     demo_option_item.append($(".leader").clone().removeClass("invisible leader"));
                 }
@@ -133,16 +129,13 @@
 
                 let boxHeader = box.find(".card-header");
                 let boxBody = box.find(".card-body");
-                
-                boxBody.attr("data-group",ele.id);
+
+                boxBody.attr("data-group", ele.id);
                 boxHeader.text(ele.name);
                 // console.log(box);
                 return box;
             }
 
-            
-
-            
 
             $(".selected_div").parent('.empty2').addClass("selected_td");
         });
@@ -152,13 +145,13 @@
 
 @section('content')
 
-        
+
     <?php $mimnus_data = [];?>
     <div class="gm2">
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg"
-                        style="padding:40px;box-sizing:border-box">
+                     style="padding:40px;box-sizing:border-box">
                     @php
                         $rest_icons = ["diet","french-fries","hamburger","healthy-eating"];
                     @endphp
@@ -168,12 +161,13 @@
                                 <div id="sortable" class="" style="min-height: 600px;">
                                     @foreach($restaurants as $restaurant)
                                         @if(!in_array(trim($restaurant->id),$mimnus_data))
-                                            <?php $url =  $rest_icons[rand(0,3)] ?>
+                                            <?php $url = $rest_icons[rand(0, 3)] ?>
                                             <div data-tag="{{$restaurant->id}}" data-name="{{$restaurant->name}}"
                                                  draggable="true"
                                                  class="option-item bg-light badge badge pill">
-                                                 
-                                                 <img src="{{asset('assets/icons/'.$url.'.svg')}}" alt="" class="rest_icon">
+
+                                                <img src="{{asset('assets/icons/'.$url.'.svg')}}" alt=""
+                                                     class="rest_icon">
                                                 <span class="res_name">{{Str::title($restaurant->name)}}</span>
                                             </div>
                                         @endif
@@ -199,7 +193,7 @@
                                             <table class="dragdrop_graph " id="">
                                                 <tr>
                                                     <td class="empty2  jquery_drop_box">
-                                                       
+
                                                     </td>
                                                     <td class="empty2 jquery_drop_box"></td>
                                                     <td class="empty2 jquery_drop_box"></td>
@@ -264,19 +258,20 @@
 
 
     <!-- DemoDroppableCard -->
-    <div class="card dropBox invisible" >
+    <div class="card dropBox invisible">
         <div class="card-header" style="text-align: center;padding:0px !important"></div>
-        <div class="card-body droppable ui-sortable" data-group="" style="padding-left: 5px !important;" >
-            
+        <div class="card-body droppable ui-sortable" data-group="" style="padding-left: 5px !important;">
+
         </div>
     </div>
 
 
     <!-- option-item-demo -->
-    <div data-tag="" data-name="" draggable="true" class="demo_option_item option-item bg-light badge badge pill invisible">
-        <?php $url =  $rest_icons[rand(0,3)] ?>
+    <div data-tag="" data-name="" draggable="true"
+         class="demo_option_item option-item bg-light badge badge pill invisible">
+        <?php $url = $rest_icons[rand(0, 3)] ?>
         <img src="{{asset('assets/icons/'.$url.'.svg')}}" alt="" class="rest_icon">
-        <span class="res_name" >
+        <span class="res_name">
         </span>
     </div>
 

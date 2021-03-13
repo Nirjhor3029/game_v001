@@ -7,8 +7,8 @@
 
                 <div class="row">
                     <div class="col-md-6">
-                        @include('partials.aside') 
-                        
+                        @include('partials.aside')
+
                     </div>
                     <div class="col-md-6">
                         <livewire:budgeting/>
@@ -18,5 +18,5 @@
         </div>
     </div>
 
-    
+
 </x-app-layout>

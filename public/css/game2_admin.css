@@ -4,7 +4,7 @@
     box-sizing: border-box;
 }
 
- :root {
+:root {
     --textColor_primary: rgb(39, 38, 38);
     --textColor_header: #FE8E00;
     --textColor_hover: #FE8E00;
@@ -501,7 +501,8 @@ nav {
     padding: 5px 5px;
 }
 
-.attack_box {}
+.attack_box {
+}
 
 .defend_card {
     position: sticky;
@@ -511,15 +512,19 @@ nav {
 .select_box {
     text-align: center;
 }
-.rest_icon{
+
+.rest_icon {
     height: 1.5vw;
 }
-.leader-icon{
+
+.leader-icon {
     height: 1vw;
 }
-.btn_attack_icon{
+
+.btn_attack_icon {
     height: 1.5vw;
 }
-.promotion_icon{
+
+.promotion_icon {
     height: 6vw;
 }

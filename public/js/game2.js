@@ -1,5 +1,3 @@
-
-
 const navSlide = () => {
     const burger = document.querySelector('.burger');
     const nav = document.querySelector('.nav-links');
@@ -24,7 +22,6 @@ const navSlide = () => {
     });
 }
 navSlide();
-
 
 
 $("#sortable").sortable({
@@ -54,8 +51,6 @@ $(".droppable").sortable({
         // console.log(`row ${x} & column ${y}`);
     }
 });
-
-
 
 
 // market_scenario_2.blade.php ::start
@@ -89,7 +84,7 @@ $(document).ready(function () {
                 subCat.append(
                     '<option selected>Select type</option>');
                 $.each(data
-                    .subcategories[0].sub_costs,
+                        .subcategories[0].sub_costs,
                     function (index, subcategory) {
                         subCat.append('<option data-cost="' + subcategory.value + '" value="' + subcategory.id + '" >' + subcategory.name + '</option>');
                     })
@@ -303,7 +298,6 @@ $(document).ready(function () {
 
 
 // market_scenario_2.blade.php ::end
-
 
 
 //
