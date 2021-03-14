@@ -14,5 +14,7 @@ class GraphItem extends Model
         'session_id'
     ];
 
+    
+
 
 }

@@ -156,6 +156,25 @@ class IndexController extends Controller
 
         return view('game_views.gm2.admin.set_restaurant', compact('gType', 'restaurants', 'restaurantGroups'));
     }
+    public function setRestaurant2()
+    {
+        $user_id = Auth::user()->id; //teacher own
+        $restaurants = Restaurant::all();
+        $gType = Config::get('game.game2.options');
+        $restaurantGroups = RestaurantGroup::where('user_id',$user_id)->with('restaurantPoint','restaurantPoint.restaurant')->get();
+
+        $graph_level = GraphLevel::where('user_id', $user_id)->get()->first();
+        $empty = false;
+        if (is_null($graph_level)){
+            $empty = true;
+        }
+
+        // get x-axis & y-axis option from config file
+        $level_options = Config::get('game.game2.options');
+//        return  (!$empty);
+
+        return view('gm2.teacher_graph', compact( 'graph_level', 'level_options', 'restaurants','restaurantGroups','empty'));
+    }
 
     public function assignStudent()
     {
@@ -270,12 +289,82 @@ class IndexController extends Controller
     }
 
 
+
+
+    public function result()
+    {
+        $session_student = session("student_info");
+        $studentResId = $session_student["assigned_res_id"];
+
+        $defender = AttackDefend::where('defender', $studentResId)->select('score')->get();
+        $attacker = AttackDefend::where('attacker', $studentResId)->select('score')->first();
+
+        $defenderSum = $defender->sum("score");
+        // $attackSum = ( 1 - $defenderSum );
+        // return $defenderSum;
+
+         $taskOneResult = $this->get_task_one_result();
+        $taskTwoResult = $this->get_task_two_result();
+        // return $taskTwoResult['Correct'];
+
+        return view("gm2.result", compact("defenderSum","taskOneResult","taskTwoResult"));
+    }
+
+    public function get_task_one_result()
+    {
+
+        $user_id = Auth::user()->id;
+        // get X & Y level option value from graph level table
+        $get_xy_level = GraphLevel::where('user_id', $user_id)->get()->first();
+        $bag = [];
+        if (!isset($get_xy_level)) {
+            $bag = [
+                'type' => 'error',
+                'message' => 'You not set the level in graph'
+            ];
+        }
+
+        //get level combination point value from criteria combination table assign by teacher id
+        // set teacher id form session
+
+
+        $restUser = RestaurantUser::where('user_id',$user_id)->first("teacher_id");
+        // return $restUser;
+
+        $results = CriteriaCombination::select(['x_axis', 'y_axis', 'point'])->where('user_id', $restUser->teacher_id)->get();
+       // return $results;
+        if ($results->isEmpty()) {
+           return $bag = [
+                'type' => 'error',
+                'message' => 'Your coordinator not set the answer yet'
+            ];
+        }
+        $point_value = $results->map(function ($item) use ($get_xy_level) {
+            return (($get_xy_level->x_level == $item->x_axis && $get_xy_level->y_level == $item->y_axis) || ($get_xy_level->y_level == $item->x_axis && $get_xy_level->x_level == $item->y_axis)) ? $item->point : 0;
+        })->sum();
+
+
+        $result = get_percentage($point_value, 30);
+        if (isset($point_value)) {
+            $bag = [
+                'type' => 'success',
+                'message' => 'Your Task 1 result is  ' . $result,
+            ];
+        }
+        return $data = [
+            'result' => $result,
+            'bag' => $bag
+        ];
+
+    }
+
     public function get_task_two_result()
     {
         // get authenticated user id
         $user_id = Auth::user()->id;
+        $teacherId = RestaurantUser::where('user_id',$user_id)->first("teacher_id")->teacher_id;
 
-        $resGroup = RestaurantGroup::where('user_id', $user_id)->with('restaurantPoint')->get();
+        $resGroup = RestaurantGroup::where('user_id', $teacherId)->with('restaurantPoint')->get();
         // $resPoints = RestaurantPoint::where('user_id',$user_id)->with('restaurantGroup')->get();
         $bag = [];
         if (!isset($resGroup)) {
@@ -294,15 +383,21 @@ class IndexController extends Controller
 
         }
         // get student point value form graph & graph item table
-        $student_id = 17;
+        $student_id = $user_id;
         $graphItem = GraphItem::where('user_id', $student_id)->latest()->first();
-        $graphs = Graph::where('graph_item_id', 16)->where('level', 2)->get();
-
+        // return $graphItem;
+        $graphs = Graph::where('graph_item_id', $graphItem->id)->where('level', 2)->get();
+        if($graphs->isEmpty()){
+            $bag = [
+                'type' => 'error',
+                'message' => 'First Play The Game !!!'
+            ];
+            return $bag;
+        }
         $studentResPoints = [];
         $rest_ids = [];
-        $tmpGraphPoint = 0;
+        //get restaurant points with restaurant id of student..
         foreach ($graphs as $key => $singleResPoint) {
-            // $tmpGraphPoint = $singleResPoint->graph_point;
             $rest_ids[$singleResPoint->graph_point][] = $singleResPoint->rest_id;
             $studentResPoints[$singleResPoint->graph_point] = [
                 'point' => $singleResPoint->graph_point,
@@ -319,17 +414,17 @@ class IndexController extends Controller
             if (isset($studentResPoints[$point])) {
                 $studentRestIds = $studentResPoints[$point]['rest_id'];
                 $dataSet[$point] = array_map(function ($item) use ($studentRestIds) {
-                    return (in_array($item, $studentRestIds)) ? "yes" : "no";
+                    return (in_array($item, $studentRestIds)) ? "Correct" : "Wrong";
                 }, $teacherRestIds);
             } else {
-                return "Not Found";
+                return "student put restaurant into wrong boxes.";
             }
 
             $count[$point] = array_count_values($dataSet[$point]);
 
         }
-        $correct = array_sum(array_column($count, "yes"));
-        $wrong = array_sum(array_column($count, "no"));
+        $correct = array_sum(array_column($count, "Correct"));
+        $wrong = array_sum(array_column($count, "Wrong"));
 
         return $result = [
             'Correct' => $correct,
@@ -339,82 +434,5 @@ class IndexController extends Controller
 
     }
 
-    public function result()
-    {
-        $session_student = session("student_info");
-        $studentResId = $session_student["assigned_res_id"];
 
-        $defender = AttackDefend::where('defender', $studentResId)->select('score')->get();
-        $attacker = AttackDefend::where('attacker', $studentResId)->select('score')->first();
-
-        $defenderSum = $defender->sum("score");
-        // $attackSum = ( 1 - $defenderSum );
-
-        // return $defenderSum;
-
-        return view("gm2.result", compact("defenderSum"));
-    }
-
-    public function get_task_one_result(): array
-    {
-
-        $user_id = Auth::user()->id;
-        // get X & Y level option value from graph level table
-        $get_xy_level = GraphLevel::where('user_id', $user_id)->get()->first();
-        $bag = [];
-        if (!isset($get_xy_level)) {
-            $bag = [
-                'type' => 'error',
-                'message' => 'You not set the level in graph'
-            ];
-        }
-
-        //get level combination point value from criteria combination table assign by teacher id
-        // set teacher id form session
-
-        $results = CriteriaCombination::select(['x_axis', 'y_axis', 'point'])->where('user_id', $user_id)->get();
-        if (!isset($results)) {
-            $bag = [
-                'type' => 'error',
-                'message' => 'Your coordinator not set the answer yet'
-            ];
-        }
-        $point_value = $results->map(function ($item) use ($get_xy_level) {
-            return ($get_xy_level->x_level == $item->x_axis && $get_xy_level->y_level == $item->y_axis) ? $item->point : 0;
-        })->sum();
-
-        $result = get_percentage($point_value, 30);
-        if (isset($point_value)) {
-            $bag = [
-                'type' => 'success',
-                'message' => 'Your Task 1 result is  ' . $result,
-            ];
-        }
-        return $data = [
-            'result' => $result,
-            'bag' => $bag
-        ];
-
-    }
-
-    public function get_task_two_result_old()
-    {
-        $user_id = Auth::user()->id;
-
-        // get restaurant point with restaurant from group & point table which is assign by teacher
-        // set teacher id form session
-
-        $rest_id_points = RestaurantGroup::with(array('restaurantPoints' => function ($q) {
-            $q->addselect('res_group_id', 'res_id');
-        }))->where('user_id', $user_id)->get();
-        $records = array();
-        foreach ($rest_id_points as $key => $item) {
-            $records[] = [
-                'point' => (int)$item->point,
-                'rest_ids' => $item->restaurantPoints->pluck('res_id')
-            ];
-        }
-        $rr = Graph::where('level', 2)->get();
-
-    }
 }

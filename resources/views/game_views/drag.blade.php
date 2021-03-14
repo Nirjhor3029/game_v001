@@ -16,13 +16,13 @@
                             <ul id="sortable" class="revinew_right_list empty" style="min-height: 600px;">
                                 <?php $i = 0;?>
                                 @foreach($options as $option)
-                                @if(!in_array(trim($option->title),$mimnus_data))
-                                <?php $i++;?>
-                                <li data-tag="{{$option->title}}" data-pay="{{$option->value}}" class="fill"
-                                    draggable="true">
-                                    {{$option->title}} <span style="float: right">{{$option->value}} BDT</span>
-                                </li>
-                                @endif
+                                    @if(!in_array(trim($option->title),$mimnus_data))
+                                        <?php $i++;?>
+                                        <li data-tag="{{$option->title}}" data-pay="{{$option->value}}" class="fill"
+                                            draggable="true">
+                                            {{$option->title}} <span style="float: right">{{$option->value}} BDT</span>
+                                        </li>
+                                    @endif
                                 @endforeach
 
 
@@ -100,51 +100,30 @@
 
 
     <script>
-    $("#sortable").sortable({
-        connectWith: [".droppable"]
-    });
+        $("#sortable").sortable({
+            connectWith: [".droppable"]
+        });
 
-    $(function() {
-        $(".droppable").droppable({
-            drop: function(event, ui) {
-                // console.log(event.target);
-                // console.log(ui);
-                $(this)
-                    .addClass("ui-state-highlight")
-                    .html("Dropped!" + event.target);
+        $(function () {
+            $(".droppable").droppable({
+                drop: function (event, ui) {
+                    // console.log(event.target);
+                    // console.log(ui);
+                    $(this)
+                        .addClass("ui-state-highlight")
+                        .html("Dropped!" + event.target);
+                }
+            });
+        });
+
+        $(".droppable").sortable({
+            cursor: "move",
+            connectWith: "#sortable",
+            update: function (e, ui) {
+                console.log(e);
             }
         });
-    });
-
-    $(".droppable").sortable({
-        cursor: "move",
-        connectWith: "#sortable",
-        update: function(e, ui) {
-            console.log(e);
-        }
-    });
     </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     <!-- <script>

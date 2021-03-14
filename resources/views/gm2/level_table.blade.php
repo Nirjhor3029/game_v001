@@ -18,16 +18,16 @@
                         @endphp
                         {{--create form--}}
                         <ul>
-                        @foreach ($level_options as $level1)
-                            @foreach ($level_options as $level2)
-                                @if($level1['id'] == $level2['id'])
+                            @foreach ($level_options as $level1)
+                                @foreach ($level_options as $level2)
+                                    @if($level1['id'] == $level2['id'])
                                         @continue
                                     @else
-                                    {{--create input field--}}
+                                        {{--create input field--}}
                                         <li>{{ $level1['id'] }} {{ $level2['id'] }}</li>
-                                @endif
+                                    @endif
+                                @endforeach
                             @endforeach
-                        @endforeach
                         </ul>
                     </div>
                 </div>

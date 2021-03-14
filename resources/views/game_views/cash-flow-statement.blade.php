@@ -1,5 +1,5 @@
 <x-app-layout>
-    <?php 
+    <?php
     $previousUrl = "/financial-statements";
     $nextUrl = "/decision-driven";
     ?>
