@@ -528,3 +528,14 @@ nav {
 .promotion_icon {
     height: 6vw;
 }
+
+/* Set_group2 page */
+.setGroupTd{
+    border: 1px solid #000;
+}
+.selectedTd{
+    background-color: #F3F5F8;
+}
+.checkedTd{
+    background-color: #F3F5F8;
+}

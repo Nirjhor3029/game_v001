@@ -28,7 +28,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     if($user_type == 2){
         return view('game_views.gm2.admin.dashboard');
     }else{
-        return view('dashboard');
+        return view('game_views.gm2.strategic_group');
     }
     // return $user_type;
 
@@ -79,6 +79,8 @@ Route::name('gm2.')->prefix('gm2')->namespace('Gm2')->middleware(['auth:sanctum'
 
     Route::get('overview', [\App\Http\Controllers\Gm2\GamePageController::class, 'overview']);
 
+    Route::get('example_of_strategic_group', [\App\Http\Controllers\Gm2\GamePageController::class, 'example_of_strategic_group'])->name('example_of_strategic_group');
+
     // Route::view('/graph', 'gm2.market_scenario');
 
     Route::get('market_scenario', [\App\Http\Controllers\Gm2\GamePageController::class, 'market_scenario_2'])->name("market_scenario");
@@ -124,9 +126,11 @@ Route::name('gm2.')->prefix('gm2')->namespace('Gm2')->middleware(['auth:sanctum'
     Route::post('admin/criteria_combination', [\App\Http\Controllers\Game\gm2\IndexController::class, 'criteria_combination_post'])->name('admin.criteria_combination');
 
     Route::get('admin/set_group', [\App\Http\Controllers\Game\gm2\IndexController::class, 'setGroup'])->name('admin.set_group');
+    Route::get('admin/set_group2', [\App\Http\Controllers\Game\gm2\IndexController::class, 'setGroup2'])->name('admin.set_group');
 
     Route::get('admin/set_restaurant', [\App\Http\Controllers\Game\gm2\IndexController::class, 'setRestaurant'])->name('admin.set_restaurant');
     Route::get('admin/set_restaurant2', [\App\Http\Controllers\Game\gm2\IndexController::class, 'setRestaurant2'])->name('admin.set_restaurant2');
+
 
 
     Route::get('admin/assign_student', [\App\Http\Controllers\Game\gm2\IndexController::class, 'assignStudent'])->name('admin.assign_student');
@@ -151,7 +155,7 @@ Route::name('gm2.')->prefix('gm2')->middleware(['auth:sanctum', 'verified'])->gr
 
     Route::get('/', [\App\Http\Controllers\Game\gm2\IndexController::class, 'index']);
     Route::get('/strategic_group', [\App\Http\Controllers\Game\gm2\IndexController::class, 'strategic_group'])->name("strategic_group");
-    Route::get('/marketing_strategy', [\App\Http\Controllers\Game\gm2\IndexController::class, 'marketing_strategy'])->name('marketing_strategy');
+    Route::get('/market_research', [\App\Http\Controllers\Game\gm2\IndexController::class, 'marketing_strategy'])->name('marketing_strategy');
     Route::get('/development_of_strategic_group', [\App\Http\Controllers\Game\gm2\IndexController::class, 'development_of_strategic_group'])->name('development_of_strategic_group');
     Route::get('/game', [\App\Http\Controllers\Game\gm2\IndexController::class, 'game'])->name('game');
 

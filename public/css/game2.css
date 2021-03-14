@@ -61,6 +61,7 @@ cursor: pointer; */
 
 .dragdrop_graph td {
     width: 30px;
+    height: 50px;
 }
 
 .dragdrop_graph td:first-child {
@@ -262,6 +263,8 @@ nav {
 /* Gm2 - Navbar-end */
 /* gm2- strategic group-start */
 
+
+
 .gm2 {
     padding: 0 6%;
 }
@@ -276,7 +279,7 @@ nav {
 }
 
 .gm2 .header .welcome {
-    padding: 0px 200px;
+    padding: 0px 20px;
 }
 
 .gm2 .header .video {
@@ -296,8 +299,13 @@ nav {
 
 .gm2 .details {
     display: flex;
-    /* align-items: center; */
+    flex-basis: auto;
+    /* align-items: center; */flex-grow: 3;
     justify-content: space-around;
+}
+
+.gm2 .details col{
+    flex-grow: 4;
 }
 
 .gm2 .details .content {
@@ -556,4 +564,15 @@ nav {
 
 .border_rd {
     border: 2px solid red !important;
+}
+
+.btn-next{
+    background-color: #e6ab0b;
+}
+
+.mb-3rem{
+    margin-bottom: 3rem;;
+}
+.borderRed{
+    border: 1px solid red !important;
 }

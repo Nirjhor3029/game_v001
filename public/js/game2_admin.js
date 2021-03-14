@@ -13,6 +13,7 @@ $(document).ready(function () {
         let groupInput = that.parents('.group_input');
 
         let clone_input = groupInput.clone();
+        clone_input.find('.invisible').removeClass('invisible');
         clone_input.find(".group_input_minus").removeClass('invisible');
         clone_input.find(".group_input_plus").remove();
         clone_input.appendTo(groupInputContainer)

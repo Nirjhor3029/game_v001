@@ -33,12 +33,30 @@ class IndexController extends Controller
 
     public function strategic_group()
     {
+        
         return view('game_views.gm2.strategic_group');
     }
 
     public function marketing_strategy()
     {
-        return view('game_views.gm2.marketing_strategy');
+        $user_id = Auth::user()->id;
+        $session_id = Session::getId();
+        $resturentUser = RestaurantUser::where('user_id', $user_id)->first();
+        $resGroup = RestaurantPoint::where('res_id', optional($resturentUser)->restaurant_id)->with('restaurant', 'restaurantGroup')->first();
+        if (isset($resGroup)) {
+            $userInfo = [
+                "student_id" => $user_id,
+                "assigned_res_id" => $resGroup->restaurant->id,
+                "assigned_group_id" => $resGroup->restaurantGroup->id,
+            ];
+            session(["student_info" => $userInfo]);
+            // $session = Session::all();
+            // return $session;
+            return view('game_views.gm2.marketing_strategy');
+        } else {
+            return view("game_views.gm2.market_scenario_1");
+        }
+        
     }
 
     public function development_of_strategic_group()
@@ -139,10 +157,31 @@ class IndexController extends Controller
         $gType = Config::get('game.game2.options');
 
         $user_id = Auth::user()->id;
-        $restaurantGroups = RestaurantGroup::where('user_id', $user_id)->get();
+        $restaurantGroups = RestaurantGroup::where('user_id', $user_id)
+            ->with('restaurantPoint',function($query){
+                $query->where('leader',1)->with('restaurant');
+            })
+            ->get();
         $graphLevel = GraphLevel::where('user_id', $user_id)->first();
+        // return $restaurantGroups[0]->restaurantPoint[0]->restaurant->name;
 
         return view('game_views.gm2.admin.set_group', compact('gType', 'restaurants', 'restaurantGroups', 'graphLevel'));
+    }
+    public function setGroup2()
+    {
+        $restaurants = Restaurant::all();
+        // return $restaurants;
+        $gType = Config::get('game.game2.options');
+
+        $user_id = Auth::user()->id;
+        $restaurantGroups = RestaurantGroup::where('user_id', $user_id)
+            ->with('restaurantPoint',function($query){
+                $query->where('leader',1)->with('restaurant');
+            })
+            ->get();
+        $graphLevel = GraphLevel::where('user_id', $user_id)->first();
+        // return $restaurantGroups[0]->restaurantPoint[0]->restaurant->name;
+        return view('game_views.gm2.admin.set_group2', compact('gType', 'restaurants', 'restaurantGroups', 'graphLevel'));
     }
 
     public function setRestaurant()

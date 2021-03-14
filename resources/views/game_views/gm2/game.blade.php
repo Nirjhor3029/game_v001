@@ -87,6 +87,57 @@
         });
 
         $(document).ready(function () {
+
+            var part = 2;
+            $(".btn_part").on("click",function(){
+                console.log(part);
+                if(part == 2){
+                    let ajxSelect = $(".ajx_select_criteria");
+                    if(ajxSelect[0].value == 0 || ajxSelect[1].value == 0){
+                        ajxSelect.addClass("borderRed");
+                        toastr.error("Select Criteria");
+                        return;
+                    }
+                    else{
+                        $(".part_2").removeClass("invisible");
+                        ajxSelect.removeClass("borderRed");
+                        part++;
+                    }
+                    
+                }
+                else if(part == 3){
+                    let numberOfGroup = $("#gm2_number_of_group");
+                    console.log(numberOfGroup.val());
+                    
+                    if(numberOfGroup.val() == 0){
+                        numberOfGroup.addClass("borderRed");
+                        toastr.error("Select Number OF Group");
+                        return;
+                    }else{
+                        $(".part_3").removeClass("invisible");
+                        numberOfGroup.removeClass("borderRed");
+                        part++;
+                    }
+                    console.log("else");
+                }
+                else if(part == 4){
+                    let jquery_drop_box  = $(".jquery_drop_box");
+                    if(gm2NumberOfGrapchBox > 0){
+                        toastr.error("Pick Groups");
+                        jquery_drop_box.addClass("borderRed");
+                        return;
+                    }else{
+                        $(".part_4").removeClass("invisible");
+                        $(this).addClass("invisible");
+                        jquery_drop_box.removeClass("borderRed");
+                    }
+                }
+
+                // console.log("click");
+            });
+
+
+
             var gm2NumberOfGrapchBox_selected = 0;
             let records = @json($records);
             let tmpPoint = 0;
@@ -233,6 +284,35 @@
 
     <?php $mimnus_data = $added_restaurant;?>
     <div class="gm2">
+
+        <div class="header mt-9vh">
+            <div class="welcome">
+                <h2 class="title">
+                    Market Research
+                </h2>
+                <p>
+                    Based on the information provided in table 1, group restaurants on any two dimensions of your choice. However, those two dimensions, when combined together, would have to make a strong business case in order to distinguish themselves from others.
+                </p>
+                <ol style="margin-left: 6rem;">
+                    <li class="part_1">Choice of dimensions</li>
+                    <li class="invisible part_2">Number of groups</li>
+                    <li class="invisible part_3">Pick groups</li>
+                    <li class="invisible part_4">Drag and drop</li>
+                </ol>
+                <p class="invisible part_4">
+                    Please drag and drop the restaurants in each group from the left as per your choice to create strategic groups for restaurants in Dhaka.
+                </p>
+            </div>
+            <div class="video invisible">
+                <!-- <video width="400" controls>
+                <source src="mov_bbb.mp4" type="video/mp4">
+                <source src="mov_bbb.ogg" type="video/ogg">
+                Your browser does not support HTML video.
+                </video> -->
+                <iframe src="https://www.youtube.com/embed/tgbNymZ7vqY">
+                </iframe>
+            </div>
+        </div>
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg"
@@ -243,7 +323,7 @@
                     <div class="row mt-9vh">
                         <div class="col-md-2">
                             <div>
-                                <div id="sortable" class="" style="min-height: 600px;">
+                                <div id="sortable" class="part_4 invisible" style="min-height: 600px;">
                                     @foreach($restaurants as $restaurant)
                                         @if(!in_array(trim($restaurant->id),$mimnus_data))
                                             <?php $url = $rest_icons[rand(0, 3)] ?>
@@ -261,11 +341,11 @@
                         </div>
 
                         <div class="col-md-10">
-                            <div class="select_box">
+                            <div class="select_box invisible part_2">
                                 How many group You want to create
                                 <div class="row">
                                     <select class="form-control offset-sm-4 col-sm-3" id="gm2_number_of_group">
-                                        <option value="" selected>Select</option>
+                                        <option value="0" selected>Select</option>
                                         <option value="2">2</option>
                                         <option value="3">3</option>
                                         <option value="4">4</option>
@@ -366,7 +446,17 @@
                         </div>
                     </div>
 
-                    <a href="{{route('gm2.market_scenario')}}" class="btn btn-success float-right">Next</a>
+                    <div class="next mb-3rem">
+                        <div class="row ">
+                            <div class="col-sm-10"></div>
+                            <div class="col-sm-2">
+                                <a href="javascript:void(0)" class="btn btn-next float-right btn_part ">Next</a>
+                                <a href="{{route('gm2.user_graph')}}" class="btn btn-next float-right invisible part_4">Next</a>
+                                <!-- <a href="{{route('gm2.game')}}" class="btn btn-next" >Next</a> -->
+                            </div>
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
         </div>

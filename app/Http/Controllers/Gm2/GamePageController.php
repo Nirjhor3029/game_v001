@@ -65,13 +65,13 @@ class GamePageController extends Controller
                 $query->where('mode', '=', '1');
             })
             ->first();
-//        return  $market;
-//        $market = (object)$market;
-//            return $market->marketCost;
-//        dd($market);
-//        if(is_null($market)){
-//            return "null";
-//        }
+        //        return  $market;
+        //        $market = (object)$market;
+        //            return $market->marketCost;
+        //        dd($market);
+        //        if(is_null($market)){
+        //            return "null";
+        //        }
 
 
         if (isset($resGroup)) {
@@ -125,8 +125,8 @@ class GamePageController extends Controller
         }
         $defendMarketPromotions = Gm2MarketPromotion::where('market_cost_id', optional($defendMarket)->marketCost[0]->id)->where('mode', 2)->get();
 
-//        dd( $defendMarket);
-//         return $defendMarketPromotions;
+        //        dd( $defendMarket);
+        //         return $defendMarketPromotions;
         // return ($attackMarkets[0]->marketCost[0]->gm2MarketPromotion[0]->value);
 
         // return $defendMarketPromotions;
@@ -221,5 +221,10 @@ class GamePageController extends Controller
                 }
             }
         }
+    }
+
+    public function example_of_strategic_group()
+    {
+        return view('game_views.gm2.example_of_strategic_group');
     }
 }

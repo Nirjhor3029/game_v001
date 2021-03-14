@@ -13,23 +13,26 @@
     <div class="gm2">
 
         <div class="header ">
-            <div class="welcome mt-9vh">
+            <div class="welcome">
                 <h2 class="title">
                     Marketing Scenario
                 </h2>
                 <p>
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ex repellendus maxime reiciendis explicabo
-                    quos
-                    vel iure architecto earum, voluptatum magnam pariatur, dolores necessitatibus aliquid incidunt! Iure
-                    dolorem
-                    officiis ex obcaecati!
+                    You have a budget of 20 millions to spend to move to a new strategic group which offers you additional profit without damaging your current brand value. Use table 2 and 3 to identify costs associated with setting up new outlets and developing infrastructure to offer new menu respectively to expand your business into a new type of restaurant.
+                </p>
+                <p>
+                    Please note that your competitors in the same group you are trying to penetrate would also have a minimum budget of 5 millions to defend their market share should they deem any credible threat is about to enter into their domain. Before moving to decide how to attach another group consult table 4 to understand which mode of attack may give you the best return in terms of gaining market share.
+                </p>
+                <p>
+                    Use the template provided in table 5 to showcase how you are going to spend that 20 million, if at all. You may also decide not to expand your business.
                 </p>
             </div>
         </div>
 
 
         <div class="row">
-            <div class="col-md-12 col-sm-12 col-lg-6 offset-lg-3 market_scenario_table_box">
+            <!-- Table-2 -->
+            <div class="col-md-6 col-sm-6 col-lg-6 market_scenario_table_box">
                 <div>
                     <h3 class="text-center">Table 2</h3>
                 </div>
@@ -39,6 +42,51 @@
                         <th scope="col" colspan="4" class="text-center">Cost of Additional Outlet with
                             everything as it is <br>(in millions)
                         </th>
+                    </tr>
+                    <tr>
+                        <th>Type/Area</th>
+                        <th>Tri state Areas</th>
+                        <th>Mid end Area</th>
+                        <th>Low end Areas</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th scope="row">Continental/Intl Chain</th>
+                        <td>10</td>
+                        <td>8</td>
+                        <td>6</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Fast Food</th>
+                        <td>5</td>
+                        <td>4</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Coffee/Bistro</th>
+                        <td>3</td>
+                        <td>2</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Desi</th>
+                        <td>4</td>
+                        <td>3</td>
+                        <td>2</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Table-3 -->
+            <div class="col-md-6 col-sm-6 col-lg-6 market_scenario_table_box">
+                <div>
+                    <h3 class="text-center">Table 3</h3>
+                </div>
+                <table class="table table-responsive table-hover table-bordered">
+                    <thead>
+                    <tr>
                         <th scope="col" colspan="4" class="text-center">Cost per outlet for offering a new
                             line
                             of product / change the quality within the existing setup
@@ -46,10 +94,6 @@
                         </th>
                     </tr>
                     <tr>
-                        <th>Type/Area</th>
-                        <th>Tri state Areas</th>
-                        <th>Mid end Area</th>
-                        <th>Low end Areas</th>
                         <th>Type/Quality</th>
                         <th>High</th>
                         <th>Mid</th>
@@ -59,19 +103,11 @@
                     <tbody>
                     <tr>
                         <th scope="row">Continental/Intl Chain</th>
-                        <td>10</td>
-                        <td>8</td>
-                        <td>6</td>
-                        <th scope="row">Continental/Intl Chain</th>
                         <td>2</td>
                         <td>1</td>
                         <td>1</td>
                     </tr>
                     <tr>
-                        <th scope="row">Fast Food</th>
-                        <td>5</td>
-                        <td>4</td>
-                        <td>3</td>
                         <th scope="row">Fast Food</th>
                         <td>1.5</td>
                         <td>1</td>
@@ -79,19 +115,11 @@
                     </tr>
                     <tr>
                         <th scope="row">Coffee/Bistro</th>
-                        <td>3</td>
-                        <td>2</td>
-                        <td>1</td>
-                        <th scope="row">Coffee/Bistro</th>
                         <td>1</td>
                         <td>1</td>
                         <td>1</td>
                     </tr>
                     <tr>
-                        <th scope="row">Desi</th>
-                        <td>4</td>
-                        <td>3</td>
-                        <td>2</td>
                         <th scope="row">Desi</th>
                         <td>1</td>
                         <td>0.5</td>
@@ -103,13 +131,60 @@
         </div>
 
         <div class="row">
-            <h4>Use the template provided in table 2 to complete table 3 for your restaurant and wait for your
+            <h4>Use the template provided in table 2 & 3 to complete table 5 for your restaurant and wait for your
                 competitor(s) to make a move!
             </h4>
         </div>
 
         <div class="row">
 
+            <div class="col-md-6 col-sm-6 col-lg-6 market_scenario_table_box">
+                <div>
+                    <h3 class="text-center">Table 4</h3>
+                </div>
+                <table class="table table-responsive  table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col" colspan="4" class="text-center">
+                                Cost per outlet for offering a new line of product / change the quality within the existing setup
+                                <br>(in millions)
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>Type/Quality</th>
+                            <th>High</th>
+                            <th>Mid</th>
+                            <th>Low</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Continental/Intl Chain</th>
+                            <td>2</td>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Fast Food</th>
+                            <td>1.5</td>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Coffee/Bistro</th>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Desi</th>
+                            <td>1</td>
+                            <td>0.5</td>
+                            <td>0.5</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
             @if(is_null($market))
             <div class="col-md-6">
@@ -143,11 +218,10 @@
                         <div class="row inputField_row">
                             <div class="col-md-3">
                                 Area
+                                <input type="text" name="" value="0">
                             </div>
                             <div class="col-md-3">
-                                <!-- <input type="button" class="btn_input btn_input_plus " value="+">
-                                <input type="number" name="" id="">
-                                <input type="button" class="btn_input btn_input_minus " value="-"> -->
+                                
                                 <select name="" id="type" name="cat_id" class="form-control-sm form-control type"
                                         data-type="1">
                                     <option selected value="0">Select Areas</option>
@@ -308,7 +382,16 @@
 
                             <div class="row inputField_row">
                                 <div class="col-md-3">
+                                    <label for="">Number Of Outlets</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="number" name="" value="0">
+                                </div>
+                            </div>
+                            <div class="row inputField_row">
+                                <div class="col-md-3">
                                     Area
+                                   
                                 </div>
                                 <div class="col-md-3">
                                     <!-- <input type="button" class="btn_input btn_input_plus " value="+">
@@ -327,7 +410,7 @@
                                         <option selected value="0">Select Type</option>
                                     </select>
                                 </div>
-                                <div class="col-md-3 cost_class">
+                                <div class="col-md-2 cost_class">
                                     <input type="text" class="form-control-sm form-control cost_value" readonly
                                            value="{{$market->marketCost[0]->area}}"
                                            required>
@@ -353,8 +436,8 @@
                                         <option selected value="0">Select Type</option>
                                     </select>
                                 </div>
-                                <div class="col-md-3 cost_class">
-                                    <input type="number" id="typeQuantity_cost_value"
+                                <div class="col-md-2 cost_class">
+                                    <input type="text" id="typeQuantity_cost_value"
                                            class="form-control-sm form-control cost_value" value="{{$market->marketCost[0]->quality}}" readonly required>
                                 </div>
                             </div>

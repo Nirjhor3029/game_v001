@@ -12,6 +12,18 @@
     <div class="gm2">
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="bg-gray overflow-hidden shadow-xl sm:rounded-lg" style="padding:40px;box-sizing:border-box">
+                    <p>
+                    Students can use any two out of the seven variables, namely, Price, Product Quality, Level of  Vertical Integration, Type of Food, Product Range, Breadth of Location, and Dining Option  to create a combination of two for their respective strategic groups. Please set an evaluation standard for each combination as per your choice. Thank you!
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="py-12">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+
+            
+
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg" style="padding:40px;box-sizing:border-box">
 
 
@@ -47,29 +59,60 @@
                                                 @continue
                                             @else
                                                 {{-- create input field --}}
-                                                <tr>
-                                                    <td>{{ $i }}</td>
-                                                    <td>{{ $level1['name'] }} </td>
-                                                    <td>{{ $level2['name'] }}</td>
-                                                    <td>
-                                                        <?php $input_name = strtolower(str_replace(' ', '',
-                                                        $level1['id'] . '_' . $level2['id'])); ?>
-                                                        <?php 
-                                                        $value = 0; 
-                                                        if($combinations->isEmpty()){
-                                                            $value = 0;
-                                                        }else{
-                                                            $value = $combinations[$i-1]->point;
-                                                        }
-                                                        ?>
-                                                        <div class="form-group">
-                                                            <input type="number" name="point_value[]"
-                                                                class="form-control form-control-sm" value="{{$value}}">
-                                                            <input type="text" name="point[]" value="{{ $input_name }}"
-                                                                hidden>
-                                                        </div>
-                                                    </td>
-                                                </tr>
+
+                                                <div class="col-sm-6">
+                                                    <tr>
+                                                        <td>{{ $i }}</td>
+                                                        <td>{{ $level1['name'] }} </td>
+                                                        <td>{{ $level2['name'] }}</td>
+                                                        <td>
+                                                            <?php $input_name = strtolower(str_replace(' ', '',
+                                                            $level1['id'] . '_' . $level2['id'])); ?>
+                                                            <?php 
+                                                            $value = 0; 
+                                                            if($combinations->isEmpty()){
+                                                                $value = 0;
+                                                            }else{
+                                                                $value = $combinations[$i-1]->point;
+                                                            }
+                                                            ?>
+                                                            <div class="form-group">
+                                                                <input type="number" name="point_value[]"
+                                                                    class="form-control form-control-sm" value="{{$value}}">
+                                                                <input type="text" name="point[]" value="{{ $input_name }}"
+                                                                    hidden>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </div>
+
+                                                
+                                                <div class="col-sm-6">
+                                                    <tr>
+                                                        <td>{{ $i }}</td>
+                                                        <td>{{ $level1['name'] }} </td>
+                                                        <td>{{ $level2['name'] }}</td>
+                                                        <td>
+                                                            <?php $input_name = strtolower(str_replace(' ', '',
+                                                            $level1['id'] . '_' . $level2['id'])); ?>
+                                                            <?php 
+                                                            $value = 0; 
+                                                            if($combinations->isEmpty()){
+                                                                $value = 0;
+                                                            }else{
+                                                                $value = $combinations[$i-1]->point;
+                                                            }
+                                                            ?>
+                                                            <div class="form-group">
+                                                                <input type="number" name="point_value[]"
+                                                                    class="form-control form-control-sm" value="{{$value}}">
+                                                                <input type="text" name="point[]" value="{{ $input_name }}"
+                                                                    hidden>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </div>
+                                                
                                             @endif
                                             
                                             <?php $i++; ?>

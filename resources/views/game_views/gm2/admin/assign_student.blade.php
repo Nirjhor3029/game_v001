@@ -10,6 +10,17 @@
 
 
 <div class="gm2">
+
+        <div class="py-12">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="bg-gray overflow-hidden shadow-xl sm:rounded-lg" style="padding:40px;box-sizing:border-box">
+                    <p>
+                    Please assign each student a particular restaurant from a particular group. One student cannot be assigned more than one restaurant. 
+                    </p>
+                </div>
+            </div>
+        </div>
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 ">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg mt-9vh"
