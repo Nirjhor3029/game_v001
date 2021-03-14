@@ -173,8 +173,6 @@ class Gm2AjaxController extends Controller
         $restaurantPoint->leader = $leader;
         $restaurantPoint->save();
 
-
-
         return response()->json([
             'status' => "ok",
             'success' => $msg." Successfully ",
@@ -265,10 +263,21 @@ class Gm2AjaxController extends Controller
         $groupId = $request->input('groupId');
 
 
+        // dd($groupId);
         $restaurantPoint = RestaurantPoint::where('user_id',$user_id)
-                            ->whereIn('res_id',$restData)
+                            ->where('res_group_id',$groupId)
                             ->where('leader',0)->delete();
         foreach($restData as $resID){
+            $restaurantPoint = RestaurantPoint::where('user_id',$user_id)
+                            ->where('res_group_id',$groupId)
+                            ->where('res_id',$resID)->first();
+            if(is_null($restaurantPoint)){
+                $restaurantPoint = new RestaurantPoint();
+                $restaurantPoint->user_id = $user_id;
+                $restaurantPoint->res_group_id = $groupId;
+                $restaurantPoint->res_id = $resID;
+                $restaurantPoint->save();
+            }
             
         } 
         

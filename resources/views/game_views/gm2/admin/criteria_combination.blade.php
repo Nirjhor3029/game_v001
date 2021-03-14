@@ -49,7 +49,7 @@
                                                 {{-- create input field --}}
                                                 <tr>
                                                     <td>{{ $i }}</td>
-                                                    <td>{{ $level1['name'] }} ({{$level1['id']}}) ({{$level2['id']}})</td>
+                                                    <td>{{ $level1['name'] }} </td>
                                                     <td>{{ $level2['name'] }}</td>
                                                     <td>
                                                         <?php $input_name = strtolower(str_replace(' ', '',

@@ -164,6 +164,7 @@ class IndexController extends Controller
         $restaurantGroups = RestaurantGroup::where('user_id',$user_id)->with('restaurantPoint','restaurantPoint.restaurant')->get();
 
         $addedRestaurants = $restaurantGroups->pluck('restaurantPoint')->collapse()->pluck('res_id');
+        $addedRestaurants = $addedRestaurants->toArray();
         // $addedRestaurant = $addedRestaurant[0]->pluck('res_id');
         // return $addedRestaurants;
 
