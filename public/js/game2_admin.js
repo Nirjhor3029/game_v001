@@ -79,7 +79,8 @@ $(document).ready(function () {
         // console.log(group);
         group.toggleClass('gm2_admin_selected_box');
         group.empty();
-        group.append(groupNameText);
+        // group.append(groupNameText);
+        return group;
     };
     $('#gm2Goup_set').click(function (e) {
 

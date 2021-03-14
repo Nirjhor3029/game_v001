@@ -31,13 +31,13 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
         return view('dashboard');
     }
     // return $user_type;
-    
+
 })->name('dashboard');
 
 
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     // Route::post('start-the-game', [\App\Http\Controllers\Game\StartGameController::class, 'store'])->name('start_the_game');
-    
+
     Route::get('submit-game', [\App\Http\Controllers\Game\StartGameController::class, 'submitGame'])->name('submitGame');
 
     Route::get('overview', [\App\Http\Controllers\GamePageController::class, 'overview'])->name('overview');
@@ -151,9 +151,9 @@ Route::name('gm2.')->prefix('gm2')->middleware(['auth:sanctum', 'verified'])->gr
 
     Route::get('/', [\App\Http\Controllers\Game\gm2\IndexController::class, 'index']);
     Route::get('/strategic_group', [\App\Http\Controllers\Game\gm2\IndexController::class, 'strategic_group'])->name("strategic_group");
-    Route::get('/marketing_strategy ', [\App\Http\Controllers\Game\gm2\IndexController::class, 'marketing_strategy']);
-    Route::get('/development_of_strategic_group', [\App\Http\Controllers\Game\gm2\IndexController::class, 'development_of_strategic_group']);
-    Route::get('/game', [\App\Http\Controllers\Game\gm2\IndexController::class, 'game']);
+    Route::get('/marketing_strategy', [\App\Http\Controllers\Game\gm2\IndexController::class, 'marketing_strategy'])->name('marketing_strategy');
+    Route::get('/development_of_strategic_group', [\App\Http\Controllers\Game\gm2\IndexController::class, 'development_of_strategic_group'])->name('development_of_strategic_group');
+    Route::get('/game', [\App\Http\Controllers\Game\gm2\IndexController::class, 'game'])->name('game');
 
     Route::post('add_graph', [\App\Http\Controllers\Gm2\GamePageController::class, 'addGraph']);
 

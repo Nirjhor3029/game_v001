@@ -164,11 +164,16 @@ class IndexController extends Controller
         $restaurantGroups = RestaurantGroup::where('user_id',$user_id)->with('restaurantPoint','restaurantPoint.restaurant')->get();
 
         $graph_level = GraphLevel::where('user_id', $user_id)->get()->first();
+        $empty = false;
+        if (is_null($graph_level)){
+            $empty = true;
+        }
 
         // get x-axis & y-axis option from config file
         $level_options = Config::get('game.game2.options');
+//        return  (!$empty);
 
-        return view('gm2.teacher_user_graph', compact( 'graph_level', 'level_options', 'restaurants','restaurantGroups'));
+        return view('gm2.teacher_graph', compact( 'graph_level', 'level_options', 'restaurants','restaurantGroups','empty'));
     }
 
     public function assignStudent()
@@ -321,7 +326,7 @@ class IndexController extends Controller
 
         //get level combination point value from criteria combination table assign by teacher id
         // set teacher id form session
-        
+
 
         $restUser = RestaurantUser::where('user_id',$user_id)->first("teacher_id");
         // return $restUser;
@@ -337,7 +342,7 @@ class IndexController extends Controller
         $point_value = $results->map(function ($item) use ($get_xy_level) {
             return (($get_xy_level->x_level == $item->x_axis && $get_xy_level->y_level == $item->y_axis) || ($get_xy_level->y_level == $item->x_axis && $get_xy_level->x_level == $item->y_axis)) ? $item->point : 0;
         })->sum();
-        
+
 
         $result = get_percentage($point_value, 30);
         if (isset($point_value)) {
@@ -387,7 +392,7 @@ class IndexController extends Controller
                 'type' => 'error',
                 'message' => 'First Play The Game !!!'
             ];
-            return $bag; 
+            return $bag;
         }
         $studentResPoints = [];
         $rest_ids = [];
@@ -429,5 +434,5 @@ class IndexController extends Controller
 
     }
 
-    
+
 }

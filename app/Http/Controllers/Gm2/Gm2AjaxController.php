@@ -55,7 +55,7 @@ class Gm2AjaxController extends Controller
         }
         $market->total_cost = $totalValue;
         $market->save();
-        
+
 
         // Market cost
         $market_cost = MarketCost::where('market_id',$market->id)->get();
@@ -92,6 +92,8 @@ class Gm2AjaxController extends Controller
             $market_promotion->save();
         }
 
+
+
         // $market_promotions
         return response()->json([
             'status' => "ok",
@@ -104,7 +106,7 @@ class Gm2AjaxController extends Controller
         // return ($request);
 
         $user_id = Auth::user()->id;
-        
+
         $xAxisValue = $request->input('xAxisValue');
         $yAxisValue = $request->input('yAxisValue');
         $groupNames = $request->input('groupNames');
@@ -139,7 +141,7 @@ class Gm2AjaxController extends Controller
             }
         }
 
-        
+
         return response()->json([
             'status' => "ok",
             'success' => $msg." Successfully ",
@@ -171,7 +173,7 @@ class Gm2AjaxController extends Controller
         $restaurantPoint->leader = $leader;
         $restaurantPoint->save();
 
-        
+
 
         return response()->json([
             'status' => "ok",
@@ -191,7 +193,7 @@ class Gm2AjaxController extends Controller
             $restaurantUser = new RestaurantUser();
             $restaurantUser->user_id = $userId;
             $msg = "New Restaurant Set to student";
-            
+
         }else{
             $restaurantUser = $restaurantUser[0];
             $msg = "Restaurant Update to student";
@@ -200,8 +202,8 @@ class Gm2AjaxController extends Controller
         $restaurantUser->teacher_id = $teacher_id;
         $restaurantUser->save();
 
-        
-        
+
+
         return response()->json([
             'status' => "ok",
             'success' => $msg." Successfully ",
@@ -245,7 +247,7 @@ class Gm2AjaxController extends Controller
 
         $restaurantUser->rest_group_id = $group;
         $restaurantUser->save();
-        
+
 
         return response()->json([
             'status' => "Ok",
@@ -255,17 +257,17 @@ class Gm2AjaxController extends Controller
     // Admin Restaurant set / admin user graph page
     public function addRestaurantPoint(Request $request)
     {
-        
-        
+
+
         $user_id = Auth::user()->id;
         $restId = $request->input('restData');
-        
+
         $groupId = $request->input('groupId');
-        
+
 
         $restaurantPoint = RestaurantPoint::where('user_id',$user_id)
                             ->where('res_id',$restId)->get();
-        
+
 
         return response()->json([
             'status' => "ok",
@@ -274,5 +276,5 @@ class Gm2AjaxController extends Controller
         return response()->json(['success' => 'Restaurant position set successfully !']);
     }
 
-    
+
 }

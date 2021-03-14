@@ -35,7 +35,7 @@
 
         <div class="row" style="text-align: center; margin-top:5vh">
 
-            <h4 style="text-align: center;">Till Now No One Attack Your market place</h4>
+            <h4 style="text-align: center;text-transform: capitalize">{{$msg}}</h4>
 
         </div>
 

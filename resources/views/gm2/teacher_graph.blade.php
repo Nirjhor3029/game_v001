@@ -178,77 +178,87 @@
 
                         <div class="col-md-10">
 
-                            <div class="left-side-container">
-                                <div class="row">
-                                    <div class="col-sm-4 txt-center">High</div>
-                                    <div class="col-sm-4"></div>
-                                    <div class="col-sm-4"></div>
-                                </div>
-
-                                <div class="flex">
-                                    <h1 class="graph_label"> {{ Str::title($level_options[($graph_level->y_level)-1]['name'])}} </h1>
-
-                                    <div class="chart">
-                                        <div class="table-responsive">
-                                            <table class="dragdrop_graph " id="">
-                                                <tr>
-                                                    <td class="empty2  jquery_drop_box">
-
-                                                    </td>
-                                                    <td class="empty2 jquery_drop_box"></td>
-                                                    <td class="empty2 jquery_drop_box"></td>
-                                                    <td class="empty2 jquery_drop_box"></td>
-                                                    <td class="empty2 jquery_drop_box"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="empty2 jquery_drop_box"></td>
-                                                    <td class="empty2 jquery_drop_box"></td>
-                                                    <td class="empty2 jquery_drop_box"></td>
-                                                    <td class="empty2 jquery_drop_box"></td>
-                                                    <td class="empty2 jquery_drop_box"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="empty2 jquery_drop_box"></td>
-                                                    <td class="empty2 jquery_drop_box"></td>
-                                                    <td class="empty2 jquery_drop_box"></td>
-                                                    <td class="empty2 jquery_drop_box"></td>
-                                                    <td class="empty2 jquery_drop_box"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="empty2 jquery_drop_box"></td>
-                                                    <td class="empty2 jquery_drop_box"></td>
-                                                    <td class="empty2 jquery_drop_box"></td>
-                                                    <td class="empty2 jquery_drop_box"></td>
-                                                    <td class="empty2 jquery_drop_box"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="empty2 jquery_drop_box"></td>
-                                                    <td class="empty2 jquery_drop_box"></td>
-                                                    <td class="empty2 jquery_drop_box"></td>
-                                                    <td class="empty2 jquery_drop_box"></td>
-                                                    <td class="empty2 jquery_drop_box"></td>
-                                                </tr>
-                                            </table>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div>
+                            @if(!$empty)
+                                <div class="left-side-container">
                                     <div class="row">
-                                        <div class="col-sm-4 txt-center">
-                                            Low
-                                        </div>
-                                        <div class="col-md-4 mt-3">
-                                            <h1 class="graph_label"> {{ Str::title($level_options[($graph_level->x_level)-1]['name'])}} </h1>
-                                        </div>
-                                        <div class="col-sm-4 txt-center">
-                                            High
-                                        </div>
+                                        <div class="col-sm-4 txt-center">High</div>
+                                        <div class="col-sm-4"></div>
+                                        <div class="col-sm-4"></div>
                                     </div>
 
-                                    <!-- <h1 class="txt_xaxis">Level of vertical Integration</h1> -->
+                                    <div class="flex">
+                                        <h1 class="graph_label"> {{ Str::title($level_options[($graph_level->y_level)-1]['name'])}} </h1>
+
+                                        <div class="chart">
+                                            <div class="table-responsive">
+                                                <table class="dragdrop_graph " id="">
+                                                    <tr>
+                                                        <td class="empty2  jquery_drop_box">
+
+                                                        </td>
+                                                        <td class="empty2 jquery_drop_box"></td>
+                                                        <td class="empty2 jquery_drop_box"></td>
+                                                        <td class="empty2 jquery_drop_box"></td>
+                                                        <td class="empty2 jquery_drop_box"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="empty2 jquery_drop_box"></td>
+                                                        <td class="empty2 jquery_drop_box"></td>
+                                                        <td class="empty2 jquery_drop_box"></td>
+                                                        <td class="empty2 jquery_drop_box"></td>
+                                                        <td class="empty2 jquery_drop_box"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="empty2 jquery_drop_box"></td>
+                                                        <td class="empty2 jquery_drop_box"></td>
+                                                        <td class="empty2 jquery_drop_box"></td>
+                                                        <td class="empty2 jquery_drop_box"></td>
+                                                        <td class="empty2 jquery_drop_box"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="empty2 jquery_drop_box"></td>
+                                                        <td class="empty2 jquery_drop_box"></td>
+                                                        <td class="empty2 jquery_drop_box"></td>
+                                                        <td class="empty2 jquery_drop_box"></td>
+                                                        <td class="empty2 jquery_drop_box"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="empty2 jquery_drop_box"></td>
+                                                        <td class="empty2 jquery_drop_box"></td>
+                                                        <td class="empty2 jquery_drop_box"></td>
+                                                        <td class="empty2 jquery_drop_box"></td>
+                                                        <td class="empty2 jquery_drop_box"></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="row">
+                                            <div class="col-sm-4 txt-center">
+                                                Low
+                                            </div>
+                                            <div class="col-md-4 mt-3">
+                                                <h1 class="graph_label"> {{ Str::title($level_options[($graph_level->x_level)-1]['name'])}} </h1>
+                                            </div>
+                                            <div class="col-sm-4 txt-center">
+                                                High
+                                            </div>
+                                        </div>
+
+                                        <!-- <h1 class="txt_xaxis">Level of vertical Integration</h1> -->
+                                    </div>
                                 </div>
-                            </div>
+                            @else
+                                <div class="left-side-container">
+                                    <h4> First Set The Group & Graph Criteria. </h4> <a href="{{route('gm2.admin.set_group')}}">Set Group</a>
+                                </div>
+                            @endif
+
+
+
+
                         </div>
                     </div>
                 </div>

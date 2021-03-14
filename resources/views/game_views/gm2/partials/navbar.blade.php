@@ -16,43 +16,43 @@ $navbars = Navbar::orderBy('priority')->get();
         @endforeach -->
 
         <li>
-            <a href="strategic_group" class="{{ Request::is('gm2/strategic_group') ? 'active' : '' }}">
+            <a href="{{route('gm2.strategic_group')}}" class="{{ Request::is('gm2/strategic_group') ? 'active' : '' }}">
                 Strategic Group
             </a>
         </li>
         <li>
-            <a href="marketing_strategy" class="{{ Request::is('gm2/marketing_strategy') ? 'active' : '' }}">
+            <a href="{{route('gm2.marketing_strategy')}}" class="{{ Request::is('gm2/marketing_strategy') ? 'active' : '' }}">
                 Marketing Strategy
             </a>
         </li>
         <li>
-            <a href="development_of_strategic_group"
+            <a href="{{route('gm2.development_of_strategic_group')}}"
                 class="{{ Request::is('gm2/development_of_strategic_group') ? 'active' : '' }}">
                 Development
             </a>
         </li>
         <li>
-            <a href="game">
+            <a href="{{route('gm2.game')}}"  class="{{ Request::is('gm2/game') ? 'active' : '' }}">
                 Game
             </a>
         </li>
         <li>
-            <a href="{{route('gm2.user_graph')}}">
+            <a href="{{route('gm2.user_graph')}}"  class="{{ Request::is('gm2/user_graph') ? 'active' : '' }}">
                 Game2
             </a>
         </li>
         <li>
-            <a href="{{route('gm2.market_scenario')}}">
+            <a href="{{route('gm2.market_scenario')}}"  class="{{ Request::is('gm2/market_scenario') ? 'active' : '' }}">
                 Market Scenario
             </a>
         </li>
         <li>
-            <a href="{{route('gm2.market_scenario_defend')}}">
+            <a href="{{route('gm2.market_scenario_defend')}}"  class="{{ Request::is('gm2/market_scenario_defend') ? 'active' : '' }}">
                 Defend
             </a>
         </li>
         <li>
-            <a href="{{route('gm2.result')}}">
+            <a href="{{route('gm2.result')}}"  class="{{ Request::is('gm2/result') ? 'active' : '' }}">
                 result
             </a>
         </li>
@@ -69,7 +69,7 @@ $navbars = Navbar::orderBy('priority')->get();
                         <a class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out" href="{{route('logout')}}" onclick="event.preventDefault();this.closest('form').submit();">Logout</a>
                 </form>
             </div>
-        </li>   
+        </li>
     </ul>
 
     <div class="burger">

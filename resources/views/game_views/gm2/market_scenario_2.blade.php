@@ -108,10 +108,10 @@
             </h4>
         </div>
 
-
         <div class="row">
 
 
+            @if(is_null($market))
             <div class="col-md-6">
                 <div class="card gm2_card_rest">
                     <div class="card-header gm2_card_header"
@@ -152,7 +152,7 @@
                                         data-type="1">
                                     <option selected value="0">Select Areas</option>
                                     @foreach($typeArea as $item)
-                                        <option value="{{$item->id}}">{{$item->name}}</option>
+                                        <option value="{{$item->id}}" >{{$item->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -162,7 +162,8 @@
                                 </select>
                             </div>
                             <div class="col-md-3 cost_class">
-                                <input type="text" class="form-control-sm form-control cost_value" readonly value="0"
+                                <input type="text" class="form-control-sm form-control cost_value" readonly
+                                       value="0"
                                        required>
                             </div>
                         </div>
@@ -276,9 +277,155 @@
                     </div>
                 </div>
             </div>
+            @else
+                <div class="col-md-6">
+                    <div class="card gm2_card_rest">
+                        <div class="card-header gm2_card_header"
+                             style="background-color: <?php echo $colors[rand(0, 2)] ?>;">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    {{$resGroup->restaurant->name}} ({{$resGroup->restaurantGroup->name}})
+                                    <input type="number" name="rest_id" class="rest_id"
+                                           value="{{$resGroup->restaurant->id}}" hidden>
+                                </div>
+                                <div class="col-sm-3 go-right">
+                                    <span class="gm2-total-text">Max: </span>
+                                    <span class="">{{$investment}}</span>
+                                    <input type="number" value="{{$investment}}" class="max_invest" hidden>
+                                </div>
+                                <div class="col-sm-3 go-right">
+                                    <span class="gm2-total-text">Total: </span>
+                                    <span class="gm2-total-value">0</span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="card-body">
+
+                            <div class="" id="alert_invest">
+
+                            </div>
+
+                            <div class="row inputField_row">
+                                <div class="col-md-3">
+                                    Area
+                                </div>
+                                <div class="col-md-3">
+                                    <!-- <input type="button" class="btn_input btn_input_plus " value="+">
+                                    <input type="number" name="" id="">
+                                    <input type="button" class="btn_input btn_input_minus " value="-"> -->
+                                    <select name="" id="type" name="cat_id" class="form-control-sm form-control type"
+                                            data-type="1">
+                                        <option selected value="0">Select Areas</option>
+                                        @foreach($typeArea as $item)
+                                            <option value="{{$item->id}}" {{($market->marketCost[0]->area_type == $item->id)? "selected":""}} >{{$item->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-3 subclass">
+                                    <select name="" id="subcategory" class="form-control-sm form-control subcategory">
+                                        <option selected value="0">Select Type</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 cost_class">
+                                    <input type="text" class="form-control-sm form-control cost_value" readonly
+                                           value="{{$market->marketCost[0]->area}}"
+                                           required>
+                                </div>
+                            </div>
+
+                            <div class="row inputField_row">
+                                <div class="col-md-3">
+                                    Quality
+                                </div>
+                                <div class="col-md-3">
+                                    <select name="" id="typeQuantity" class="form-control-sm form-control type"
+                                            data-type="2">
+                                        <option selected value="0">Select Range</option>
+                                        @foreach($typeQuantity as $item)
+                                            <option value="{{$item->id}}" {{($market->marketCost[0]->quality_type == $item->id)? "selected":""}}>{{$item->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-3 subclass">
+                                    <select name="" id="typeQuantity_subcategory"
+                                            class="form-control-sm form-control subcategory">
+                                        <option selected value="0">Select Type</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 cost_class">
+                                    <input type="number" id="typeQuantity_cost_value"
+                                           class="form-control-sm form-control cost_value" value="{{$market->marketCost[0]->quality}}" readonly required>
+                                </div>
+                            </div>
+
+                            <div class="gm2_market_promotion_container">
+
+                                <div class="gm2_market_promotion_inputs">
+
+                                    <div class="row marketing-row">
+                                        <div class="col-sm-6 bg_like_disable_input gm2_marketing_promotion_header">
+                                            <img src="{{asset('assets/icons/career-promotion.svg')}}" alt=""
+                                                 class="promotion_icon">
+                                            <h4>Marketing & Promotion</h4>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            @foreach($market->marketCost[0]->gm2MarketPromotion as $key=> $marketPromotion)
+                                            <div class="form-group">
+                                                <label for="" >{{ Str::title($promotion_options[$key]['name'])}}</label>
+                                                <input type="number"
+                                                       class="form-control-sm form-control discount_within_store ajx_input_market_promotion"
+                                                       id="" value="{{$marketPromotion->value}}">
+                                            </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row inputField_row">
+                                <div class="col-md-4">
+                                    Reserve for Competitor’s future move
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="number" value="{{$market->marketCost[0]->competitors_move}}" readonly
+                                           class="form-control-sm form-control competitors_move">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+
+
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    Attack on group:
+
+                                </div>
+                                <div class="col-sm-6">
+                                    @foreach($restaurantGroups as $group)
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" id="" name="attack_group"
+                                                   value="{{$group->id}}" {{($group->id ==1 )? "checked":""}} required>
+                                            <label class="form-check-label" for="">{{$group->name}}</label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                                <div class="col-sm-3">
+                                    <button type="submit" id="attack" class="attack go-right  btn btn-success">
+                                        <img src="{{asset('assets/icons/battle.svg')}}" alt="" class="btn_attack_icon">
+                                        Attack
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            @endif
+
 
 
         </div>
+
 
     </div>
 
