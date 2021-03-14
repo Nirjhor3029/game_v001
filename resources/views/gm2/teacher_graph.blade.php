@@ -35,11 +35,10 @@
 
                         }
                         $(this).children().each(function (idx, ele) {
-                            let result = {
-                                'restId': $(ele).data('tag'),
-                                'restName': $(ele).data('name'),
-                            }
-                            restData.push(result);
+                            
+                                let restId = $(ele).data('tag');
+                               
+                            restData.push(restId);
                         });
                         console.dir(restData);
                         let groupId = $(this).attr("data-group");
@@ -72,8 +71,8 @@
                         url: "add_restaurant_point",
                         data: data,
                         success: function (data) {
-                            // console.log(data);
-                            // toastr.success(data.success);
+                            console.table(data);
+                            toastr.success(data.success);
                         }
                     });
                 });
@@ -146,7 +145,7 @@
 @section('content')
 
 
-    <?php $mimnus_data = [];?>
+    <?php $mimnus_data = $addedRestaurants;?>
     <div class="gm2">
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">

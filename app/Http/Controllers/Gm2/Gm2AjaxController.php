@@ -260,20 +260,27 @@ class Gm2AjaxController extends Controller
 
 
         $user_id = Auth::user()->id;
-        $restId = $request->input('restData');
+        $restData = $request->input('restData');
 
         $groupId = $request->input('groupId');
 
 
         $restaurantPoint = RestaurantPoint::where('user_id',$user_id)
-                            ->where('res_id',$restId)->get();
+                            ->whereIn('res_id',$restData)
+                            ->where('leader',0)->delete();
+        foreach($restData as $resID){
+            
+        } 
+        
+        // dd($restaurantPoint);
 
-
+        $msg = "Restaurant position set";
         return response()->json([
             'status' => "ok",
             'success' => $msg." Successfully ",
+            'restaurantPoint' => $restaurantPoint,
         ]);
-        return response()->json(['success' => 'Restaurant position set successfully !']);
+        // return response()->json(['success' => 'Restaurant position set successfully !']);
     }
 
 
