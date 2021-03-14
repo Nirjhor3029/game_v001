@@ -55,7 +55,7 @@ class Gm2AjaxController extends Controller
         }
         $market->total_cost = $totalValue;
         $market->save();
-        
+
 
         // Market cost
         $market_cost = MarketCost::where('market_id',$market->id)->get();
@@ -105,7 +105,7 @@ class Gm2AjaxController extends Controller
         // return ($request);
 
         $user_id = Auth::user()->id;
-        
+
         $xAxisValue = $request->input('xAxisValue');
         $yAxisValue = $request->input('yAxisValue');
         $groupNames = $request->input('groupNames');
@@ -140,7 +140,7 @@ class Gm2AjaxController extends Controller
             }
         }
 
-        
+
         return response()->json([
             'status' => "ok",
             'success' => $msg." Successfully ",
@@ -186,7 +186,7 @@ class Gm2AjaxController extends Controller
         if($restaurantUser->isEmpty()){
             $restaurantUser = new RestaurantUser();
             $restaurantUser->user_id = $userId;
-            
+
         }else{
             $restaurantUser = $restaurantUser[0];
         }
@@ -194,8 +194,8 @@ class Gm2AjaxController extends Controller
         $restaurantUser->teacher_id = $teacher_id;
         $restaurantUser->save();
 
-        
-        
+
+
         return response()->json([
             'status' => "ok",
         ]);
@@ -237,12 +237,12 @@ class Gm2AjaxController extends Controller
 
         $restaurantUser->rest_group_id = $group;
         $restaurantUser->save();
-        
+
 
         return response()->json([
             'status' => "Ok",
         ]);
     }
 
-    
+
 }

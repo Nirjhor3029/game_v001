@@ -228,13 +228,42 @@ $(document).ready(function () {
          groupColumn.prop("disabled", false);
          // console.log(groupColumn);
      });*/
-
-    $('document').on('change', '.group_column,.group_row', function () {
+    let RowColumnArray = [];
+    $(document).on('change', '.group_column,.group_row', function () {
+        var RowColumnVal = []
+        console.log('dfdsfdsf');
         let that = $(this);
         let groupInput = that.parents('.group_input');
         let groupName = groupInput.find('.group_name').val();
-        let RowVal = groupInput.find('.group_row').val();
-        let groupColumn = groupInput.find('.group_column').prop("disabled", false);
+        groupInput.find('.group_column').prop("disabled", false);
+        // let RowVal = groupInput.find('.group_row').val();
+        groupInput.find('.group_row, .group_column').each(function () {
+            let item = $(this).val();
+            if (item === 'null') {
+                return 0
+            } else {
+                console.log(item);
+                RowColumnVal.push(item)
+            }
+        });
+
+        if (RowColumnVal.length > 1) {
+          //  let arrays = rowColumn.split('');
+            let Row = RowColumnVal[0];
+            let Column = RowColumnVal[1];
+            RowColumnArray.push(Row + '' + Column);
+            let td = select_graph_box(Row, Column, 'dragdrop_graph');
+            console.log(RowColumnArray);
+            RowColumnArray.shift();
+
+        } else {
+            let td = select_graph_box(RowVal, ColumnVal, 'dragdrop_graph');
+            td.append(groupName);
+        }
+
+        console.log(RowColumnVal);
+        return;
+
         let ColumnVal = groupInput.find('.group_column').val();
         /* RowColumnArray.push(RowVal + '' + ColumnVal);
          if (RowColumnArray.length > 1) {

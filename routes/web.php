@@ -24,20 +24,20 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    $user_type = Auth::user()->type; //1=admin,2=teacher,3=student
-    if($user_type == 2){
+    $user_type = Auth::user()->type; //1 = admin,2 = teacher,3 = student
+    if ($user_type == 2) {
         return view('game_views.gm2.admin.dashboard');
-    }else{
+    } else {
         return view('dashboard');
     }
     // return $user_type;
-    
+
 })->name('dashboard');
 
-
+// start game 1 all route
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     // Route::post('start-the-game', [\App\Http\Controllers\Game\StartGameController::class, 'store'])->name('start_the_game');
-    
+
     Route::get('submit-game', [\App\Http\Controllers\Game\StartGameController::class, 'submitGame'])->name('submitGame');
 
     Route::get('overview', [\App\Http\Controllers\GamePageController::class, 'overview'])->name('overview');
@@ -68,7 +68,7 @@ Route::post('add-revenues', [\App\Http\Controllers\AjaxRequestController::class,
 Route::post('add-expenses', [\App\Http\Controllers\AjaxRequestController::class, 'addExpenses']);
 Route::post('add_cash_flow', [\App\Http\Controllers\AjaxRequestController::class, 'addCashFlow']);
 Route::post('add-cash-flow-expenses', [\App\Http\Controllers\AjaxRequestController::class, 'addCashFlowExpenses']);
-
+// end game 1 all route
 $restaurant = \App\Models\Restaurant::get();
 Route::view('/demo', 'demo', ['options' => $restaurant]);
 
@@ -161,4 +161,5 @@ Route::get('/migrate', function () {
     Artisan::call('migrate',);
 });
 
-Route::get('/test2', [IndexController::class,'test2']);
+Route::get('/test2', [IndexController::class, 'test2']);
+Route::get('/task1', [\App\Http\Controllers\Game\gm2\IndexController::class, 'get_task_one_result']);
