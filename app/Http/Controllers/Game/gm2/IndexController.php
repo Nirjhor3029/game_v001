@@ -163,6 +163,11 @@ class IndexController extends Controller
         $gType = Config::get('game.game2.options');
         $restaurantGroups = RestaurantGroup::where('user_id',$user_id)->with('restaurantPoint','restaurantPoint.restaurant')->get();
 
+        $addedRestaurants = $restaurantGroups->pluck('restaurantPoint')->collapse()->pluck('res_id');
+        $addedRestaurants = $addedRestaurants->toArray();
+        // $addedRestaurant = $addedRestaurant[0]->pluck('res_id');
+        // return $addedRestaurants;
+
         $graph_level = GraphLevel::where('user_id', $user_id)->get()->first();
         $empty = false;
         if (is_null($graph_level)){
@@ -173,7 +178,7 @@ class IndexController extends Controller
         $level_options = Config::get('game.game2.options');
 //        return  (!$empty);
 
-        return view('gm2.teacher_graph', compact( 'graph_level', 'level_options', 'restaurants','restaurantGroups','empty'));
+        return view('gm2.teacher_graph', compact( 'graph_level', 'level_options', 'restaurants','restaurantGroups','empty','addedRestaurants'));
     }
 
     public function assignStudent()
