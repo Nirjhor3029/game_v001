@@ -576,3 +576,8 @@ nav {
 .borderRed{
     border: 1px solid red !important;
 }
+.table_4{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

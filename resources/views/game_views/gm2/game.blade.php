@@ -439,7 +439,6 @@
                                             High
                                         </div>
                                     </div>
-
                                     <!-- <h1 class="txt_xaxis">Level of vertical Integration</h1> -->
                                 </div>
                             </div>
@@ -450,7 +449,7 @@
                         <div class="row ">
                             <div class="col-sm-10"></div>
                             <div class="col-sm-2">
-                                <a href="javascript:void(0)" class="btn btn-next float-right btn_part ">Next</a>
+                                <a href="javascript:void(0)" class="btn btn-next float-right btn_part">Next</a>
                                 <a href="{{route('gm2.user_graph')}}" class="btn btn-next float-right invisible part_4">Next</a>
                                 <!-- <a href="{{route('gm2.game')}}" class="btn btn-next" >Next</a> -->
                             </div>

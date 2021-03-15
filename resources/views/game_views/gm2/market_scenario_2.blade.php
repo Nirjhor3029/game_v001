@@ -7,6 +7,10 @@
     // $restaurants = $restaurant;
     $colors = ["#4AD179", "#ED375D", "#FE8400"];
     $groups = ["group_1", "group_2", "group_3", "group_4",];
+    function txtFormate($txt){
+        $txt = Str::title(str_replace("_"," ",$txt));
+        return $txt;
+    }
 
     ?>
 
@@ -138,49 +142,43 @@
 
         <div class="row">
 
-            <div class="col-md-6 col-sm-6 col-lg-6 market_scenario_table_box">
+            <div class="col-md-6 col-sm-6 col-lg-6 market_scenario_table_box table_4" >
                 <div>
                     <h3 class="text-center">Table 4</h3>
                 </div>
-                <table class="table table-responsive  table-bordered">
+                <table class="table table-responsive table-hover table-bordered">
                     <thead>
                         <tr>
                             <th scope="col" colspan="4" class="text-center">
-                                Cost per outlet for offering a new line of product / change the quality within the existing setup
-                                <br>(in millions)
+                                $ required to gain 1% market share
                             </th>
                         </tr>
                         <tr>
-                            <th>Type/Quality</th>
-                            <th>High</th>
-                            <th>Mid</th>
-                            <th>Low</th>
+                            <th>Options to attack/defend</th>
+                            <th>Market Share</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <th scope="row">Continental/Intl Chain</th>
-                            <td>2</td>
-                            <td>1</td>
-                            <td>1</td>
+                            <th scope="row">Discount within store</th>
+                            <td>4</td>
+                            
                         </tr>
                         <tr>
-                            <th scope="row">Fast Food</th>
-                            <td>1.5</td>
-                            <td>1</td>
-                            <td>1</td>
+                            <th scope="row">discount_through_delivery_services</th>
+                            <td>5</td>
                         </tr>
                         <tr>
-                            <th scope="row">Coffee/Bistro</th>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
+                            <th scope="row">advertising_through_social_media</th>
+                            <td>6</td>
                         </tr>
                         <tr>
-                            <th scope="row">Desi</th>
-                            <td>1</td>
-                            <td>0.5</td>
-                            <td>0.5</td>
+                            <th scope="row">Branding</th>
+                            <td>8</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Others</th>
+                            <td>10</td>
                         </tr>
                     </tbody>
                 </table>
@@ -193,7 +191,7 @@
                          style="background-color: <?php echo $colors[rand(0, 2)] ?>;">
                         <div class="row">
                             <div class="col-sm-6">
-                                {{$resGroup->restaurant->name}} ({{$resGroup->restaurantGroup->name}})
+                                {{txtFormate($resGroup->restaurant->name)}} ({{txtFormate($resGroup->restaurantGroup->name)}})
                                 <input type="number" name="rest_id" class="rest_id"
                                        value="{{$resGroup->restaurant->id}}" hidden>
                             </div>
@@ -380,19 +378,16 @@
 
                             </div>
 
-                            <div class="row inputField_row">
-                                <div class="col-md-3">
-                                    <label for="">Number Of Outlets</label>
+                            
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    Area
                                 </div>
-                                <div class="col-md-3">
-                                    <input type="number" name="" value="0">
-                                </div>
+                                <div class="col-sm-3"></div>
+                                <div class="col-sm-3">Number Of Outlets</div>
+                                <div class="col-sm-2">Total</div>
                             </div>
                             <div class="row inputField_row">
-                                <div class="col-md-3">
-                                    Area
-                                   
-                                </div>
                                 <div class="col-md-3">
                                     <!-- <input type="button" class="btn_input btn_input_plus " value="+">
                                     <input type="number" name="" id="">
@@ -410,17 +405,22 @@
                                         <option selected value="0">Select Type</option>
                                     </select>
                                 </div>
+                                <div class="col-md-3">
+                                    <input type="number" name="" value="1" class="form-control-sm form-control number_of_outlets">
+                                </div>
                                 <div class="col-md-2 cost_class">
-                                    <input type="text" class="form-control-sm form-control cost_value" readonly
-                                           value="{{$market->marketCost[0]->area}}"
-                                           required>
+                                    <input type="text" class="form-control-sm form-control cost_value" readonly value="{{$market->marketCost[0]->area}}" required>
                                 </div>
                             </div>
-
-                            <div class="row inputField_row">
-                                <div class="col-md-3">
+                            <div class="row">
+                                <div class="col-sm-3">
                                     Quality
                                 </div>
+                                <div class="col-sm-3"></div>
+                                <div class="col-sm-3"></div>
+                                <div class="col-sm-2"></div>
+                            </div>
+                            <div class="row inputField_row">
                                 <div class="col-md-3">
                                     <select name="" id="typeQuantity" class="form-control-sm form-control type"
                                             data-type="2">
@@ -436,6 +436,7 @@
                                         <option selected value="0">Select Type</option>
                                     </select>
                                 </div>
+                                <div class="col-sm-3"></div>
                                 <div class="col-md-2 cost_class">
                                     <input type="text" id="typeQuantity_cost_value"
                                            class="form-control-sm form-control cost_value" value="{{$market->marketCost[0]->quality}}" readonly required>
@@ -455,7 +456,7 @@
                                         <div class="col-sm-6">
                                             @foreach($market->marketCost[0]->gm2MarketPromotion as $key=> $marketPromotion)
                                             <div class="form-group">
-                                                <label for="" >{{ Str::title($promotion_options[$key]['name'])}}</label>
+                                                <label for="" >{{ txtFormate($promotion_options[$key]['name'])}}</label>
                                                 <input type="number"
                                                        class="form-control-sm form-control discount_within_store ajx_input_market_promotion"
                                                        id="" value="{{$marketPromotion->value}}">
@@ -487,7 +488,7 @@
                                     @foreach($restaurantGroups as $group)
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio" id="" name="attack_group"
-                                                   value="{{$group->id}}" {{($group->id ==1 )? "checked":""}} required>
+                                                   value="{{$group->id}}" {{($group->id == $resturentUser->rest_group_id  )? "checked":""}} required>
                                             <label class="form-check-label" for="">{{$group->name}}</label>
                                         </div>
                                     @endforeach
@@ -509,7 +510,14 @@
 
         </div>
 
-
+        <div class="next mb-3rem">
+            <div class="row ">
+                <div class="col-sm-10"></div>
+                <div class="col-sm-2">
+                    <a href="{{route('gm2.market_scenario_defend')}}" class="btn btn-next" >Next</a>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Modal -->
