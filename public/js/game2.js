@@ -84,7 +84,7 @@ $(document).ready(function () {
                 subCat.append(
                     '<option selected>Select type</option>');
                 $.each(data
-                        .subcategories[0].sub_costs,
+                    .subcategories[0].sub_costs,
                     function (index, subcategory) {
                         subCat.append('<option data-cost="' + subcategory.value + '" value="' + subcategory.id + '" >' + subcategory.name + '</option>');
                     })
@@ -99,6 +99,7 @@ $(document).ready(function () {
         let costField = subCatParent.siblings('.cost_class').children('.cost_value')
 
         let cost = that.find(':selected').data('cost');
+        $(".number_of_outlets").val(1);
         costField.val(cost);
 
         let card = subCatParent.parents('.card');
@@ -107,6 +108,18 @@ $(document).ready(function () {
         gm2_calculateTotal(card, that, false); //updateDb = false
 
     });
+
+    $(".number_of_outlets").on("change", function (e) {
+        let that = $(this);
+        let card = that.parents('.card');
+        let cost_value = card.find(".cost_value");
+        let previousAreaValue = cost_value[0].value;
+        cost_value[0].value = cost_value[0].value * that.val();
+        let returnValue = gm2_calculateTotal(card, that, false); //updateDb = false
+        if (returnValue == 0) {
+            cost_value[0].value = previousAreaValue;
+        }
+    })
 
     $('.competitors_move,.ajx_input_market_promotion').on('change', function (e) {
         let that = $(this);
@@ -158,6 +171,8 @@ $(document).ready(function () {
         let cost_value = card.find(".cost_value");
         let type = card.find(".type");
         let sub_type = card.find(".subcategory");
+        let numberOfOutlets = card.find(".number_of_outlets");
+
         let type_selected = type.find(':selected');
         let area_type = type_selected[0].value;
         let quelity_type = type_selected[1].value;
@@ -189,6 +204,7 @@ $(document).ready(function () {
         // console.log(discountWithStore.value);
         let area = cost_value[0];
         let quality = cost_value[1];
+        // area = parseInt(area.value) * parseInt(numberOfOutlets.val());
 
         let totalValue_without_move = parseInt(area.value) + parseInt(quality.value) +
             parseInt(discountWithStore.value) + parseInt(discountThroughDeliveryService.value) +
@@ -197,12 +213,13 @@ $(document).ready(function () {
 
         if (competitorsMove.value < 0) {
             alert("Total Investment Crossed the Max Limit !!!");
-            that.val(0)
-            let totalValue_without_move = parseInt(area.value) + parseInt(quality.value) +
-                parseInt(discountWithStore.value) + parseInt(discountThroughDeliveryService.value) +
-                parseInt(AdvertisingThroughSocialMedia.value) + parseInt(Branding.value) + parseInt(Other.value);
-            competitorsMove.value = max_invest - totalValue_without_move;
-            return;
+            that.val(that.val() - 1);
+            //return;
+            // let totalValue_without_move = parseInt(area.value) + parseInt(quality.value) +
+            //     parseInt(discountWithStore.value) + parseInt(discountThroughDeliveryService.value) +
+            //     parseInt(AdvertisingThroughSocialMedia.value) + parseInt(Branding.value) + parseInt(Other.value);
+            // competitorsMove.value = max_invest - totalValue_without_move;
+            return 0;
         }
 
         let totalValue = totalValue_without_move + parseInt(competitorsMove.value);

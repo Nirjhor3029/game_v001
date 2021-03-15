@@ -130,6 +130,31 @@
 
     <?php $mimnus_data = $addedRestaurants;?>
     <div class="gm2">
+        <div class="header mt-9vh">
+            <div class="welcome">
+                <h2 class="title">
+                    Simulation part-2
+                </h2>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam, porro. Et esse, animi vel nostrum magnam ipsum, laboriosam, hic reiciendis voluptatum laudantium ratione cumque impedit quo numquam facilis magni quas.
+                </p>
+                <ol style="margin-left: 6rem;">
+                    <li class=" part_4">Drag and drop</li>
+                </ol>
+                <p class=" part_4">
+                    Please drag and drop the restaurants in each group from the left as per your choice to create strategic groups for restaurants in Dhaka.
+                </p>
+            </div>
+            <div class="video ">
+                <!-- <video width="400" controls>
+                <source src="mov_bbb.mp4" type="video/mp4">
+                <source src="mov_bbb.ogg" type="video/ogg">
+                Your browser does not support HTML video.
+                </video> -->
+                <iframe src="https://www.youtube.com/embed/tgbNymZ7vqY">
+                </iframe>
+            </div>
+        </div>
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg"
@@ -233,6 +258,15 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="next mb-3rem">
+            <div class="row ">
+                <div class="col-sm-10"></div>
+                <div class="col-sm-2">
+                    <a href="{{route('gm2.market_scenario')}}" class="btn btn-next" >Next</a>
                 </div>
             </div>
         </div>

@@ -147,6 +147,17 @@
 
     <?php $mimnus_data = $addedRestaurants;?>
     <div class="gm2">
+
+        <div class="py-12">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="bg-gray overflow-hidden shadow-xl sm:rounded-lg" style="padding:40px;box-sizing:border-box">
+                    <p>
+                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolores suscipit reiciendis harum sunt iusto dolor accusamus consequuntur quidem eos nihil voluptates laudantium nostrum, qui veniam quos amet consequatur illo at beatae dolorem. Nesciunt dolorem, similique id sapiente earum voluptas tempora. Reprehenderit deleniti id dicta autem suscipit repellendus error, voluptatem enim.
+                    </p>
+                </div>
+            </div>
+        </div>
+
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg"

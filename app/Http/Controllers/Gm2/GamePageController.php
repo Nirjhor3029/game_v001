@@ -45,7 +45,7 @@ class GamePageController extends Controller
 
         $resturentUser = RestaurantUser::where('user_id', $user_id)->first();
 
-        // return $restaurant;
+        // return $resturentUser->rest_group_id;
 
         $resGroup = RestaurantPoint::where('res_id', optional($resturentUser)->restaurant_id)->with('restaurant', 'restaurantGroup')->first();
 
@@ -65,13 +65,13 @@ class GamePageController extends Controller
                 $query->where('mode', '=', '1');
             })
             ->first();
-//        return  $market;
-//        $market = (object)$market;
-//            return $market->marketCost;
-//        dd($market);
-//        if(is_null($market)){
-//            return "null";
-//        }
+        //        return  $market;
+        //        $market = (object)$market;
+        //            return $market->marketCost;
+        //        dd($market);
+        //        if(is_null($market)){
+        //            return "null";
+        //        }
 
 
         if (isset($resGroup)) {
@@ -83,7 +83,7 @@ class GamePageController extends Controller
             session(["student_info" => $userInfo]);
             // $session = Session::all();
             // return $session;
-            return view("game_views.gm2.market_scenario_2", compact('typeArea', 'typeQuantity', 'resGroup', 'restaurantGroups', 'investment','market','promotion_options'));
+            return view("game_views.gm2.market_scenario_2", compact('typeArea', 'typeQuantity', 'resGroup', 'restaurantGroups', 'investment','market','promotion_options','resturentUser'));
         } else {
             return view("game_views.gm2.market_scenario_1");
         }
@@ -100,6 +100,7 @@ class GamePageController extends Controller
         $assigned_group_id = $student_info['assigned_group_id'];
 
         $resUser = RestaurantUser::where('rest_group_id', $assigned_group_id)->get();
+        // return $resUser;
         if ($resUser->isEmpty()) {
             $msg = "Till Now No One Attack Your market place";
             return view("game_views.gm2.market_scenario_defend_empty",compact("msg"));
@@ -114,6 +115,27 @@ class GamePageController extends Controller
                 $query->where('mode', '=', '1');
             })
             ->get();
+            // return $attackMarkets;
+
+            $attackers = [];
+            $attackersRests = [];
+            foreach($attackMarkets as $key => $attacker){
+                $attackersRests[] = [
+                    'id' => $attacker->restaurant->id,
+                    'name' => $attacker->restaurant->name,
+                ];
+                foreach($attacker->marketCost[0]->gm2MarketPromotion as $promotion){
+                    $attackers[$key][] = [
+                        "promotion_id" => $promotion->promotion_id,
+                        "value" => $promotion->value,
+                    ];
+                }
+            }
+            
+            $attackersRestIds = implode(",", array_column($attackersRests,"id"));
+
+            
+            // return $attackersRests[0]['name'];
 
         $defendMarket = null;
         $defendMarketPromotions = null;
@@ -125,15 +147,14 @@ class GamePageController extends Controller
         }
         $defendMarketPromotions = Gm2MarketPromotion::where('market_cost_id', optional($defendMarket)->marketCost[0]->id)->where('mode', 2)->get();
 
-//        dd( $defendMarket);
-//         return $defendMarketPromotions;
+        //        dd( $defendMarket);
+        //         return $defendMarketPromotions;
         // return ($attackMarkets[0]->marketCost[0]->gm2MarketPromotion[0]->value);
 
         // return $defendMarketPromotions;
         // return $defendMarket;
-
         $promotions = config('game.game2.promotion_options');
-        return view("game_views.gm2.market_scenario_defend", compact('attackMarkets', 'defendMarket', 'promotions', 'defendMarketPromotions'));
+        return view("game_views.gm2.market_scenario_defend", compact('attackMarkets', 'defendMarket', 'promotions', 'defendMarketPromotions','attackers','attackersRestIds','attackersRests'));
     }
 
 
@@ -221,5 +242,10 @@ class GamePageController extends Controller
                 }
             }
         }
+    }
+
+    public function example_of_strategic_group()
+    {
+        return view('game_views.gm2.example_of_strategic_group');
     }
 }

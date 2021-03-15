@@ -27,16 +27,16 @@
                                 <div class="col-sm-3">
                                     <div class="form-group">
                                         <label for="group_name">Group Name</label>
-                                        <input type="text"
+                                        <input type="text" 
                                                class="form-control form-control-sm group_name"
                                                value="Group 1">
                                     </div>
                                 </div>
 
-                                <div class="col-sm-3">
+                                <div class="col-sm-2 invisible">
                                     <div class="form-group">
                                         <label for="row">Row</label>
-                                        <select name="row" id="row"
+                                        <select name="row" 
                                                 class="form-control form-control-sm group_row gm2-row">
                                             <option value="null">Select Row</option>
                                             @for ($i=1; $i <= $rows; $i++)
@@ -46,10 +46,10 @@
                                     </div>
                                 </div>
 
-                                <div class="col-sm-3">
+                                <div class="col-sm-2 invisible">
                                     <div class="form-group">
                                         <label for="column">Column</label>
-                                        <select name="column" disabled id="column"
+                                        <select name="column"  
                                                 class="form-control form-control-sm gm2-column group_column">
                                             <option value="null">Select Column</option>
                                             @for ($i=1; $i <= $columns; $i++)
@@ -58,12 +58,34 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="col-sm-3 invisible">
+                                    <div class="form-group">
+                                        <label for="column">Restaurant Name</label>
+                                        <select name="column"  
+                                                class="form-control form-control-sm gm2-column group_column">
+                                            <option value="null">Select Restaurant</option>
+                                            @foreach ($restaurants as $restaurant)
+                                                <option value="{{$restaurant->id}}">{{Str::title($restaurant->name)}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
 
-                                <div class="col-sm-2">
+                                <div class="col-sm-1">
+                                    
+                                    <label for=""></label>
                                     <input type="button" value="+"
                                            class="btn btn-success btn-sm form-control group_input_plus">
                                     <input type="button" value="-"
                                            class="invisible btn btn-danger btn-sm form-control group_input_minus">
+                                    
+                                </div>
+                                <div class="col-sm-1">
+                                <label for=""></label>
+                                    <button value="Reset"
+                                           class="invisible btn btn-default btn-sm form-control group_input_minus">
+                                           <img src="{{asset('/assets/icons/restore.svg')}}" alt="" class="leader-icon">
+                                    </button>
                                 </div>
                             </div>
 
@@ -79,7 +101,7 @@
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="group_name">Group Name</label>
-                                            <input type="text"
+                                            <input type="text" 
                                                    class="form-control form-control-sm group_name"
                                                    value="{{$item->name}}">
                                         </div>
@@ -89,10 +111,10 @@
                                     $row = substr($item->point, 0, 1);
                                     $column = substr($item->point, 1, 2);
                                     ?>
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-2">
                                         <div class="form-group">
-                                            <label for="row">Row</label>
-                                            <select name="row" id="row"
+                                            <label for="row">X Axis</label>
+                                            <select name="row" 
                                                     class="form-control form-control-sm group_row gm2-row">
                                                 <option value="null">Select Row</option>
                                                 @for ($i=1; $i <= $rows; $i++)
@@ -103,10 +125,10 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-2">
                                         <div class="form-group">
-                                            <label for="column">Column</label>
-                                            <select name="column" disabled id="column"
+                                            <label for="column">Y Axis</label>
+                                            <select name="column"  
                                                     class="form-control form-control-sm gm2-column group_column">
                                                 <option value="null">Select Column</option>
                                                 @for ($i=1; $i <= $columns; $i++)
@@ -117,8 +139,24 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-sm-2">
+                                    <div class="col-sm-3">
+                                    <?php
+                                        $res_id = $item->restaurantPoint[0]->restaurant->id
+                                    ?>
+                                        <div class="form-group">
+                                            <label for="column">Restaurant Name</label>
+                                            <select name="column"  
+                                                    class="form-control form-control-sm">
+                                                <option value="null">Select Restaurant</option>
+                                                @foreach ($restaurants as $restaurant)
+                                                    <option value="{{$restaurant->id}}" {{($res_id==$restaurant->id)? "selected":""}}  >{{Str::title($restaurant->name)}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
 
+                                    <div class="offset-sm-1 col-sm-1">
+                                        <label for=""></label>
                                         <input type="button" value="-"
                                                class=" btn btn-danger btn-sm form-control group_input_minus">
                                     </div>

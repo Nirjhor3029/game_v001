@@ -17,33 +17,33 @@ $navbars = Navbar::orderBy('priority')->get();
 
         <li>
             <a href="{{route('gm2.strategic_group')}}" class="{{ Request::is('gm2/strategic_group') ? 'active' : '' }}">
-                Strategic Group
+                Home
             </a>
         </li>
         <li>
-            <a href="{{route('gm2.marketing_strategy')}}" class="{{ Request::is('gm2/marketing_strategy') ? 'active' : '' }}">
-                Marketing Strategy
+            <a href="{{route('gm2.marketing_strategy')}}" class="{{ Request::is('gm2/market_research') ? 'active' : '' }}">
+                Market Research
             </a>
         </li>
-        <li>
+        <!-- <li>
             <a href="{{route('gm2.development_of_strategic_group')}}"
                 class="{{ Request::is('gm2/development_of_strategic_group') ? 'active' : '' }}">
                 Development
             </a>
-        </li>
+        </li> -->
         <li>
             <a href="{{route('gm2.game')}}"  class="{{ Request::is('gm2/game') ? 'active' : '' }}">
-                Game
+                Simulation
             </a>
         </li>
-        <li>
+        <!-- <li>
             <a href="{{route('gm2.user_graph')}}"  class="{{ Request::is('gm2/user_graph') ? 'active' : '' }}">
                 Game2
             </a>
-        </li>
+        </li> -->
         <li>
             <a href="{{route('gm2.market_scenario')}}"  class="{{ Request::is('gm2/market_scenario') ? 'active' : '' }}">
-                Market Scenario
+                Development Strategy
             </a>
         </li>
         <li>

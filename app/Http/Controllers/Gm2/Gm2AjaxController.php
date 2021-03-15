@@ -41,6 +41,9 @@ class Gm2AjaxController extends Controller
         $AdvertisingThroughSocialMedia = $request->input('AdvertisingThroughSocialMedia');
         $Branding = $request->input('Branding');
         $Other = $request->input('Other');
+        $group = $request->input('group');
+
+
         $market_promotion_values  = [$discountWithStore,$discountThroughDeliveryService,
                             $AdvertisingThroughSocialMedia,$Branding,$Other];
 
@@ -92,6 +95,15 @@ class Gm2AjaxController extends Controller
             $market_promotion->save();
         }
 
+
+        $restaurantUser = RestaurantUser::where('user_id',$user_id)->first();
+        if(!is_null($restaurantUser)){
+            $restaurantUser->rest_group_id = $group;
+            $restaurantUser->save();
+        }else{
+            return "teacher not assigned !";
+        }
+        
 
 
         // $market_promotions
