@@ -103,12 +103,12 @@
                         ajxSelect.removeClass("borderRed");
                         part++;
                     }
-                    
+
                 }
                 else if(part == 3){
                     let numberOfGroup = $("#gm2_number_of_group");
                     console.log(numberOfGroup.val());
-                    
+
                     if(numberOfGroup.val() == 0){
                         numberOfGroup.addClass("borderRed");
                         toastr.error("Select Number OF Group");
@@ -128,6 +128,7 @@
                         return;
                     }else{
                         $(".part_4").removeClass("invisible");
+                        $(".part_5").removeClass("invisible");
                         $(this).addClass("invisible");
                         jquery_drop_box.removeClass("borderRed");
                     }
@@ -156,6 +157,7 @@
             });
 
             function setDroppableCard(ele) {
+                $(".part_4").removeClass("invisible");
                 // let box = $(".dropBox");
                 let box = $(".dropBox").clone().removeClass("dropBox");
                 let boxHeader = box.find(".card-header");
@@ -285,23 +287,23 @@
     <?php $mimnus_data = $added_restaurant;?>
     <div class="gm2">
 
-        <div class="header mt-9vh">
+        <div class="header mt-9vh" style="height: 20vh">
             <div class="welcome">
                 <h2 class="title">
-                    Market Research
+                    Simluation
                 </h2>
                 <p>
                     Based on the information provided in table 1, group restaurants on any two dimensions of your choice. However, those two dimensions, when combined together, would have to make a strong business case in order to distinguish themselves from others.
                 </p>
-                <ol style="margin-left: 6rem;">
+                {{-- <ol style="margin-left: 6rem;">
                     <li class="part_1">Choice of dimensions</li>
                     <li class="invisible part_2">Number of groups</li>
                     <li class="invisible part_3">Pick groups</li>
                     <li class="invisible part_4">Drag and drop</li>
-                </ol>
-                <p class="invisible part_4">
+                </ol> --}}
+                {{-- <p class="invisible part_4">
                     Please drag and drop the restaurants in each group from the left as per your choice to create strategic groups for restaurants in Dhaka.
-                </p>
+                </p> --}}
             </div>
             <div class="video invisible">
                 <!-- <video width="400" controls>
@@ -342,7 +344,7 @@
 
                         <div class="col-md-10">
                             <div class="select_box invisible part_2">
-                                How many group You want to create
+                                How many groups You want to create
                                 <div class="row">
                                     <select class="form-control offset-sm-4 col-sm-3" id="gm2_number_of_group">
                                         <option value="0" selected>Select</option>
@@ -357,7 +359,7 @@
 
                             <div class="left-side-container">
                                 <div class="row">
-                                    <div class="col-sm-4 txt-center">High</div>
+                                    <div class="col-sm-4 graph_txt">High</div>
                                     <div class="col-sm-4"></div>
                                     <div class="col-sm-4"></div>
                                 </div>
@@ -421,7 +423,7 @@
                                 </div>
                                 <div>
                                     <div class="row">
-                                        <div class="col-sm-4 txt-center">
+                                        <div class="col-sm-4 graph_txt">
                                             Low
                                         </div>
                                         <div class="col-md-4 mt-3">
@@ -449,13 +451,13 @@
                         <div class="row ">
                             <div class="col-sm-10"></div>
                             <div class="col-sm-2">
-                                <a href="javascript:void(0)" class="btn btn-next float-right btn_part">Next</a>
-                                <a href="{{route('gm2.user_graph')}}" class="btn btn-next float-right invisible part_4">Next</a>
+                                <a href="javascript:void(0)" class="btn btn-next float-right btn_part btn_next_part ">Next</a>
+                                <a href="{{route('gm2.marketing_strategy')}}" class="btn btn-next float-right invisible part_5">Next</a>
                                 <!-- <a href="{{route('gm2.game')}}" class="btn btn-next" >Next</a> -->
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
@@ -465,19 +467,24 @@
     <!-- DemoDroppableCard -->
     <div class="card dropBox invisible">
         <div class="card-header" style="text-align: center;padding:0px !important"></div>
-        <div class="card-body droppable ui-sortable" data-tag="" data-name="" style="padding-left: 5px !important;">
+        <div class="card-body droppable dropBody ui-sortable" data-tag="" data-name="" style="padding-left: 5px !important;">
 
         </div>
     </div>
 
 
     <!-- option-item-demo -->
-    <div data-tag="" data-name="" draggable="true"
-         class="demo_option_item option-item bg-light badge badge pill invisible">
+    <div data-tag="" data-name="" draggable="true" class="demo_option_item option-item bg-light badge badge pill invisible">
         <?php $url = $rest_icons[rand(0, 3)] ?>
         <img src="{{asset('assets/icons/'.$url.'.svg')}}" alt="" class="rest_icon">
         <span class="res_name">
         </span>
+    </div>
+
+    <div class="sticky-popup-box invisible part_4">
+        <p>
+            Please drag and drop the restaurants in each group from the left as per your choice to create strategic groups for restaurants in Dhaka.
+        </p>
     </div>
 
 @endsection

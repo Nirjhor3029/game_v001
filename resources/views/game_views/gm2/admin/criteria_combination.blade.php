@@ -14,26 +14,20 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-gray overflow-hidden shadow-xl sm:rounded-lg" style="padding:40px;box-sizing:border-box">
                     <p>
-                    Students can use any two out of the seven variables, namely, Price, Product Quality, Level of  Vertical Integration, Type of Food, Product Range, Breadth of Location, and Dining Option  to create a combination of two for their respective strategic groups. Please set an evaluation standard for each combination as per your choice. Thank you!
+                        Students can use any two out of the seven variables, namely, Price, Product Quality, Level of  Vertical Integration, Type of Food, Product Range, Breadth of Location, and Dining Option  to create a combination of two for their respective strategic groups. Please set an evaluation standard for each combination as per your choice. Thank you!
                     </p>
                 </div>
             </div>
         </div>
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-
-            
-
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg" style="padding:40px;box-sizing:border-box">
-
-
-
                     @php
                         $level_options = Config::get('game.game2.options');
                     @endphp
                     {{-- create form --}}
 
-                    <form action="{{ route('gm2.admin.criteria_combination') }}" method="post" class="row mt-9vh">
+                    <form action="{{ route('teacher.criteria_combination') }}" method="post" class="row mt-9vh">
                         @csrf
                         <div class="offset-sm-3 col-sm-6 ">
                             <table class="table ">
@@ -44,7 +38,7 @@
                                     <th>Value/Mark</th>
                                 </tr>
                                 <?php
-                                    $i = 1; 
+                                    $i = 1;
                                     $x = [];
                                     $y = [];
                                 ?>
@@ -68,8 +62,8 @@
                                                         <td>
                                                             <?php $input_name = strtolower(str_replace(' ', '',
                                                             $level1['id'] . '_' . $level2['id'])); ?>
-                                                            <?php 
-                                                            $value = 0; 
+                                                            <?php
+                                                            $value = 0;
                                                             if($combinations->isEmpty()){
                                                                 $value = 0;
                                                             }else{
@@ -86,7 +80,7 @@
                                                     </tr>
                                                 </div>
 
-                                                
+
                                                 <div class="col-sm-6">
                                                     <tr>
                                                         <td>{{ $i }}</td>
@@ -95,8 +89,8 @@
                                                         <td>
                                                             <?php $input_name = strtolower(str_replace(' ', '',
                                                             $level1['id'] . '_' . $level2['id'])); ?>
-                                                            <?php 
-                                                            $value = 0; 
+                                                            <?php
+                                                            $value = 0;
                                                             if($combinations->isEmpty()){
                                                                 $value = 0;
                                                             }else{
@@ -112,9 +106,9 @@
                                                         </td>
                                                     </tr>
                                                 </div>
-                                                
+
                                             @endif
-                                            
+
                                             <?php $i++; ?>
                                         @endif
                                     @endforeach

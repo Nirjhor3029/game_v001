@@ -9,7 +9,7 @@
                     What is a Strategic Group?
                 </h2>
                 <p>
-                    A strategic group is “the group of firms in an industry following the same or a similar strategy along the strategic dimensions.”  For Instance, restaurants who follow a similar strategy in terms of price or breath of location would be grouped together. You may find an example of a strategic group for the automobile industry by clicking 
+                    A strategic group is “the group of firms in an industry following the same or a similar strategy along the strategic dimensions.”  For Instance, restaurants who follow a similar strategy in terms of price or breath of location would be grouped together. You may find an example of a strategic group for the automobile industry by clicking
                     <a href="{{route('gm2.example_of_strategic_group')}}">here</a>.
                 </p>
             </div>
@@ -62,7 +62,7 @@
             <div class="row">
                 <div class="col-sm-10"></div>
                 <div class="col-sm-2">
-                    <a href="{{route('gm2.marketing_strategy')}}" class="btn btn-next" >Start The Game</a>
+                    <a href="{{route('gm2.game')}}" class="btn btn-next" >Start The Game</a>
                 </div>
             </div>
         </div>

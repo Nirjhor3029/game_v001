@@ -65,11 +65,11 @@
                             </div>
                         @endforeach
                     </div>
-                        
+
                     @endforeach
                     </div>
                 </div>
-                
+
             </div>
 
 
@@ -150,6 +150,14 @@
 
         </div>
 
+        <div class="next mb-3rem">
+            <div class="row ">
+                <div class="col-sm-10"></div>
+                <div class="col-sm-2">
+                    <a href="{{route('gm2.result')}}" class="btn btn-next" >Next</a>
+                </div>
+            </div>
+        </div>
     </div>
 
 @endsection

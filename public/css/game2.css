@@ -46,6 +46,7 @@ cursor: pointer; */
     display: none;
 }
 
+
 /* Table */
 
 .dragdrop_graph {
@@ -117,7 +118,9 @@ cursor: pointer; */
 
 .option-item {
     /* width: 100px; */
-    border: 1px solid #bc8c05;;
+    /* display: block !important; */
+    border: 1px solid #bc8c05;
+    ;
     margin-bottom: 2px;
     cursor: pointer;
     border-radius: 10px;
@@ -134,6 +137,7 @@ cursor: pointer; */
 .txt_xaxis {
     margin-left: 10%;
 }
+
 
 /* Gm2 - Navbar-start */
 
@@ -235,12 +239,10 @@ nav {
     body {
         overflow-x: hidden;
     }
-
     .burger {
         display: block;
         cursor: pointer;
     }
-
     .nav-links {
         width: 40%;
         position: absolute;
@@ -254,16 +256,16 @@ nav {
         transform: translate(100%);
         transition: transform 0.5s ease-in;
     }
-
     .nav-links li {
         opacity: 0;
     }
 }
 
+
 /* Gm2 - Navbar-end */
+
+
 /* gm2- strategic group-start */
-
-
 
 .gm2 {
     padding: 0 6%;
@@ -300,11 +302,12 @@ nav {
 .gm2 .details {
     display: flex;
     flex-basis: auto;
-    /* align-items: center; */flex-grow: 3;
+    /* align-items: center; */
+    flex-grow: 3;
     justify-content: space-around;
 }
 
-.gm2 .details col{
+.gm2 .details col {
     flex-grow: 4;
 }
 
@@ -344,7 +347,10 @@ ul {
     color: #FE8500
 }
 
+
 /* gm2- strategic group-end */
+
+
 /* gm2- market_strategy-start */
 
 .market_strategy {
@@ -362,6 +368,7 @@ ul {
 .market_strategy .image:nth-child(1) {
     margin-top: 9vh;
 }
+
 
 /* gm2- market_strategy-end */
 
@@ -526,6 +533,9 @@ nav {
 .txt-center {
     text-align: center;
 }
+.graph_txt{
+    padding-left: 8%;
+}
 
 .group_input {
     border: #908f8f 1px solid;
@@ -533,8 +543,7 @@ nav {
     padding: 5px 5px;
 }
 
-.attack_box {
-}
+.attack_box {}
 
 .defend_card {
     position: sticky;
@@ -552,8 +561,7 @@ nav {
     border-radius: 40px;
 }
 
-.selected_div {
-}
+.selected_div {}
 
 .modal-body {
     background-image: url('http://myfunnymemes.com/wp-content/uploads/2015/04/Doge-Meme-Lion-In-All-Its-Majestic-Glory.jpg');
@@ -566,18 +574,40 @@ nav {
     border: 2px solid red !important;
 }
 
-.btn-next{
+.btn-next {
     background-color: #e6ab0b;
 }
 
-.mb-3rem{
-    margin-bottom: 3rem;;
+.mb-3rem {
+    margin-bottom: 3rem;
+    ;
 }
-.borderRed{
+
+.borderRed {
     border: 1px solid red !important;
 }
-.table_4{
+
+.table_4 {
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+.sticky-popup-box {
+    position: fixed;
+    top: 40%;
+    right: 0;
+    background-color: #263238;
+    color: white;
+    width: 20%;
+    padding: 10px;
+
+}
+
+.btn_next_part{
+    background-color: rgb(8, 140, 248);
+    color: white;
+}
+.dropBody{
+    padding: 2.25rem;
 }

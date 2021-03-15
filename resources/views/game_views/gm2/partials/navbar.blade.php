@@ -21,7 +21,12 @@ $navbars = Navbar::orderBy('priority')->get();
             </a>
         </li>
         <li>
-            <a href="{{route('gm2.marketing_strategy')}}" class="{{ Request::is('gm2/market_research') ? 'active' : '' }}">
+            <a href="{{route('gm2.game')}}"  class="{{ Request::is('gm2/game') ? 'active' : '' }}">
+                Simulation
+            </a>
+        </li>
+        <li>
+            <a href="{{route('gm2.marketing_strategy')}}" class="{{ Request::is('gm2/marketing_strategy') ? 'active' : '' }}">
                 Market Research
             </a>
         </li>
@@ -31,11 +36,7 @@ $navbars = Navbar::orderBy('priority')->get();
                 Development
             </a>
         </li> -->
-        <li>
-            <a href="{{route('gm2.game')}}"  class="{{ Request::is('gm2/game') ? 'active' : '' }}">
-                Simulation
-            </a>
-        </li>
+
         <!-- <li>
             <a href="{{route('gm2.user_graph')}}"  class="{{ Request::is('gm2/user_graph') ? 'active' : '' }}">
                 Game2

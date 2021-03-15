@@ -61,7 +61,7 @@ class GamePageController extends Controller
         // return $resGroup->restaurant;
         $market = Market::where('user_id', $user_id,)
             ->with('marketCost')
-            ->with('marketCost.gm2MarketPromotion',function ($query) {
+            ->with('marketCost.gm2MarketPromotion', function ($query) {
                 $query->where('mode', '=', '1');
             })
             ->first();
@@ -83,12 +83,10 @@ class GamePageController extends Controller
             session(["student_info" => $userInfo]);
             // $session = Session::all();
             // return $session;
-            return view("game_views.gm2.market_scenario_2", compact('typeArea', 'typeQuantity', 'resGroup', 'restaurantGroups', 'investment','market','promotion_options','resturentUser'));
+            return view("game_views.gm2.market_scenario_2", compact('typeArea', 'typeQuantity', 'resGroup', 'restaurantGroups', 'investment', 'market', 'promotion_options', 'resturentUser'));
         } else {
             return view("game_views.gm2.market_scenario_1");
         }
-
-
     }
 
     public function market_scenario_defend()
@@ -103,7 +101,7 @@ class GamePageController extends Controller
         // return $resUser;
         if ($resUser->isEmpty()) {
             $msg = "Till Now No One Attack Your market place";
-            return view("game_views.gm2.market_scenario_defend_empty",compact("msg"));
+            return view("game_views.gm2.market_scenario_defend_empty", compact("msg"));
         }
         $res_ids = $resUser->pluck('restaurant_id')->all();
         // return $res_ids;
@@ -115,27 +113,27 @@ class GamePageController extends Controller
                 $query->where('mode', '=', '1');
             })
             ->get();
-            // return $attackMarkets;
+        // return $attackMarkets;
 
-            $attackers = [];
-            $attackersRests = [];
-            foreach($attackMarkets as $key => $attacker){
-                $attackersRests[] = [
-                    'id' => $attacker->restaurant->id,
-                    'name' => $attacker->restaurant->name,
+        $attackers = [];
+        $attackersRests = [];
+        foreach ($attackMarkets as $key => $attacker) {
+            $attackersRests[] = [
+                'id' => $attacker->restaurant->id,
+                'name' => $attacker->restaurant->name,
+            ];
+            foreach ($attacker->marketCost[0]->gm2MarketPromotion as $promotion) {
+                $attackers[$key][] = [
+                    "promotion_id" => $promotion->promotion_id,
+                    "value" => $promotion->value,
                 ];
-                foreach($attacker->marketCost[0]->gm2MarketPromotion as $promotion){
-                    $attackers[$key][] = [
-                        "promotion_id" => $promotion->promotion_id,
-                        "value" => $promotion->value,
-                    ];
-                }
             }
-            
-            $attackersRestIds = implode(",", array_column($attackersRests,"id"));
+        }
 
-            
-            // return $attackersRests[0]['name'];
+        $attackersRestIds = implode(",", array_column($attackersRests, "id"));
+
+
+        // return $attackersRests[0]['name'];
 
         $defendMarket = null;
         $defendMarketPromotions = null;
@@ -143,7 +141,7 @@ class GamePageController extends Controller
         $defendMarket = Market::where(['user_id' => $user_id, 'restaurant_id' => $assigned_res_id])->with('marketCost', 'restaurant')->first();
         if (is_null($defendMarket)) {
             $msg = "You need to Attack someone first !!";
-            return view("game_views.gm2.market_scenario_defend_empty",compact("msg"));
+            return view("game_views.gm2.market_scenario_defend_empty", compact("msg"));
         }
         $defendMarketPromotions = Gm2MarketPromotion::where('market_cost_id', optional($defendMarket)->marketCost[0]->id)->where('mode', 2)->get();
 
@@ -154,7 +152,7 @@ class GamePageController extends Controller
         // return $defendMarketPromotions;
         // return $defendMarket;
         $promotions = config('game.game2.promotion_options');
-        return view("game_views.gm2.market_scenario_defend", compact('attackMarkets', 'defendMarket', 'promotions', 'defendMarketPromotions','attackers','attackersRestIds','attackersRests'));
+        return view("game_views.gm2.market_scenario_defend", compact('attackMarkets', 'defendMarket', 'promotions', 'defendMarketPromotions', 'attackers', 'attackersRestIds', 'attackersRests'));
     }
 
 
@@ -211,7 +209,6 @@ class GamePageController extends Controller
         // set restaurant in graph on task 2
         $this->set_graph_point($request, 2);
         return response()->json(['success' => 'Restaurant position set successfully !']);
-
     }
 
     public function set_graph_point($request, $level = 1)

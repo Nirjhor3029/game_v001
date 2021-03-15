@@ -44,16 +44,18 @@ class Gm2AjaxController extends Controller
         $group = $request->input('group');
 
 
-        $market_promotion_values  = [$discountWithStore,$discountThroughDeliveryService,
-                            $AdvertisingThroughSocialMedia,$Branding,$Other];
+        $market_promotion_values  = [
+            $discountWithStore, $discountThroughDeliveryService,
+            $AdvertisingThroughSocialMedia, $Branding, $Other
+        ];
 
-        $market = Market::where('user_id',$user_id)->where('restaurant_id',$rest_id)->get();
-        if($market->isEmpty()){
+        $market = Market::where('user_id', $user_id)->where('restaurant_id', $rest_id)->get();
+        if ($market->isEmpty()) {
             // return "empty";
             $market = new Market();
             $market->user_id = $user_id;
             $market->restaurant_id = $rest_id;
-        }else{
+        } else {
             $market = $market[0];
         }
         $market->total_cost = $totalValue;
@@ -61,16 +63,16 @@ class Gm2AjaxController extends Controller
 
 
         // Market cost
-        $market_cost = MarketCost::where('market_id',$market->id)->get();
-        if($market_cost->isEmpty()){
+        $market_cost = MarketCost::where('market_id', $market->id)->get();
+        if ($market_cost->isEmpty()) {
             $market_cost = new MarketCost();
             $market_cost->market_id = $market->id;
-        }else{
+        } else {
             $market_cost = $market_cost[0];
         }
         $market_cost->area_type = $area_type;
         $market_cost->quality_type = $quelity_type;
-        $market_cost->area_sub_type = $area_sub_type ;
+        $market_cost->area_sub_type = $area_sub_type;
         $market_cost->quality_sub_type = $quelity_sub_type;
         $market_cost->area = $area;
         $market_cost->quality = $quality;
@@ -80,13 +82,13 @@ class Gm2AjaxController extends Controller
         // Market & Promotion
         $mode = 1; // attack=1 & defend =2
         $promotion_options = Config::get('game.game2.promotion_options');
-        foreach($promotion_options as $key=>$promotion_option){
-            $market_promotion = Gm2MarketPromotion::where('market_cost_id',$market_cost->id)
-                                ->where('promotion_id',$promotion_option['id'])->get();
-            if($market_promotion->isEmpty()){
+        foreach ($promotion_options as $key => $promotion_option) {
+            $market_promotion = Gm2MarketPromotion::where('market_cost_id', $market_cost->id)
+                ->where('promotion_id', $promotion_option['id'])->get();
+            if ($market_promotion->isEmpty()) {
                 $market_promotion = new Gm2MarketPromotion();
                 $market_promotion->market_cost_id = $market_cost->id;
-            }else{
+            } else {
                 $market_promotion = $market_promotion[0];
             }
             $market_promotion->promotion_id = $promotion_option['id'];
@@ -96,14 +98,14 @@ class Gm2AjaxController extends Controller
         }
 
 
-        $restaurantUser = RestaurantUser::where('user_id',$user_id)->first();
-        if(!is_null($restaurantUser)){
+        $restaurantUser = RestaurantUser::where('user_id', $user_id)->first();
+        if (!is_null($restaurantUser)) {
             $restaurantUser->rest_group_id = $group;
             $restaurantUser->save();
-        }else{
+        } else {
             return "teacher not assigned !";
         }
-        
+
 
 
         // $market_promotions
@@ -126,12 +128,12 @@ class Gm2AjaxController extends Controller
         $groupColumns = $request->input('groupColumns');
 
 
-        $graphLevel = GraphLevel::where('user_id',$user_id)->get();
-        if($graphLevel->isEmpty()){
+        $graphLevel = GraphLevel::where('user_id', $user_id)->get();
+        if ($graphLevel->isEmpty()) {
             $graphLevel = new GraphLevel();
             $graphLevel->user_id = $user_id;
             $msg = "Set label";
-        }else{
+        } else {
             $graphLevel = $graphLevel[0];
             $msg = "Update label";
         }
@@ -140,15 +142,15 @@ class Gm2AjaxController extends Controller
         $graphLevel->save();
 
 
-        $restaurantGroups = RestaurantGroup::where('user_id',$user_id);
-        if($restaurantGroups->get()->isNotEmpty()){
+        $restaurantGroups = RestaurantGroup::where('user_id', $user_id);
+        if ($restaurantGroups->get()->isNotEmpty()) {
             // $restaurantGroups->delete();
-        }else{
-            foreach($groupColumns as $key => $column){
+        } else {
+            foreach ($groupColumns as $key => $column) {
                 $restaurantGroup = new RestaurantGroup();
                 $restaurantGroup->user_id = $user_id;
                 $restaurantGroup->name = $groupNames[$key];
-                $restaurantGroup->point = $groupRows[$key].$column;
+                $restaurantGroup->point = $groupRows[$key] . $column;
                 $restaurantGroup->save();
             }
         }
@@ -156,28 +158,28 @@ class Gm2AjaxController extends Controller
 
         return response()->json([
             'status' => "ok",
-            'success' => $msg." Successfully ",
+            'success' => $msg . " Successfully ",
         ]);
     }
 
-    public function updateRestaurantGroup(Request $request )
+    public function updateRestaurantGroup(Request $request)
     {
         $user_id = Auth::user()->id;
         $restId = $request->input('restId');
         $groupValue = $request->input('groupValue');
         $leader = $request->input('leader');
-        if($groupValue == null){
+        if ($groupValue == null) {
             $groupValue = 0;
         }
 
-        $restaurantPoint = RestaurantPoint::where('user_id',$user_id)
-                            ->where('res_id',$restId)->get();
-        if($restaurantPoint->isEmpty()){
+        $restaurantPoint = RestaurantPoint::where('user_id', $user_id)
+            ->where('res_id', $restId)->get();
+        if ($restaurantPoint->isEmpty()) {
             $restaurantPoint = new RestaurantPoint();
             $restaurantPoint->user_id = $user_id;
             $restaurantPoint->res_id = $restId;
             $msg = "Group Set";
-        }else{
+        } else {
             $restaurantPoint = $restaurantPoint[0];
             $msg = "Group Update";
         }
@@ -187,7 +189,7 @@ class Gm2AjaxController extends Controller
 
         return response()->json([
             'status' => "ok",
-            'success' => $msg." Successfully ",
+            'success' => $msg . " Successfully ",
         ]);
     }
 
@@ -197,14 +199,13 @@ class Gm2AjaxController extends Controller
 
         $userId = $request->input('studentId');
         $restId = $request->input('restId');
-        $restaurantUser = RestaurantUser::where('user_id',$userId)->get();
+        $restaurantUser = RestaurantUser::where('user_id', $userId)->get();
         // dd($restaurantUser);
-        if($restaurantUser->isEmpty()){
+        if ($restaurantUser->isEmpty()) {
             $restaurantUser = new RestaurantUser();
             $restaurantUser->user_id = $userId;
             $msg = "New Restaurant Set to student";
-
-        }else{
+        } else {
             $restaurantUser = $restaurantUser[0];
             $msg = "Restaurant Update to student";
         }
@@ -216,7 +217,7 @@ class Gm2AjaxController extends Controller
 
         return response()->json([
             'status' => "ok",
-            'success' => $msg." Successfully ",
+            'success' => $msg . " Successfully ",
         ]);
     }
 
@@ -226,12 +227,12 @@ class Gm2AjaxController extends Controller
         $xAxis = $request->input('xAxis');
         $yAxis = $request->input('yAxis');
 
-        $graphLevel = GraphLevel::where('user_id',$user_id)->get();
+        $graphLevel = GraphLevel::where('user_id', $user_id)->get();
 
-        if($graphLevel->isEmpty()){
+        if ($graphLevel->isEmpty()) {
             $graphLevel = new GraphLevel();
             $graphLevel->user_id = $user_id;
-        }else{
+        } else {
             $graphLevel = $graphLevel[0];
         }
         $graphLevel->x_level = $xAxis;
@@ -253,7 +254,7 @@ class Gm2AjaxController extends Controller
         $group = $request->input('group');
         $rest_id = $request->input('rest_id');
 
-        $restaurantUser = RestaurantUser::where('user_id',$user_id)->where('restaurant_id',$rest_id)->first();
+        $restaurantUser = RestaurantUser::where('user_id', $user_id)->where('restaurant_id', $rest_id)->first();
 
         $restaurantUser->rest_group_id = $group;
         $restaurantUser->save();
@@ -267,8 +268,6 @@ class Gm2AjaxController extends Controller
     // Admin Restaurant set / admin user graph page
     public function addRestaurantPoint(Request $request)
     {
-
-
         $user_id = Auth::user()->id;
         $restData = $request->input('restData');
 
@@ -276,33 +275,51 @@ class Gm2AjaxController extends Controller
 
 
         // dd($groupId);
-        $restaurantPoint = RestaurantPoint::where('user_id',$user_id)
-                            ->where('res_group_id',$groupId)
-                            ->where('leader',0)->delete();
-        foreach($restData as $resID){
-            $restaurantPoint = RestaurantPoint::where('user_id',$user_id)
-                            ->where('res_group_id',$groupId)
-                            ->where('res_id',$resID)->first();
-            if(is_null($restaurantPoint)){
+        $restaurantPoint = RestaurantPoint::where('user_id', $user_id)
+            ->where('res_group_id', $groupId)
+            ->where('leader', 0)->delete();
+        foreach ($restData as $resID) {
+            $restaurantPoint = RestaurantPoint::where('user_id', $user_id)
+                ->where('res_group_id', $groupId)
+                ->where('res_id', $resID)->first();
+            if (is_null($restaurantPoint)) {
                 $restaurantPoint = new RestaurantPoint();
                 $restaurantPoint->user_id = $user_id;
                 $restaurantPoint->res_group_id = $groupId;
                 $restaurantPoint->res_id = $resID;
                 $restaurantPoint->save();
             }
-            
-        } 
-        
+        }
+
         // dd($restaurantPoint);
 
         $msg = "Restaurant position set";
         return response()->json([
             'status' => "ok",
-            'success' => $msg." Successfully ",
+            'success' => $msg . " Successfully ",
             'restaurantPoint' => $restaurantPoint,
         ]);
         // return response()->json(['success' => 'Restaurant position set successfully !']);
     }
+    public function setLeader(Request $request)
+    {
+        $user_id = Auth::user()->id;
+        $restId = $request->input('restId');
+        $groupId = $request->input('groupId');
+        $restaurantPoint = RestaurantPoint::where(["user_id" => $user_id, "res_group_id" => $groupId])->get();
+        foreach ($restaurantPoint as  $item) {
 
+            if ($item->res_id == $restId) {
+                $item->leader = 1;
+            } else {
+                $item->leader = 0;
+            }
+            $item->save();
+        }
+        return response()->json([
+            'status' => "ok",
+            'success' => "New Leader Set Successfully",
 
+        ]);
+    }
 }

@@ -494,7 +494,9 @@ nav {
 .txt-center {
     text-align: center;
 }
-
+.graph_txt{
+    padding-left: 8%;
+}
 .group_input {
     border: #908f8f 1px solid;
     margin-bottom: 5px;

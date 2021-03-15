@@ -8,6 +8,11 @@
     <script>
 
         $(document).ready(function () {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
             $("#sortable").sortable({
                 connectWith: [".droppable"],
 
@@ -35,9 +40,9 @@
 
                         }
                         $(this).children().each(function (idx, ele) {
-                            
+
                                 let restId = $(ele).data('tag');
-                               
+
                             restData.push(restId);
                         });
                         console.dir(restData);
@@ -56,12 +61,6 @@
 
             function sendData(groupId, restData) {
                 $(document).ready(function () {
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
-
                     let data = {
                         groupId: groupId,
                         restData: restData
@@ -137,6 +136,34 @@
 
 
             $(".selected_div").parent('.empty2').addClass("selected_td");
+
+            $(".option-item").on("dblclick",function(){
+                // console.log("double click");
+                let that = $(this);
+                let cardBody = that.parents(".card-body");
+                let leaderIcon = cardBody.find(".leader-icon");
+                leaderIcon.parent(".option-item").removeClass("not_shortable").attr("draggble",true);
+                that.append(leaderIcon).addClass("not_shortable").attr("draggble",false);
+
+                restId = that.data("tag");
+                groupId = cardBody.data("group");
+                // set Leader by ajax
+                let data = {
+                    groupId: groupId,
+                    restId: restId
+                };
+                // console.log(data);
+                // return;
+                $.ajax({
+                    type: "POST",
+                    url: "set_leader",
+                    data: data,
+                    success: function (data) {
+                        console.table(data);
+                        toastr.success(data.success);
+                    }
+                });
+            });
         });
     </script>
 
@@ -191,7 +218,7 @@
                             @if(!$empty)
                                 <div class="left-side-container">
                                     <div class="row">
-                                        <div class="col-sm-4 txt-center">High</div>
+                                        <div class="col-sm-4 graph_txt">High</div>
                                         <div class="col-sm-4"></div>
                                         <div class="col-sm-4"></div>
                                     </div>
@@ -246,7 +273,7 @@
                                     </div>
                                     <div>
                                         <div class="row">
-                                            <div class="col-sm-4 txt-center">
+                                            <div class="col-sm-4 graph_txt">
                                                 Low
                                             </div>
                                             <div class="col-md-4 mt-3">
