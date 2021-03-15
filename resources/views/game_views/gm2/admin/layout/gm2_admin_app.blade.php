@@ -109,7 +109,7 @@
                     <!-- Add icons to the links using the .nav-icon class
                     with font-awesome or any other icon font library -->
                     <li class="nav-item menu-open">
-                        <a href="{{route('gm2.admin.dashboard')}}" class="nav-link active">
+                        <a href="{{route('teacher.dashboard')}}" class="nav-link active">
                             <i class="nav-icon fas fa-tachometer-alt"></i>
                             <p>
                                 Dashboard
@@ -128,25 +128,25 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="{{route('gm2.admin.criteria_combination')}}" class="nav-link">
+                                <a href="{{route('teacher.criteria_combination')}}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Criteria Combination</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{route('gm2.admin.set_group')}}" class="nav-link">
+                                <a href="{{route('teacher.set_group')}}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Set Group</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{route('gm2.admin.set_restaurant')}}" class="nav-link">
+                                <a href="{{route('teacher.set_restaurant')}}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Set Restaurant</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{route('gm2.admin.assign_student')}}" class="nav-link">
+                                <a href="{{route('teacher.assign_student')}}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Assign Student</p>
                                 </a>

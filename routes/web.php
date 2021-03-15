@@ -26,7 +26,7 @@ Route::get('/', function () {
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     $user_type = Auth::user()->type; //1 = admin,2 = teacher,3 = student
     if ($user_type == 2) {
-        return view('game_views.gm2.admin.dashboard');
+        return redirect()->route('teacher.dashboard');
     } else {
         return view('dashboard');
     }
@@ -77,7 +77,7 @@ Route::name('gm2.')->prefix('gm2')->namespace('Gm2')->middleware(['auth:sanctum'
 
     Route::post('start-the-game', [\App\Http\Controllers\Game\StartGameController::class, 'startGame2'])->name('startGame2');
 
-    Route::get('overview', [\App\Http\Controllers\Gm2\GamePageController::class, 'overview']);
+   // Route::get('overview', [\App\Http\Controllers\Gm2\GamePageController::class, 'overview']);
 
     // Route::view('/graph', 'gm2.market_scenario');
 
@@ -100,35 +100,14 @@ Route::name('gm2.')->prefix('gm2')->namespace('Gm2')->middleware(['auth:sanctum'
     Route::get('user_graph', [\App\Http\Controllers\Gm2\GamePageController::class, 'show_users_graph'])->name('user_graph');
     Route::post('add_user_graph', [\App\Http\Controllers\Gm2\GamePageController::class, 'add_users_graph']);
     Route::post('gm2_update_market', [Gm2AjaxController::class, 'updateMarket'])->name('gm2_update_market');
-
-
-    Route::post('admin/gm2_update_group', [Gm2AjaxController::class, 'updateGroup'])->name('gm2_update_group');
-    Route::post('admin/gm2_update_restaurant_group', [Gm2AjaxController::class, 'updateRestaurantGroup'])->name('admin.gm2_update_restaurant_group');
-    Route::post('admin/assign_student', [Gm2AjaxController::class, 'assignStudent'])->name('admin.assign_student');
     Route::post('set_student_criteria', [Gm2AjaxController::class, 'setStudentCriteria'])->name('set_student_criteria');
     Route::post('user_set_group', [Gm2AjaxController::class, 'userSetGroup'])->name('user_set_group');
-
     Route::post('defend_market', [IndexController::class, 'defendMarket'])->name('defend_market');
-
-
     Route::view('level_table', 'gm2.level_table');
+
+
     Route::get('result', [IndexController::class, 'result'])->name("result");
-    Route::view('admin/', 'game_views.gm2.admin.dashboard')->name('admin.dashboard');
 
-
-    Route::get('admin/criteria_combination', [\App\Http\Controllers\Game\gm2\IndexController::class, 'criteria_combination'])->name('admin.criteria_combination');
-    Route::post('admin/criteria_combination', [\App\Http\Controllers\Game\gm2\IndexController::class, 'criteria_combination_post'])->name('admin.criteria_combination');
-
-    Route::get('admin/set_group', [\App\Http\Controllers\Game\gm2\IndexController::class, 'setGroup'])->name('admin.set_group');
-
-    Route::get('admin/set_restaurant', [\App\Http\Controllers\Game\gm2\IndexController::class, 'setRestaurant'])->name('admin.set_restaurant');
-
-
-    Route::get('admin/assign_student', [\App\Http\Controllers\Game\gm2\IndexController::class, 'assignStudent'])->name('admin.assign_student');
-
-
-    Route::get('admin/user-role', [\App\Http\Controllers\Game\gm2\Gm2AdminController::class, 'userRole'])->name('admin.user_role');
-    Route::get('admin/user-manage/{id}', [\App\Http\Controllers\Game\gm2\Gm2AdminController::class, 'userManage'])->name('admin.user_manage');
 
 });
 
@@ -143,9 +122,9 @@ Route::name('gm2.')->prefix('gm2')->middleware(['auth:sanctum', 'verified'])->gr
 
     Route::get('/', [\App\Http\Controllers\Game\gm2\IndexController::class, 'index']);
     Route::get('/strategic_group', [\App\Http\Controllers\Game\gm2\IndexController::class, 'strategic_group'])->name("strategic_group");
-    Route::get('/marketing_strategy ', [\App\Http\Controllers\Game\gm2\IndexController::class, 'marketing_strategy']);
-    Route::get('/development_of_strategic_group', [\App\Http\Controllers\Game\gm2\IndexController::class, 'development_of_strategic_group']);
-    Route::get('/game', [\App\Http\Controllers\Game\gm2\IndexController::class, 'game']);
+    Route::get('/marketing_strategy ', [\App\Http\Controllers\Game\gm2\IndexController::class, 'marketing_strategy'])->name('marketing_strategy');
+    Route::get('/development_of_strategic_group', [\App\Http\Controllers\Game\gm2\IndexController::class, 'development_of_strategic_group'])->name('development_of_strategic_group');
+    Route::get('/game', [\App\Http\Controllers\Game\gm2\IndexController::class, 'game'])->name('game');
 
     Route::post('add_graph', [\App\Http\Controllers\Gm2\GamePageController::class, 'addGraph']);
 
@@ -163,3 +142,25 @@ Route::get('/migrate', function () {
 
 Route::get('/test2', [IndexController::class, 'test2']);
 Route::get('/task1', [\App\Http\Controllers\Game\gm2\IndexController::class, 'get_task_one_result']);
+
+
+Route::group(['auth:sanctum', 'verified'], function() {
+    Route::group(['middleware' => 'role:student','prefix' => 'student', 'as' => 'student.'], function() {
+
+        Route::get('overview', [\App\Http\Controllers\Gm2\GamePageController::class, 'overview']);
+    });
+    Route::group(['middleware' => 'role:teacher', 'prefix' => 'teacher', 'as' => 'teacher.'], function() {
+        Route::view('/', 'game_views.gm2.admin.dashboard')->name('dashboard');
+        Route::post('gm2_update_group', [Gm2AjaxController::class, 'updateGroup'])->name('gm2_update_group');
+        Route::post('gm2_update_restaurant_group', [Gm2AjaxController::class, 'updateRestaurantGroup'])->name('gm2_update_restaurant_group');
+        Route::post('assign_student', [Gm2AjaxController::class, 'assignStudent'])->name('assign_student');
+        Route::get('criteria_combination', [\App\Http\Controllers\Game\gm2\IndexController::class, 'criteria_combination'])->name('criteria_combination');
+        Route::post('criteria_combination', [\App\Http\Controllers\Game\gm2\IndexController::class, 'criteria_combination_post'])->name('criteria_combination');
+        Route::get('set_group', [\App\Http\Controllers\Game\gm2\IndexController::class, 'setGroup'])->name('set_group');
+        Route::get('set_restaurant', [\App\Http\Controllers\Game\gm2\IndexController::class, 'setRestaurant'])->name('set_restaurant');
+        Route::get('assign_student', [\App\Http\Controllers\Game\gm2\IndexController::class, 'assignStudentNew'])->name('assign_student');
+        Route::get('user-role', [\App\Http\Controllers\Game\gm2\Gm2AdminController::class, 'userRole'])->name('user_role');
+        Route::get('user-manage/{id}', [\App\Http\Controllers\Game\gm2\Gm2AdminController::class, 'userManage'])->name('user_manage');
+    });
+
+});

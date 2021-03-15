@@ -204,6 +204,29 @@ class IndexController extends Controller
 
         return view('game_views.gm2.admin.assign_student', compact('students', 'restaurants', 'restaurantUsers'));
     }
+    public function assignStudentNew()
+    {
+
+        $students = User::where('type', 3)->with('restaurantUser')->get();
+
+
+        $restaurantPoints = RestaurantPoint::with(['restaurant', 'restaurantGroup'])->where('leader', 1)->get();
+        $restaurantUsers = RestaurantUser::all();
+
+        // return $restaurantPoints;
+
+        $restaurants = [];
+        foreach ($restaurantPoints as $key => $item) {
+            $restaurants[] = [
+                "res_id" => $item->res_id,
+                "res_name" => $item->restaurant->name,
+                "group_id" => $item->res_group_id,
+                "group_name" => $item->restaurantGroup->name,
+            ];
+        }
+
+        return view('game_views.gm2.admin.assign_student_new', compact('students', 'restaurants', 'restaurantUsers'));
+    }
 
 
     public function defendMarket(Request $request)
