@@ -150,6 +150,7 @@ Route::group(['auth:sanctum', 'verified'], function() {
         Route::get('overview', [\App\Http\Controllers\Gm2\GamePageController::class, 'overview']);
     });
     Route::group(['middleware' => 'role:teacher', 'prefix' => 'teacher', 'as' => 'teacher.'], function() {
+        Route::get('set_group2', [\App\Http\Controllers\Game\gm2\IndexController::class, 'setGroup2'])->name('set_group');
         Route::view('/', 'game_views.gm2.admin.dashboard')->name('dashboard');
         Route::post('gm2_update_group', [Gm2AjaxController::class, 'updateGroup'])->name('gm2_update_group');
         Route::post('gm2_update_restaurant_group', [Gm2AjaxController::class, 'updateRestaurantGroup'])->name('gm2_update_restaurant_group');
