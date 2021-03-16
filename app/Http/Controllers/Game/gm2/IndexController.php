@@ -33,7 +33,7 @@ class IndexController extends Controller
 
     public function strategic_group()
     {
-        
+
         return view('game_views.gm2.strategic_group');
     }
 
@@ -56,7 +56,6 @@ class IndexController extends Controller
         } else {
             return view("game_views.gm2.market_scenario_1");
         }
-        
     }
 
     public function development_of_strategic_group()
@@ -69,6 +68,31 @@ class IndexController extends Controller
         $user_id = Auth::user()->id;
         // get all restaurant
         $restaurants = \App\Models\Restaurant::get();
+
+
+
+        // Start Game
+        $user_id = Auth::user()->id;
+        $session_id = Session::getId();
+        $resturentUser = RestaurantUser::where('user_id', $user_id)->first();
+        $resGroup = RestaurantPoint::where('res_id', optional($resturentUser)->restaurant_id)->with('restaurant', 'restaurantGroup')->first();
+        if (isset($resGroup)) {
+            $userInfo = [
+                "student_id" => $user_id,
+                "assigned_res_id" => $resGroup->restaurant->id,
+                "assigned_group_id" => $resGroup->restaurantGroup->id,
+            ];
+            session(["student_info" => $userInfo]);
+            // $session = Session::all();
+            // return $session;
+            // return view('game_views.gm2.marketing_strategy');
+        } else {
+            return view("game_views.gm2.market_scenario_1");
+        }
+        // Start Game
+
+
+
         // check graph item set on this user
         $graphItem = GraphItem::where(['user_id' => Auth::guard('web')->user()->id, 'session_id' => Session::getId()])->get()->first();
         if (is_null($graphItem)) {
@@ -101,8 +125,6 @@ class IndexController extends Controller
     public function game_view()
     {
         $restaurant_group = RestaurantGroup::where('user_id', Auth::guard('web')->user()->id)->findOrFail();
-
-
     }
 
     public function criteria_combination()
@@ -147,7 +169,6 @@ class IndexController extends Controller
         }
         $request->session()->flash('alert-success', $msg);
         return redirect()->route("gm2.admin.criteria_combination");
-
     }
 
     public function setGroup()
@@ -158,8 +179,8 @@ class IndexController extends Controller
 
         $user_id = Auth::user()->id;
         $restaurantGroups = RestaurantGroup::where('user_id', $user_id)
-            ->with('restaurantPoint',function($query){
-                $query->where('leader',1)->with('restaurant');
+            ->with('restaurantPoint', function ($query) {
+                $query->where('leader', 1)->with('restaurant');
             })
             ->get();
         $graphLevel = GraphLevel::where('user_id', $user_id)->first();
@@ -175,8 +196,8 @@ class IndexController extends Controller
 
         $user_id = Auth::user()->id;
         $restaurantGroups = RestaurantGroup::where('user_id', $user_id)
-            ->with('restaurantPoint',function($query){
-                $query->where('leader',1)->with('restaurant');
+            ->with('restaurantPoint', function ($query) {
+                $query->where('leader', 1)->with('restaurant');
             })
             ->get();
         $graphLevel = GraphLevel::where('user_id', $user_id)->first();
@@ -200,7 +221,7 @@ class IndexController extends Controller
         $user_id = Auth::user()->id; //teacher own
         $restaurants = Restaurant::all();
         $gType = Config::get('game.game2.options');
-        $restaurantGroups = RestaurantGroup::where('user_id',$user_id)->with('restaurantPoint','restaurantPoint.restaurant')->get();
+        $restaurantGroups = RestaurantGroup::where('user_id', $user_id)->with('restaurantPoint', 'restaurantPoint.restaurant')->get();
 
         $addedRestaurants = $restaurantGroups->pluck('restaurantPoint')->collapse()->pluck('res_id');
         $addedRestaurants = $addedRestaurants->toArray();
@@ -209,15 +230,15 @@ class IndexController extends Controller
 
         $graph_level = GraphLevel::where('user_id', $user_id)->get()->first();
         $empty = false;
-        if (is_null($graph_level)){
+        if (is_null($graph_level)) {
             $empty = true;
         }
 
         // get x-axis & y-axis option from config file
         $level_options = Config::get('game.game2.options');
-//        return  (!$empty);
+        //        return  (!$empty);
 
-        return view('gm2.teacher_graph', compact( 'graph_level', 'level_options', 'restaurants','restaurantGroups','empty','addedRestaurants'));
+        return view('gm2.teacher_graph', compact('graph_level', 'level_options', 'restaurants', 'restaurantGroups', 'empty', 'addedRestaurants'));
     }
 
     public function assignStudent()
@@ -306,7 +327,6 @@ class IndexController extends Controller
 
         $request->session()->flash('alert-success', 'Defend Successful');
         return Redirect::back();
-
     }
 
     public function defendActionCalculation($defenderRestId, $attackerRestIds): array
@@ -370,11 +390,11 @@ class IndexController extends Controller
         // $attackSum = ( 1 - $defenderSum );
         // return $defenderSum;
 
-         $taskOneResult = $this->get_task_one_result();
+        $taskOneResult = $this->get_task_one_result();
         $taskTwoResult = $this->get_task_two_result();
         // return $taskTwoResult['Correct'];
 
-        return view("gm2.result", compact("defenderSum","taskOneResult","taskTwoResult"));
+        return view("gm2.result", compact("defenderSum", "taskOneResult", "taskTwoResult"));
     }
 
     public function get_task_one_result()
@@ -395,13 +415,13 @@ class IndexController extends Controller
         // set teacher id form session
 
 
-        $restUser = RestaurantUser::where('user_id',$user_id)->first("teacher_id");
+        $restUser = RestaurantUser::where('user_id', $user_id)->first("teacher_id");
         // return $restUser;
 
         $results = CriteriaCombination::select(['x_axis', 'y_axis', 'point'])->where('user_id', $restUser->teacher_id)->get();
-       // return $results;
+        // return $results;
         if ($results->isEmpty()) {
-           return $bag = [
+            return $bag = [
                 'type' => 'error',
                 'message' => 'Your coordinator not set the answer yet'
             ];
@@ -422,14 +442,13 @@ class IndexController extends Controller
             'result' => $result,
             'bag' => $bag
         ];
-
     }
 
     public function get_task_two_result()
     {
         // get authenticated user id
         $user_id = Auth::user()->id;
-        $teacherId = RestaurantUser::where('user_id',$user_id)->first("teacher_id")->teacher_id;
+        $teacherId = RestaurantUser::where('user_id', $user_id)->first("teacher_id")->teacher_id;
 
         $resGroup = RestaurantGroup::where('user_id', $teacherId)->with('restaurantPoint')->get();
         // $resPoints = RestaurantPoint::where('user_id',$user_id)->with('restaurantGroup')->get();
@@ -447,14 +466,13 @@ class IndexController extends Controller
                 'point' => (int)$singleGroup->point,
                 'rest_id' => $singleGroup->restaurantPoint->pluck('res_id')->toArray(),
             ];
-
         }
         // get student point value form graph & graph item table
         $student_id = $user_id;
         $graphItem = GraphItem::where('user_id', $student_id)->latest()->first();
         // return $graphItem;
         $graphs = Graph::where('graph_item_id', $graphItem->id)->where('level', 2)->get();
-        if($graphs->isEmpty()){
+        if ($graphs->isEmpty()) {
             $bag = [
                 'type' => 'error',
                 'message' => 'First Play The Game !!!'
@@ -488,7 +506,6 @@ class IndexController extends Controller
             }
 
             $count[$point] = array_count_values($dataSet[$point]);
-
         }
         $correct = array_sum(array_column($count, "Correct"));
         $wrong = array_sum(array_column($count, "Wrong"));
@@ -498,8 +515,5 @@ class IndexController extends Controller
             'Wrong' => $wrong,
             'DataSet' => $count,
         ];
-
     }
-
-
 }
