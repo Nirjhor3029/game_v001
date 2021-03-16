@@ -42,7 +42,7 @@
                                         <div class="form-group">
                                             @php $check = 1 @endphp
                                             <select name="group[]"
-                                                    class="form-control form-control-sm  restaurant_select">
+                                                    class="form-control form-control-sm  restaurant_select" {{(!$check)? "disabled" : ""}}>
                                                 <option value="null" selected disabled>Select Group</option>
                                                 @foreach($restaurants as $item)
                                                     <?php $item = (object)$item; ?>
@@ -63,7 +63,7 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-2">
-                                        <input type="button" name="" value="Set" {{(!$check)? "disabled" : ""}} class="btn btn-success set">
+                                        <input type="button" name="" value="{{($check)? 'Set' : 'Update'}}"  class="btn {{($check)? 'btn-success' : 'btn-warning'}} set" data-status = "{{($check)? 1 : 2}}">
                                     </div>
                                 </div>
                             @endforeach
@@ -71,6 +71,28 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="py-12 mt-5vh">
+            <div class="row ">
+                @foreach($groupStudents as $key => $item )
+                <div class="col-sm-4">
+                    <div class="card">
+                        <div class="card-header">
+                            {{Str::title($restaurants[$key]['res_name'])}} - {{Str::title($restaurants[$key]['group_name'])}}
+                        </div>
+                        <div class="card-body">
+                            <ol>
+                                @foreach($item as $student)
+                                <li>{{Str::title($student['name'])}}</li>
+                                @endforeach
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+            
         </div>
     </div>
 @endsection
