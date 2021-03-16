@@ -115,6 +115,7 @@ class Gm2AjaxController extends Controller
         ]);
     }
 
+    // Set Group page ::Admin
     public  function updateGroup(Request $request)
     {
         // return ($request);
@@ -161,6 +162,59 @@ class Gm2AjaxController extends Controller
             'success' => $msg . " Successfully ",
         ]);
     }
+
+    public function setSingleGroup(Request $request)
+    {
+        $user_id = Auth::user()->id;
+
+        $groupName = $request->input('groupName');
+        $points = $request->input('points');
+        $firstPoint = $points[0];
+        $restaurantGroup = RestaurantGroup::where(['user_id' => $user_id, 'point' => $firstPoint])->first();
+        if (is_null($restaurantGroup)) {
+            $restaurantGroup = new RestaurantGroup();
+            $restaurantGroup->user_id = $user_id;
+            $restaurantGroup->point = $firstPoint;
+            $msg = "Create New Group";
+        } else {
+            $restaurantGroup = $restaurantGroup;
+            $msg = "Update Group";
+        }
+        $restaurantGroup->name = $groupName;
+        $restaurantGroup->save();
+        return response()->json([
+            'status' => "ok",
+            'success' => $msg . " Successfully ",
+        ]);
+    }
+    public function deleteSingleGroup(Request $request)
+    {
+        $user_id = Auth::user()->id;
+        $groupPoint = $request->input('groupPoint');
+        $restaurantGroup = RestaurantGroup::where(['user_id' => $user_id, 'point' => $groupPoint])->first();
+        $msg = "Delete Group ( name:" . $restaurantGroup->name . " )";
+        $restaurantGroup->delete();
+        return response()->json([
+            'status' => "ok",
+            'success' => $msg . " Successfully ",
+        ]);
+    }
+    public function groupNameUpdate(Request $request)
+    {
+        $user_id = Auth::user()->id;
+        $groupPoint = $request->input('groupPoint');
+        $groupName = $request->input('groupName');
+        $restaurantGroup = RestaurantGroup::where(['user_id' => $user_id, 'point' => $groupPoint])->first();
+        $restaurantGroup->name = $groupName;
+        $restaurantGroup->save();
+        $msg = "Update Group Name";
+        return response()->json([
+            'status' => "ok",
+            'success' => $msg . " Successfully ",
+        ]);
+    }
+
+    // Set Group page ::Admin
 
     public function updateRestaurantGroup(Request $request)
     {

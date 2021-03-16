@@ -57,7 +57,7 @@ $(document).ready(function () {
                 subCat.append(
                     '<option selected>Select type</option>');
                 $.each(data
-                        .subcategories[0].sub_costs,
+                    .subcategories[0].sub_costs,
                     function (index, subcategory) {
                         subCat.append('<option data-cost="' + subcategory.value + '" value="' + subcategory.id + '" >' + subcategory.name + '</option>');
                     })
@@ -216,10 +216,24 @@ $(document).ready(function () {
     $(document).on("click", ".group_input_minus", function (e) {
         let that = $(this);
         let groupInput = that.parents('.group_input');
-        let row_val = groupInput.find('.group_row').val();
-        let column_val = groupInput.find('.group_column').val();
-        select_graph_box(row_val, column_val, 'dragdrop_graph');
-        groupInput.remove();
+        // let row_val = groupInput.find('.group_row').val();
+        // let column_val = groupInput.find('.group_column').val();
+        // select_graph_box(row_val, column_val, 'dragdrop_graph');
+        let groupPoint = groupInput.find('.group_point').val();
+
+        let data = {
+            groupPoint: groupPoint,
+        };
+        $.ajax({
+            type: "POST",
+            url: "gm2_delete_single_group",
+            data: data,
+            success: function (data) {
+                console.table(data);
+                groupInput.remove();
+                toastr.success(data.success);
+            }
+        });
     });
 
     /* $(document).on("change", '.group_row', function (e) {
@@ -249,7 +263,7 @@ $(document).ready(function () {
         });
 
         if (RowColumnVal.length > 1) {
-          //  let arrays = rowColumn.split('');
+            //  let arrays = rowColumn.split('');
             let Row = RowColumnVal[0];
             let Column = RowColumnVal[1];
             RowColumnArray.push(Row + '' + Column);

@@ -29,7 +29,8 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     if ($user_type == 2) {
         return redirect()->route('teacher.dashboard');
     } else {
-        return view('dashboard');
+        return redirect()->route('gm2.strategic_group');
+        // return view('dashboard');
     }
     // return $user_type;
 
@@ -151,6 +152,9 @@ Route::group(['auth:sanctum', 'verified'], function () {
     Route::group(['middleware' => 'role:teacher', 'prefix' => 'teacher', 'as' => 'teacher.'], function () {
         Route::view('/', 'game_views.gm2.admin.dashboard')->name('dashboard');
         Route::post('gm2_update_group', [Gm2AjaxController::class, 'updateGroup'])->name('gm2_update_group');
+        Route::post('gm2_set_single_group', [Gm2AjaxController::class, 'setSingleGroup'])->name('gm2_set_single_group');
+        Route::post('gm2_delete_single_group', [Gm2AjaxController::class, 'deleteSingleGroup'])->name('gm2_delete_single_group');
+        Route::post('group_name_update', [Gm2AjaxController::class, 'groupNameUpdate'])->name('group_name_update');
         Route::post('gm2_update_restaurant_group', [Gm2AjaxController::class, 'updateRestaurantGroup'])->name('gm2_update_restaurant_group');
         Route::post('assign_student', [Gm2AjaxController::class, 'assignStudent'])->name('assign_student');
         Route::post('add_restaurant_point', [Gm2AjaxController::class, 'addRestaurantPoint'])->name('add_restaurant_point');

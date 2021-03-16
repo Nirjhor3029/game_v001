@@ -110,8 +110,8 @@
                         data-accordion="false">
                             <!-- Add icons to the links using the .nav-icon class
                             with font-awesome or any other icon font library -->
-                        <li class="nav-item menu-open">
-                            <a href="{{route('teacher.dashboard')}}" class="nav-link active">
+                        <li class="nav-item">
+                            <a href="{{route('teacher.dashboard')}}" class="nav-link">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
                                     Dashboard
@@ -121,11 +121,11 @@
 
                         </li>
 
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-edit"></i>
+                        <li class="nav-item active menu-open">
+                            <a href="#" class="nav-link ">
+                                <i class="nav-icon fas fa-gamepad"></i>
                                 <p>
-                                    Game 2
+                                    Simulation
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
