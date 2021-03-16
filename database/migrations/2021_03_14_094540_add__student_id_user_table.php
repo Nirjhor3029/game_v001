@@ -14,7 +14,7 @@ class AddStudentIdUserTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string("student_uid")->unique()->after('name');
+            $table->string("student_uid")->nullable()->default(null)->after('name');
         });
     }
 

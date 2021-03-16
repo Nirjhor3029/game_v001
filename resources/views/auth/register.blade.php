@@ -1,32 +1,34 @@
 <x-guest-layout>
     <x-jet-authentication-card>
         <x-slot name="logo">
-            <x-jet-authentication-card-logo />
+            {{-- <x-jet-authentication-card-logo/>--}}
         </x-slot>
 
-        <x-jet-validation-errors class="mb-4" />
+        <x-jet-validation-errors class="mb-4"/>
 
-        <form method="POST" action="{{ route('register') }}">
+        <form method="POST" action="{{ route('register') }}" x-data="{type: 3}">
             @csrf
 
-            <div>
-                <x-jet-label for="name" value="{{ __('Name') }}" />
-                <x-jet-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
+            <div class="mt-4">
+                <x-jet-label for="name" value="{{ __('Name') }}"/>
+                <x-jet-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required
+                             autofocus autocomplete="name"/>
             </div>
 
-            <div>
-                <x-jet-label for="uid" value="{{ __('uid') }}" />
-                <x-jet-input id="uid" class="block mt-1 w-full" type="text" name="uid" :value="old('uid')" required autofocus autocomplete="uid" />
+            <div class="mt-4"  x-show="type == 3">
+                <x-jet-label for="uid" value="{{ __('University ID') }}"/>
+                <x-jet-input id="uid" class="block mt-1 w-full" type="text" name="uid" :value="old('uid')" required
+                             autofocus autocomplete="uid"/>
             </div>
 
             <div class="mt-4">
-                <x-jet-label for="email" value="{{ __('Email') }}" />
-                <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
+                <x-jet-label for="email" value="{{ __('Email') }}"/>
+                <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')"
+                             required/>
             </div>
             <div class="mt-4">
-                <x-jet-label for="type" value="{{ __('Type') }}" />
-                <select id="type" class="form-select block mt-1 w-full"  name="type" required="required">
-                    <option>Select Type</option>
+                <x-jet-label for="type" value="{{ __('Type') }}"/>
+                <select id="type" class="form-select block mt-1 w-full" name="type" required="required" x-model="type">
                     @foreach ( Config::get('game.type') as $val)
                         <option value="{{ $val['id'] }}">{{ Str::ucfirst($val['name']) }}</option>
                     @endforeach
@@ -34,13 +36,15 @@
             </div>
 
             <div class="mt-4">
-                <x-jet-label for="password" value="{{ __('Password') }}" />
-                <x-jet-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
+                <x-jet-label for="password" value="{{ __('Password') }}"/>
+                <x-jet-input id="password" class="block mt-1 w-full" type="password" name="password" required
+                             autocomplete="new-password"/>
             </div>
 
             <div class="mt-4">
-                <x-jet-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
-                <x-jet-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
+                <x-jet-label for="password_confirmation" value="{{ __('Confirm Password') }}"/>
+                <x-jet-input id="password_confirmation" class="block mt-1 w-full" type="password"
+                             name="password_confirmation" required autocomplete="new-password"/>
             </div>
 
             <div class="flex items-center justify-end mt-4">
