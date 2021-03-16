@@ -289,7 +289,8 @@
                                 </div>
                             @else
                                 <div class="left-side-container">
-                                    <h4> First Set The Group & Graph Criteria. </h4> <a href="{{route('gm2.admin.set_group')}}">Set Group</a>
+                                    <h4> First Set The Group & Graph Criteria.</h4> 
+                                    <a href="{{route('teacher.set_group2')}}">Set Group</a>
                                 </div>
                             @endif
 

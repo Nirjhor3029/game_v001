@@ -170,11 +170,13 @@ class Gm2AjaxController extends Controller
         $groupName = $request->input('groupName');
         $points = $request->input('points');
         $firstPoint = $points[0];
+        $points = implode(",",$points);
         $restaurantGroup = RestaurantGroup::where(['user_id' => $user_id, 'point' => $firstPoint])->first();
         if (is_null($restaurantGroup)) {
             $restaurantGroup = new RestaurantGroup();
             $restaurantGroup->user_id = $user_id;
             $restaurantGroup->point = $firstPoint;
+            $restaurantGroup->points = $points;
             $msg = "Create New Group";
         } else {
             $restaurantGroup = $restaurantGroup;
@@ -252,6 +254,7 @@ class Gm2AjaxController extends Controller
         $teacher_id = Auth::user()->id;
 
         $userId = $request->input('studentId');
+        $dataStatus = $request->input('dataStatus');
         $restId = $request->input('restId');
         $restaurantUser = RestaurantUser::where('user_id', $userId)->get();
         // dd($restaurantUser);

@@ -435,16 +435,21 @@ $(document).ready(function () {
         let studentId = parent.find('.student_name').val();
         let restId = parent.find('.restaurant_select').children("option:selected").val();
 
+        let dataStatus = that.attr("data-status");
+
         $.ajax({
             type: "POST",
             url: "assign_student",
             data: {
                 studentId: studentId,
                 restId: restId,
+                dataStatus: dataStatus,
             },
             success: function (data) {
                 console.log(data);
-                // $(this).prop("disabled", "true");
+                toastr.success(data.success);
+                that.prop("disabled", "true");
+                parent.find('.restaurant_select').prop("disabled", "true");
                 //return;
             }
         });

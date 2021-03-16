@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddStudentIdUserTable extends Migration
+class AddPointsRestaurantGroupsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddStudentIdUserTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string("student_uid")->unique()->after('name');
+        Schema::table('restaurant_groups', function (Blueprint $table) {
+            $table->string('points')->nullable()->after('point');
         });
     }
 
@@ -25,7 +25,7 @@ class AddStudentIdUserTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('restaurant_groups', function (Blueprint $table) {
             //
         });
     }

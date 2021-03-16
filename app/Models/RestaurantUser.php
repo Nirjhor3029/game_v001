@@ -18,5 +18,9 @@ class RestaurantUser extends Model
     {
         return $this->belongsTo(User::class,'user_id','id');
     }
+    public function restaurantGroup()
+    {
+        return $this->belongsTo(RestaurantGroup::class,'rest_group_id','id');
+    }
     
 }

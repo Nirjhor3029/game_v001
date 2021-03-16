@@ -18,4 +18,8 @@ class Restaurant extends Model
     {
         return $this->hasMany(RestaurantPoint::class, 'res_id', 'id');
     }
+    public function restaurantUser()
+    {
+        return $this->hasMany(RestaurantUser::class, 'restaurant_id', 'id');
+    }
 }
