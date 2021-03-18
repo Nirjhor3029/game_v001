@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddStudentIdUserTable extends Migration
+class AddOutletsColumnMarketCostsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddStudentIdUserTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string("student_uid")->nullable()->default(null)->after('name');
+        Schema::table('market_costs', function (Blueprint $table) {
+            $table->integer("number_of_outlets")->default(1);
         });
     }
 
@@ -25,7 +25,7 @@ class AddStudentIdUserTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('market_costs', function (Blueprint $table) {
             //
         });
     }

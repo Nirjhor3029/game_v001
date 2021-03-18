@@ -104,6 +104,7 @@ Route::name('gm2.')->prefix('gm2')->namespace('Gm2')->middleware(['auth:sanctum'
     Route::post('gm2_update_market', [Gm2AjaxController::class, 'updateMarket'])->name('gm2_update_market');
     Route::post('set_student_criteria', [Gm2AjaxController::class, 'setStudentCriteria'])->name('set_student_criteria');
     Route::post('user_set_group', [Gm2AjaxController::class, 'userSetGroup'])->name('user_set_group');
+    Route::post('gm2_attack', [Gm2AjaxController::class, 'gm2_attack'])->name('gm2_attack');
     Route::post('defend_market', [IndexController::class, 'defendMarket'])->name('defend_market');
     Route::view('level_table', 'gm2.level_table');
 
@@ -170,5 +171,8 @@ Route::group(['auth:sanctum', 'verified'], function () {
 
         Route::get('user-role', [\App\Http\Controllers\Game\gm2\Gm2AdminController::class, 'userRole'])->name('user_role');
         Route::get('user-manage/{id}', [\App\Http\Controllers\Game\gm2\Gm2AdminController::class, 'userManage'])->name('user_manage');
+        
+        
+        Route::get('test', [\App\Http\Controllers\Game\gm2\IndexController::class, 'attackDefendSet'])->name('test');
     });
 });

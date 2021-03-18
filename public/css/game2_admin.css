@@ -344,6 +344,9 @@ ul {
 .mt-9vh {
     /* margin-top: 5vh; */
 }
+.mt-5vh{
+    margin-top: 5vh;
+}
 
 .title h2 {
     color: var(--textColor_hover);
@@ -366,6 +369,10 @@ ul {
 
 .color_graph_selected {
     background-color: #afce8d;
+}
+.selectedpoint{
+    background-color: #263238;
+    border: none !important;
 }
 
 .game-content {

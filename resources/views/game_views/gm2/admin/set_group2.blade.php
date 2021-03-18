@@ -7,7 +7,7 @@
 <script>
 
 
-    $("table td").on("click",function(e){
+    $(document).on("click",'.setGroupTd',function(e){
         let that = $(this);
         that.toggleClass("checkedTd");
         console.log("clicked !");
@@ -43,6 +43,7 @@
             groupName.removeClass("red-border");
             groupInput.find(".group_name").attr("disabled",true);
             groupInput.find(".setTD").attr("disabled",true);
+            groupInput.find(".group_input_minus").remove();
         }
         console.log(checkedTds);
         // return;
@@ -111,6 +112,20 @@
             }else{
                 $(this).attr("disabled",false);
             }
+        });
+    });
+
+    $(document).ready(function(){
+        let res_group = @json($points_array);
+        // console.table(res_group);
+        res_group.forEach(function(e){
+            // console.log(e);
+            let points = e.split(",");
+            points.forEach(function(event){
+                $("#"+event).addClass("selectedpoint");
+                $("#"+event).removeClass("setGroupTd");
+                console.log($("#11"));
+            });
         });
     });
 
