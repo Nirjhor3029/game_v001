@@ -308,7 +308,7 @@
     <!-- DemoDroppableCard -->
     <div class="card dropBox invisible">
         <div class="card-header" style="text-align: center;padding:0px !important"></div>
-        <div class="card-body droppable ui-sortable" data-group="" style="padding-left: 5px !important;">
+        <div class="card-body droppable dropBody ui-sortable" data-group="" style="padding-left: 5px !important;">
 
         </div>
     </div>

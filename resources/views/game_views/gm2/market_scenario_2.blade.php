@@ -213,13 +213,18 @@
 
                         </div>
 
+                        <div class="row">
+                                <div class="col-sm-3">
+                                    Area
+                                </div>
+                                <div class="col-sm-3"></div>
+                                <div class="col-sm-3">Number Of Outlets</div>
+                                <div class="col-sm-2">Total</div>
+                        </div>
+
                         <div class="row inputField_row">
+                            
                             <div class="col-md-3">
-                                Area
-                                <input type="text" name="" value="0">
-                            </div>
-                            <div class="col-md-3">
-                                
                                 <select name="" id="type" name="cat_id" class="form-control-sm form-control type"
                                         data-type="1">
                                     <option selected value="0">Select Areas</option>
@@ -233,17 +238,25 @@
                                     <option selected value="0">Select Type</option>
                                 </select>
                             </div>
-                            <div class="col-md-3 cost_class">
+                            <div class="col-md-3">
+                                    <input type="number" name=""  class="form-control-sm form-control number_of_outlets" value="1">
+                            </div>
+                            <div class="col-md-2 cost_class">
                                 <input type="text" class="form-control-sm form-control cost_value" readonly
                                        value="0"
                                        required>
                             </div>
                         </div>
 
+                        <div class="row">
+                                <div class="col-sm-3">
+                                    Quality
+                                </div>
+                                <div class="col-sm-3"></div>
+                                <div class="col-sm-3"></div>
+                                <div class="col-sm-2"></div>
+                        </div>
                         <div class="row inputField_row">
-                            <div class="col-md-3">
-                                Quality
-                            </div>
                             <div class="col-md-3">
                                 <select name="" id="typeQuantity" class="form-control-sm form-control type"
                                         data-type="2">
@@ -259,7 +272,8 @@
                                     <option selected value="0">Select Type</option>
                                 </select>
                             </div>
-                            <div class="col-md-3 cost_class">
+                            <div class="col-sm-3"></div>
+                            <div class="col-md-2 cost_class">
                                 <input type="number" id="typeQuantity_cost_value"
                                        class="form-control-sm form-control cost_value" value="0" readonly required>
                             </div>
@@ -406,7 +420,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-3">
-                                    <input type="number" name="" value="1" class="form-control-sm form-control number_of_outlets">
+                                    <input type="number" name=""  class="form-control-sm form-control number_of_outlets" value="{{$market->marketCost[0]->number_of_outlets}}">
                                 </div>
                                 <div class="col-md-2 cost_class">
                                     <input type="text" class="form-control-sm form-control cost_value" readonly value="{{$market->marketCost[0]->area}}" required>
@@ -525,7 +539,6 @@
          aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-
                 <div class="modal-body">
                     test
                 </div>

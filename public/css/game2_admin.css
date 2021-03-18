@@ -551,3 +551,6 @@ nav {
 .checkedTd{
     background-color: #F3F5F8;
 }
+.dropBody{
+    padding: 2.25rem;
+}
