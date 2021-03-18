@@ -76,6 +76,7 @@ class IndexController extends Controller
         $session_id = Session::getId();
         $resturentUser = RestaurantUser::where('user_id', $user_id)->first();
         $resGroup = RestaurantPoint::where('res_id', optional($resturentUser)->restaurant_id)->with('restaurant', 'restaurantGroup')->first();
+        // return [$resturentUser, $resGroup];
         if (isset($resGroup)) {
             $userInfo = [
                 "student_id" => $user_id,
@@ -131,7 +132,8 @@ class IndexController extends Controller
     {
         $gType = Config::get('game.game2.options');
 
-        $combinations = CriteriaCombination::all();
+        $user_id = Auth::id();
+        $combinations = CriteriaCombination::where('user_id',$user_id)->get();
         // return $combinations[0];
 
         return view('game_views.gm2.admin.criteria_combination', compact('gType', 'combinations'));
@@ -168,7 +170,8 @@ class IndexController extends Controller
             ]);
         }
         $request->session()->flash('alert-success', $msg);
-        return redirect()->route("gm2.admin.criteria_combination");
+        return redirect()->back();
+        // return redirect()->route("teacher.criteria_combination");
     }
 
     public function setGroup()
@@ -198,7 +201,7 @@ class IndexController extends Controller
         $restaurantGroups = RestaurantGroup::where('user_id', $user_id)
             ->with('restaurantPoint', function ($query) {
                 $query->where('leader', 1)->with('restaurant');
-            })
+            })->orderBy('id', 'desc')
             ->get();
             $points_array = $restaurantGroups->pluck('points');//->toJson();
             // return $points_array;
@@ -270,12 +273,14 @@ class IndexController extends Controller
 
         return view('game_views.gm2.admin.assign_student', compact('students', 'restaurants', 'restaurantUsers'));
     }
+
+    // Running
     public function assignStudentNew()
     {
         $user_id = Auth::user()->id;
 
         $students = User::where('type', 3)->with('restaurantUser')->get();
-        // return $students;
+        //  return $students;
 
         $groupStudents = [];
         foreach ($students as $student){
@@ -287,7 +292,7 @@ class IndexController extends Controller
             }
             
         }
-        // return $groupStudents;
+       // return $groupStudents;
 
 
         $restaurantPoints = RestaurantPoint::with(['restaurant', 'restaurantGroup'])->where('leader', 1)->get();
@@ -306,13 +311,17 @@ class IndexController extends Controller
             ];
         }
 
-        // return $restaurants;
+        // return [ $students,$restaurants,$restaurantUsers,$groupStudents];
+
         $restaurantGroups = RestaurantGroup::where("user_id",$user_id)
             ->with('restaurantPoint.restaurant.restaurantUser')->get();
         // $groupIds = $restaurantGroups->pluck('id');
         // return $restaurantGroups;
 
-        return view('game_views.gm2.admin.assign_student_new', compact('students', 'restaurants', 'restaurantUsers','groupStudents'));
+        $attacklists = $this->attackDefendSet();
+        // return $attacklists;
+
+        return view('game_views.gm2.admin.assign_student_new', compact('students', 'restaurants', 'restaurantUsers','groupStudents','attacklists'));
     }
 
 
@@ -567,7 +576,7 @@ class IndexController extends Controller
    
         $attackerRestIds = $std->pluck("attacking_rest_id","student_id")->all();
         $assignRestIds = $std->pluck("assigned_rest_id","student_id")->all();
-        return [$assignRestIds,  $attackerRestIds ];
+         //return ["assign:" => $assignRestIds, "attacker :" => $attackerRestIds ];
 
         $leaders = RestaurantGroup::where('user_id',$teacherId)
                 ->with('restaurantPoint', function ($query) {
@@ -588,14 +597,18 @@ class IndexController extends Controller
             $asResId = null; $asStdId = null;
             $a_s_i =  $student['assigned_rest_id'];
             if(in_array($a_s_i,$attackerRestIds)){
-              $asStdId = array_search($a_s_i,$attackerRestIds);
-              $asResId = $assignRestIds[$asStdId]?? null;
+                $ids =  $this->attackerBag($a_s_i, $attackerRestIds, $assignRestIds);
+              
+              //$asStdId = array_search($a_s_i,$attackerRestIds);
+              //$asResId = $assignRestIds[$asStdId]?? null;
              // echo($assignRestIds[$asStdId].','. $asStdId.'-');
-              unset($attackerRestIds[$asStdId]);
+              
+            }else{
+                $ids = null;
             }
             $ownId[] = [
                 'defender' => $student['student_id'],
-                'attacker' => $asStdId
+                'attacker' => $ids
             ];
            
         }
@@ -603,4 +616,26 @@ class IndexController extends Controller
         //return [$std,$leaderData];
     }
 
+    public function attackerBag($ownRestId,&$attackerRestIds, $assignRestIds)
+    {
+        $allAttackers = array_keys($attackerRestIds, $ownRestId);
+        
+        $attacklists=[];
+        $assignlists=[]; 
+        foreach ($allAttackers as  $attacker) {
+            
+            if(in_array($assignRestIds[$attacker],$assignlists)){
+            
+                 continue;
+            }else{
+                
+                $assignlists[] =  $assignRestIds[$attacker]?? null;
+                $attacklists[] =  $attacker;
+               unset($attackerRestIds[$attacker]);
+               
+            }
+        }
+    
+        return $attacklists;
+    }
 }

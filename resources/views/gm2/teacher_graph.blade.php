@@ -142,7 +142,15 @@
                 let that = $(this);
                 let cardBody = that.parents(".card-body");
                 let leaderIcon = cardBody.find(".leader-icon");
-                leaderIcon.parent(".option-item").removeClass("not_shortable").attr("draggble",true);
+                if(leaderIcon.length <=0){
+                    leaderIcon = $("#leader-icon").clone();
+                    leaderIcon.removeAttr('id');
+                }else{
+                    leaderIcon.parent(".option-item").removeClass("not_shortable").attr("draggble",true);
+                }
+                // console.log(leaderIcon);
+                // return;
+               
                 that.append(leaderIcon).addClass("not_shortable").attr("draggble",false);
 
                 restId = that.data("tag");
@@ -179,7 +187,7 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-gray overflow-hidden shadow-xl sm:rounded-lg" style="padding:40px;box-sizing:border-box">
                     <p>
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolores suscipit reiciendis harum sunt iusto dolor accusamus consequuntur quidem eos nihil voluptates laudantium nostrum, qui veniam quos amet consequatur illo at beatae dolorem. Nesciunt dolorem, similique id sapiente earum voluptas tempora. Reprehenderit deleniti id dicta autem suscipit repellendus error, voluptatem enim.
+                        Once you have created your groups, please drag the restaurant in that specific group. Please select one restaurant per group to be assigned. The selected restaurant would be assigned a a star on the right after the selection is done.
                     </p>
                 </div>
             </div>
@@ -324,6 +332,6 @@
     </div>
 
     <!--Demo Start  -->
-    <img src="{{asset('assets/icons/favourites.svg')}}" alt="" class="leader leader-icon invisible">
+    <img src="{{asset('assets/icons/favourites.svg')}}" alt="" class="leader leader-icon invisible" id="leader-icon">
 
 @endsection
