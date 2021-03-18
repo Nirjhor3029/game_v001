@@ -267,7 +267,16 @@ class IndexController extends Controller
     public function assignStudentNew()
     {
 
-        $students = User::where('type', 3)->with('restaurantUser')->get();
+        $students = User::where('type',3)->with('restaurantUser')->get();
+        //
+        $results = [];
+        foreach ($students as $student){
+            $rest_id = $student->restaurantUser[0]->restaurant_id;
+            $std_id = $student->restaurantUser[0]->user_id;
+            $std_name = $student->name;
+            $results[$rest_id][] = ['id'=> $std_id, 'name' => $std_name];
+        }
+        return $results;
 
 
         $restaurantPoints = RestaurantPoint::with(['restaurant', 'restaurantGroup'])->where('leader', 1)->get();
