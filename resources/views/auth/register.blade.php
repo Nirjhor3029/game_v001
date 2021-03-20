@@ -17,8 +17,8 @@
 
             <div class="mt-4"  x-show="type == 3">
                 <x-jet-label for="uid" value="{{ __('University ID') }}"/>
-                <x-jet-input id="uid" class="block mt-1 w-full" type="text" name="uid" :value="old('uid')" required
-                             autofocus autocomplete="uid"/>
+                <x-jet-input id="uid" class="block mt-1 w-full" type="text" name="uid" :value="old('uid')" 
+                              autocomplete="uid"/>
             </div>
 
             <div class="mt-4">
