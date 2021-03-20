@@ -201,40 +201,7 @@ $(document).ready(function () {
 
 
     // set_group.blade.php
-    $(".group_input_plus").click(function (e) {
-        let that = $(this);
-        let groupInputContainer = $('#group_input_container');
-        let groupInput = that.parents('.group_input');
 
-        let clone_input = groupInput.clone();
-        clone_input.find('.invisible').removeClass('invisible');
-        clone_input.find(".group_input_minus").removeClass('invisible');
-        clone_input.find(".group_input_plus").remove();
-        clone_input.appendTo(groupInputContainer)
-    });
-
-    $(document).on("click", ".group_input_minus", function (e) {
-        let that = $(this);
-        let groupInput = that.parents('.group_input');
-        // let row_val = groupInput.find('.group_row').val();
-        // let column_val = groupInput.find('.group_column').val();
-        // select_graph_box(row_val, column_val, 'dragdrop_graph');
-        let groupPoint = groupInput.find('.group_point').val();
-
-        let data = {
-            groupPoint: groupPoint,
-        };
-        $.ajax({
-            type: "POST",
-            url: "gm2_delete_single_group",
-            data: data,
-            success: function (data) {
-                console.table(data);
-                groupInput.remove();
-                toastr.success(data.success);
-            }
-        });
-    });
 
     /* $(document).on("change", '.group_row', function (e) {
          let that = $(this);

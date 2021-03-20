@@ -8,7 +8,6 @@
 @endpush
 @section('content')
 
-    <?php use Illuminate\Support\Facades\Session; ?>
     <div class="gm2">
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -29,18 +28,17 @@
 
                     <form action="{{ route('teacher.criteria_combination') }}" method="post" class="row mt-9vh">
                         @csrf
-                        <div class="offset-sm-3 col-sm-6 ">
-                            <table class="table ">
+                        <div class="offset-sm-3 col-sm-6">
+                            <table class="table table-responsive table-condensed">
                                 <tr>
-                                    <th>No.</th>
-                                    <th>X Axis</th>
-                                    <th>Y Axis</th>
-                                    <th>Value/Mark</th>
+                                    <th>Serial No</th>
+                                    <th>X-Axis</th>
+                                    <th>Y-Axis</th>
+                                    <th>Point</th>
                                 </tr>
                                 <?php
                                     $i = 1;
                                     $x = [];
-                                    $y = [];
                                 ?>
                                 @foreach ($level_options as $level1)
                                     @foreach ($level_options as $level2)
@@ -54,11 +52,11 @@
                                             @else
                                                 {{-- create input field --}}
 
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-9">
                                                     <tr>
                                                         <td>{{ $i }}</td>
-                                                        <td>{{ $level1['name'] }} </td>
-                                                        <td>{{ $level2['name'] }}</td>
+                                                        <td>{{ Str::title($level1['name']) }} </td>
+                                                        <td>{{ Str::title($level2['name']) }}</td>
                                                         <td>
                                                             <?php $input_name = strtolower(str_replace(' ', '',
                                                             $level1['id'] . '_' . $level2['id'])); ?>
@@ -72,7 +70,7 @@
                                                             ?>
                                                             <div class="form-group">
                                                                 <input type="number" name="point_value[]"
-                                                                    class="form-control form-control-sm" value="{{$value}}">
+                                                                    class="form-control form-control-sm" value="{{$value}}" min="1" max="10">
                                                                 <input type="text" name="point[]" value="{{ $input_name }}"
                                                                     hidden>
                                                             </div>
@@ -80,32 +78,6 @@
                                                     </tr>
                                                 </div>
 
-
-                                                <div class="col-sm-6">
-                                                    <tr>
-                                                        <td>{{ $i }}</td>
-                                                        <td>{{ $level1['name'] }} </td>
-                                                        <td>{{ $level2['name'] }}</td>
-                                                        <td>
-                                                            <?php $input_name = strtolower(str_replace(' ', '',
-                                                            $level1['id'] . '_' . $level2['id'])); ?>
-                                                            <?php
-                                                            $value = 0;
-                                                            if($combinations->isEmpty()){
-                                                                $value = 0;
-                                                            }else{
-                                                                $value = $combinations[$i-1]->point;
-                                                            }
-                                                            ?>
-                                                            <div class="form-group">
-                                                                <input type="number" name="point_value[]"
-                                                                    class="form-control form-control-sm" value="{{$value}}">
-                                                                <input type="text" name="point[]" value="{{ $input_name }}"
-                                                                    hidden>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </div>
 
                                             @endif
 
@@ -114,7 +86,10 @@
                                     @endforeach
                                 @endforeach
                             </table>
-                            <input type="submit" value="Submit" class="btn btn-success">
+                            <div class="submit go-right">
+                                <input type="submit" value="Submit" class="btn btn-success">
+                                <a href="{{route('teacher.set_group2')}}" class="btn btn-warning">Next</a>
+                            </div>
                         </div>
                     </form>
                 </div>

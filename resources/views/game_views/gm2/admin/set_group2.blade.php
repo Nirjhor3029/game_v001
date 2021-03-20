@@ -6,12 +6,75 @@
 @push('js')
 <script>
 
+    $(".group_input_plus").click(function (e) {
+            let that = $(this);
+            let groupInputContainer = $('#group_input_container');
+            let groupInput = that.parents('.group_input');
+
+            let clone_input = groupInput.clone();
+            clone_input.find('.invisible').removeClass('invisible');
+            clone_input.find(".group_input_minus").removeClass('invisible');
+            clone_input.removeClass("mb-50px");
+            clone_input.find(".group_input_plus").parent('.col-sm-2').remove();
+            clone_input.prependTo(groupInputContainer);
+    });
+
+    $(document).on("click", ".group_input_minus", function (e) {
+        let that = $(this);
+        let groupInput = that.parents('.group_input');
+        // let row_val = groupInput.find('.group_row').val();
+        // let column_val = groupInput.find('.group_column').val();
+        // select_graph_box(row_val, column_val, 'dragdrop_graph');
+        let groupPoint = groupInput.find('.group_point').val();
+
+        let data = {
+            groupPoint: groupPoint,
+        };
+        $.ajax({
+            type: "POST",
+            url: "gm2_delete_single_group",
+            data: data,
+            success: function (data) {
+                console.table(data);
+                groupInput.remove();
+                toastr.success(data.success);
+            }
+        });
+    });
 
     $(document).on("click",'.setGroupTd',function(e){
         let that = $(this);
         that.toggleClass("checkedTd");
         console.log("clicked !");
     });
+
+    // graph
+    function checkRCDif(boxes) {
+        console.table(boxes);
+        let countRow = 1;
+        let countColumn = 1;
+        console.log("length:"+boxes.length);
+        if(boxes.length > 1){
+
+            for(var i = 0; i < boxes.length; i++) {
+                let dif =  Math.abs(boxes[0] - boxes[i]);
+                if(dif == 1 || dif == 2) {
+                    countColumn++;
+                }else if(dif == 10 || dif == 20){
+                    countRow++;
+                }
+                console.log(dif);
+
+            }
+
+            console.log("rowspan: "+countRow);
+        console.log("colspan: "+countColumn);
+        }
+        
+
+        
+        
+    }
 
     $(document).on("click",".setTD",function(e){
 
@@ -45,7 +108,9 @@
             groupInput.find(".setTD").attr("disabled",true);
             groupInput.find(".group_input_minus").remove();
         }
-        console.log(checkedTds);
+        // console.log(checkedTds);
+
+        // checkRCDif(checkedTds);
         // return;
         let data = {
             groupName: groupName.val(),
@@ -152,9 +217,7 @@
                     <p>
                         Then create the number of groups that you may deem necessary by clicking on the add button. Please click on the available boxes (green) to create your strategic groups. You may choose more than one box to create a group.
                     </p>
-                    <p>
-                        Once you have created your groups, please drag the restaurant in that specific group. Please select one restaurant per group to be assigned. The selected restaurant would be assigned a a star on the right after the selection is done.
-                    </p>
+                    
                 </div>
             </div>
         </div>
@@ -163,36 +226,39 @@
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg mt-9vh"
                      style="padding:40px;box-sizing:border-box ">
 
+
                     <div class="row">
-
-                        <div class="col-sm-6" id="group_input_container">
-
-
-                            <div class="row group_input" style="margin-bottom: 50px;">
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label for="group_name">Group Name</label>
-                                        <input type="text" class="form-control form-control-sm group_name" placeholder="Enter group Name">
+                         <div class="col-sm-4 col-md-4">
+                            <div class="row group_input mb-50px" >
+                                    
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="group_name">Group Name</label>
+                                            <input type="text" class="form-control form-control-sm group_name" placeholder="Enter group Name">
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="col-sm-2">
-                                    <label for=""></label>
-                                    <input type="button" value="+" class="btn btn-success btn-sm form-control group_input_plus">
+                                    <div class="offset-sm-1 col-sm-2">
+                                        <label for=""></label>
+                                        <input type="button" value="+" class="btn btn-success btn-sm form-control group_input_plus">
+                                    </div>
+                                    <div class=" offset-sm-1 col-sm-3 col-md-3 col-lg-2">
+                                        <label for=""></label>
+                                        <input type="button" value="Delete" class="invisible btn btn-danger btn-sm form-control group_input_minus">
+                                    </div>
+                                    <div class="col-sm-3 col-md-3 col-lg-2">
+                                        <label for=""></label>
+                                        <button  class="invisible btn btn-success btn-sm form-control setTD">
+                                            <!-- <img src="{{asset('/assets/icons/checked.svg')}}" alt="" class="leader-icon"> -->
+                                            Set
+                                        </button>
+                                    </div>
+                                    
                                 </div>
-                                <div class="col-sm-2">
-                                    <label for=""></label>
-                                    <button  class="invisible btn btn-default btn-sm form-control setTD">
-                                        <img src="{{asset('/assets/icons/checked.svg')}}" alt="" class="leader-icon">
-                                    </button>
-                                </div>
-                                <div class="col-sm-1">
-                                    <label for=""></label>
-                                    <input type="button" value="-" class="invisible btn btn-danger btn-sm form-control group_input_minus">
-                                </div>
-                            </div>
-
-
+                         </div>
+                     </div>
+                    <div class="row">
+                        <div class="col-sm-4" id="group_input_container">
                             @foreach($restaurantGroups as $key => $item)
                                 <?php
                                 $firstInput = $restaurantGroups;
@@ -201,6 +267,7 @@
                                 ?>
 
                                 <div class="row group_input">
+                                    
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="group_name">Group Name</label>
@@ -216,20 +283,20 @@
                                         $column = substr($item->point, 1, 2);
                                     ?>
 
-                                    <div class="offset-sm-1 col-sm-1">
+                                    <div class="offset-sm-1 col-sm-3 col-md-3 col-lg-3 col-xl-2">
                                         <label for=""></label>
-                                        <input type="button" value="-" class=" btn btn-danger btn-sm form-control group_input_minus">
+                                        <input type="button" value="Delete" class=" btn btn-danger btn-sm form-control group_input_minus">
                                     </div>
-                                    <div class="col-sm-2">
+                                    <div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
                                         <label for=""></label>
-                                        <input type="button" value="Update Name" class=" btn btn-info btn-sm form-control group_name_update">
+                                        <input type="button" value="Update" class=" btn btn-warning btn-sm form-control group_name_update">
                                     </div>
                                 </div>
                             @endforeach
                         </div>
 
 
-                        <div class="col-sm-6">
+                        <div class="col-sm-8">
                             <div class="left-side-container">
                                 <div class="row">
                                     <div class="col-sm-4 txt-center">High</div>
@@ -290,7 +357,11 @@
                             </div>
                         </div>
                     </div>
-                    <input type="button" value="Set" class="btn btn-success" id="gm2_group_set">
+                    
+                    <div class="submit go-right">
+                        <input type="button" value="Set" class="btn btn-success" id="gm2_group_set">
+                        <a href="{{route('teacher.set_restaurant2')}}" class="btn btn-warning">Next</a>
+                    </div>
                 </div>
             </div>
         </div>

@@ -28,18 +28,7 @@ $("#sortable").sortable({
     connectWith: [".droppable"]
 });
 
-/*    $(function () {
-        $(".droppable").droppable({
-            drop: function (event, ui) {
-                // console.log(event.target);
-                // console.log(ui);
-                $(this)
-                    .addClass("ui-state-highlight")
-                    .html("Dropped!" + event.target);
 
-            }
-        });
-    });*/
 
 $(".droppable").sortable({
     cursor: "move",
@@ -47,8 +36,6 @@ $(".droppable").sortable({
     update: function (e, ui) {
         let x = $(this).closest('tr').index();
         let y = $(this).closest('td').index();
-        // console.log(e.target);
-        // console.log(`row ${x} & column ${y}`);
     }
 });
 
@@ -267,11 +254,12 @@ $(document).ready(function () {
                     AdvertisingThroughSocialMedia: AdvertisingThroughSocialMedia.value,
                     Branding: Branding.value,
                     Other: Other.value,
+                    numberOfOutlets: numberOfOutlets.val(),
 
                     group: group,
                 },
                 success: function (data) {
-                    // console.log(data);
+                    console.log(data);
                     toastr.success(data.success);
                     //return;
                 }

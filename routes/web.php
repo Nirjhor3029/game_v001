@@ -158,10 +158,10 @@ Route::group(['auth:sanctum', 'verified'], function () {
 
         Route::get('criteria_combination', [\App\Http\Controllers\Game\gm2\IndexController::class, 'criteria_combination'])->name('criteria_combination');
         Route::post('criteria_combination', [\App\Http\Controllers\Game\gm2\IndexController::class, 'criteria_combination_post'])->name('criteria_combination');
-        Route::get('set_group', [\App\Http\Controllers\Game\gm2\IndexController::class, 'setGroup'])->name('set_group');
-        Route::get('set_group2', [\App\Http\Controllers\Game\gm2\IndexController::class, 'setGroup2'])->name('set_group2');
-        Route::get('set_restaurant', [\App\Http\Controllers\Game\gm2\IndexController::class, 'setRestaurant'])->name('set_restaurant');
-        Route::get('set_restaurant2', [\App\Http\Controllers\Game\gm2\IndexController::class, 'setRestaurant2'])->name('set_restaurant2');
+        // Route::get('set_group', [\App\Http\Controllers\Game\gm2\IndexController::class, 'setGroup'])->name('set_group');
+        Route::get('set_group', [\App\Http\Controllers\Game\gm2\IndexController::class, 'setGroup2'])->name('set_group2');
+        // Route::get('set_restaurant', [\App\Http\Controllers\Game\gm2\IndexController::class, 'setRestaurant'])->name('set_restaurant');
+        Route::get('set_restaurant', [\App\Http\Controllers\Game\gm2\IndexController::class, 'setRestaurant2'])->name('set_restaurant2');
         Route::get('assign_student', [\App\Http\Controllers\Game\gm2\IndexController::class, 'assignStudentNew'])->name('assign_student');
 
         Route::get('user-role', [\App\Http\Controllers\Game\gm2\Gm2AdminController::class, 'userRole'])->name('user_role');

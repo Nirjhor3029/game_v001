@@ -24,7 +24,6 @@
                                 <div class="col-sm-2">Set</div>
                             </div>
                             @foreach($students as $student)
-
                                 <div class="row restaurant_container ">
                                     <div class="col-sm-3">
                                         <div class="form-group">
@@ -42,17 +41,21 @@
                                         <div class="form-group">
                                             @php $check = 1 @endphp
                                             <select name="group[]"
-                                                    class="form-control form-control-sm  restaurant_select" {{(!$check)? "disabled" : ""}}>
+                                                    class="form-control form-control-sm  restaurant_select">
                                                 <option value="null" selected disabled>Select Group</option>
                                                 @foreach($restaurants as $item)
-                                                    <?php $item = (object)$item; ?>
-                                                    @if(empty($student->restaurantUser[0]))
-                                                        @php $check = 1 @endphp
+                                                    <?php
+                                                    $item = (object)$item; 
+                                                    ?>
+                                                    @if($student->restaurantUser->isEmpty())
                                                         <option value="{{$item->res_id}}">
                                                             {{Str::title($item->res_name ." - ". $item->group_name)}}
                                                         </option>
                                                     @else
-                                                        @php $check = ($student->restaurantUser[0]->restaurant_id == $item->res_id) @endphp
+                                                        @php 
+                                                        $check = ($student->restaurantUser[0]->restaurant_id == $item->res_id);
+                                                        
+                                                        @endphp
                                                         <option
                                                             value="{{$item->res_id}}" {{($check)? "selected":""}}>
                                                             {{Str::title($item->res_name ." - ". $item->group_name)}}
@@ -94,5 +97,8 @@
             </div>
             
         </div>
+
+        <!-- Attack List Show -->
+        
     </div>
 @endsection

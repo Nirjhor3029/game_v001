@@ -26,6 +26,8 @@ class Gm2AjaxController extends Controller
         // dd($request->all());
         $area = $request->input('area');
         $quality = $request->input('quality');
+        $numberOfOutlets = $request->input('numberOfOutlets');
+        // return $numberOfOutlets;
 
         $area_type = $request->input('area_type');
         $quelity_type = $request->input('quelity_type');
@@ -77,6 +79,7 @@ class Gm2AjaxController extends Controller
         $market_cost->area = $area;
         $market_cost->quality = $quality;
         $market_cost->competitors_move = $competitorsMove;
+        $market_cost->number_of_outlets = $numberOfOutlets;
         $market_cost->save();
 
         // Market & Promotion

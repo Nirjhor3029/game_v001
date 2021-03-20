@@ -14,7 +14,7 @@ class AddOutletsColumnMarketCostsTable extends Migration
     public function up()
     {
         Schema::table('market_costs', function (Blueprint $table) {
-            $table->integer("number_of_outlets")->default(1);
+            $table->integer("number_of_outlets")->default(1)->after('quality');
         });
     }
 
