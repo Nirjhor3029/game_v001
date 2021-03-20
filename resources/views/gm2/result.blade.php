@@ -25,36 +25,20 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    {{$taskOneResult['result']}}
+                    <h1>{{$taskOneResult['result']}}</h1>
                 </div>
 
             </div>
         </div>
 
-        <div class="col-md-12 mt-9vh">
-            <div class="card gm2_card_rest">
-                <div class="card-header gm2_card_header" style="background-color: #FE8400;">
-                    <div class="row">
-                        <div class="col-sm-8">
-                            Task - 2(A) Result
-                        </div>
-                    </div>
-
-                </div>
-                <div class="card-body">
-                    Correct : {{$taskTwoResult['Correct']}} <br>
-                    Wrong : {{$taskTwoResult['Wrong']}}
-                </div>
-
-            </div>
-        </div>
+        
 
         <div class="col-md-12 mt-9vh">
             <div class="card gm2_card_rest">
                 <div class="card-header gm2_card_header" style="background-color: #4AD179;">
                     <div class="row">
                         <div class="col-sm-8">
-                            Task - 2 (B) Result
+                            Task - 2  Result
                         </div>
 
                     </div>
@@ -64,7 +48,7 @@
                     @if($defenderSum == 0)
                         <h1>{{$defenderSum}}%</h1>
                     @else
-                        <h1>-{{$defenderSum}}%</h1>
+                        <h1>{{ $defenderSum + $attackerSum}}%</h1>
                     @endif
 
 

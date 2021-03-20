@@ -79,6 +79,7 @@
                     @csrf
 
                     <input type="text" name="attacker_res_id" value="{{$attackersRestIds}}" hidden>
+                    <input type="text" name="attackers_userId" value="{{$attackers_userId}}" hidden>
                     <div class="card gm2_card_rest defend_card">
                         <div class="card-header gm2_card_header" style="background-color: #00e5ff;">
                             <div class="row">
@@ -127,7 +128,7 @@
                                         @else
                                             <input type="number" name="promotion_values[]"
                                                    class="form-control defends_option " id=""
-                                                   value="{{$defendMarketPromotions[$key]->value}}" disabled>
+                                                   value="{{$defendMarketPromotions[$key]->value}}" readonly>
                                         @endif
                                     </div>
                                 </div>

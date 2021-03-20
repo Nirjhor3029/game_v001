@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Gm2;
 
 use App\Http\Controllers\Controller;
-
+use App\Models\AttackDefend;
 use App\Models\Graph;
 use App\Models\GraphItem;
 use App\Models\Cost;
@@ -153,6 +153,80 @@ class GamePageController extends Controller
         // return $defendMarket;
         $promotions = config('game.game2.promotion_options');
         return view("game_views.gm2.market_scenario_defend", compact('attackMarkets', 'defendMarket', 'promotions', 'defendMarketPromotions', 'attackers', 'attackersRestIds', 'attackersRests'));
+    }
+
+    public function market_scenario_defend_new()
+    {
+        $user_id = Auth::user()->id;
+
+        $student_info = session('student_info');
+        $assigned_res_id = $student_info['assigned_res_id'];
+        $assigned_group_id = $student_info['assigned_group_id'];
+
+        $attackers = AttackDefend::where('defender',$user_id)->select('attacker')->get();
+        if($attackers->isNotEmpty()){
+            $attackers_userId = $attackers->pluck('attacker')->toArray();
+            // return $attackers;
+        }
+        // return "attackers";
+
+        // $resUser = RestaurantUser::where('rest_group_id', $assigned_group_id)->get();
+        // return $resUser;
+        // if ($resUser->isEmpty()) {
+        //     $msg = "Till Now No One Attack Your market place";
+        //     return view("game_views.gm2.market_scenario_defend_empty", compact("msg"));
+        // }
+        // $res_ids = $resUser->pluck('restaurant_id')->all();
+        // return $res_ids;
+
+
+        $attackMarkets = Market::whereIn('user_id', $attackers_userId)
+            ->with('restaurant')
+            ->with('marketCost.gm2MarketPromotion', function ($query) {
+                $query->where('mode', '=', '1');
+            })
+            ->get();
+        // return $attackMarkets;
+
+        $attackers = [];
+        $attackersRests = [];
+        foreach ($attackMarkets as $key => $attacker) {
+            $attackersRests[] = [
+                'id' => $attacker->restaurant->id,
+                'name' => $attacker->restaurant->name,
+            ];
+            foreach ($attacker->marketCost[0]->gm2MarketPromotion as $promotion) {
+                $attackers[$key][] = [
+                    "promotion_id" => $promotion->promotion_id,
+                    "value" => $promotion->value,
+                ];
+            }
+        }
+
+        $attackersRestIds = implode(",", array_column($attackersRests, "id"));
+        $attackers_userId = implode(",", $attackers_userId);
+
+
+        // return $attackersRests[0]['name'];
+
+        $defendMarket = null;
+        $defendMarketPromotions = null;
+
+        $defendMarket = Market::where(['user_id' => $user_id, 'restaurant_id' => $assigned_res_id])->with('marketCost', 'restaurant')->first();
+        if (is_null($defendMarket)) {
+            $msg = "You need to Attack someone first !!";
+            return view("game_views.gm2.market_scenario_defend_empty", compact("msg"));
+        }
+        $defendMarketPromotions = Gm2MarketPromotion::where('market_cost_id', optional($defendMarket)->marketCost[0]->id)->where('mode', 2)->get();
+
+        //        dd( $defendMarket);
+        //         return $defendMarketPromotions;
+        // return ($attackMarkets[0]->marketCost[0]->gm2MarketPromotion[0]->value);
+
+        // return $defendMarketPromotions;
+        // return $defendMarket;
+        $promotions = config('game.game2.promotion_options');
+        return view("game_views.gm2.market_scenario_defend", compact('attackMarkets', 'defendMarket', 'promotions', 'defendMarketPromotions', 'attackers', 'attackersRestIds', 'attackersRests','attackers_userId'));
     }
 
 

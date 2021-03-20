@@ -84,7 +84,7 @@ Route::name('gm2.')->prefix('gm2')->namespace('Gm2')->middleware(['auth:sanctum'
     // Route::view('/graph', 'gm2.market_scenario');
 
     Route::get('market_scenario', [\App\Http\Controllers\Gm2\GamePageController::class, 'market_scenario_2'])->name("market_scenario");
-    Route::get('market_scenario_defend', [\App\Http\Controllers\Gm2\GamePageController::class, 'market_scenario_defend'])->name('market_scenario_defend');
+    Route::get('market_scenario_defend', [\App\Http\Controllers\Gm2\GamePageController::class, 'market_scenario_defend_new'])->name('market_scenario_defend');
 
     // Route::view('/market_scenario', 'gm2.market_scenario');
 
@@ -163,11 +163,18 @@ Route::group(['auth:sanctum', 'verified'], function () {
         // Route::get('set_restaurant', [\App\Http\Controllers\Game\gm2\IndexController::class, 'setRestaurant'])->name('set_restaurant');
         Route::get('set_restaurant', [\App\Http\Controllers\Game\gm2\IndexController::class, 'setRestaurant2'])->name('set_restaurant2');
         Route::get('assign_student', [\App\Http\Controllers\Game\gm2\IndexController::class, 'assignStudentNew'])->name('assign_student');
+        Route::match(array('GET', 'POST'),'attacker_list', [\App\Http\Controllers\Game\gm2\IndexController::class, 'attackerList'])->name('attacker_list');
 
         Route::get('user-role', [\App\Http\Controllers\Game\gm2\Gm2AdminController::class, 'userRole'])->name('user_role');
         Route::get('user-manage/{id}', [\App\Http\Controllers\Game\gm2\Gm2AdminController::class, 'userManage'])->name('user_manage');
 
 
         Route::get('test', [\App\Http\Controllers\Game\gm2\IndexController::class, 'attackDefendSet'])->name('test');
+        // Route::get('test', [\App\Http\Controllers\Game\gm2\IndexController::class, 'attackDefendSet'])->name('test');
+
+        Route::match(array('GET', 'POST'), '/test_method', function(Request $request)
+        {
+            return $request->method();
+        });
     });
 });
