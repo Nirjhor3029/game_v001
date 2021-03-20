@@ -70,7 +70,6 @@ class IndexController extends Controller
         $restaurants = \App\Models\Restaurant::get();
 
 
-
         // Start Game
         $user_id = Auth::user()->id;
         $session_id = Session::getId();
@@ -91,7 +90,6 @@ class IndexController extends Controller
             return view("game_views.gm2.market_scenario_1");
         }
         // Start Game
-
 
 
         // check graph item set on this user
@@ -133,7 +131,7 @@ class IndexController extends Controller
         $gType = Config::get('game.game2.options');
 
         $user_id = Auth::id();
-        $combinations = CriteriaCombination::where('user_id',$user_id)->get();
+        $combinations = CriteriaCombination::where('user_id', $user_id)->get();
         // return $combinations[0];
 
         return view('game_views.gm2.admin.criteria_combination', compact('gType', 'combinations'));
@@ -191,6 +189,7 @@ class IndexController extends Controller
 
         return view('game_views.gm2.admin.set_group', compact('gType', 'restaurants', 'restaurantGroups', 'graphLevel'));
     }
+
     public function setGroup2()
     {
         $restaurants = Restaurant::all();
@@ -203,12 +202,12 @@ class IndexController extends Controller
                 $query->where('leader', 1)->with('restaurant');
             })->orderBy('id', 'desc')
             ->get();
-            $points_array = $restaurantGroups->pluck('points');//->toJson();
-            // return $points_array;
-            // return $restaurantGroups;
+        $points_array = $restaurantGroups->pluck('points');//->toJson();
+        // return $points_array;
+        // return $restaurantGroups;
         $graphLevel = GraphLevel::where('user_id', $user_id)->first();
         // return $restaurantGroups[0]->restaurantPoint[0]->restaurant->name;
-        return view('game_views.gm2.admin.set_group2', compact('gType', 'restaurants', 'restaurantGroups', 'graphLevel','points_array'));
+        return view('game_views.gm2.admin.set_group2', compact('gType', 'restaurants', 'restaurantGroups', 'graphLevel', 'points_array'));
     }
 
     public function setRestaurant()
@@ -222,6 +221,7 @@ class IndexController extends Controller
 
         return view('game_views.gm2.admin.set_restaurant', compact('gType', 'restaurants', 'restaurantGroups'));
     }
+
     public function setRestaurant2()
     {
         $user_id = Auth::user()->id; //teacher own
@@ -239,7 +239,7 @@ class IndexController extends Controller
         if (is_null($graph_level)) {
             $empty = true;
             $msg = "Need to set the criteria of graph";
-        }else{
+        } else {
             $msg = "";
         }
 
@@ -247,7 +247,7 @@ class IndexController extends Controller
         $level_options = Config::get('game.game2.options');
         //        return  (!$empty);
 
-        return view('gm2.teacher_graph', compact('graph_level', 'level_options', 'restaurants', 'restaurantGroups', 'empty', 'addedRestaurants','msg'));
+        return view('gm2.teacher_graph', compact('graph_level', 'level_options', 'restaurants', 'restaurantGroups', 'empty', 'addedRestaurants', 'msg'));
     }
 
     public function assignStudent()
@@ -283,16 +283,16 @@ class IndexController extends Controller
         //  return $students;
 
         $groupStudents = [];
-        foreach ($students as $student){
-            if($student->restaurantUser->isNotEmpty()){
+        foreach ($students as $student) {
+            if ($student->restaurantUser->isNotEmpty()) {
                 $rest_id = $student->restaurantUser[0]->restaurant_id;
                 $std_id = $student->restaurantUser[0]->user_id;
                 $std_name = $student->name;
-                $groupStudents[$rest_id][] = ['id'=> $std_id, 'name' => $std_name];
+                $groupStudents[$rest_id][] = ['id' => $std_id, 'name' => $std_name];
             }
-            
+
         }
-       // return $groupStudents;
+        // return $groupStudents;
 
 
         $restaurantPoints = RestaurantPoint::with(['restaurant', 'restaurantGroup'])->where('leader', 1)->get();
@@ -313,7 +313,7 @@ class IndexController extends Controller
 
         // return [ $students,$restaurants,$restaurantUsers,$groupStudents];
 
-        $restaurantGroups = RestaurantGroup::where("user_id",$user_id)
+        $restaurantGroups = RestaurantGroup::where("user_id", $user_id)
             ->with('restaurantPoint.restaurant.restaurantUser')->get();
         // $groupIds = $restaurantGroups->pluck('id');
         // return $restaurantGroups;
@@ -321,7 +321,7 @@ class IndexController extends Controller
         $attacklists = $this->attackDefendSet();
         // return $attacklists;
 
-        return view('game_views.gm2.admin.assign_student_new', compact('students', 'restaurants', 'restaurantUsers','groupStudents','attacklists'));
+        return view('game_views.gm2.admin.assign_student_new', compact('students', 'restaurants', 'restaurantUsers', 'groupStudents', 'attacklists'));
     }
 
 
@@ -410,8 +410,6 @@ class IndexController extends Controller
         }
         return ($result_sum);
     }
-
-
 
 
     public function result()
@@ -556,15 +554,16 @@ class IndexController extends Controller
     // teacher Login thakte hobe...
     public function attackDefendSet()
     {
+        $bag = [];
         $teacherId = Auth::user()->id;
-        $students = RestaurantUser::where('teacher_id',$teacherId)->with('restaurant')
+        $students = RestaurantUser::where('teacher_id', $teacherId)->with('restaurant')
             ->with('restaurantGroup')
             ->with('restaurantGroup.restaurantPoint', function ($query) {
                 $query->where('leader', 1)->with('restaurant');
             })
             ->get();
-            // return $students;
-        $std = $students->map(function($item, $key){
+
+        $std = $students->map(function ($item, $key) {
             return [
                 "student_id" => $item->user_id,
                 "assigned_rest_id" => $item->restaurant_id,
@@ -573,69 +572,69 @@ class IndexController extends Controller
                 "attacking_rest_name" => $item->restaurantGroup->restaurantPoint[0]->restaurant->name,
             ];
         });
-   
-        $attackerRestIds = $std->pluck("attacking_rest_id","student_id")->all();
-        $assignRestIds = $std->pluck("assigned_rest_id","student_id")->all();
-         //return ["assign:" => $assignRestIds, "attacker :" => $attackerRestIds ];
+        return $std;
+        $attackerRestIds = $std->pluck("attacking_rest_id", "student_id")->all();
+        $assignRestIds = $std->pluck("assigned_rest_id", "student_id")->all();
+        //return ["assign:" => $assignRestIds, "attacker :" => $attackerRestIds ];
 
-        $leaders = RestaurantGroup::where('user_id',$teacherId)
-                ->with('restaurantPoint', function ($query) {
-                    $query->where('leader', 1)->with('restaurant');
-                })
-                ->get();
+        $leaders = RestaurantGroup::where('user_id', $teacherId)
+            ->with('restaurantPoint', function ($query) {
+                $query->where('leader', 1)->with('restaurant');
+            })
+            ->get();
 
-        $leaderData = $leaders->map(function($item, $key){
+        $leaderData = $leaders->map(function ($item, $key) {
             return [
                 "rest_id" => $item->restaurantPoint[0]->res_id,
                 "rest_name" => $item->restaurantPoint[0]->restaurant->name,
             ];
         });
 
-
         $ownId = [];
-        foreach($std as $student){
-            $asResId = null; $asStdId = null;
-            $a_s_i =  $student['assigned_rest_id'];
-            if(in_array($a_s_i,$attackerRestIds)){
-                $ids =  $this->attackerBag($a_s_i, $attackerRestIds, $assignRestIds);
-              
-              //$asStdId = array_search($a_s_i,$attackerRestIds);
-              //$asResId = $assignRestIds[$asStdId]?? null;
-             // echo($assignRestIds[$asStdId].','. $asStdId.'-');
-              
-            }else{
+        foreach ($std as $student) {
+            $a_s_i = $student['assigned_rest_id'];
+            if (in_array($a_s_i, $attackerRestIds)) {
+                $ids = $this->attackerBag($a_s_i, $attackerRestIds, $assignRestIds);
+
+                //$asStdId = array_search($a_s_i,$attackerRestIds);
+                //$asResId = $assignRestIds[$asStdId]?? null;
+                // echo($assignRestIds[$asStdId].','. $asStdId.'-');
+
+            } else {
                 $ids = null;
             }
             $ownId[] = [
                 'defender' => $student['student_id'],
                 'attacker' => $ids
             ];
-           
+
         }
         return $ownId;
         //return [$std,$leaderData];
     }
 
-    public function attackerBag($ownRestId,&$attackerRestIds, $assignRestIds)
+    public function attackerBag($ownRestId, &$attackerRestIds, $assignRestIds, $max = 1): array
     {
+        // get same restaurant ids attacker user ids
         $allAttackers = array_keys($attackerRestIds, $ownRestId);
-        
-        $attacklists=[];
-        $assignlists=[]; 
-        foreach ($allAttackers as  $attacker) {
-            
-            if(in_array($assignRestIds[$attacker],$assignlists)){
-            
-                 continue;
-            }else{
-                
-                $assignlists[] =  $assignRestIds[$attacker]?? null;
-                $attacklists[] =  $attacker;
-               unset($attackerRestIds[$attacker]);
-               
+
+        $attackLists = [];
+        $assignLists = [];
+        $count = 0;
+        if (!empty($allAttackers)) {
+            foreach ($allAttackers as $attacker) {
+                if (in_array($assignRestIds[$attacker], $assignLists)) {
+                    continue;
+                } else {
+                    $count++;
+                    $attackLists[] = $attacker;
+                    $assignLists[] = $assignRestIds[$attacker] ?? null;
+                    unset($attackerRestIds[$attacker]);
+                    if ($count == $max) break;
+                }
             }
         }
-    
-        return $attacklists;
+        // return attacker user ids array
+        return $attackLists;
     }
 }
