@@ -8,7 +8,7 @@
             <div class="title title_strategy mt-9vh">
                 <h4>An example of Strategic Group Analysis for Global Automobile Industry</h4>
             </div>
-            <img src="{{asset('assets/img/exampleofstrategic.png')}}" class="image" alt="">
+            <img src="{{asset('assets/img/stretegic.JPG')}}" class="image" alt="">
             <h2>Strategic Groups</h2>
         </div>
 

@@ -44,7 +44,7 @@ $navbars = Navbar::orderBy('priority')->get();
         </li> -->
         <li>
             <a href="{{route('gm2.market_scenario')}}"  class="{{ Request::is('gm2/market_scenario') ? 'active' : '' }}">
-                Development Strategy
+                Development of Strategy
             </a>
         </li>
         <li>
