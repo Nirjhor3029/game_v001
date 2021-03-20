@@ -26,6 +26,11 @@ $navbars = Navbar::orderBy('priority')->get();
             </a>
         </li>
         <li>
+            <a href="{{route('gm2.market')}}"  class="{{ Request::is('gm2/market') ? 'active' : '' }}">
+                Market
+            </a>
+        </li>
+        <li>
             <a href="{{route('gm2.marketing_strategy')}}" class="{{ Request::is('gm2/marketing_strategy') ? 'active' : '' }}">
                 Market Research
             </a>

@@ -135,6 +135,41 @@ class IndexController extends Controller
         return view('game_views.gm2.game', compact('restaurants', 'records', 'gType', 'added_restaurant', 'graphLevel'));
     }
 
+    public function market()
+    {
+        
+        $user_id = Auth::user()->id; //student own
+        $teacher = RestaurantUser::where('user_id',$user_id)->first();
+        if(!is_null($teacher)){
+            $teacherId = $teacher->teacher_id;
+        }
+        $restaurants = Restaurant::all();
+        $gType = Config::get('game.game2.options');
+        $restaurantGroups = RestaurantGroup::where('user_id', $teacherId)->with('restaurantPoint', 'restaurantPoint.restaurant')->get();
+
+        $addedRestaurants = $restaurantGroups->pluck('restaurantPoint')->collapse()->pluck('res_id');
+        $addedRestaurants = $addedRestaurants->toArray();
+        // $addedRestaurant = $addedRestaurant[0]->pluck('res_id');
+        // return $addedRestaurants;
+
+        $graph_level = GraphLevel::where('user_id', $teacherId)->get()->first();
+        $empty = false;
+        if (is_null($graph_level)) {
+            $empty = true;
+            $msg = "Need to set the criteria of graph";
+        } else {
+            $msg = "";
+        }
+
+        // get x-axis & y-axis option from config file
+        $level_options = Config::get('game.game2.options');
+        //        return  (!$empty);
+
+        return view('game_views.gm2.market', compact('graph_level', 'level_options', 'restaurants', 'restaurantGroups', 'empty', 'addedRestaurants', 'msg'));
+
+        return view('game_views.gm2.market');
+    }
+
     public function game_view()
     {
         $restaurant_group = RestaurantGroup::where('user_id', Auth::guard('web')->user()->id)->findOrFail();
@@ -243,6 +278,7 @@ class IndexController extends Controller
         $gType = Config::get('game.game2.options');
         $restaurantGroups = RestaurantGroup::where('user_id', $user_id)->with('restaurantPoint', 'restaurantPoint.restaurant')->get();
 
+        // return $restaurantGroups;
         $addedRestaurants = $restaurantGroups->pluck('restaurantPoint')->collapse()->pluck('res_id');
         $addedRestaurants = $addedRestaurants->toArray();
         // $addedRestaurant = $addedRestaurant[0]->pluck('res_id');
@@ -523,6 +559,8 @@ class IndexController extends Controller
 
         if($defender->isNotEmpty()){
             $defenderSum = $defender->sum("score");
+            $defenderSum = $defenderSum * (-1);
+
         }else{
             $defenderSum = 0;
         }
@@ -537,6 +575,7 @@ class IndexController extends Controller
         // return $defenderSum;
 
         $taskOneResult = $this->get_task_one_result();
+        // return $taskOneResult;
         // $taskTwoResult = $this->get_task_two_result();
         // return $taskTwoResult['Correct'];
 
@@ -578,6 +617,7 @@ class IndexController extends Controller
 
 
         $result = get_percentage($point_value, 30);
+        // return $result;
         if (isset($point_value)) {
             $bag = [
                 'type' => 'success',

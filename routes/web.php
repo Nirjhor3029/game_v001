@@ -128,6 +128,8 @@ Route::name('gm2.')->prefix('gm2')->middleware(['auth:sanctum', 'verified'])->gr
     Route::get('/development_of_strategic_group', [\App\Http\Controllers\Game\gm2\IndexController::class, 'development_of_strategic_group'])->name('development_of_strategic_group');
     Route::get('/game', [\App\Http\Controllers\Game\gm2\IndexController::class, 'game'])->name('game');
 
+    Route::get('/market', [\App\Http\Controllers\Game\gm2\IndexController::class, 'market'])->name('market');
+
     Route::post('add_graph', [\App\Http\Controllers\Gm2\GamePageController::class, 'addGraph']);
 });
 
@@ -175,6 +177,11 @@ Route::group(['auth:sanctum', 'verified'], function () {
         Route::match(array('GET', 'POST'), '/test_method', function(Request $request)
         {
             return $request->method();
+        });
+
+        Route::get("/dump",function(){
+            system('composer dump-autoload');
+            echo 'composer dump-autoload complete';
         });
     });
 });

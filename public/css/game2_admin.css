@@ -557,3 +557,6 @@ nav {
 .mb-50px{
     margin-bottom: 50px;
 }
+td{
+    /* border: 1px solid black !important; */
+}
