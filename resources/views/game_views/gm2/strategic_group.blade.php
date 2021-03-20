@@ -51,7 +51,7 @@
                     </div>
                     <div class="text">
                         <p>
-                        As the strategic Head of a <b>KFC</b>, you are expected to design a strategy to gain more market share. In order to do so, you would have to first develop a strategic group for restaurant business in Dhaka, and then select another strategic group to penetrate and take market share from that group. You would have 20 million taka to do that. However, you may consider to keep some of that money in the reserve to protect your market share in the face of attack by another restaurant. Good Luck!
+                        As the strategic Head of a <b>{{$restaurant_name}}</b>, you are expected to design a strategy to gain more market share. In order to do so, you would have to first develop a strategic group for restaurant business in Dhaka, and then select another strategic group to penetrate and take market share from that group. You would have 20 million taka to do that. However, you may consider to keep some of that money in the reserve to protect your market share in the face of attack by another restaurant. Good Luck!
                         </p>
                     </div>
                 </div>

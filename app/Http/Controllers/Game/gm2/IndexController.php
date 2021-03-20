@@ -33,8 +33,21 @@ class IndexController extends Controller
 
     public function strategic_group()
     {
+        $userId = Auth::id();
+        $restaurantUser = RestaurantUser::where("user_id",$userId)->with("restaurant")->first();
+        
+        // return $restaurantUser;
+        if(is_null($restaurantUser)){
+            $restaurant_name = "as retauranr manager.";
+            // return "no";
+        }else{
+            // return "yes";
+            $restaurant_name = $restaurantUser->restaurant->name;
+        }
+        // return $restaurant_name;
+        
+        return view('game_views.gm2.strategic_group',compact('restaurant_name'));
 
-        return view('game_views.gm2.strategic_group');
     }
 
     public function marketing_strategy()
