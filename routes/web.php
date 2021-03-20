@@ -131,11 +131,6 @@ Route::name('gm2.')->prefix('gm2')->middleware(['auth:sanctum', 'verified'])->gr
     Route::post('add_graph', [\App\Http\Controllers\Gm2\GamePageController::class, 'addGraph']);
 });
 
-Route::get('/test', function () {
-    $promotion_options = Config::get('game.game2.promotion_options');
-    $market_promotion_values = [0, 10, 20];
-    return $promotion_options[0]['name'];
-});
 
 Route::get('/migrate', function () {
     Artisan::call('migrate',);
@@ -171,8 +166,8 @@ Route::group(['auth:sanctum', 'verified'], function () {
 
         Route::get('user-role', [\App\Http\Controllers\Game\gm2\Gm2AdminController::class, 'userRole'])->name('user_role');
         Route::get('user-manage/{id}', [\App\Http\Controllers\Game\gm2\Gm2AdminController::class, 'userManage'])->name('user_manage');
-        
-        
+
+
         Route::get('test', [\App\Http\Controllers\Game\gm2\IndexController::class, 'attackDefendSet'])->name('test');
     });
 });
