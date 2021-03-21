@@ -46,7 +46,7 @@ class Gm2AjaxController extends Controller
         $group = $request->input('group');
 
 
-        $market_promotion_values  = [
+        $market_promotion_values = [
             $discountWithStore, $discountThroughDeliveryService,
             $AdvertisingThroughSocialMedia, $Branding, $Other
         ];
@@ -110,7 +110,6 @@ class Gm2AjaxController extends Controller
         }
 
 
-
         // $market_promotions
         return response()->json([
             'status' => "ok",
@@ -119,7 +118,7 @@ class Gm2AjaxController extends Controller
     }
 
     // Set Group page ::Admin
-    public  function updateGroup(Request $request)
+    public function updateGroup(Request $request)
     {
         // return ($request);
 
@@ -173,7 +172,7 @@ class Gm2AjaxController extends Controller
         $groupName = $request->input('groupName');
         $points = $request->input('points');
         $firstPoint = $points[0];
-        $points = implode(",",$points);
+        $points = implode(",", $points);
         $restaurantGroup = RestaurantGroup::where(['user_id' => $user_id, 'point' => $firstPoint])->first();
         if (is_null($restaurantGroup)) {
             $restaurantGroup = new RestaurantGroup();
@@ -192,6 +191,7 @@ class Gm2AjaxController extends Controller
             'success' => $msg . " Successfully ",
         ]);
     }
+
     public function deleteSingleGroup(Request $request)
     {
         $user_id = Auth::user()->id;
@@ -204,6 +204,7 @@ class Gm2AjaxController extends Controller
             'success' => $msg . " Successfully ",
         ]);
     }
+
     public function groupNameUpdate(Request $request)
     {
         $user_id = Auth::user()->id;
@@ -272,7 +273,6 @@ class Gm2AjaxController extends Controller
         $restaurantUser->restaurant_id = $restId;
         $restaurantUser->teacher_id = $teacher_id;
         $restaurantUser->save();
-
 
 
         return response()->json([
@@ -361,13 +361,14 @@ class Gm2AjaxController extends Controller
         ]);
         // return response()->json(['success' => 'Restaurant position set successfully !']);
     }
+
     public function setLeader(Request $request)
     {
         $user_id = Auth::user()->id;
         $restId = $request->input('restId');
         $groupId = $request->input('groupId');
         $restaurantPoint = RestaurantPoint::where(["user_id" => $user_id, "res_group_id" => $groupId])->get();
-        foreach ($restaurantPoint as  $item) {
+        foreach ($restaurantPoint as $item) {
 
             if ($item->res_id == $restId) {
                 $item->leader = 1;
