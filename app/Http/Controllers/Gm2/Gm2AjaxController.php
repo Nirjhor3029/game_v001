@@ -199,19 +199,28 @@ class Gm2AjaxController extends Controller
     public function deleteSingleGroup(Request $request)
     {
         
-            $user_id = Auth::user()->id;
-            $groupPoint = $request->input('groupPoint');
-            $restaurantGroup = RestaurantGroup::where(['user_id' => $user_id, 'point' => $groupPoint])->first();
-            // dd($restaurantGroup);
-            $msg = "Delete Group ( name:" . $restaurantGroup->name . " )";
-        try {
-            $restaurantGroup->delete();
-        } catch (QueryException $e) {
+        $user_id = Auth::user()->id;
+        $groupPoint = $request->input('groupPoint');
+        $restaurantGroup = RestaurantGroup::where(['user_id' => $user_id, 'point' => $groupPoint])->first();
+        // dd($restaurantGroup);
+        $msg = "Delete Group ( name:" . $restaurantGroup->name . " )";
+
+        $resPoints = RestaurantPoint::where('res_group_id',$restaurantGroup->id)->count();
+        if($resPoints){
             return response()->json([
                 'status' => "error",
-                'msg' => 'Restaurant already assign this group',
+                'msg' => 'Restaurant already assign to this group',
             ]);
         }
+        
+        // try {
+        //     $restaurantGroup->delete();
+        // } catch (QueryException $e) {
+        //     return response()->json([
+        //         'status' => "error",
+        //         'msg' => 'Restaurant already assign this group',
+        //     ]);
+        // }
         
         return response()->json([
             'status' => "success",
