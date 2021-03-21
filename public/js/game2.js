@@ -49,7 +49,11 @@ $(document).ready(function () {
         }
     });
 
-    $('.type').on('change', function (e) {
+
+
+    $('.type').on('change', function (e, selected = null) {
+        console.log(selected);
+        console.log("change trigger");
         let that = $(this);
         let cat_id = e.target.value;
         let type = that.data('type');
@@ -61,7 +65,6 @@ $(document).ready(function () {
             data: {
                 cat_id: cat_id,
                 type: type,
-
             },
             success: function (data) {
                 // console.log(data); return;
@@ -73,12 +76,18 @@ $(document).ready(function () {
                 $.each(data
                     .subcategories[0].sub_costs,
                     function (index, subcategory) {
-                        subCat.append('<option data-cost="' + subcategory.value + '" value="' + subcategory.id + '" >' + subcategory.name + '</option>');
+                        let check = (selected == subcategory.id) ? "selected" : "";
+                        // console.log(selected);
+                        subCat.append('<option data-cost="' + subcategory.value + '" value="' + subcategory.id + '"' + check + '>' + subcategory.name + '</option>');
                     })
 
             }
         })
     });
+
+
+
+
 
     $('.subcategory').on('change', function (e) {
         let that = $(this);
@@ -87,6 +96,7 @@ $(document).ready(function () {
 
         let cost = that.find(':selected').data('cost');
         $(".number_of_outlets").val(1);
+        $(".number_of_outlets").removeClass("border_rd");
         costField.val(cost);
 
         let card = subCatParent.parents('.card');
@@ -100,16 +110,28 @@ $(document).ready(function () {
         let that = $(this);
         let card = that.parents('.card');
         let cost_value = card.find(".cost_value");
-        let previousAreaValue = cost_value[0].value;
-        cost_value[0].value = cost_value[0].value * that.val();
+
+
+        let subCat = card.find(".subcategory");
+        let dataCost = subCat.first().children(':selected').attr("data-cost");
+        // console.log(dataCost);
+        cost_value.first().val(dataCost * that.val());
+
+        // console.log(cost_value[0].value);
         let returnValue = gm2_calculateTotal(card, that, false); //updateDb = false
-        if (returnValue == 0) {
-            cost_value[0].value = previousAreaValue;
-        }
+
     })
 
     $('.competitors_move,.ajx_input_market_promotion').on('change', function (e) {
         let that = $(this);
+        if (that.val() < 0) {
+            toastr.error("This Value can not be less that 0");
+            that.addClass("border_rd");
+            that.val(0);
+            return;
+        } else {
+            that.removeClass("border_rd");
+        }
         let card = that.parents('.card');
         // console.log(card);
         gm2_calculateTotal(card, that, false); //updateDb = false
@@ -177,6 +199,10 @@ $(document).ready(function () {
         } else {
             area_sub_type = sub_type_selected[0].value;
         }
+
+        let sub_type_selected_cost = sub_type_selected.first().attr("data-cost");
+        // console.log(sub_type_selected_cost);
+        // return;
         // console.log(type.find(':selected')[0].value);
         // console.log(quelity_sub_type);
         let competitorsMove = card.find(".competitors_move")[0];
@@ -199,14 +225,22 @@ $(document).ready(function () {
         competitorsMove.value = max_invest - totalValue_without_move;
 
         if (competitorsMove.value < 0) {
-            alert("Total Investment Crossed the Max Limit !!!");
-            that.val(that.val() - 1);
+            // alert("Total Investment Crossed the Max Limit !!!");
+            toastr.error("Total Investment Crossed the Max Limit !!!");
+            that.val(0);
+            that.addClass("border_rd");
+            console.log(that);
+            numberOfOutlets.val(1);
+            area.value = sub_type_selected_cost;
+            gm2_calculateTotal(card, that, updateDb);
             //return;
             // let totalValue_without_move = parseInt(area.value) + parseInt(quality.value) +
             //     parseInt(discountWithStore.value) + parseInt(discountThroughDeliveryService.value) +
             //     parseInt(AdvertisingThroughSocialMedia.value) + parseInt(Branding.value) + parseInt(Other.value);
             // competitorsMove.value = max_invest - totalValue_without_move;
             return 0;
+        } else {
+            // that.removeClass("border_rd");
         }
 
         let totalValue = totalValue_without_move + parseInt(competitorsMove.value);
@@ -217,12 +251,13 @@ $(document).ready(function () {
         console.log(cost_value[0].value);
 
         if (cost_value[0].value <= 0 || cost_value[1].value <= 0 || typeof group == "undefined") {
-            cost_value.addClass("border_rd");
+            that.addClass("border_rd");
             card.find(".form-check").addClass("border_rd");
             toastr.error("All Required Field Must need to fill!");
             updateDb = 0;
         } else {
-            cost_value.removeClass("border_rd");
+            that.removeClass("border_rd");
+            card.find(".form-check").removeClass("border_rd");
             // updateDb = 1;
         }
 

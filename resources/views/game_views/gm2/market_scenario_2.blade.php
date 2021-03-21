@@ -1,5 +1,7 @@
 @extends('game_views.gm2.layout.app')
 
+
+
 @section('content')
 
     <?php
@@ -11,6 +13,8 @@
         $txt = Str::title(str_replace("_"," ",$txt));
         return $txt;
     }
+
+    
 
     ?>
 
@@ -185,6 +189,8 @@
             </div>
 
             @if(is_null($market))
+            
+            
             <div class="col-md-6">
                 <div class="card gm2_card_rest">
                     <div class="card-header gm2_card_header"
@@ -239,7 +245,7 @@
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                    <input type="number" name=""  class="form-control-sm form-control number_of_outlets" value="1">
+                                    <input type="number" name="" min="1"  class="form-control-sm form-control number_of_outlets" value="1">
                             </div>
                             <div class="col-md-2 cost_class">
                                 <input type="text" class="form-control-sm form-control cost_value" readonly
@@ -294,32 +300,32 @@
                                             <label for="">Discount within store</label>
                                             <input type="number"
                                                    class="form-control-sm form-control discount_within_store ajx_input_market_promotion"
-                                                   id="" value="0">
+                                                   id="" value="0" min="0">
                                         </div>
                                         <div class="form-group">
                                             <label for="">Discount through Delivery services</label>
                                             <input type="number"
                                                    class="form-control-sm form-control discount_through_delivery_services ajx_input_market_promotion"
-                                                   id="" value="0">
+                                                    value="0" min="0">
                                         </div>
                                         <div class="form-group">
                                             <label for="">Advertising through social media</label>
                                             <input type="number"
                                                    class="form-control-sm form-control advertising_through_social_media ajx_input_market_promotion"
-                                                   id="" value="0">
+                                                    value="0" min="0">
                                         </div>
                                         <div class="form-group">
                                             <label for="">Branding</label>
                                             <input type="number"
                                                    class="form-control-sm form-control branding ajx_input_market_promotion"
-                                                   id="" value="0">
+                                                    value="0" min="0">
                                         </div>
                                         <div class="form-group">
                                             <label for="">Other</label>
                                             <input type="number"
                                                    class="form-control-sm form-control other ajx_input_market_promotion"
-                                                   id=""
-                                                   value="0">
+                                                   
+                                                   value="0" min="0">
                                         </div>
                                     </div>
                                 </div>
@@ -331,7 +337,7 @@
                             </div>
                             <div class="col-md-8">
                                 <input type="number" value="{{$investment}}" readonly
-                                       class="form-control-sm form-control competitors_move">
+                                       class="form-control-sm form-control competitors_move" min="0">
                             </div>
                         </div>
                     </div>
@@ -364,6 +370,22 @@
                 </div>
             </div>
             @else
+
+            <?php
+            $subAreaType = $market->marketCost[0]->area_sub_type;
+            $subQuantityType = $market->marketCost[0]->quality_sub_type;
+            // echo $subAreaType;
+            ?>
+            @push("js")
+                <script>
+                    $(document).ready(function(){
+                        $("#typeArea").trigger("change",[{{$subAreaType}}]);
+                        $("#typeQuantity").trigger("change",[{{$subQuantityType}}]);
+
+                        
+                    });
+                </script>
+            @endpush
                 <div class="col-md-6">
                     <div class="card gm2_card_rest">
                         <div class="card-header gm2_card_header"
@@ -381,7 +403,7 @@
                                 </div>
                                 <div class="col-sm-3 go-right">
                                     <span class="gm2-total-text">Total: </span>
-                                    <span class="gm2-total-value">0</span>
+                                    <span class="gm2-total-value">{{($market->total_cost - $market->marketCost[0]->competitors_move)}}</span>
                                 </div>
                             </div>
 
@@ -406,8 +428,8 @@
                                     <!-- <input type="button" class="btn_input btn_input_plus " value="+">
                                     <input type="number" name="" id="">
                                     <input type="button" class="btn_input btn_input_minus " value="-"> -->
-                                    <select name="" id="type" name="cat_id" class="form-control-sm form-control type"
-                                            data-type="1">
+                                    <select name="" id="typeArea" name="cat_id" class="form-control-sm form-control type"
+                                            data-type="1" >
                                         <option selected value="0">Select Areas</option>
                                         @foreach($typeArea as $item)
                                             <option value="{{$item->id}}" {{($market->marketCost[0]->area_type == $item->id)? "selected":""}} >{{$item->name}}</option>
@@ -420,7 +442,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-3">
-                                    <input type="number" name=""  class="form-control-sm form-control number_of_outlets" value="{{$market->marketCost[0]->number_of_outlets}}">
+                                    <input type="number" name=""  class="form-control-sm form-control number_of_outlets" value="{{$market->marketCost[0]->number_of_outlets}}" min="1">
                                 </div>
                                 <div class="col-md-2 cost_class">
                                     <input type="text" class="form-control-sm form-control cost_value" readonly value="{{$market->marketCost[0]->area}}" required>
@@ -473,7 +495,7 @@
                                                 <label for="" >{{ txtFormate($promotion_options[$key]['name'])}}</label>
                                                 <input type="number"
                                                        class="form-control-sm form-control discount_within_store ajx_input_market_promotion"
-                                                       id="" value="{{$marketPromotion->value}}">
+                                                        value="{{$marketPromotion->value}}" min="0">
                                             </div>
                                             @endforeach
                                         </div>

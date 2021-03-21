@@ -23,13 +23,12 @@
             </div>
         </div>
 
-        <div class="market_strategy">
-            <div class="title title_strategy mt-9vh">
-                <!-- <i class="fa fa-book"></i> -->
+        <div class="market_strategy" style="margin:20px 0;">
+            <!-- <div class="title title_strategy mt-9vh">
                 <h2>Strategic groups within the world automobile industry.</h2>
-            </div>
-            <img src="{{asset('assets/img/marketing_strategy_table_1.JPG')}}" class="image" alt="">
+            </div> -->
             <h2>Market Scenario Table</h2>
+            <img src="{{asset('assets/img/marketing_strategy_table_1.JPG')}}" class="image" alt="">
             <img src="{{asset('assets/img/marketing_strategy_table_2.JPG')}}" class="image" alt="">
             <h2>Market Scenario Table</h2>
         </div>

@@ -20,8 +20,6 @@ class CreateNewUser implements CreatesNewUsers
     public function create(array $input)
     {
         $validation_string = ($input['type'] == 2) ? ['sometimes'] : ['required', 'string', 'min:7', 'max:11'];
-
-
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
             'uid' => $validation_string,
