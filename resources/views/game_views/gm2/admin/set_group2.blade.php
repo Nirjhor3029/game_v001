@@ -17,7 +17,26 @@
             clone_input.removeClass("mb-50px");
             clone_input.find(".group_input_plus").parent('.col-sm-2').remove();
             clone_input.prependTo(groupInputContainer);
+            that.attr("disabled",true);
+
+            // Count Group Number 
+            var min_number_of_group = $("#group_input_container").find(".group_name").length;
+            // console.log(min_number_of_group);
+
     });
+
+    function clickthis(e){
+        console.log(min_number_of_group);
+        console.log(minGroups);
+        if(min_number_of_group >= minGroups){
+            return true;
+        }else{
+            alert("Minimum Group "+minGroups);
+            return false;
+        }
+        return false;
+    }
+   
 
     $(document).on("click", ".group_input_minus", function (e) {
         let that = $(this);
@@ -34,10 +53,18 @@
             type: "POST",
             url: "gm2_delete_single_group",
             data: data,
-            success: function (data) {
-                console.table(data);
-                groupInput.remove();
-                toastr.success(data.success);
+            success: function (successData) {
+                if(successData.status == "error"){
+                    toastr.error(successData.msg);
+                }else{
+                    // console.table(successData);
+                    groupInput.remove();
+                    toastr.success(successData.msg);
+                    $("#"+groupPoint).removeClass("selectedTd selectedpoint");
+                }
+                
+
+                
             }
         });
     });
@@ -104,9 +131,9 @@
         }else{
             $("table td").removeClass("red-border");
             groupName.removeClass("red-border");
-            groupInput.find(".group_name").attr("disabled",true);
+            // groupName.attr("disabled",true);
             groupInput.find(".setTD").attr("disabled",true);
-            groupInput.find(".group_input_minus").remove();
+            // groupInput.find(".group_input_minus").remove();
         }
         // console.log(checkedTds);
 
@@ -120,9 +147,23 @@
             type: "POST",
             url: "gm2_set_single_group",
             data: data,
-            success: function (data) {
-                console.table(data);
-                toastr.success(data.success);
+            success: function (SuccessData) {
+                console.table(SuccessData);
+                
+                if(SuccessData.status == "success"){
+                    toastr.success(SuccessData.msg);
+                    // that.find("setTD");
+                    $(".group_input_plus").attr("disabled",false);
+                    $(".checkedTd").addClass("selectedTd").removeClass("checkedTd");
+
+                    groupName.after('<input type="text" class="form-control form-control-sm group_point" value="'+SuccessData.groupPoint+'" hidden="">');
+
+                    groupName.val(SuccessData.groupName);
+
+                    
+                    
+                }
+                
             }
         });
     });
@@ -181,6 +222,11 @@
     });
 
     $(document).ready(function(){
+
+        var minGroups = {{$minGroups}};
+        // console.log(minGroups);
+        var min_number_of_group = 0;
+
         let res_group = @json($points_array);
         // console.table(res_group);
         res_group.forEach(function(e){
@@ -234,7 +280,7 @@
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="group_name">Group Name</label>
-                                            <input type="text" class="form-control form-control-sm group_name" placeholder="Enter group Name">
+                                            <input type="text" class="form-control form-control-sm group_name" placeholder="Enter group Name" value="">
                                         </div>
                                     </div>
 
@@ -360,7 +406,7 @@
                     
                     <div class="submit go-right">
                         <input type="button" value="Set" class="btn btn-success" id="gm2_group_set">
-                        <a href="{{route('teacher.set_restaurant2')}}" class="btn btn-warning">Next</a>
+                        <a  class="btn btn-warning"   href="{{route('teacher.set_restaurant2')}}">Next</a>
                     </div>
                 </div>
             </div>
