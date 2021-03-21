@@ -121,6 +121,7 @@ class IndexController extends Controller
             ->where('graph_item_id', $graphItem->id)
             ->where('level', '1')
             ->get();
+        // return $records;
 
         $added_restaurant = [];
         // get restaurant id & name
@@ -241,8 +242,8 @@ class IndexController extends Controller
 
     public function setGroup2()
     {
-        $restaurants = Restaurant::all();
-        // return $restaurants;
+        $restaurants = Restaurant::count();
+        $minGroups = ceil($restaurants/6) ;
         $gType = Config::get('game.game2.options');
 
         $user_id = Auth::user()->id;
@@ -256,7 +257,7 @@ class IndexController extends Controller
         // return $restaurantGroups;
         $graphLevel = GraphLevel::where('user_id', $user_id)->first();
         // return $restaurantGroups[0]->restaurantPoint[0]->restaurant->name;
-        return view('game_views.gm2.admin.set_group2', compact('gType', 'restaurants', 'restaurantGroups', 'graphLevel', 'points_array'));
+        return view('game_views.gm2.admin.set_group2', compact('gType', 'restaurants', 'restaurantGroups', 'graphLevel', 'points_array','minGroups'));
     }
 
     public function setRestaurant()

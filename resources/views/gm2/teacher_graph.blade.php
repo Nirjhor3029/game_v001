@@ -309,6 +309,10 @@
                     </div>
                 </div>
             </div>
+
+            <div class="submit go-right">
+                <a  class="btn btn-warning"   href="{{route('teacher.assign_student')}}">Next</a>
+            </div>
         </div>
     </div>
 
@@ -316,7 +320,7 @@
     <!-- DemoDroppableCard -->
     <div class="card dropBox invisible">
         <div class="card-header" style="text-align: center;padding:0px !important"></div>
-        <div class="card-body droppable dropBody ui-sortable" data-group="" style="padding-left: 5px !important;">
+        <div class="card-body droppable dropBody ui-sortable" data-group="">
 
         </div>
     </div>

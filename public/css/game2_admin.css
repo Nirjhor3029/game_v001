@@ -99,7 +99,7 @@ cursor: pointer; */
     cursor: pointer;
     border-radius: 10px;
     text-align: center;
-    font-size: 1vw;
+    font-size: .8vw;
     z-index: 50;
 }
 
@@ -370,10 +370,7 @@ ul {
 .color_graph_selected {
     background-color: #afce8d;
 }
-.selectedpoint{
-    background-color: #263238;
-    border: none !important;
-}
+
 
 .game-content {
     margin: 2% 6%;
@@ -543,20 +540,31 @@ nav {
 
 /* Set_group2 page */
 .setGroupTd{
-    border: 1px solid #000;
+    border: 1px solid #1a1a1a;
 }
 .selectedTd{
-    background-color: #F3F5F8;
+    background-color: #bed112;
 }
 .checkedTd{
-    background-color: #F3F5F8;
+    background-color: #00c33b;
 }
-.dropBody{
-    padding: 2.25rem;
+.selectedpoint{
+    background-color: #bed112;
+    border: none !important;
 }
+
 .mb-50px{
     margin-bottom: 50px;
 }
 td{
     /* border: 1px solid black !important; */
+}
+.graph_label{
+    font-size: 1rem !important;
+}
+
+.dropBody {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 2.24rem 0;
 }

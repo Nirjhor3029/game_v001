@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Gm2;
 
+use Illuminate\Database\QueryException;
 use App\Http\Controllers\Controller;
 use App\Models\Gm2MarketPromotion;
 use App\Models\GraphLevel;
@@ -12,6 +13,7 @@ use App\Models\RestaurantPoint;
 use App\Models\RestaurantUser;
 use Auth;
 use Config;
+use Facade\Ignition\QueryRecorder\Query;
 use Illuminate\Http\Request;
 
 class Gm2AjaxController extends Controller
@@ -187,21 +189,33 @@ class Gm2AjaxController extends Controller
         $restaurantGroup->name = $groupName;
         $restaurantGroup->save();
         return response()->json([
-            'status' => "ok",
-            'success' => $msg . " Successfully ",
+            'status' => "success",
+            'msg' => $msg . " Successfully ",
+            'groupPoint' => $restaurantGroup->point,
+            'groupName' => $restaurantGroup->name,
         ]);
     }
 
     public function deleteSingleGroup(Request $request)
     {
-        $user_id = Auth::user()->id;
-        $groupPoint = $request->input('groupPoint');
-        $restaurantGroup = RestaurantGroup::where(['user_id' => $user_id, 'point' => $groupPoint])->first();
-        $msg = "Delete Group ( name:" . $restaurantGroup->name . " )";
-        $restaurantGroup->delete();
+        try {
+            $user_id = Auth::user()->id;
+            $groupPoint = $request->input('groupPoint');
+            $restaurantGroup = RestaurantGroup::where(['user_id' => $user_id, 'point' => $groupPoint])->first();
+            // dd($restaurantGroup);
+            $msg = "Delete Group ( name:" . $restaurantGroup->name . " )";
+            $restaurantGroup->delete();
+
+        } catch (QueryException $e) {
+            return response()->json([
+                'status' => "error",
+                'msg' => 'Restaurant already assign this group',
+            ]);
+        }
+        
         return response()->json([
-            'status' => "ok",
-            'success' => $msg . " Successfully ",
+            'status' => "success",
+            'msg' => $msg . " Successfully ",
         ]);
     }
 
