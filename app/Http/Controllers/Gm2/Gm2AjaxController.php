@@ -212,7 +212,7 @@ class Gm2AjaxController extends Controller
                 'msg' => 'Restaurant already assign this group',
             ]);
         }
-        
+
         return response()->json([
             'status' => "success",
             'msg' => $msg . " Successfully ",
