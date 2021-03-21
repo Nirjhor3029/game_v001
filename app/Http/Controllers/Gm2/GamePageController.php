@@ -44,19 +44,21 @@ class GamePageController extends Controller
         // return $graphs;
 
         $resturentUser = RestaurantUser::where('user_id', $user_id)->first();
+        
 
-        // return $resturentUser->rest_group_id;
+        // return $resturentUser;
 
         $resGroup = RestaurantPoint::where('res_id', optional($resturentUser)->restaurant_id)->with('restaurant', 'restaurantGroup')->first();
+        // return $resGroup;
 
         $investment = config('game.game2.asset.invest');
 
 
-        $restaurantGroups = RestaurantGroup::whereNotIn('id', [optional($resGroup)->res_group_id])->get();
+        $restaurantGroups = RestaurantGroup::where("user_id",$resturentUser->teacher_id)->whereNotIn('id', [optional($resGroup)->res_group_id])->get();
 
         $promotion_options =  config('game.game2.promotion_options');
 
-        // dd($restaurantGroups);
+        // return $restaurantGroups;
         // return $resGroup->restaurant->name;
         // return $resGroup->restaurant;
         $market = Market::where('user_id', $user_id,)
