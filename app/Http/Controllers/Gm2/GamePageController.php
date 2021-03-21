@@ -43,18 +43,18 @@ class GamePageController extends Controller
         // $graphs = Graph::where('graph_item_id', $graphItem->id)->get();
         // return $graphs;
 
-        $resturentUser = RestaurantUser::where('user_id', $user_id)->first();
+        $restaurantUser = RestaurantUser::where('user_id', $user_id)->first();
 
         // return $resturentUser->rest_group_id;
 
-        $resGroup = RestaurantPoint::where('res_id', optional($resturentUser)->restaurant_id)->with('restaurant', 'restaurantGroup')->first();
+        $resGroup = RestaurantPoint::where('res_id', optional($restaurantUser)->restaurant_id)->with('restaurant', 'restaurantGroup')->first();
 
         $investment = config('game.game2.asset.invest');
 
 
         $restaurantGroups = RestaurantGroup::whereNotIn('id', [optional($resGroup)->res_group_id])->get();
 
-        $promotion_options =  config('game.game2.promotion_options');
+        $promotion_options = config('game.game2.promotion_options');
 
         // dd($restaurantGroups);
         // return $resGroup->restaurant->name;
@@ -65,14 +65,6 @@ class GamePageController extends Controller
                 $query->where('mode', '=', '1');
             })
             ->first();
-        //        return  $market;
-        //        $market = (object)$market;
-        //            return $market->marketCost;
-        //        dd($market);
-        //        if(is_null($market)){
-        //            return "null";
-        //        }
-
 
         if (isset($resGroup)) {
             $userInfo = [
@@ -81,8 +73,7 @@ class GamePageController extends Controller
                 "assigned_group_id" => $resGroup->restaurantGroup->id,
             ];
             session(["student_info" => $userInfo]);
-            // $session = Session::all();
-            // return $session;
+
             return view("game_views.gm2.market_scenario_2", compact('typeArea', 'typeQuantity', 'resGroup', 'restaurantGroups', 'investment', 'market', 'promotion_options', 'resturentUser'));
         } else {
             return view("game_views.gm2.market_scenario_1");
