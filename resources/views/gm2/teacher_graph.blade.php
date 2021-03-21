@@ -148,7 +148,7 @@
                 }else{
                     leaderIcon.parent(".option-item").removeClass("not_shortable").attr("draggble",true);
                 }
-                // console.log(leaderIcon);
+                console.log(leaderIcon);
                 // return;
                
                 that.append(leaderIcon).addClass("not_shortable").attr("draggble",false);

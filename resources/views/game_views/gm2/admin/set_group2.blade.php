@@ -223,6 +223,9 @@
 
     $(document).ready(function(){
 
+        if(performance.navigation.type == 2){
+            location.reload(true);
+        }
         var minGroups = {{$minGroups}};
         // console.log(minGroups);
         var min_number_of_group = 0;
