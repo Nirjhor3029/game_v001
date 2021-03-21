@@ -558,6 +558,8 @@ nav {
 }
 td{
     /* border: 1px solid black !important; */
+    /* min-height: 200px !important; */
+    /* height: 200px !important; */
 }
 .graph_label{
     font-size: 1rem !important;

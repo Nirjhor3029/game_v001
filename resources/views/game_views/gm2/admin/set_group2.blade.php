@@ -26,8 +26,8 @@
     });
 
     function clickthis(e){
-        console.log(min_number_of_group);
-        console.log(minGroups);
+        // console.log(min_number_of_group);
+        // console.log(minGroups);
         if(min_number_of_group >= minGroups){
             return true;
         }else{
@@ -45,6 +45,7 @@
         // let column_val = groupInput.find('.group_column').val();
         // select_graph_box(row_val, column_val, 'dragdrop_graph');
         let groupPoint = groupInput.find('.group_point').val();
+        let groupname = groupInput.find('.group_name').val();
 
         let data = {
             groupPoint: groupPoint,
@@ -61,6 +62,14 @@
                     groupInput.remove();
                     toastr.success(successData.msg);
                     $("#"+groupPoint).removeClass("selectedTd selectedpoint");
+                    $("#"+groupPoint).text("");
+
+                    const index = GroupNames.indexOf(groupname.toUpperCase());
+                    if (index > -1) {
+                        GroupNames.splice(index, 1);
+                    }
+                    // console.log(GroupNames);
+                    
                 }
                 
 
@@ -71,13 +80,21 @@
 
     $(document).on("click",'.setGroupTd',function(e){
         let that = $(this);
-        that.toggleClass("checkedTd");
-        console.log("clicked !");
+        
+        let checkedLength = $(".dragdrop_graph").find(".checkedTd").length;
+        if(checkedLength > 0){
+            that.removeClass("checkedTd");
+            return false;
+        }else{
+            that.addClass("checkedTd");
+        }
+        
+        // console.log("clicked !");
     });
 
     // graph
     function checkRCDif(boxes) {
-        console.table(boxes);
+        // console.table(boxes);
         let countRow = 1;
         let countColumn = 1;
         console.log("length:"+boxes.length);
@@ -90,12 +107,12 @@
                 }else if(dif == 10 || dif == 20){
                     countRow++;
                 }
-                console.log(dif);
+                // console.log(dif);
 
             }
 
-            console.log("rowspan: "+countRow);
-        console.log("colspan: "+countColumn);
+            // console.log("rowspan: "+countRow);
+            // console.log("colspan: "+countColumn);
         }
         
 
@@ -103,8 +120,17 @@
         
     }
 
+    var GroupNames = [];
+    function checkGroupName(){
+        $("#group_input_container .group_name").each(function(index){
+            GroupNames.push($(this).val().toUpperCase());
+        });
+        // console.log(GroupNames);
+    }
+    checkGroupName();
     $(document).on("click",".setTD",function(e){
 
+        // console.log(GroupNames);
         let that = $(this);
 
         let groupInput = that.parents(".group_input");
@@ -116,6 +142,13 @@
             checkedTds.push(tdId)
             // console.log(tdId);
         });
+
+        if(GroupNames.includes(groupName.val().toUpperCase())){
+            toastr.error("Name Should be Unique.");
+            return false;
+        }
+        
+        // return false;
 
         if(groupName.val() == ""){
             alert("Write Group Name First");
@@ -136,7 +169,8 @@
             // groupInput.find(".group_input_minus").remove();
         }
         // console.log(checkedTds);
-
+       
+        
         // checkRCDif(checkedTds);
         // return;
         let data = {
@@ -148,20 +182,20 @@
             url: "gm2_set_single_group",
             data: data,
             success: function (SuccessData) {
-                console.table(SuccessData);
+                // console.table(SuccessData);
                 
                 if(SuccessData.status == "success"){
                     toastr.success(SuccessData.msg);
                     // that.find("setTD");
                     $(".group_input_plus").attr("disabled",false);
-                    $(".checkedTd").addClass("selectedTd").removeClass("checkedTd");
+                    $(".checkedTd").addClass("selectedpoint").removeClass("checkedTd").text(SuccessData.groupName);
 
                     groupName.after('<input type="text" class="form-control form-control-sm group_point" value="'+SuccessData.groupPoint+'" hidden="">');
 
                     groupName.val(SuccessData.groupName);
 
-                    
-                    
+                    GroupNames.push(groupName.val().toUpperCase());
+                    // console.log("update: "+GroupNames);
                 }
                 
             }
@@ -193,8 +227,15 @@
             url: "group_name_update",
             data: data,
             success: function (data) {
-                console.table(data);
+                // console.table(data);
                 toastr.success(data.success);
+
+                // const index = GroupNames.indexOf(data.groupName.toUpperCase());
+                // if (index > -1) {
+                //     GroupNames.splice(index, 1);
+                // }
+                // console.log(GroupNames);
+                
             }
         });
     });
@@ -208,7 +249,6 @@
                 $(this).attr("disabled",false);
             }
         });
-        console.log();
     });
     $("#gm2-x-axis").on("click",function(){
         let selectedValue = $(this).val();
@@ -232,15 +272,18 @@
 
         let res_group = @json($points_array);
         // console.table(res_group);
-        res_group.forEach(function(e){
+        $.each(res_group,function(index, item){
             // console.log(e);
-            let points = e.split(",");
-            points.forEach(function(event){
-                $("#"+event).addClass("selectedpoint");
-                $("#"+event).removeClass("setGroupTd");
-                console.log($("#11"));
-            });
+            // let points = e.split(",");
+                let td = $("#"+index);
+                td.addClass("selectedpoint");
+                td.removeClass("setGroupTd");
+                td.text(item);
+                // console.log($("#11"));
+            
         });
+
+        
     });
 
 </script>
@@ -373,7 +416,7 @@
                                                     <tr>
                                                         @for($c=1; $c <= $columns; $c++)
                                                             <td class="empty2 droppable jquery_drop_box setGroupTd"
-                                                                id="{{$r}}{{$c}}"></td>
+                                                                id="{{$r}}{{$c}}" style="text-align: center;border: 1px solid black !important;"></td>
                                                         @endfor
                                                     </tr>
                                                 @endfor
@@ -409,11 +452,26 @@
                     
                     <div class="submit go-right">
                         <input type="button" value="Set" class="btn btn-success" id="gm2_group_set">
-                        <a  class="btn btn-warning"   href="{{route('teacher.set_restaurant2')}}">Next</a>
+                        <a  class="btn btn-warning"   href="{{route('teacher.set_restaurant2')}}" onclick="return checkGroupAmount({{$minGroups}}) ">Next</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
+    <script>
+        function checkGroupAmount(minGroups){
+            // console.log(minGroups);
+            let Items = $(".dragdrop_graph ").find(".selectedpoint").length;
+            // console.log(Items);
+            
+            
+            if(Items < minGroups ){
+                toastr.error("Create minimum  "+minGroups+" groups");
+                return false;
+                e.stopPropagation();
+                
+            }
+        }
+        
+    </script>
 @endsection

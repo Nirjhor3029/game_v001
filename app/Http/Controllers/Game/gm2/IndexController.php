@@ -252,7 +252,7 @@ class IndexController extends Controller
                 $query->where('leader', 1)->with('restaurant');
             })->orderBy('id', 'desc')
             ->get();
-        $points_array = $restaurantGroups->pluck('points');//->toJson();
+        $points_array = $restaurantGroups->pluck('name','point');//->toJson();
         // return $points_array;
         // return $restaurantGroups;
         $graphLevel = GraphLevel::where('user_id', $user_id)->first();
@@ -329,6 +329,7 @@ class IndexController extends Controller
     public function assignStudentNew()
     {
         $user_id = Auth::user()->id;
+        
 
         $students = User::where('type', 3)->with('restaurantUser')->get();
         //  return $students;
@@ -346,7 +347,7 @@ class IndexController extends Controller
         // return $groupStudents;
 
 
-        $restaurantPoints = RestaurantPoint::with(['restaurant', 'restaurantGroup'])->where('leader', 1)->get();
+        $restaurantPoints = RestaurantPoint::with(['restaurant', 'restaurantGroup'])->where('user_id',$user_id)->where('leader', 1)->get();
         $restaurantUsers = RestaurantUser::all();
 
 
@@ -717,25 +718,33 @@ class IndexController extends Controller
             ->get();
             // return $students;
         $std = $students->map(function ($item, $key) {
-            return [
-                "student_id" => $item->user_id,
-                "assigned_rest_id" => $item->restaurant_id,
-                "assigned_rest_name" => $item->restaurant->name,
-                "attacking_rest_id" => $item->restaurantGroup->restaurantPoint[0]->res_id,
-                "attacking_rest_name" => $item->restaurantGroup->restaurantPoint[0]->restaurant->name,
-                "attacking_group_id" => $item->restaurantGroup->id,
-                "attacking_group_name" => $item->restaurantGroup->name,
-            ];
+            if(is_null($item->restaurantGroup)){
+                return false;
+            }else{
+                return [
+                    "student_id" => $item->user_id,
+                    "assigned_rest_id" => $item->restaurant_id,
+                    "assigned_rest_name" => $item->restaurant->name,
+                    "attacking_rest_id" => optional($item->restaurantGroup)->restaurantPoint[0]->res_id,
+                    "attacking_rest_name" => optional($item->restaurantGroup)->restaurantPoint[0]->restaurant->name,
+                    "attacking_group_id" => optional($item->restaurantGroup)->id,
+                    "attacking_group_name" => optional($item->restaurantGroup)->name,
+                ];
+            }
+            
         });
-        // return $std;
+        
         $attackerRestIds = $std->pluck("attacking_rest_id", "student_id")->all();
         $assignRestIds = $std->pluck("assigned_rest_id", "student_id")->all();
-        //return ["assign:" => $assignRestIds, "attacker :" => $attackerRestIds ];
+        // return ["assign:" => $assignRestIds, "attacker :" => $attackerRestIds ];
 
         
         
         $ownId = [];
         foreach ($std as $student) {
+            if(!$student){
+                continue;
+            }
             $a_s_i = $student['assigned_rest_id'];
             if (in_array($a_s_i, $attackerRestIds)) {
                 $ids = $this->attackerBag($a_s_i, $attackerRestIds, $assignRestIds, $max_attack);

@@ -8,6 +8,7 @@ use App\Models\Gm2MarketPromotion;
 use App\Models\GraphLevel;
 use App\Models\Market;
 use App\Models\MarketCost;
+use App\Models\Restaurant;
 use App\Models\RestaurantGroup;
 use App\Models\RestaurantPoint;
 use App\Models\RestaurantUser;
@@ -54,6 +55,7 @@ class Gm2AjaxController extends Controller
         ];
 
         $market = Market::where('user_id', $user_id)->where('restaurant_id', $rest_id)->get();
+        // return $market;
         if ($market->isEmpty()) {
             // return "empty";
             $market = new Market();
@@ -211,6 +213,8 @@ class Gm2AjaxController extends Controller
                 'status' => "error",
                 'msg' => 'Restaurant already assign to this group',
             ]);
+        }else{
+            $restaurantGroup->delete();
         }
         
         // try {
@@ -239,6 +243,7 @@ class Gm2AjaxController extends Controller
         return response()->json([
             'status' => "ok",
             'success' => $msg . " Successfully ",
+            'groupName' => $groupName,
         ]);
     }
 
@@ -395,6 +400,8 @@ class Gm2AjaxController extends Controller
             if ($item->res_id == $restId) {
                 $item->leader = 1;
             } else {
+                RestaurantUser::where('restaurant_id',$item->res_id)->where("teacher_id", $user_id)->delete();
+                
                 $item->leader = 0;
             }
             $item->save();

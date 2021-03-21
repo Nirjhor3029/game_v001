@@ -34,9 +34,10 @@
         </div>
 
         <div class="row" style="text-align: center; margin-top:5vh">
-
-            <h4 style="text-align: center;text-transform: capitalize">{{$msg}}</h4>
-
+            <div class="offset-sm-2 col-sm-6">
+                <h4 style="text-align: center;text-transform: capitalize">{{$msg}}</h4>
+            </div>
+            
         </div>
 
     </div>

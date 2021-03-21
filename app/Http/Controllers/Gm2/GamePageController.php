@@ -75,6 +75,7 @@ class GamePageController extends Controller
         //            return "null";
         //        }
 
+        
 
         if (isset($resGroup)) {
             $userInfo = [
@@ -159,6 +160,7 @@ class GamePageController extends Controller
 
     public function market_scenario_defend_new()
     {
+
         $user_id = Auth::user()->id;
 
         $student_info = session('student_info');
@@ -166,11 +168,16 @@ class GamePageController extends Controller
         $assigned_group_id = $student_info['assigned_group_id'];
 
         $attackers = AttackDefend::where('defender',$user_id)->select('attacker')->get();
+        // return [$attackers,$user_id];
         if($attackers->isNotEmpty()){
             $attackers_userId = $attackers->pluck('attacker')->toArray();
             // return $attackers;
+        }else{
+            // return "Wait Till Teacher's Approval. ";
+            $msg = "Wait Till Teacher's Approval.  !!";
+            return view("game_views.gm2.market_scenario_defend_empty", compact("msg"));
         }
-        // return "attackers";
+        // return $attackers;
 
         // $resUser = RestaurantUser::where('rest_group_id', $assigned_group_id)->get();
         // return $resUser;
@@ -188,7 +195,7 @@ class GamePageController extends Controller
                 $query->where('mode', '=', '1');
             })
             ->get();
-        // return $attackMarkets;
+        return $attackMarkets;
 
         $attackers = [];
         $attackersRests = [];

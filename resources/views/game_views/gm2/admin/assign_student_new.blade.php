@@ -39,7 +39,10 @@
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="form-group">
-                                            @php $check = 1 @endphp
+                                            @php
+                                                $check = false;
+                                                $checkStatus = false;
+                                            @endphp
                                             <select name="group[]"
                                                     class="form-control form-control-sm  restaurant_select">
                                                 <option value="null" selected disabled>Select Group</option>
@@ -48,25 +51,33 @@
                                                     $item = (object)$item; 
                                                     ?>
                                                     @if($student->restaurantUser->isEmpty())
+                                                        @php 
+                                                            $check = false;
+                                                        @endphp
                                                         <option value="{{$item->res_id}}">
                                                             {{Str::title($item->res_name ." - ". $item->group_name)}}
                                                         </option>
                                                     @else
                                                         @php 
-                                                        $check = ($student->restaurantUser[0]->restaurant_id == $item->res_id);
-                                                        
+                                                            $check = ($student->restaurantUser[0]->restaurant_id == $item->res_id);
+                                                            if(!$checkStatus){
+                                                                $checkStatus = $check;
+                                                            }
                                                         @endphp
+                                                        
                                                         <option
                                                             value="{{$item->res_id}}" {{($check)? "selected":""}}>
                                                             {{Str::title($item->res_name ." - ". $item->group_name)}}
                                                         </option>
+                                                        @continue
                                                     @endif
                                                 @endforeach
                                             </select>
+
                                         </div>
                                     </div>
                                     <div class="col-sm-2">
-                                        <input type="button" name="" value="{{($check)? 'Set' : 'Update'}}"  class="btn {{($check)? 'btn-success' : 'btn-warning'}} set" data-status = "{{($check)? 1 : 2}}">
+                                        <input type="button" name="" value="{{($checkStatus)? 'Update' : 'Set'}}"  class="btn {{($checkStatus)? 'btn-warning' : 'btn-success'}} set" data-status = "{{($checkStatus)? 1 : 2}}">
                                     </div>
                                 </div>
                             @endforeach
