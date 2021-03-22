@@ -281,7 +281,7 @@ $(document).ready(function () {
             <div class="row ">
                 <div class="col-sm-10"></div>
                 <div class="col-sm-2">
-                    <a href="{{route('gm2.market')}}" class="btn btn-next float-right">Next</a>
+                    <a href="{{route('gm2.marketing_strategy')}}" class="btn btn-next float-right">Next</a>
                     <!-- <a href="{{route('gm2.game')}}" class="btn btn-next" >Next</a> -->
                 </div>
             </div>

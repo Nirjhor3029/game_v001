@@ -657,7 +657,7 @@ class IndexController extends Controller
         })->sum();
 
 
-        $result = get_percentage($point_value, 30);
+        $result = $this->get_percentage($point_value, 30);
         // return $result;
         if (isset($point_value)) {
             $bag = [
@@ -836,5 +836,16 @@ class IndexController extends Controller
     public function set_time()
     {
         return view('game_views.gm2.admin.set_time');
+    }
+
+
+    // Helper function
+    function get_percentage($value, $percent)
+    {
+        if ( $value > 0 ) {
+            return round($percent * ($value / 100),2);
+        } else {
+            return 0;
+        }
     }
 }

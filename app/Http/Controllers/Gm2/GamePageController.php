@@ -339,4 +339,15 @@ class GamePageController extends Controller
     {
         return view('game_views.gm2.example_of_strategic_group');
     }
+
+
+    // Helper function
+    function get_percentage($value, $percent)
+    {
+        if ( $value > 0 ) {
+            return round($percent * ($value / 100),2);
+        } else {
+            return 0;
+        }
+    }
 }
