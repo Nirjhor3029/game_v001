@@ -19,8 +19,9 @@
                         <div class="col-sm-8">
                             <div class="row" style="margin-bottom: 30px;">
                                 <div class="col-sm-3">Students</div>
+                                <div class="col-sm-2">University Id</div>
                                 <div class="col-sm-3">Email</div>
-                                <div class="col-sm-4">Restaurent</div>
+                                <div class="col-sm-2">Restaurent</div>
                                 <div class="col-sm-2">Set</div>
                             </div>
                             @foreach($students as $student)
@@ -32,12 +33,17 @@
                                                    hidden>
                                         </div>
                                     </div>
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label for="">{{$student->student_uid}} </label>
+                                        </div>
+                                    </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="">{{$student->email}} </label>
                                         </div>
                                     </div>
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-2">
                                         <div class="form-group">
                                             @php
                                                 $check = false;
@@ -84,6 +90,13 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                <button class="btn btn-success" onclick="location.reload();">Show</button>
+                </div>
+                
             </div>
         </div>
 

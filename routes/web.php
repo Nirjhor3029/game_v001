@@ -166,7 +166,9 @@ Route::group(['auth:sanctum', 'verified'], function () {
         Route::get('set_restaurant', [\App\Http\Controllers\Game\gm2\IndexController::class, 'setRestaurant2'])->name('set_restaurant2');
         Route::get('assign_student', [\App\Http\Controllers\Game\gm2\IndexController::class, 'assignStudentNew'])->name('assign_student');
         Route::match(array('GET', 'POST'),'attacker_list', [\App\Http\Controllers\Game\gm2\IndexController::class, 'attackerList'])->name('attacker_list');
+        Route::get('set_time', [\App\Http\Controllers\Game\gm2\IndexController::class, 'set_time'])->name('set_time');
 
+        
         Route::get('user-role', [\App\Http\Controllers\Game\gm2\Gm2AdminController::class, 'userRole'])->name('user_role');
         Route::get('user-manage/{id}', [\App\Http\Controllers\Game\gm2\Gm2AdminController::class, 'userManage'])->name('user_manage');
 
@@ -178,6 +180,8 @@ Route::group(['auth:sanctum', 'verified'], function () {
         {
             return $request->method();
         });
+
+       
 
         Route::get("/dump",function(){
             system('composer dump-autoload');

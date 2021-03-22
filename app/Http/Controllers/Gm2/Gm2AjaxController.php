@@ -50,8 +50,11 @@ class Gm2AjaxController extends Controller
 
 
         $market_promotion_values  = [
-            $discountWithStore, $discountThroughDeliveryService,
-            $AdvertisingThroughSocialMedia, $Branding, $Other
+            $discountWithStore,
+            $discountThroughDeliveryService,
+            $AdvertisingThroughSocialMedia,
+            $Branding,
+            $Other
         ];
 
         $market = Market::where('user_id', $user_id)->where('restaurant_id', $rest_id)->get();

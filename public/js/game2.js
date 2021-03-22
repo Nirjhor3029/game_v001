@@ -72,7 +72,7 @@ $(document).ready(function () {
                 // console.log(subCat);subCat.css("background-color", "red"); return;
                 subCat.empty();
                 subCat.append(
-                    '<option selected>Select type</option>');
+                    '<option selected>Select Type</option>');
                 $.each(data
                     .subcategories[0].sub_costs,
                     function (index, subcategory) {
@@ -248,12 +248,14 @@ $(document).ready(function () {
         // return;
         // console.log(rest_id.value);
 
-        console.log(cost_value[0].value);
+        // console.log(cost_value[0].value);
+        console.log("group ", group);
 
         if (cost_value[0].value <= 0 || cost_value[1].value <= 0 || typeof group == "undefined") {
-            that.addClass("border_rd");
+            // that.addClass("border_rd");
             card.find(".form-check").addClass("border_rd");
             toastr.error("All Required Field Must need to fill!");
+            return;
             updateDb = 0;
         } else {
             that.removeClass("border_rd");
@@ -266,33 +268,37 @@ $(document).ready(function () {
 
         // let required = $(":required");
         // console.log(required);
+        let data = {
+            area: area.value,
+            quality: quality.value,
+
+            area_type: area_type,
+            quelity_type: quelity_type,
+            area_sub_type: area_sub_type,
+            quelity_sub_type: quelity_sub_type,
+
+
+            competitorsMove: competitorsMove.value,
+            totalValue: totalValue,
+            rest_id: rest_id.value,
+
+            discountWithStore: discountWithStore.value,
+            discountThroughDeliveryService: discountThroughDeliveryService.value,
+            AdvertisingThroughSocialMedia: AdvertisingThroughSocialMedia.value,
+            Branding: Branding.value,
+            Other: Other.value,
+            numberOfOutlets: numberOfOutlets.val(),
+
+            group: group,
+        };
+        console.table(data);
+        console.log("db:" + updateDb);
+        // return data;
         if (updateDb) {
             $.ajax({
                 type: "POST",
                 url: "gm2_attack",
-                data: {
-                    area: area.value,
-                    quality: quality.value,
-
-                    area_type: area_type,
-                    quelity_type: quelity_type,
-                    area_sub_type: area_sub_type,
-                    quelity_sub_type: quelity_sub_type,
-
-
-                    competitorsMove: competitorsMove.value,
-                    totalValue: totalValue,
-                    rest_id: rest_id.value,
-
-                    discountWithStore: discountWithStore.value,
-                    discountThroughDeliveryService: discountThroughDeliveryService.value,
-                    AdvertisingThroughSocialMedia: AdvertisingThroughSocialMedia.value,
-                    Branding: Branding.value,
-                    Other: Other.value,
-                    numberOfOutlets: numberOfOutlets.val(),
-
-                    group: group,
-                },
+                data: data,
                 success: function (data) {
                     console.log(data);
                     toastr.success(data.success);

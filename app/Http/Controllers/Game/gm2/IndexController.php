@@ -86,7 +86,7 @@ class IndexController extends Controller
 
         // Start Game
         $user_id = Auth::user()->id;
-        $session_id = Session::getId();
+        
         $resturentUser = RestaurantUser::where('user_id', $user_id)->first();
         $resGroup = RestaurantPoint::where('res_id', optional($resturentUser)->restaurant_id)->with('restaurant', 'restaurantGroup')->first();
         // return [$resturentUser, $resGroup];
@@ -105,9 +105,21 @@ class IndexController extends Controller
         }
         // Start Game
 
+        // if user want to play the game again.. then we will use session
+         
+        $session_id = Session::getId();
+        $graphItem = GraphItem::where('user_id' , Auth::guard('web')->user()->id)->latest('id')->first();
+        // return $graphItem;
 
+        // if user want to play the game again.. then we will use session new always
+        if(!is_null($graphItem)){ 
+            $session_id = $graphItem->session_id;
+        }//for now this code is ok.
+        // return $session_id;
+        
         // check graph item set on this user
-        $graphItem = GraphItem::where(['user_id' => Auth::guard('web')->user()->id, 'session_id' => Session::getId()])->get()->first();
+        $graphItem = GraphItem::where(['user_id' => Auth::guard('web')->user()->id, 'session_id' => $session_id ])->first();
+        // return $graphItem;
         if (is_null($graphItem)) {
             $graphItem = new GraphItem();
             $graphItem->user_id = Auth::guard('web')->user()->id;
@@ -401,21 +413,25 @@ class IndexController extends Controller
        // return $leaderData;
 
 
-        $attacklists = $this->attackDefendSet(10);
-        $defendList = $attacklists['defender_list'];
-        $studentList = $attacklists['student_list'];
-
-        $users = User::where('type',3)->get()->pluck('name','id')->toArray();
-
-
-       // dd($defendList);
-        foreach($defendList as &$defender){
-            $defender['defender_name'] =  $users[$defender['defender']];
-            $defender['attackers_name'] = is_null($defender['attacker'])? null : array_map(function($item) use ($users){
-                                return $users[$item];
-            },$defender['attacker']);
+        $attacklists = []; //$this->attackDefendSet(10);
+        $defendList = [];
+        if(!empty($attacklists)){
+            $defendList = $attacklists['defender_list'];
+            $studentList = $attacklists['student_list'];
+    
+            $users = User::where('type',3)->get()->pluck('name','id')->toArray();
+    
+    
+           // dd($defendList);
+            foreach($defendList as &$defender){
+                $defender['defender_name'] =  $users[$defender['defender']];
+                $defender['attackers_name'] = is_null($defender['attacker'])? null : array_map(function($item) use ($users){
+                                    return $users[$item];
+                },$defender['attacker']);
+            }
+            // return $defendList;
         }
-        // return $defendList;
+        
 
         if(request()->method() == "POST"){
             // return "ni";
@@ -788,5 +804,10 @@ class IndexController extends Controller
         }
         // return attacker user ids array
         return $attackLists;
+    }
+
+    public function set_time()
+    {
+        return view('game_views.gm2.admin.set_time');
     }
 }

@@ -19,10 +19,10 @@ class CreateNewUser implements CreatesNewUsers
      */
     public function create(array $input)
     {
-        $validation_string = ($input['type'] == 2) ? ['sometimes'] : ['required', 'string', 'min:7', 'max:11'];
+        $validation_string = ($input['type'] == 2) ? ['sometimes'] : ['required','unique:users', 'string', 'min:7', 'max:11'];
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
-            'uid' => $validation_string,
+            'student_uid' => $validation_string,
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => $this->passwordRules(),
             'type' => ['required', 'numeric']
@@ -30,7 +30,7 @@ class CreateNewUser implements CreatesNewUsers
 
         return User::create([
             'name' => $input['name'],
-            'student_uid' => $input['uid'] ?? null,
+            'student_uid' => $input['student_uid'] ?? null,
             'email' => $input['email'],
             'type' => $input['type'],
             'password' => Hash::make($input['password']),

@@ -298,13 +298,17 @@ class GamePageController extends Controller
     {
         if ($request->ajax()) {
             $restArray = [];
-            $graphItem = GraphItem::where(['user_id' => Auth::guard('web')->user()->id, 'session_id' => Session::getId()])->get()->first();
+
+            
+
+            $graphItem = GraphItem::where('user_id' , Auth::guard('web')->user()->id)->latest('id')->first();
             if (is_null($graphItem)) {
                 $graphItem = new GraphItem();
                 $graphItem->user_id = Auth::guard('web')->user()->id;
                 $graphItem->session_id = Session::getId();
                 $graphItem->save();
             }
+            
             $restArray['graphPointRow'] = $request->input('graphPointRow') + 1;
             $restArray['graphPointColumn'] = $request->input('graphPointColumn') + 1;
             $graph_point = $restArray['graphPointRow'] . $restArray['graphPointColumn'];

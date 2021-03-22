@@ -131,27 +131,39 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{route('teacher.criteria_combination')}}" class="nav-link">
+                                    <a href="{{route('teacher.criteria_combination')}}" class="nav-link {{ Request::is('teacher/criteria_combination') ? 'active' : '' }}">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Criteria Combination</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('teacher.set_group2')}}" class="nav-link">
+                                    <a href="{{route('teacher.set_group2')}}" class="nav-link {{ Request::is('teacher/set_group') ? 'active' : '' }}">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Set Group</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('teacher.set_restaurant2')}}" class="nav-link">
+                                    <a href="{{route('teacher.set_restaurant2')}}" class="nav-link {{ Request::is('teacher/set_restaurant') ? 'active' : '' }}">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Set Restaurant</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('teacher.assign_student')}}" class="nav-link">
+                                    <a href="{{route('teacher.assign_student')}}" class="nav-link {{ Request::is('teacher/assign_student') ? 'active' : '' }}">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Assign Student</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('teacher.attacker_list')}}" class="nav-link {{ Request::is('teacher/attacker_list') ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Attacker List</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('teacher.set_time')}}" class="nav-link {{ Request::is('teacher/set_time') ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Set Time</p>
                                     </a>
                                 </li>
 
@@ -271,8 +283,8 @@
     <!-- jQuery Knob Chart -->
     <!-- <script src="{{ asset($adminTle) }}/plugins/jquery-knob/jquery.knob.min.js"></script> -->
     <!-- daterangepicker -->
-    <!-- <script src="{{ asset($adminTle) }}/plugins/moment/moment.min.js"></script> -->
-    <!-- <script src="{{ asset($adminTle) }}/plugins/daterangepicker/daterangepicker.js"></script> -->
+    <script src="{{ asset($adminTle) }}/plugins/moment/moment.min.js"></script>
+    <script src="{{ asset($adminTle) }}/plugins/daterangepicker/daterangepicker.js"></script>
     <!-- Tempusdominus Bootstrap 4 -->
     <!-- <script src="{{ asset($adminTle) }}/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"> -->
     </script>

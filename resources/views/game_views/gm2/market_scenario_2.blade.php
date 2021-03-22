@@ -169,11 +169,11 @@
                             
                         </tr>
                         <tr>
-                            <th scope="row">discount_through_delivery_services</th>
+                            <th scope="row">Discount through delivery services</th>
                             <td>5</td>
                         </tr>
                         <tr>
-                            <th scope="row">advertising_through_social_media</th>
+                            <th scope="row">Advertising through social media</th>
                             <td>6</td>
                         </tr>
                         <tr>
@@ -280,7 +280,7 @@
                             </div>
                             <div class="col-sm-3"></div>
                             <div class="col-md-2 cost_class">
-                                <input type="number" id="typeQuantity_cost_value"
+                                <input type="text" id="typeQuantity_cost_value"
                                        class="form-control-sm form-control cost_value" value="0" readonly required>
                             </div>
                         </div>
@@ -350,6 +350,7 @@
 
                             </div>
                             <div class="col-sm-6">
+                                
                                 @foreach($restaurantGroups as $group)
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" id="" name="attack_group"
@@ -357,6 +358,11 @@
                                         <label class="form-check-label" for="">{{$group->name}}</label>
                                     </div>
                                 @endforeach
+                                <!-- <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" id="" name="attack_group"
+                                               value="" checked>
+                                        <label class="form-check-label" for="">None</label>
+                                </div> -->
                             </div>
                             <div class="col-sm-3">
                                 <button type="submit" id="attack" class="attack go-right  btn btn-success">

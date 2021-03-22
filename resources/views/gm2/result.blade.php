@@ -40,9 +40,7 @@
                         <div class="col-sm-8">
                             Task - 2  Result
                         </div>
-
                     </div>
-
                 </div>
                 <div class="card-body">
                     @php $sum = $defenderSum + $attackerSum; @endphp
@@ -53,14 +51,9 @@
                     @else
                         <h1> (Tough luck! You have lost {{ $sum }} % of market share to 'y')</h1>
                     @endif
-
-
                 </div>
-
             </div>
         </div>
-
-
     </div>
 
 
