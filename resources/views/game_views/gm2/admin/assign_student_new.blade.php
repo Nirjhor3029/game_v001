@@ -45,16 +45,16 @@
                                                 <option value="null" selected disabled>Select Group</option>
                                                 @foreach($restaurants as $item)
                                                     <?php
-                                                    $item = (object)$item; 
+                                                    $item = (object)$item;
                                                     ?>
                                                     @if($student->restaurantUser->isEmpty())
                                                         <option value="{{$item->res_id}}">
                                                             {{Str::title($item->res_name ." - ". $item->group_name)}}
                                                         </option>
                                                     @else
-                                                        @php 
+                                                        @php
                                                         $check = ($student->restaurantUser[0]->restaurant_id == $item->res_id);
-                                                        
+
                                                         @endphp
                                                         <option
                                                             value="{{$item->res_id}}" {{($check)? "selected":""}}>
@@ -95,10 +95,10 @@
                 </div>
                 @endforeach
             </div>
-            
+
         </div>
 
         <!-- Attack List Show -->
-        
+
     </div>
 @endsection

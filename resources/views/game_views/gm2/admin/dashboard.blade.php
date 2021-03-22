@@ -8,14 +8,14 @@
 
     <div class="row">
         <div class="col-12">
-            Welcome To Teacher Dashboard
+            <h4>Welcome To Teacher Dashboard</h4>
         </div>
         <!-- /.col -->
     </div>
     <!-- /.row -->
 
 
-    
+
 @endsection
 
 @push('js')
