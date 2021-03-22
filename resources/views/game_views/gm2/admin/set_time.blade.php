@@ -61,17 +61,31 @@
             }
         })
 
-        $("#task1_time").on("click",function($index){
-            let that = $(this);
-            let reservationtime = $("#reservationtime");
-            rangeArray = reservationtime.split("-");
-
-            console.log(new Date("03/22/2021 11:59 PM"));
+        $("#task1_time").on("click",function(ev, picker) {
+            let startDate =  picker.startDate.format('YYYY-MM-DD');
+            let endDate =  picker.startDate.format('YYYY-MM-DD');
+            
+            dt1 = new Date(startDate);
+            dt2 = new Date(endDate);
+            console.log(diff_minutes(dt1, dt2));
         });
 
         $('#reservationtime').on('apply.daterangepicker', function(ev, picker) {
-            console.log(picker.startDate.format('YYYY-MM-DD'));
-            console.log(picker.endDate.format('YYYY-MM-DD'));
+            let startDate =  picker.startDate.format('YYYY-MM-DD');
+            let endDate =  picker.startDate.format('YYYY-MM-DD');
+            
+            dt1 = new Date(startDate);
+            dt2 = new Date(endDate);
+            console.log(diff_minutes(dt1, dt2));
+            // console.log(picker.endDate.format('YYYY-MM-DD'));
         });
+
+        function diff_minutes(dt1, dt2) {
+            console.log(dt1);
+            console.log(dt1.getTime());
+            var diff =(dt2.getTime() - dt1.getTime()) / 1000;
+            diff /= 60;
+            return Math.abs(Math.round(diff));
+        } 
     </script>
 @endpush

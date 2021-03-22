@@ -462,7 +462,7 @@
                             <div class="col-sm-10"></div>
                             <div class="col-sm-2">
                                 <a href="javascript:void(0)" class="btn btn-next float-right btn_part btn_next_part ">Next</a>
-                                <a href="{{route('gm2.marketing_strategy')}}" class="btn btn-next float-right invisible part_5">Next</a>
+                                <a href="{{route('gm2.market')}}" class="btn btn-next float-right invisible part_5">Next</a>
                                 <!-- <a href="{{route('gm2.game')}}" class="btn btn-next" >Next</a> -->
                             </div>
                         </div>

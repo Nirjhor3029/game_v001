@@ -17,12 +17,12 @@
 
                     <div class="row">
                         <div class="col-sm-8">
-                            <div class="row" style="margin-bottom: 30px;">
+                            <div class="row" style="margin-bottom: 30px;font-weight:bolder">
                                 <div class="col-sm-3">Students</div>
                                 <div class="col-sm-2">University Id</div>
                                 <div class="col-sm-3">Email</div>
                                 <div class="col-sm-2">Restaurent</div>
-                                <div class="col-sm-2">Set</div>
+                                <div class="col-sm-2">Action</div>
                             </div>
                             @foreach($students as $student)
                                 <div class="row restaurant_container ">
@@ -51,7 +51,7 @@
                                             @endphp
                                             <select name="group[]"
                                                     class="form-control form-control-sm  restaurant_select">
-                                                <option value="null" selected disabled>Select Group</option>
+                                                <option value="null" selected disabled>Select</option>
                                                 @foreach($restaurants as $item)
                                                     <?php
                                                     $item = (object)$item; 
@@ -61,7 +61,7 @@
                                                             $check = false;
                                                         @endphp
                                                         <option value="{{$item->res_id}}">
-                                                            {{Str::title($item->res_name ." - ". $item->group_name)}}
+                                                            {{Str::title($item->res_name)}}
                                                         </option>
                                                     @else
                                                         @php 
@@ -73,7 +73,7 @@
                                                         
                                                         <option
                                                             value="{{$item->res_id}}" {{($check)? "selected":""}}>
-                                                            {{Str::title($item->res_name ." - ". $item->group_name)}}
+                                                            {{Str::title($item->res_name)}}
                                                         </option>
                                                         @continue
                                                     @endif
