@@ -44,7 +44,7 @@ class GamePageController extends Controller
         // return $graphs;
 
         $resturentUser = RestaurantUser::where('user_id', $user_id)->first();
-        
+
 
         // return $resturentUser;
 

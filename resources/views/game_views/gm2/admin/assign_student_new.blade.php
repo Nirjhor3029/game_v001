@@ -54,23 +54,23 @@
                                                 <option value="null" selected disabled>Select</option>
                                                 @foreach($restaurants as $item)
                                                     <?php
-                                                    $item = (object)$item; 
+                                                    $item = (object)$item;
                                                     ?>
                                                     @if($student->restaurantUser->isEmpty())
-                                                        @php 
+                                                        @php
                                                             $check = false;
                                                         @endphp
                                                         <option value="{{$item->res_id}}">
                                                             {{Str::title($item->res_name)}}
                                                         </option>
                                                     @else
-                                                        @php 
+                                                        @php
                                                             $check = ($student->restaurantUser[0]->restaurant_id == $item->res_id);
                                                             if(!$checkStatus){
                                                                 $checkStatus = $check;
                                                             }
                                                         @endphp
-                                                        
+
                                                         <option
                                                             value="{{$item->res_id}}" {{($check)? "selected":""}}>
                                                             {{Str::title($item->res_name)}}
@@ -96,7 +96,7 @@
                 <div class="card-header">
                 <button class="btn btn-success" onclick="location.reload();">Show</button>
                 </div>
-                
+
             </div>
         </div>
 
@@ -119,10 +119,10 @@
                 </div>
                 @endforeach
             </div>
-            
+
         </div>
 
         <!-- Attack List Show -->
-        
+
     </div>
 @endsection
