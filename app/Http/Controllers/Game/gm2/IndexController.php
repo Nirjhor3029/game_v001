@@ -86,7 +86,7 @@ class IndexController extends Controller
 
         // Start Game
         $user_id = Auth::user()->id;
-        $session_id = Session::getId();
+
         $resturentUser = RestaurantUser::where('user_id', $user_id)->first();
         $resGroup = RestaurantPoint::where('res_id', optional($resturentUser)->restaurant_id)->with('restaurant', 'restaurantGroup')->first();
         // return [$resturentUser, $resGroup];
@@ -105,9 +105,21 @@ class IndexController extends Controller
         }
         // Start Game
 
+        // if user want to play the game again.. then we will use session
+
+        $session_id = Session::getId();
+        $graphItem = GraphItem::where('user_id' , Auth::guard('web')->user()->id)->latest('id')->first();
+        // return $graphItem;
+
+        // if user want to play the game again.. then we will use session new always
+        if(!is_null($graphItem)){
+            $session_id = $graphItem->session_id;
+        }//for now this code is ok.
+        // return $session_id;
 
         // check graph item set on this user
-        $graphItem = GraphItem::where(['user_id' => Auth::guard('web')->user()->id, 'session_id' => Session::getId()])->get()->first();
+        $graphItem = GraphItem::where(['user_id' => Auth::guard('web')->user()->id, 'session_id' => $session_id ])->first();
+        // return $graphItem;
         if (is_null($graphItem)) {
             $graphItem = new GraphItem();
             $graphItem->user_id = Auth::guard('web')->user()->id;
@@ -252,7 +264,7 @@ class IndexController extends Controller
                 $query->where('leader', 1)->with('restaurant');
             })->orderBy('id', 'desc')
             ->get();
-        $points_array = $restaurantGroups->pluck('points');//->toJson();
+        $points_array = $restaurantGroups->pluck('name','point');//->toJson();
         // return $points_array;
         // return $restaurantGroups;
         $graphLevel = GraphLevel::where('user_id', $user_id)->first();
@@ -330,6 +342,7 @@ class IndexController extends Controller
     {
         $user_id = Auth::user()->id;
 
+
         $students = User::where('type', 3)->with('restaurantUser')->get();
         //  return $students;
 
@@ -346,7 +359,7 @@ class IndexController extends Controller
         // return $groupStudents;
 
 
-        $restaurantPoints = RestaurantPoint::with(['restaurant', 'restaurantGroup'])->where('leader', 1)->where('user_id', $user_id)->get();
+        $restaurantPoints = RestaurantPoint::with(['restaurant', 'restaurantGroup'])->where('user_id',$user_id)->where('leader', 1)->get();
         $restaurantUsers = RestaurantUser::all();
 
 
@@ -400,21 +413,25 @@ class IndexController extends Controller
        // return $leaderData;
 
 
-        $attacklists = $this->attackDefendSet(10);
-        $defendList = $attacklists['defender_list'];
-        $studentList = $attacklists['student_list'];
+        $attacklists = []; //$this->attackDefendSet(10);
+        $defendList = [];
+        if(!empty($attacklists)){
+            $defendList = $attacklists['defender_list'];
+            $studentList = $attacklists['student_list'];
 
-        $users = User::where('type',3)->get()->pluck('name','id')->toArray();
+            $users = User::where('type',3)->get()->pluck('name','id')->toArray();
 
 
-       // dd($defendList);
-        foreach($defendList as &$defender){
-            $defender['defender_name'] =  $users[$defender['defender']];
-            $defender['attackers_name'] = is_null($defender['attacker'])? null : array_map(function($item) use ($users){
-                                return $users[$item];
-            },$defender['attacker']);
+           // dd($defendList);
+            foreach($defendList as &$defender){
+                $defender['defender_name'] =  $users[$defender['defender']];
+                $defender['attackers_name'] = is_null($defender['attacker'])? null : array_map(function($item) use ($users){
+                                    return $users[$item];
+                },$defender['attacker']);
+            }
+            // return $defendList;
         }
-        // return $defendList;
+
 
         if(request()->method() == "POST"){
             // return "ni";
@@ -717,25 +734,33 @@ class IndexController extends Controller
             ->get();
             // return $students;
         $std = $students->map(function ($item, $key) {
-            return [
-                "student_id" => $item->user_id,
-                "assigned_rest_id" => $item->restaurant_id,
-                "assigned_rest_name" => $item->restaurant->name,
-                "attacking_rest_id" => $item->restaurantGroup->restaurantPoint[0]->res_id,
-                "attacking_rest_name" => $item->restaurantGroup->restaurantPoint[0]->restaurant->name,
-                "attacking_group_id" => $item->restaurantGroup->id,
-                "attacking_group_name" => $item->restaurantGroup->name,
-            ];
+            if(is_null($item->restaurantGroup)){
+                return false;
+            }else{
+                return [
+                    "student_id" => $item->user_id,
+                    "assigned_rest_id" => $item->restaurant_id,
+                    "assigned_rest_name" => $item->restaurant->name,
+                    "attacking_rest_id" => optional($item->restaurantGroup)->restaurantPoint[0]->res_id,
+                    "attacking_rest_name" => optional($item->restaurantGroup)->restaurantPoint[0]->restaurant->name,
+                    "attacking_group_id" => optional($item->restaurantGroup)->id,
+                    "attacking_group_name" => optional($item->restaurantGroup)->name,
+                ];
+            }
+
         });
-        // return $std;
+
         $attackerRestIds = $std->pluck("attacking_rest_id", "student_id")->all();
         $assignRestIds = $std->pluck("assigned_rest_id", "student_id")->all();
-        //return ["assign:" => $assignRestIds, "attacker :" => $attackerRestIds ];
+        // return ["assign:" => $assignRestIds, "attacker :" => $attackerRestIds ];
 
 
 
         $ownId = [];
         foreach ($std as $student) {
+            if(!$student){
+                continue;
+            }
             $a_s_i = $student['assigned_rest_id'];
             if (in_array($a_s_i, $attackerRestIds)) {
                 $ids = $this->attackerBag($a_s_i, $attackerRestIds, $assignRestIds, $max_attack);
@@ -779,5 +804,10 @@ class IndexController extends Controller
         }
         // return attacker user ids array
         return $attackLists;
+    }
+
+    public function set_time()
+    {
+        return view('game_views.gm2.admin.set_time');
     }
 }

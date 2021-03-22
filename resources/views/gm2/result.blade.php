@@ -40,24 +40,20 @@
                         <div class="col-sm-8">
                             Task - 2  Result
                         </div>
-
                     </div>
-
                 </div>
                 <div class="card-body">
-                    @if($defenderSum == 0)
-                        <h1>{{$defenderSum}}%</h1>
+                    @php $sum = $defenderSum + $attackerSum; @endphp
+                    @if($sum == 0)
+                        <h1> (Congratulations on defending your market share!) </h1>
+                    @elseif($sum > 0)
+                        <h1> (Congratulations! You have gained {{$sum }} % of market share from group 'y') </h1>
                     @else
-                        <h1>{{ $defenderSum + $attackerSum}}%</h1>
+                        <h1> (Tough luck! You have lost {{ $sum }} % of market share to 'y')</h1>
                     @endif
-
-
                 </div>
-
             </div>
         </div>
-
-
     </div>
 
 

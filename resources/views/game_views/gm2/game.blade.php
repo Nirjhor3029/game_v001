@@ -90,7 +90,7 @@
 
             var part = 2;
             $(".btn_part").on("click",function(){
-                console.log(part);
+                console.log("part: "+part);
                 if(part == 2){
                     let ajxSelect = $(".ajx_select_criteria");
                     if(ajxSelect[0].value == 0 || ajxSelect[1].value == 0){
@@ -202,10 +202,20 @@
             var gm2NumberOfGrapchBox = 0;
 
             $('#gm2_number_of_group').on('change', function (e) {
+
                 let that = $(this);
                 let numberOfBox = that.find(':selected').val();
                 let gm2_select_group_txt = $('#gm2_select_group_txt');
                 let empty2 = $('.empty2');
+                let chart = $(".dragdrop_graph");
+                let chart_items = chart.find(".option-item").length;
+                if(chart_items > 0){
+                    alert("Item Icludes already.");
+                    that.val(chart.find(".card").length);
+                    return;
+                }else{
+                    chart.find(".card").remove();
+                }
                 gm2_select_group_txt.text("Select " + numberOfBox + " boxes from the chart.");
                 empty2.addClass("jquery_dragdrop_box");
                 empty2.removeClass("droppable");

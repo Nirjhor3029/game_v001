@@ -96,7 +96,7 @@
 
                 ele.restaurant_point.forEach(function (point_ele) {
                     let point = ele.point;
-                    console.log(point);
+                    // console.log(point);
                     let row = (String(point).slice(0, 1)) - 1;
                     let col = (String(point).slice(-1)) - 1;
                     let demoRestaurantName = setSelectedOptionItem(point_ele);
@@ -142,13 +142,15 @@
                 let that = $(this);
                 let cardBody = that.parents(".card-body");
                 let leaderIcon = cardBody.find(".leader-icon");
+                // console.log(leaderIcon.length);
+                // return;
                 if(leaderIcon.length <=0){
-                    leaderIcon = $("#leader-icon").clone();
+                    leaderIcon = $("#leader-icon").clone().removeClass("invisible");
                     leaderIcon.removeAttr('id');
                 }else{
                     leaderIcon.parent(".option-item").removeClass("not_shortable").attr("draggble",true);
                 }
-                console.log(leaderIcon);
+                // console.log(leaderIcon);
                 // return;
                
                 that.append(leaderIcon).addClass("not_shortable").attr("draggble",false);
@@ -172,6 +174,8 @@
                     }
                 });
             });
+
+            
         });
     </script>
 
@@ -311,7 +315,8 @@
             </div>
 
             <div class="submit go-right">
-                <a  class="btn btn-warning"   href="{{route('teacher.assign_student')}}">Next</a>
+                <a  class="btn btn-warning"   href="{{route('teacher.assign_student')}}" onclick='return checkRestaurantList()'>Next</a>
+                <!--  -->
             </div>
         </div>
     </div>
@@ -335,7 +340,25 @@
         </span>
     </div>
 
+
     <!--Demo Start  -->
     <img src="{{asset('assets/icons/favourites.svg')}}" alt="" class="leader leader-icon invisible" id="leader-icon">
 
+    <script>
+        function checkRestaurantList(){
+            let shortableItems = $("#sortable").find(".option-item").length;
+            // console.log(shortableItems);
+            // e.preventDefault();
+            // alert("ok");
+            
+            // return false;
+            if(shortableItems){
+                toastr.error("Need To put all the restaurants into the groups");
+                return false;
+                e.stopPropagation();
+                
+            }
+        }
+        
+    </script>
 @endsection

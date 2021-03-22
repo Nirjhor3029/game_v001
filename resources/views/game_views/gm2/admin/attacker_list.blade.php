@@ -24,7 +24,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($defendList as  $item )
+                                @forelse($defendList as  $item )
                                     <tr>
                                         <td>
                                             {{Str::title($item['defender_name'])}}
@@ -40,7 +40,12 @@
                                                 @endif    
                                         </td>
                                     </tr>
-                                @endforeach
+                                @empty
+                                    <tr>
+                                        <td colspan="2"><h4 style="text-align: center;">No Defenders</h4></td>
+                                    </tr>
+                                
+                                @endforelse
                             </tbody>
                     </table>
 
