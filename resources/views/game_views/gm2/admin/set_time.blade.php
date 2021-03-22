@@ -61,14 +61,6 @@
             }
         })
 
-        $("#task1_time").on("click",function(ev, picker) {
-            let startDate =  picker.startDate.format('YYYY-MM-DD');
-            let endDate =  picker.startDate.format('YYYY-MM-DD');
-            
-            dt1 = new Date(startDate);
-            dt2 = new Date(endDate);
-            console.log(diff_minutes(dt1, dt2));
-        });
 
         $('#reservationtime').on('apply.daterangepicker', function(ev, picker) {
             let startDate =  picker.startDate.format('YYYY-MM-DD');
