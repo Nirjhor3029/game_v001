@@ -335,7 +335,7 @@
                     <div class="row mt-9vh">
                         <div class="col-md-2">
                             <div>
-                                <div id="sortable" class="part_4 invisible" style="min-height: 600px;">
+                                <div id="sortable" class="sortable_fixed part_4 invisible" style="min-height: 600px;">
                                     @foreach($restaurants as $restaurant)
                                         @if(!in_array(trim($restaurant->id),$mimnus_data))
                                             <?php $url = $rest_icons[rand(0, 3)] ?>
@@ -462,7 +462,7 @@
                             <div class="col-sm-10"></div>
                             <div class="col-sm-2">
                                 <a href="javascript:void(0)" class="btn btn-next float-right btn_part btn_next_part ">Next</a>
-                                <a href="{{route('gm2.market')}}" class="btn btn-next float-right invisible part_5">Next</a>
+                                <a href="{{route('gm2.market')}}" class="btn btn-next float-right invisible part_5" onclick="return checkRestaurantList();" >Next</a>
                                 <!-- <a href="{{route('gm2.game')}}" class="btn btn-next" >Next</a> -->
                             </div>
                         </div>
@@ -496,5 +496,23 @@
             Please drag and drop the restaurants in each group from the left as per your choice to create strategic groups for restaurants in Dhaka.
         </p>
     </div>
+
+    <script>
+        function checkRestaurantList(){
+            let shortableItems = $("#sortable").find(".option-item").length;
+            // console.log(shortableItems);
+            // e.preventDefault();
+            // alert("ok");
+            
+            // return false;
+            if(shortableItems){
+                toastr.error("Need To put all the restaurants into the groups");
+                return false;
+                e.stopPropagation();
+                
+            }
+        }
+        
+    </script>
 
 @endsection

@@ -413,12 +413,26 @@ class IndexController extends Controller
        // return $leaderData;
 
 
-        $attacklists = []; //$this->attackDefendSet(10);
+        $attacklists = $this->attackDefendSet(10);
+        // return $attacklists;
         $defendList = [];
         if(!empty($attacklists)){
             $defendList = $attacklists['defender_list'];
             $studentList = $attacklists['student_list'];
-
+            
+            $studentInfo = [];
+            foreach($studentList as $student){
+                // return gettype($student) ;
+                if($student){
+                    $studentInfo[$student['student_id']] = [
+                        'rest_id' => $student['assigned_rest_id'],
+                        'rest_name' => $student['assigned_rest_name'],
+                        'group_id' => $student['assigned_group_id'],
+                        'group_name' => $student['assigned_group_name'],
+                    ];
+                }
+            }
+            // return $studentInfo;
             $users = User::where('type',3)->get()->pluck('name','id')->toArray();
 
 
@@ -426,7 +440,7 @@ class IndexController extends Controller
             foreach($defendList as &$defender){
                 $defender['defender_name'] =  $users[$defender['defender']];
                 $defender['attackers_name'] = is_null($defender['attacker'])? null : array_map(function($item) use ($users){
-                                    return $users[$item];
+                    return $users[$item];
                 },$defender['attacker']);
             }
             // return $defendList;
@@ -455,10 +469,10 @@ class IndexController extends Controller
             $request->session()->flash('alert-success', 'Attack-Defend Successful');
         }
 
-        // return $defendList;
+        // return [$defendList,$studentInfo];
 
 
-        return view('game_views.gm2.admin.attacker_list', compact('defendList'));
+        return view('game_views.gm2.admin.attacker_list', compact('defendList','studentInfo'));
 
 
     }
@@ -569,8 +583,10 @@ class IndexController extends Controller
     public function result()
     {
         $userId = Auth()->id();
+        
         $session_student = session("student_info");
         $studentResId = $session_student["assigned_res_id"];
+        // return $session_student;
 
         $defender = AttackDefend::where('defender', $userId)->select('score')->get();
         $attacker = AttackDefend::where('attacker', $userId)->select('score')->first();
@@ -596,8 +612,10 @@ class IndexController extends Controller
         // return $taskOneResult;
         // $taskTwoResult = $this->get_task_two_result();
         // return $taskTwoResult['Correct'];
+        $restUser = RestaurantUser::where('user_id',$userId)->with('restaurantGroup')->first();
+        // return $restUser;
 
-        return view("gm2.result", compact("defenderSum","attackerSum", "taskOneResult"));
+        return view("gm2.result", compact("defenderSum","attackerSum", "taskOneResult","restUser"));
     }
 
     public function get_task_one_result()
@@ -726,7 +744,9 @@ class IndexController extends Controller
     {
         $bag = [];
         $teacherId = Auth::user()->id;
-        $students = RestaurantUser::where('teacher_id', $teacherId)->with('restaurant')
+        $students = RestaurantUser::where('teacher_id', $teacherId)->with('restaurant', function ($query) {
+                $query->with('restaurantPoint.restaurantGroup');
+            })
             ->with('restaurantGroup')
             ->with('restaurantGroup.restaurantPoint', function ($query) {
                 $query->where('leader', 1)->with('restaurant');
@@ -741,6 +761,8 @@ class IndexController extends Controller
                     "student_id" => $item->user_id,
                     "assigned_rest_id" => $item->restaurant_id,
                     "assigned_rest_name" => $item->restaurant->name,
+                    "assigned_group_id" => $item->restaurant->restaurantPoint[0]->restaurantGroup->id,
+                    "assigned_group_name" => $item->restaurant->restaurantPoint[0]->restaurantGroup->name,
                     "attacking_rest_id" => optional($item->restaurantGroup)->restaurantPoint[0]->res_id,
                     "attacking_rest_name" => optional($item->restaurantGroup)->restaurantPoint[0]->restaurant->name,
                     "attacking_group_id" => optional($item->restaurantGroup)->id,

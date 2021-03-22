@@ -13,13 +13,9 @@
                 <h2 class="title">
                     Marketing Scenario
                 </h2>
-                <p>
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ex repellendus maxime reiciendis explicabo
-                    quos
-                    vel iure architecto earum, voluptatum magnam pariatur, dolores necessitatibus aliquid incidunt! Iure
-                    dolorem
-                    officiis ex obcaecati!
-                </p>
+                <h4>
+                Congratulations on completing the last task on time. Please wait for your colleagues to join you in the next stage of this simulation. Thank you.
+                </h4>
             </div>
         </div>
 

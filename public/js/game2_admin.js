@@ -396,7 +396,7 @@ $(document).ready(function () {
 
     // assign_Student
 
-    $(".set").on("click", function (e) {
+    $(".setStudent").on("click", function (e) {
         let that = $(this);
         let parent = that.parents(".restaurant_container");
         let studentId = parent.find('.student_name').val();

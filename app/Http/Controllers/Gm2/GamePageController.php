@@ -195,7 +195,7 @@ class GamePageController extends Controller
                 $query->where('mode', '=', '1');
             })
             ->get();
-        return $attackMarkets;
+        // return $attackMarkets;
 
         $attackers = [];
         $attackersRests = [];
@@ -211,6 +211,7 @@ class GamePageController extends Controller
                 ];
             }
         }
+        // return $attackersRests;
 
         $attackersRestIds = implode(",", array_column($attackersRests, "id"));
         $attackers_userId = implode(",", $attackers_userId);
@@ -228,7 +229,7 @@ class GamePageController extends Controller
         }
         $defendMarketPromotions = Gm2MarketPromotion::where('market_cost_id', optional($defendMarket)->marketCost[0]->id)->where('mode', 2)->get();
 
-        //        dd( $defendMarket);
+            //    dd( $defendMarket);
         //         return $defendMarketPromotions;
         // return ($attackMarkets[0]->marketCost[0]->gm2MarketPromotion[0]->value);
 

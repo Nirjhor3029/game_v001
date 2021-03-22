@@ -10,6 +10,17 @@
 
 
     <div class="gm2">
+
+        <div class="py-12">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="bg-gray overflow-hidden shadow-xl sm:rounded-lg" style="padding:40px;box-sizing:border-box">
+                    <h5>
+                    Please assign one restaurant to every student to represent. You may change your decision by simply clicking on the update button should you wish so. Please note that, to facilitate an engrossing experience for the students, we recommend you to equally divide the restaurants among the students. Thank you.
+                    </h5>
+                </div>
+            </div>
+        </div>
+
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 ">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg mt-9vh"
@@ -83,7 +94,7 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-2">
-                                        <input type="button" name="" value="{{($checkStatus)? 'Update' : 'Set'}}"  class="btn {{($checkStatus)? 'btn-warning' : 'btn-success'}} set" data-status = "{{($checkStatus)? 1 : 2}}">
+                                        <input type="button" name="" value="{{($checkStatus)? 'Update' : 'Set'}}"  class="btn {{($checkStatus)? 'btn-warning' : 'btn-success'}} setStudent" data-status = "{{($checkStatus)? 1 : 2}}">
                                     </div>
                                 </div>
                             @endforeach
