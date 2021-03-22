@@ -44,7 +44,9 @@ class GamePageController extends Controller
         // return $graphs;
 
         $resturentUser = RestaurantUser::where('user_id', $user_id)->first();
-
+        if(is_null($resturentUser)){
+            return view("game_views.gm2.market_scenario_1");
+        }
 
         // return $resturentUser;
 
@@ -164,6 +166,10 @@ class GamePageController extends Controller
         $user_id = Auth::user()->id;
 
         $student_info = session('student_info');
+        // return $student_info;
+        if(is_null($student_info)){
+            return view("game_views.gm2.market_scenario_1");
+        }
         $assigned_res_id = $student_info['assigned_res_id'];
         $assigned_group_id = $student_info['assigned_group_id'];
 

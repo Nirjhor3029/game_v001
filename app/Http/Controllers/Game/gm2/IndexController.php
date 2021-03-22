@@ -155,6 +155,8 @@ class IndexController extends Controller
         $teacher = RestaurantUser::where('user_id',$user_id)->first();
         if(!is_null($teacher)){
             $teacherId = $teacher->teacher_id;
+        }else{
+            return view("game_views.gm2.market_scenario_1");
         }
         $restaurants = Restaurant::all();
         $gType = Config::get('game.game2.options');
@@ -585,6 +587,9 @@ class IndexController extends Controller
         $userId = Auth()->id();
         
         $session_student = session("student_info");
+        if(is_null($session_student)){
+            return view("game_views.gm2.market_scenario_1");
+        }
         $studentResId = $session_student["assigned_res_id"];
         // return $session_student;
 
