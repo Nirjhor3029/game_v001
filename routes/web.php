@@ -27,6 +27,7 @@ Route::get('/', function () {
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     $user_type = Auth::user()->type; //1 = admin,2 = teacher,3 = student
     if ($user_type == 2) {
+        // return "teache";
         return redirect()->route('teacher.dashboard');
     } else {
         return redirect()->route('gm2.strategic_group');
@@ -155,6 +156,7 @@ Route::group(['auth:sanctum', 'verified'], function () {
         Route::post('group_name_update', [Gm2AjaxController::class, 'groupNameUpdate'])->name('group_name_update');
         Route::post('gm2_update_restaurant_group', [Gm2AjaxController::class, 'updateRestaurantGroup'])->name('gm2_update_restaurant_group');
         Route::post('assign_student', [Gm2AjaxController::class, 'assignStudent'])->name('assign_student');
+        Route::post('delete_student', [Gm2AjaxController::class, 'deleteStudent'])->name('delete_student');
         Route::post('add_restaurant_point', [Gm2AjaxController::class, 'addRestaurantPoint'])->name('add_restaurant_point');
         Route::post('set_leader', [Gm2AjaxController::class, 'setLeader'])->name('set_leader');
 
@@ -165,10 +167,10 @@ Route::group(['auth:sanctum', 'verified'], function () {
         // Route::get('set_restaurant', [\App\Http\Controllers\Game\gm2\IndexController::class, 'setRestaurant'])->name('set_restaurant');
         Route::get('set_restaurant', [\App\Http\Controllers\Game\gm2\IndexController::class, 'setRestaurant2'])->name('set_restaurant2');
         Route::get('assign_student', [\App\Http\Controllers\Game\gm2\IndexController::class, 'assignStudentNew'])->name('assign_student');
-        Route::match(array('GET', 'POST'),'attacker_list', [\App\Http\Controllers\Game\gm2\IndexController::class, 'attackerList'])->name('attacker_list');
+        Route::match(array('GET', 'POST'), 'attacker_list', [\App\Http\Controllers\Game\gm2\IndexController::class, 'attackerList'])->name('attacker_list');
         Route::get('set_time', [\App\Http\Controllers\Game\gm2\IndexController::class, 'set_time'])->name('set_time');
 
-        
+
         Route::get('user-role', [\App\Http\Controllers\Game\gm2\Gm2AdminController::class, 'userRole'])->name('user_role');
         Route::get('user-manage/{id}', [\App\Http\Controllers\Game\gm2\Gm2AdminController::class, 'userManage'])->name('user_manage');
 
@@ -176,14 +178,13 @@ Route::group(['auth:sanctum', 'verified'], function () {
         Route::get('test', [\App\Http\Controllers\Game\gm2\IndexController::class, 'attackDefendSet'])->name('test');
         // Route::get('test', [\App\Http\Controllers\Game\gm2\IndexController::class, 'attackDefendSet'])->name('test');
 
-        Route::match(array('GET', 'POST'), '/test_method', function(Request $request)
-        {
+        Route::match(array('GET', 'POST'), '/test_method', function (Request $request) {
             return $request->method();
         });
 
-       
 
-        Route::get("/dump",function(){
+
+        Route::get("/dump", function () {
             system('composer dump-autoload');
             echo 'composer dump-autoload complete';
         });

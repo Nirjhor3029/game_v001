@@ -4,7 +4,66 @@
 
 @endpush
 @push('js')
+    <script>
+        $(document).ready(function (e) {
 
+
+            $(".deleteStudent").on("click", function (e) {
+                let that = $(this);
+                that.prop("disabled", "true");
+
+                let parent = that.parents(".restaurant_container");
+                let studentId = parent.find('.student_name').val();
+                let restId = parent.find('.restaurant_select').children("option:selected").val();
+
+                let data = {
+                    studentId: studentId,
+                    restId: restId,
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "delete_student",
+                    data: data,
+                    success: function (successData) {
+                        console.log(successData);
+                        toastr.success(successData.success);
+                        parent.find('.restaurant_select').prop("disabled", "true");
+                        //return;
+                        parent.hide();
+                    }
+                });
+                console.log("click");
+            });
+
+
+            $(".setStudent").on("click", function (e) {
+                let that = $(this);
+                let parent = that.parents(".restaurant_container");
+                let studentId = parent.find('.student_name').val();
+                let restId = parent.find('.restaurant_select').children("option:selected").val();
+
+                let dataStatus = that.attr("data-status");
+
+                $.ajax({
+                    type: "POST",
+                    url: "assign_student",
+                    data: {
+                        studentId: studentId,
+                        restId: restId,
+                        dataStatus: dataStatus,
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        toastr.success(data.success);
+                        that.prop("disabled", "true");
+                        parent.find('.restaurant_select').prop("disabled", "true");
+                        //return;
+                    }
+                });
+            });
+
+        });
+    </script>
 @endpush
 @section('content')
 
@@ -15,7 +74,7 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-gray overflow-hidden shadow-xl sm:rounded-lg" style="padding:40px;box-sizing:border-box">
                     <h5>
-                    Please assign one restaurant to every student to represent. You may change your decision by simply clicking on the update button should you wish so. Please note that, to facilitate an engrossing experience for the students, we recommend you to equally divide the restaurants among the students. Thank you.
+                        Please assign one restaurant to every student to represent. You may change your decision by simply clicking on the update button should you wish so. Please note that, to facilitate an engrossing experience for the students, we recommend you to equally divide the restaurants among the students. Thank you.
                     </h5>
                 </div>
             </div>
@@ -40,8 +99,8 @@
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="">{{$student->name}} </label>
-                                            <input type="text" value="{{$student->id}}" name="" class="student_name"
-                                                   hidden>
+                                            <input type="text" value="{{$student->id}}" name="student_id[]" class="student_name student_id"
+                                            >
                                         </div>
                                     </div>
                                     <div class="col-sm-2">
@@ -83,7 +142,7 @@
                                                         @endphp
 
                                                         <option
-                                                            value="{{$item->res_id}}" {{($check)? "selected":""}}>
+                                                                value="{{$item->res_id}}" {{($check)? "selected":""}}>
                                                             {{Str::title($item->res_name)}}
                                                         </option>
                                                         @continue
@@ -94,7 +153,8 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-2">
-                                        <input type="button" name="" value="{{($checkStatus)? 'Update' : 'Set'}}"  class="btn {{($checkStatus)? 'btn-warning' : 'btn-success'}} setStudent" data-status = "{{($checkStatus)? 1 : 2}}">
+                                        <input type="button" name="" value="{{($checkStatus)? 'Update' : 'Set'}}" class="btn {{($checkStatus)? 'btn-warning' : 'btn-success'}} setStudent" data-status="{{($checkStatus)? 1 : 2}}">
+                                        <input type="button" name="" value="Delete" class="btn btn-danger deleteStudent">
                                     </div>
                                 </div>
                             @endforeach
@@ -105,7 +165,7 @@
 
             <div class="card">
                 <div class="card-header">
-                <button class="btn btn-success" onclick="location.reload();">Show</button>
+                    <button class="btn btn-success" onclick="location.reload();">Show</button>
                 </div>
 
             </div>
@@ -114,20 +174,20 @@
         <div class="py-12 mt-5vh">
             <div class="row ">
                 @foreach($groupStudents as $key => $item )
-                <div class="col-sm-4">
-                    <div class="card">
-                        <div class="card-header">
-                            {{Str::title($restaurants[$key]['res_name'])}} - {{Str::title($restaurants[$key]['group_name'])}}
-                        </div>
-                        <div class="card-body">
-                            <ol>
-                                @foreach($item as $student)
-                                <li>{{Str::title($student['name'])}}</li>
-                                @endforeach
-                            </ol>
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-header">
+                                {{Str::title($restaurants[$key]['res_name'])}} - {{Str::title($restaurants[$key]['group_name'])}}
+                            </div>
+                            <div class="card-body">
+                                <ol>
+                                    @foreach($item as $student)
+                                        <li>{{Str::title($student['name'])}}</li>
+                                    @endforeach
+                                </ol>
+                            </div>
                         </div>
                     </div>
-                </div>
                 @endforeach
             </div>
 

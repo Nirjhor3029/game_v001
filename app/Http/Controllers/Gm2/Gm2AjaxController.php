@@ -12,6 +12,7 @@ use App\Models\Restaurant;
 use App\Models\RestaurantGroup;
 use App\Models\RestaurantPoint;
 use App\Models\RestaurantUser;
+use App\Models\User;
 use Auth;
 use Config;
 use Facade\Ignition\QueryRecorder\Query;
@@ -308,6 +309,21 @@ class Gm2AjaxController extends Controller
         $restaurantUser->save();
 
 
+        return response()->json([
+            'status' => "ok",
+            'success' => $msg . " Successfully ",
+        ]);
+    }
+
+    public function deleteStudent(Request $request)
+    {
+        // return $request;
+        $teacher_id = Auth::user()->id;
+        $userId = $request->input('studentId');
+        $restId = $request->input('restId');
+        $user = User::find($userId);
+        $user->delete();
+        $msg = "Delete.";
         return response()->json([
             'status' => "ok",
             'success' => $msg . " Successfully ",
