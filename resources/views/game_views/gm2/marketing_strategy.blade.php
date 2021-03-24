@@ -125,15 +125,7 @@
                           <td>High</td>
                           <td>11</td>
                         </tr>
-                        <tr>
-                          <th scope="row">Treat</th>
-                          <td>dd</td>
-                          <td>dd</td>
-                          <td>dd</td>
-                          <td>dd</td>
-                          <td>dd</td>
-                          <td>dd</td>
-                        </tr>
+
                         <tr>
                           <th scope="row">TakeOut</th>
                           <td>Very Low Burger Chain</td>
@@ -206,6 +198,15 @@
                           <td>Low</td>
                           <td>3</td>
                         </tr>
+                        {{-- <tr>
+                            <th scope="row">Treat</th>
+                            <td>dd</td>
+                            <td>dd</td>
+                            <td>dd</td>
+                            <td>dd</td>
+                            <td>dd</td>
+                            <td>dd</td>
+                        </tr> --}}
 
                       </tbody>
                 </table>
