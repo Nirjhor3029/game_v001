@@ -100,7 +100,7 @@
                                         <div class="form-group">
                                             <label for="">{{$student->name}} </label>
                                             <input type="text" value="{{$student->id}}" name="student_id[]" class="student_name student_id"
-                                            >
+                                             hidden>
                                         </div>
                                     </div>
                                     <div class="col-sm-2">
