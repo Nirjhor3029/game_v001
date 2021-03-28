@@ -83,7 +83,9 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-2">
-                                        <input type="button" name="" value="{{($checkStatus)? 'Update' : 'Set'}}"  class="btn {{($checkStatus)? 'btn-warning' : 'btn-success'}} set" data-status = "{{($checkStatus)? 1 : 2}}">
+                                        <input type="button" name="" value="{{($checkStatus)? 'Update' : 'Set'}}"
+                                               class="btn {{($checkStatus)? 'btn-warning' : 'btn-success'}} set"
+                                               data-status="{{($checkStatus)? 1 : 2}}">
                                     </div>
                                 </div>
                             @endforeach
@@ -94,35 +96,32 @@
 
             <div class="card">
                 <div class="card-header">
-                <button class="btn btn-success" onclick="location.reload();">Show</button>
+                    <button class="btn btn-success" onclick="location.reload();">Show</button>
                 </div>
-
             </div>
         </div>
 
         <div class="py-12 mt-5vh">
             <div class="row ">
                 @foreach($groupStudents as $key => $item )
-                <div class="col-sm-4">
-                    <div class="card">
-                        <div class="card-header">
-                            {{Str::title($restaurants[$key]['res_name'])}} - {{Str::title($restaurants[$key]['group_name'])}}
-                        </div>
-                        <div class="card-body">
-                            <ol>
-                                @foreach($item as $student)
-                                <li>{{Str::title($student['name'])}}</li>
-                                @endforeach
-                            </ol>
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-header">
+                                {{Str::title($restaurants[$key]['res_name'])}}
+                                - {{Str::title($restaurants[$key]['group_name'])}}
+                            </div>
+                            <div class="card-body">
+                                <ol>
+                                    @foreach($item as $student)
+                                        <li>{{Str::title($student['name'])}}</li>
+                                    @endforeach
+                                </ol>
+                            </div>
                         </div>
                     </div>
-                </div>
                 @endforeach
             </div>
-
         </div>
-
         <!-- Attack List Show -->
-
     </div>
 @endsection

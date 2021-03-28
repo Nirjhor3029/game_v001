@@ -41,7 +41,7 @@
                         }
                         $(this).children().each(function (idx, ele) {
 
-                                let restId = $(ele).data('tag');
+                            let restId = $(ele).data('tag');
 
                             restData.push(restId);
                         });
@@ -137,23 +137,23 @@
 
             $(".selected_div").parent('.empty2').addClass("selected_td");
 
-            $(".option-item").on("dblclick",function(){
+            $(".option-item").on("dblclick", function () {
                 // console.log("double click");
                 let that = $(this);
                 let cardBody = that.parents(".card-body");
                 let leaderIcon = cardBody.find(".leader-icon");
                 // console.log(leaderIcon.length);
                 // return;
-                if(leaderIcon.length <=0){
+                if (leaderIcon.length <= 0) {
                     leaderIcon = $("#leader-icon").clone().removeClass("invisible");
                     leaderIcon.removeAttr('id');
-                }else{
-                    leaderIcon.parent(".option-item").removeClass("not_shortable").attr("draggble",true);
+                } else {
+                    leaderIcon.parent(".option-item").removeClass("not_shortable").attr("draggble", true);
                 }
                 // console.log(leaderIcon);
                 // return;
-               
-                that.append(leaderIcon).addClass("not_shortable").attr("draggble",false);
+
+                that.append(leaderIcon).addClass("not_shortable").attr("draggble", false);
 
                 restId = that.data("tag");
                 groupId = cardBody.data("group");
@@ -175,7 +175,7 @@
                 });
             });
 
-            
+
         });
     </script>
 
@@ -191,7 +191,9 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-gray overflow-hidden shadow-xl sm:rounded-lg" style="padding:40px;box-sizing:border-box">
                     <p>
-                        Once you have created your groups, please drag the restaurant in that specific group. Please select one restaurant per group to be assigned. The selected restaurant would be assigned a a star on the right after the selection is done.
+                        Once you have created your groups, please drag the restaurant in that specific group. Please
+                        select one restaurant per group to be assigned. The selected restaurant would be assigned a a
+                        star on the right after the selection is done.
                     </p>
                 </div>
             </div>
@@ -301,12 +303,10 @@
                                 </div>
                             @else
                                 <div class="left-side-container">
-                                    <h4> First Set The Group & Graph Criteria.</h4> 
+                                    <h4> First Set The Group & Graph Criteria.</h4>
                                     <a href="{{route('teacher.set_group2')}}">Set Group</a>
                                 </div>
                             @endif
-
-
 
 
                         </div>
@@ -315,8 +315,8 @@
             </div>
 
             <div class="submit go-right">
-                <a  class="btn btn-warning"   href="{{route('teacher.assign_student')}}" onclick='return checkRestaurantList()'>Next</a>
-                <!--  -->
+                <a class="btn btn-warning" href="{{route('teacher.assign_student')}}"
+                   onclick='return checkRestaurantList()'>Next</a>
             </div>
         </div>
     </div>
@@ -345,20 +345,20 @@
     <img src="{{asset('assets/icons/favourites.svg')}}" alt="" class="leader leader-icon invisible" id="leader-icon">
 
     <script>
-        function checkRestaurantList(){
+        function checkRestaurantList() {
             let shortableItems = $("#sortable").find(".option-item").length;
             // console.log(shortableItems);
             // e.preventDefault();
             // alert("ok");
-            
+
             // return false;
-            if(shortableItems){
+            if (shortableItems) {
                 toastr.error("Need To put all the restaurants into the groups");
                 return false;
                 e.stopPropagation();
-                
+
             }
         }
-        
+
     </script>
 @endsection
