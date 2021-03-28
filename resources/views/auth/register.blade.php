@@ -15,10 +15,11 @@
                              autofocus autocomplete="name"/>
             </div>
 
-            <div class="mt-4"  x-show="type == 3">
+            <div class="mt-4" x-show="type == 3">
                 <x-jet-label for="student_uid" value="{{ __('University ID') }}"/>
-                <x-jet-input id="student_uid" class="block mt-1 w-full" type="text" name="student_uid" :value="old('student_uid')"
-                              autocomplete="student_uid"/>
+                <x-jet-input id="student_uid" class="block mt-1 w-full" type="text" name="student_uid"
+                             :value="old('student_uid')"
+                             autocomplete="student_uid"/>
             </div>
 
             <div class="mt-4">

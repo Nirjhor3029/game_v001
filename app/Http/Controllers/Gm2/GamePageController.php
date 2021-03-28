@@ -56,9 +56,9 @@ class GamePageController extends Controller
         $investment = config('game.game2.asset.invest');
 
 
-        $restaurantGroups = RestaurantGroup::where("user_id",$resturentUser->teacher_id)->whereNotIn('id', [optional($resGroup)->res_group_id])->get();
+        $restaurantGroups = RestaurantGroup::where("user_id", $resturentUser->teacher_id)->whereNotIn('id', [optional($resGroup)->res_group_id])->get();
 
-        $promotion_options =  config('game.game2.promotion_options');
+        $promotion_options = config('game.game2.promotion_options');
 
         // return $restaurantGroups;
         // return $resGroup->restaurant->name;
@@ -77,7 +77,6 @@ class GamePageController extends Controller
         //            return "null";
         //        }
 
-        
 
         if (isset($resGroup)) {
             $userInfo = [
@@ -173,12 +172,12 @@ class GamePageController extends Controller
         $assigned_res_id = $student_info['assigned_res_id'];
         $assigned_group_id = $student_info['assigned_group_id'];
 
-        $attackers = AttackDefend::where('defender',$user_id)->select('attacker')->get();
+        $attackers = AttackDefend::where('defender', $user_id)->select('attacker')->get();
         // return [$attackers,$user_id];
-        if($attackers->isNotEmpty()){
+        if ($attackers->isNotEmpty()) {
             $attackers_userId = $attackers->pluck('attacker')->toArray();
             // return $attackers;
-        }else{
+        } else {
             // return "Wait Till Teacher's Approval. ";
             $msg = "Wait Till Teacher's Approval.  !!";
             return view("game_views.gm2.market_scenario_defend_empty", compact("msg"));
@@ -242,7 +241,7 @@ class GamePageController extends Controller
         // return $defendMarketPromotions;
         // return $defendMarket;
         $promotions = config('game.game2.promotion_options');
-        return view("game_views.gm2.market_scenario_defend", compact('attackMarkets', 'defendMarket', 'promotions', 'defendMarketPromotions', 'attackers', 'attackersRestIds', 'attackersRests','attackers_userId'));
+        return view("game_views.gm2.market_scenario_defend", compact('attackMarkets', 'defendMarket', 'promotions', 'defendMarketPromotions', 'attackers', 'attackersRestIds', 'attackersRests', 'attackers_userId'));
     }
 
 
@@ -306,16 +305,14 @@ class GamePageController extends Controller
         if ($request->ajax()) {
             $restArray = [];
 
-            
-
-            $graphItem = GraphItem::where('user_id' , Auth::guard('web')->user()->id)->latest('id')->first();
+            $graphItem = GraphItem::where('user_id', Auth::guard('web')->user()->id)->latest('id')->first();
             if (is_null($graphItem)) {
                 $graphItem = new GraphItem();
                 $graphItem->user_id = Auth::guard('web')->user()->id;
                 $graphItem->session_id = Session::getId();
                 $graphItem->save();
             }
-            
+
             $restArray['graphPointRow'] = $request->input('graphPointRow') + 1;
             $restArray['graphPointColumn'] = $request->input('graphPointColumn') + 1;
             $graph_point = $restArray['graphPointRow'] . $restArray['graphPointColumn'];

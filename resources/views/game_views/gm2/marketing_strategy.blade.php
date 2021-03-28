@@ -211,7 +211,7 @@
                       </tbody>
                 </table>
             </div>
-            <h2>Market Scenario Table</h2>
+          {{--  <h2>Market Scenario Table</h2>--}}
         </div>
 
         <div class="next mb-3rem">

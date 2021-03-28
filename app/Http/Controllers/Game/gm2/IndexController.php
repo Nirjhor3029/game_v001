@@ -64,7 +64,7 @@ class IndexController extends Controller
             ];
             session(["student_info" => $userInfo]);
             $session = Session::all();
-            return $session;
+           // return $session;
             return view('game_views.gm2.marketing_strategy');
         } else {
             return view("game_views.gm2.marketing_strategy");
