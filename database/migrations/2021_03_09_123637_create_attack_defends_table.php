@@ -18,7 +18,7 @@ class CreateAttackDefendsTable extends Migration
             $table->bigInteger('attacker');
             $table->bigInteger('defender');
 
-            $table->double('score');
+            $table->double('score')->default(0);
 
 
             $table->timestamps();

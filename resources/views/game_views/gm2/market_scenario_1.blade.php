@@ -12,9 +12,12 @@
 
     <div class="gm2">
 
+
         <div class="header ">
             <div class="welcome mt-9vh">
                 <h2 class="title" style="text-align: center;">
+                    {{(isset($msg)? $msg: "")}}
+                    <br>
                     Waiting For Teacher Approval.
                 </h2>
                 <p>
@@ -99,8 +102,7 @@
 
         <div class="row">
             <h3>
-                Until Teacher Assigned You under a Restaurant.
-                You Can't play rest of the game.
+                {{(isset($msg)? $msg: "")}}
             </h3>
         </div>
 

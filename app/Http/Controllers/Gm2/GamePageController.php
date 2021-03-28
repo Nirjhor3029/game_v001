@@ -44,7 +44,7 @@ class GamePageController extends Controller
         // return $graphs;
 
         $resturentUser = RestaurantUser::where('user_id', $user_id)->first();
-        if(is_null($resturentUser)){
+        if (is_null($resturentUser)) {
             return view("game_views.gm2.market_scenario_1");
         }
 
@@ -163,11 +163,13 @@ class GamePageController extends Controller
     {
 
         $user_id = Auth::user()->id;
+        $msg = "";
 
         $student_info = session('student_info');
         // return $student_info;
-        if(is_null($student_info)){
-            return view("game_views.gm2.market_scenario_1");
+        if (is_null($student_info)) {
+            $msg = "Start The Game Kindly... from home page!";
+            return view("game_views.gm2.market_scenario_1", compact('msg'));
         }
         $assigned_res_id = $student_info['assigned_res_id'];
         $assigned_group_id = $student_info['assigned_group_id'];
@@ -234,7 +236,7 @@ class GamePageController extends Controller
         }
         $defendMarketPromotions = Gm2MarketPromotion::where('market_cost_id', optional($defendMarket)->marketCost[0]->id)->where('mode', 2)->get();
 
-            //    dd( $defendMarket);
+        //    dd( $defendMarket);
         //         return $defendMarketPromotions;
         // return ($attackMarkets[0]->marketCost[0]->gm2MarketPromotion[0]->value);
 
@@ -341,8 +343,8 @@ class GamePageController extends Controller
     // Helper function
     function get_percentage($value, $percent)
     {
-        if ( $value > 0 ) {
-            return round($percent * ($value / 100),2);
+        if ($value > 0) {
+            return round($percent * ($value / 100), 2);
         } else {
             return 0;
         }

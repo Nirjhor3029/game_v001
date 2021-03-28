@@ -64,7 +64,7 @@ class IndexController extends Controller
             ];
             session(["student_info" => $userInfo]);
             $session = Session::all();
-           // return $session;
+            // return $session;
             return view('game_views.gm2.marketing_strategy');
         } else {
             return view("game_views.gm2.marketing_strategy");
@@ -412,13 +412,16 @@ class IndexController extends Controller
         });
         // return $leaderData;
 
-
+        //here for bug
         $attacklists = $this->attackDefendSet(10);
         // return $attacklists;
         $defendList = [];
         if (!empty($attacklists)) {
+
             $defendList = $attacklists['defender_list'];
+
             $studentList = $attacklists['student_list'];
+
 
             $studentInfo = [];
             foreach ($studentList as $student) {
@@ -434,9 +437,10 @@ class IndexController extends Controller
             }
             // return $studentInfo;
             $users = User::where('type', 3)->get()->pluck('name', 'id')->toArray();
+            // return $users;
 
 
-            // dd($defendList);
+            // return ($defendList);
             foreach ($defendList as &$defender) {
                 $defender['defender_name'] =  $users[$defender['defender']];
                 $defender['attackers_name'] = is_null($defender['attacker']) ? null : array_map(function ($item) use ($users) {
@@ -670,7 +674,6 @@ class IndexController extends Controller
         // get authenticated user id
         $user_id = Auth::user()->id;
         $teacherId = RestaurantUser::where('user_id', $user_id)->first("teacher_id")->teacher_id;
-
         $resGroup = RestaurantGroup::where('user_id', $teacherId)->with('restaurantPoint')->get();
         // $resPoints = RestaurantPoint::where('user_id',$user_id)->with('restaurantGroup')->get();
         $bag = [];
@@ -743,15 +746,16 @@ class IndexController extends Controller
     {
         $bag = [];
         $teacherId = Auth::user()->id;
-        $students = RestaurantUser::where('teacher_id', $teacherId)->with('restaurant', function ($query) {
-            $query->with('restaurantPoint.restaurantGroup');
-        })
+        $students = RestaurantUser::where('teacher_id', $teacherId)->has('user')
+            ->with('restaurant', function ($query) {
+                $query->with('restaurantPoint.restaurantGroup');
+            })
             ->with('restaurantGroup')
             ->with('restaurantGroup.restaurantPoint', function ($query) {
                 $query->where('leader', 1)->with('restaurant');
             })
             ->get();
-        // return $students;
+        // dd($students);
         $std = $students->map(function ($item, $key) {
             if (is_null($item->restaurantGroup)) {
                 return false;
