@@ -74,7 +74,10 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-gray overflow-hidden shadow-xl sm:rounded-lg" style="padding:40px;box-sizing:border-box">
                     <h5>
-                        Please assign one restaurant to every student to represent. You may change your decision by simply clicking on the update button should you wish so. Please note that, to facilitate an engrossing experience for the students, we recommend you to equally divide the restaurants among the students. Thank you.
+                        Please assign one restaurant to every student to represent. You may change your decision by
+                        simply clicking on the update button should you wish so. Please note that, to facilitate an
+                        engrossing experience for the students, we recommend you to equally divide the restaurants among
+                        the students. Thank you.
                     </h5>
                 </div>
             </div>
@@ -99,8 +102,8 @@
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="">{{$student->name}} </label>
-                                            <input type="text" value="{{$student->id}}" name="student_id[]" class="student_name student_id"
-                                            >
+                                            <input type="text" value="{{$student->id}}" name="student_id[]"
+                                                   class="student_name student_id" hidden>
                                         </div>
                                     </div>
                                     <div class="col-sm-2">
@@ -142,7 +145,7 @@
                                                         @endphp
 
                                                         <option
-                                                                value="{{$item->res_id}}" {{($check)? "selected":""}}>
+                                                            value="{{$item->res_id}}" {{($check)? "selected":""}}>
                                                             {{Str::title($item->res_name)}}
                                                         </option>
                                                         @continue
@@ -153,8 +156,11 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-2">
-                                        <input type="button" name="" value="{{($checkStatus)? 'Update' : 'Set'}}" class="btn {{($checkStatus)? 'btn-warning' : 'btn-success'}} setStudent" data-status="{{($checkStatus)? 1 : 2}}">
-                                        <input type="button" name="" value="Delete" class="btn btn-danger deleteStudent">
+                                        <input type="button" name="" value="{{($checkStatus)? 'Update' : 'Set'}}"
+                                               class="btn {{($checkStatus)? 'btn-warning' : 'btn-success'}} setStudent"
+                                               data-status="{{($checkStatus)? 1 : 2}}">
+                                        <input type="button" name="" value="Delete"
+                                               class="btn btn-danger deleteStudent">
                                     </div>
                                 </div>
                             @endforeach
@@ -177,7 +183,8 @@
                     <div class="col-sm-4">
                         <div class="card">
                             <div class="card-header">
-                                {{Str::title($restaurants[$key]['res_name'])}} - {{Str::title($restaurants[$key]['group_name'])}}
+                                {{Str::title($restaurants[$key]['res_name'])}}
+                                - {{Str::title($restaurants[$key]['group_name'])}}
                             </div>
                             <div class="card-body">
                                 <ol>
