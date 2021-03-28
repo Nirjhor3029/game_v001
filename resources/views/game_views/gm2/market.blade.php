@@ -276,13 +276,25 @@ $(document).ready(function () {
                 </div>
             </div>
         </div>
+
+        <div class="next mb-3rem">
+            <div class="row ">
+                <div class="col-sm-10"></div>
+                <div class="col-sm-2">
+                    <a href="{{route('gm2.marketing_strategy')}}" class="btn btn-next float-right">Next</a>
+                    <!-- <a href="{{route('gm2.game')}}" class="btn btn-next" >Next</a> -->
+                </div>
+            </div>
+        </div>
     </div>
 
+
+    
 
     <!-- DemoDroppableCard -->
     <div class="card dropBox invisible">
         <div class="card-header" style="text-align: center;padding:0px !important"></div>
-        <div class="card-body droppable dropBody ui-sortable" data-group="" style="padding-left: 5px !important;">
+        <div class="card-body droppable ui-sortable" data-group="">
 
         </div>
     </div>

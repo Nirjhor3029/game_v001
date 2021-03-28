@@ -396,32 +396,6 @@ $(document).ready(function () {
 
     // assign_Student
 
-    $(".set").on("click", function (e) {
-        let that = $(this);
-        let parent = that.parents(".restaurant_container");
-        let studentId = parent.find('.student_name').val();
-        let restId = parent.find('.restaurant_select').children("option:selected").val();
-
-        let dataStatus = that.attr("data-status");
-
-        $.ajax({
-            type: "POST",
-            url: "assign_student",
-            data: {
-                studentId: studentId,
-                restId: restId,
-                dataStatus: dataStatus,
-            },
-            success: function (data) {
-                console.log(data);
-                toastr.success(data.success);
-                that.prop("disabled", "true");
-                parent.find('.restaurant_select').prop("disabled", "true");
-                //return;
-            }
-        });
-    });
-
 
     // Game page
     $(".ajx_select_criteria").on("change", function (e) {

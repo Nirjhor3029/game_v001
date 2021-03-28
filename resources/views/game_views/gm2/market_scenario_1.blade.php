@@ -14,15 +14,10 @@
 
         <div class="header ">
             <div class="welcome mt-9vh">
-                <h2 class="title">
-                    Marketing Scenario
+                <h2 class="title" style="text-align: center;">
+                    Waiting For Teacher Approval.
                 </h2>
                 <p>
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ex repellendus maxime reiciendis explicabo
-                    quos
-                    vel iure architecto earum, voluptatum magnam pariatur, dolores necessitatibus aliquid incidunt! Iure
-                    dolorem
-                    officiis ex obcaecati!
                 </p>
             </div>
         </div>

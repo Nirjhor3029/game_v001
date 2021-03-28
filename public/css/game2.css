@@ -94,7 +94,7 @@ cursor: pointer; */
 }
 
 .rest_icon {
-    height: 1.5vw;
+    height: 1vw;
 }
 
 .btn_attack_icon {
@@ -120,12 +120,11 @@ cursor: pointer; */
     /* width: 100px; */
     /* display: block !important; */
     border: 1px solid #bc8c05;
-    ;
-    margin-bottom: 2px;
+    /* margin-bottom: 2px; */
     cursor: pointer;
     border-radius: 10px;
     text-align: center;
-    font-size: 1vw;
+    /* font-size: 1vw; */
     z-index: 50;
 }
 
@@ -613,4 +612,13 @@ nav {
 }
 .mb-50px{
     margin-bottom: 50px;
+}
+.sortable_fixed{
+    min-height: 600px;
+    /* position: fixed; */
+    width: 200px;
+    z-index: 9000 !important;
+}
+.card{
+    /* z-index: 9000 !important; */
 }

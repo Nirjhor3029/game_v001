@@ -25,7 +25,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <h1>{{$taskOneResult['result']}}</h1>
+                    <h1>{{$taskOneResult['result']}} </h1>
                 </div>
 
             </div>
@@ -47,9 +47,9 @@
                     @if($sum == 0)
                         <h1> (Congratulations on defending your market share!) </h1>
                     @elseif($sum > 0)
-                        <h1> (Congratulations! You have gained {{$sum }} % of market share from group 'y') </h1>
+                        <h1> (Congratulations! You have gained {{$sum }} % of market share from group '{{$restUser->restaurantGroup->name}}') </h1>
                     @else
-                        <h1> (Tough luck! You have lost {{ $sum }} % of market share to 'y')</h1>
+                        <h1> (Tough luck! You have lost {{ $sum }} % of market share to group'{{$restUser->restaurantGroup->name}}')</h1>
                     @endif
                 </div>
             </div>

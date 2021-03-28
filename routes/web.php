@@ -27,6 +27,7 @@ Route::get('/', function () {
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     $user_type = Auth::user()->type; //1 = admin,2 = teacher,3 = student
     if ($user_type == 2) {
+        // return "teache";
         return redirect()->route('teacher.dashboard');
     } else {
         return redirect()->route('gm2.strategic_group');
@@ -155,6 +156,7 @@ Route::group(['auth:sanctum', 'verified'], function () {
         Route::post('group_name_update', [Gm2AjaxController::class, 'groupNameUpdate'])->name('group_name_update');
         Route::post('gm2_update_restaurant_group', [Gm2AjaxController::class, 'updateRestaurantGroup'])->name('gm2_update_restaurant_group');
         Route::post('assign_student', [Gm2AjaxController::class, 'assignStudent'])->name('assign_student');
+        Route::post('delete_student', [Gm2AjaxController::class, 'deleteStudent'])->name('delete_student');
         Route::post('add_restaurant_point', [Gm2AjaxController::class, 'addRestaurantPoint'])->name('add_restaurant_point');
         Route::post('set_leader', [Gm2AjaxController::class, 'setLeader'])->name('set_leader');
 
@@ -179,6 +181,7 @@ Route::group(['auth:sanctum', 'verified'], function () {
         Route::match(array('GET', 'POST'), '/test_method', function (Request $request) {
             return $request->method();
         });
+
 
 
         Route::get("/dump", function () {

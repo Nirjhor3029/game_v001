@@ -7,14 +7,18 @@
     <?php
 
     // $restaurants = $restaurant;
-    $colors = ["#4AD179", "#ED375D", "#FE8400"];
-    $groups = ["group_1", "group_2", "group_3", "group_4",];
+    $colors = ["#4AD179", "#FE8400"];
+    // $groups = ["group_1", "group_2", "group_3", "group_4",];
     function txtFormate($txt){
         $txt = Str::title(str_replace("_"," ",$txt));
         return $txt;
     }
 
-    
+    $userId = Auth::id();
+    $colorIndex = 0;
+    if($userId % 2 ==0){
+        $colorIndex = 1;
+    }
 
     ?>
 
@@ -193,8 +197,9 @@
             
             <div class="col-md-6">
                 <div class="card gm2_card_rest">
+                   
                     <div class="card-header gm2_card_header"
-                         style="background-color: <?php echo $colors[rand(0, 2)] ?>;">
+                         style="background-color: <?php echo $colors[$colorIndex] ?>;">
                         <div class="row">
                             <div class="col-sm-6">
                                 {{txtFormate($resGroup->restaurant->name)}} ({{txtFormate($resGroup->restaurantGroup->name)}})
@@ -395,10 +400,10 @@
                 <div class="col-md-6">
                     <div class="card gm2_card_rest">
                         <div class="card-header gm2_card_header"
-                             style="background-color: <?php echo $colors[rand(0, 2)] ?>;">
+                             style="background-color: <?php echo $colors[$colorIndex] ?>;">
                             <div class="row">
                                 <div class="col-sm-6">
-                                    {{$resGroup->restaurant->name}} ({{$resGroup->restaurantGroup->name}})
+                                    {{txtFormate($resGroup->restaurant->name)}} ({{txtFormate($resGroup->restaurantGroup->name)}})
                                     <input type="number" name="rest_id" class="rest_id"
                                            value="{{$resGroup->restaurant->id}}" hidden>
                                 </div>
