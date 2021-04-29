@@ -30,13 +30,23 @@
                     Marketing Scenario
                 </h2>
                 <p>
-                    You have a budget of 20 millions to spend to move to a new strategic group which offers you additional profit without damaging your current brand value. Use table 2 and 3 to identify costs associated with setting up new outlets and developing infrastructure to offer new menu respectively to expand your business into a new type of restaurant.
+                    You have a budget of BDT 20 millions to spend to move to a new strategic group which offers you
+                    additional profit without damaging your current brand value.
                 </p>
                 <p>
-                    Please note that your competitors in the same group you are trying to penetrate would also have a minimum budget of 5 millions to defend their market share should they deem any credible threat is about to enter into their domain. Before moving to decide how to attach another group consult table 4 to understand which mode of attack may give you the best return in terms of gaining market share.
+                    Use table 2 and 3 to identify costs associated with setting up new outlets and developing
+                    infrastructure to offer new menu respectively to expand your business.
                 </p>
                 <p>
-                    Use the template provided in table 5 to showcase how you are going to spend that 20 million, if at all. You may also decide not to expand your business.
+                    You must open at least one additional outlet and spend a minimum of BDT 3 million in marketing and
+                    promotional activities to penetrate the new segment.
+                    Please note that your competitors in the same group you are trying to penetrate might also a budget
+                    to defend their market share should they deem any credible threat is about to enter into their
+                    domain.
+                </p>
+                <p>
+                    Before moving to decide how to attack another group consult table 4 to understand which mode of
+                    attack may give you the best return in terms of gaining market share.
                 </p>
             </div>
         </div>
@@ -51,9 +61,7 @@
                 <table class="table table-responsive table-hover table-bordered">
                     <thead>
                     <tr>
-                        <th scope="col" colspan="4" class="text-center">Cost of Additional Outlet with
-                            everything as it is <br>(in millions)
-                        </th>
+                        <th scope="col" colspan="4" class="text-center">Cost of Additional Outlet</th>
                     </tr>
                     <tr>
                         <th>Type/Area</th>
@@ -64,7 +72,7 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <th scope="row">Continental/Intl Chain</th>
+                        <th scope="row">Continental</th>
                         <td>10</td>
                         <td>8</td>
                         <td>6</td>
@@ -99,10 +107,8 @@
                 <table class="table table-responsive table-hover table-bordered">
                     <thead>
                     <tr>
-                        <th scope="col" colspan="4" class="text-center">Cost per outlet for offering a new
-                            line
-                            of product / change the quality within the existing setup
-                            <br>(in millions)
+                        <th scope="col" colspan="4" class="text-center">Cost per outlet for offering a new line of
+                            product
                         </th>
                     </tr>
                     <tr>
@@ -156,38 +162,38 @@
                 </div>
                 <table class="table table-responsive table-hover table-bordered">
                     <thead>
-                        <tr>
-                            <th scope="col" colspan="4" class="text-center">
-                                $ required to gain 1% market share
-                            </th>
-                        </tr>
-                        <tr>
-                            <th>Options to attack/defend</th>
-                            <th>Market Share</th>
-                        </tr>
+                    {{--  <tr>
+                        <th scope="col" colspan="4" class="text-center">
+                             $ required to gain 1% market share
+                         </th>
+                    </tr>--}}
+                    <tr>
+                        <th>Mode of Attack/Defend</th>
+                        <th>$ required to gain 1% group market share(per year)</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">Discount within store</th>
-                            <td>4</td>
+                    <tr>
+                        <th scope="row">Discount within store</th>
+                        <td>3.5</td>
 
-                        </tr>
-                        <tr>
-                            <th scope="row">Discount through delivery services</th>
-                            <td>5</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Advertising through social media</th>
-                            <td>6</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Branding</th>
-                            <td>8</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Others</th>
-                            <td>10</td>
-                        </tr>
+                    </tr>
+                    <tr>
+                        <th scope="row">Discount through delivery services</th>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Advertising through social media</th>
+                        <td>2.5</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Branding</th>
+                        <td>5</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Others</th>
+                        <td>8</td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
