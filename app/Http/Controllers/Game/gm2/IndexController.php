@@ -181,7 +181,7 @@ class IndexController extends Controller
 
         return view('game_views.gm2.market', compact('graph_level', 'level_options', 'restaurants', 'restaurantGroups', 'empty', 'addedRestaurants', 'msg'));
 
-        return view('game_views.gm2.market');
+       // return view('game_views.gm2.market');
     }
 
     public function game_view()
