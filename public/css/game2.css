@@ -622,3 +622,10 @@ nav {
 .card{
     /* z-index: 9000 !important; */
 }
+
+.flex-center
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

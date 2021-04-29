@@ -5,161 +5,156 @@
 @endpush
 
 @push('js')
-    <script>
+<script>
 
-        $(document).ready(function () {
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+$(document).ready(function () {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $("#sortable").sortable({
+        connectWith: [".droppable"],
+
+    });
+
+    function initializeShortable() {
+        $(".droppable").sortable({
+            cursor: "move",
+            connectWith: "#sortable",
+            cancel: ".not_shortable",
+            // disabled: ".not_shortable",
+            update: function (e, ui) {
+                let row = $(this).closest('tr').index();
+                let column = $(this).closest('td').index();
+                // console.log(`row ${row} & column ${column}`);
+                /* each restaurant drop in every box so push restaurant Id & name array */
+                let restData = [];
+                if ($(this).children().length > 6) {
+                    //ui.sender: will cancel the change.
+                    //Useful in the 'receive' callback.
+                    $(ui.sender).sortable('cancel');
+                    // alert("You Can not Add More than 6 Items !!");
+                    toastr.error("You Can not Add More than 6 Items !!");
+
+
                 }
-            });
-            $("#sortable").sortable({
-                connectWith: [".droppable"],
+                $(this).children().each(function (idx, ele) {
 
-            });
+                        let restId = $(ele).data('tag');
 
-            function initializeShortable() {
-                $(".droppable").sortable({
-                    cursor: "move",
-                    connectWith: "#sortable",
-                    cancel: ".not_shortable",
-                    // disabled: ".not_shortable",
-                    update: function (e, ui) {
-                        let row = $(this).closest('tr').index();
-                        let column = $(this).closest('td').index();
-                        // console.log(`row ${row} & column ${column}`);
-                        /* each restaurant drop in every box so push restaurant Id & name array */
-                        let restData = [];
-                        if ($(this).children().length > 6) {
-                            //ui.sender: will cancel the change.
-                            //Useful in the 'receive' callback.
-                            $(ui.sender).sortable('cancel');
-                            // alert("You Can not Add More than 6 Items !!");
-                            toastr.error("You Can not Add More than 6 Items !!");
-
-
-                        }
-                        $(this).children().each(function (idx, ele) {
-
-                            let restId = $(ele).data('tag');
-
-                            restData.push(restId);
-                        });
-                        console.dir(restData);
-                        let groupId = $(this).attr("data-group");
-                        // console.log(groupId);
-                        // return;
-
-                        sendData(groupId, restData);
-                    },
-                    receive: function (event, ui) {
-                        // after drop this callback execute.
-                    }
+                    restData.push(restId);
                 });
+                console.dir(restData);
+                let groupId = $(this).attr("data-group");
+                // console.log(groupId);
+                // return;
+
+                sendData(groupId, restData);
+            },
+            receive: function (event, ui) {
+                // after drop this callback execute.
             }
-
-
-            function sendData(groupId, restData) {
-                $(document).ready(function () {
-                    let data = {
-                        groupId: groupId,
-                        restData: restData
-                    };
-                    $.ajax({
-                        type: "POST",
-                        url: "add_restaurant_point",
-                        data: data,
-                        success: function (data) {
-                            console.table(data);
-                            toastr.success(data.success);
-                        }
-                    });
-                });
-            }
-
-            function titleCase(str) {
-                return str.toLowerCase().split(' ').map(function (word) {
-                    return (word.charAt(0).toUpperCase() + word.slice(1));
-                }).join(' ');
-            }
-
-
-            let res_group = @json($restaurantGroups);
-
-            // console.log("hello");
-            res_group.forEach(function (ele) {
-                let point = ele.point;
-                let row = (String(point).slice(0, 1)) - 1;
-                let col = (String(point).slice(-1)) - 1;
-                $('.dragdrop_graph tr').eq(row).children(':eq(' + col + ')').append(setDroppableCard(ele).removeClass("invisible"));
-
-
-                ele.restaurant_point.forEach(function (point_ele) {
-                    let point = ele.point;
-                    console.log(point);
-                    let row = (String(point).slice(0, 1)) - 1;
-                    let col = (String(point).slice(-1)) - 1;
-                    let demoRestaurantName = setSelectedOptionItem(point_ele);
-                    $('.dragdrop_graph tr').eq(row).children(':eq(' + col + ')').find('.card-body').append(demoRestaurantName.removeClass("invisible"));
-                });
-
-                initializeShortable();
-            });
-
-            function setSelectedOptionItem(ele) {
-                let demo_option_item = $(".demo_option_item").clone().removeClass('demo_option_item');
-                demo_option_item.find('.res_name').text(ele.restaurant.name);
-
-
-                demo_option_item.attr("data-tag", ele.res_id);
-                demo_option_item.attr("data-name", ele.restaurant.name);
-                if (ele.leader) {
-                    demo_option_item.attr('draggable', false);
-                    demo_option_item.addClass('not_shortable');
-                    // demo_option_item.append($(".leader").clone().removeClass("invisible leader"));
-                }
-                return demo_option_item;
-            }
-
-            function setDroppableCard(ele) {
-                // let box = $(".dropBox");
-                let box = $(".dropBox").clone().removeClass("dropBox");
-
-                let boxHeader = box.find(".card-header");
-                let boxBody = box.find(".card-body");
-
-                boxBody.attr("data-group", ele.id);
-                boxHeader.text(ele.name);
-                // console.log(box);
-                return box;
-            }
-
-
-            $(".selected_div").parent('.empty2').addClass("selected_td");
-
-
         });
-    </script>
+    }
+
+
+    function sendData(groupId, restData) {
+        $(document).ready(function () {
+            let data = {
+                groupId: groupId,
+                restData: restData
+            };
+            $.ajax({
+                type: "POST",
+                url: "add_restaurant_point",
+                data: data,
+                success: function (data) {
+                    console.table(data);
+                    toastr.success(data.success);
+                }
+            });
+        });
+    }
+
+    function titleCase(str) {
+        return str.toLowerCase().split(' ').map(function (word) {
+            return (word.charAt(0).toUpperCase() + word.slice(1));
+        }).join(' ');
+    }
+
+
+    let res_group = @json($restaurantGroups);
+
+    // console.log("hello");
+    res_group.forEach(function (ele) {
+        let point = ele.point;
+        let row = (String(point).slice(0, 1)) - 1;
+        let col = (String(point).slice(-1)) - 1;
+        $('.dragdrop_graph tr').eq(row).children(':eq(' + col + ')').append(setDroppableCard(ele).removeClass("invisible"));
+
+
+        ele.restaurant_point.forEach(function (point_ele) {
+            let point = ele.point;
+            console.log(point);
+            let row = (String(point).slice(0, 1)) - 1;
+            let col = (String(point).slice(-1)) - 1;
+            let demoRestaurantName = setSelectedOptionItem(point_ele);
+            $('.dragdrop_graph tr').eq(row).children(':eq(' + col + ')').find('.card-body').append(demoRestaurantName.removeClass("invisible"));
+        });
+
+        initializeShortable();
+    });
+
+    function setSelectedOptionItem(ele) {
+        let demo_option_item = $(".demo_option_item").clone().removeClass('demo_option_item');
+        demo_option_item.find('.res_name').text(ele.restaurant.name);
+
+
+        demo_option_item.attr("data-tag", ele.res_id);
+        demo_option_item.attr("data-name", ele.restaurant.name);
+        if (ele.leader) {
+            demo_option_item.attr('draggable', false);
+            demo_option_item.addClass('not_shortable');
+            // demo_option_item.append($(".leader").clone().removeClass("invisible leader"));
+        }
+        return demo_option_item;
+    }
+
+    function setDroppableCard(ele) {
+        // let box = $(".dropBox");
+        let box = $(".dropBox").clone().removeClass("dropBox");
+
+        let boxHeader = box.find(".card-header");
+        let boxBody = box.find(".card-body");
+
+        boxBody.attr("data-group", ele.id);
+        boxHeader.text(ele.name);
+        // console.log(box);
+        return box;
+    }
+
+
+    $(".selected_div").parent('.empty2').addClass("selected_td");
+
+
+});
+</script>
 
 @endpush
 
 @section('content')
 
-    <?php $mimnus_data = $addedRestaurants;?>
+<?php $mimnus_data = $addedRestaurants;?>
     <div class="gm2">
 
-        <div class="header mt-9vh" style="height: 20vh">
+    <div class="header mt-9vh" style="height: 20vh">
             <div class="welcome">
                 <h2 class="title">
-                    Simulation
+                    Simluation
                 </h2>
                 <p>
-                    {{--Based on the information provided in table 1, group restaurants on any two dimensions of your
-                    choice. However, those two dimensions, when combined together, would have to make a strong business
-                    case in order to distinguish themselves from others.--}}
-                    Based on the information provided in table 1, your research team has suggested to use price and
-                    types of food that they serve (restaurant types) as the two most relevant dimensions to group
-                    restaurants relevant for you.
+                    Based on the information provided in table 1, group restaurants on any two dimensions of your choice. However, those two dimensions, when combined together, would have to make a strong business case in order to distinguish themselves from others.
                 </p>
                 {{-- <ol style="margin-left: 6rem;">
                     <li class="part_1">Choice of dimensions</li>
@@ -252,14 +247,26 @@
                                     </div>
                                     <div>
                                         <div class="row">
-                                            <div class="col-sm-4 graph_txt">
+                                            <div class="col-sm-2 graph_txt">
                                                 Low
                                             </div>
-                                            <div class="col-md-4 mt-3">
-                                                <h1 class="graph_label"> {{ Str::title($level_options[($graph_level->x_level)-1]['name'])}} </h1>
+                                            <div class="col-sm-5 pl-5">
+                                                Continental/Oriental
                                             </div>
-                                            <div class="col-sm-4 txt-center">
-                                                High
+                                            <div class="col-sm-5">
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        Fastfood
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        Deshi
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12 mt-3 text-center">
+                                                <h1 class="graph_label" style="width: 100%"> {{ Str::title($level_options[($graph_level->x_level)-1]['name'])}} </h1>
                                             </div>
                                         </div>
 
@@ -274,6 +281,8 @@
                             @endif
 
 
+
+
                         </div>
                     </div>
                 </div>
@@ -284,8 +293,8 @@
             <div class="row ">
                 <div class="col-sm-10"></div>
                 <div class="col-sm-2">
-                    <a href="{{route('gm2.market_scenario')}}" class="btn btn-next float-right">Next</a>
-                <!-- <a href="{{route('gm2.game')}}" class="btn btn-next" >Next</a> -->
+                    <a href="{{route('gm2.marketing_strategy')}}" class="btn btn-next float-right">Next</a>
+                    <!-- <a href="{{route('gm2.game')}}" class="btn btn-next" >Next</a> -->
                 </div>
             </div>
         </div>
