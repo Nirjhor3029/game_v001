@@ -170,7 +170,7 @@
                         <tr>
                             <th scope="row">Discount within store</th>
                             <td>4</td>
-                            
+
                         </tr>
                         <tr>
                             <th scope="row">Discount through delivery services</th>
@@ -193,11 +193,11 @@
             </div>
 
             @if(is_null($market))
-            
-            
+
+
             <div class="col-md-6">
                 <div class="card gm2_card_rest">
-                   
+
                     <div class="card-header gm2_card_header"
                          style="background-color: <?php echo $colors[$colorIndex] ?>;">
                         <div class="row">
@@ -234,7 +234,7 @@
                         </div>
 
                         <div class="row inputField_row">
-                            
+
                             <div class="col-md-3">
                                 <select name="" id="type" name="cat_id" class="form-control-sm form-control type"
                                         data-type="1">
@@ -329,7 +329,7 @@
                                             <label for="">Other</label>
                                             <input type="number"
                                                    class="form-control-sm form-control other ajx_input_market_promotion"
-                                                   
+
                                                    value="0" min="0">
                                         </div>
                                     </div>
@@ -355,7 +355,7 @@
 
                             </div>
                             <div class="col-sm-6">
-                                
+
                                 @foreach($restaurantGroups as $group)
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" id="" name="attack_group"
@@ -393,7 +393,7 @@
                         $("#typeArea").trigger("change",[{{$subAreaType}}]);
                         $("#typeQuantity").trigger("change",[{{$subQuantityType}}]);
 
-                        
+
                     });
                 </script>
             @endpush
@@ -425,7 +425,7 @@
 
                             </div>
 
-                            
+
                             <div class="row">
                                 <div class="col-sm-3">
                                     Area
@@ -552,9 +552,6 @@
                     </div>
                 </div>
             @endif
-
-
-
         </div>
 
         <div class="next mb-3rem">

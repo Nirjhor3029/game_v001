@@ -433,22 +433,34 @@
                                 </div>
                                 <div>
                                     <div class="row">
-                                        <div class="col-sm-4 graph_txt">
+                                        <div class="col-sm-2 graph_txt">
                                             Low
                                         </div>
-                                        <div class="col-md-4 mt-3">
+                                        <div class="col-sm-5 pl-5">
+                                            Continental/Oriental
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    Fastfood
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    Deshi
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 mt-3 text-center flex-center">
                                             <select name="" id="x-axis"
                                                     class="form-control form-control-sm ajx_select_criteria"
-                                                    data-type="2">
+                                                    data-type="2" style="width: 20%">
                                                 <option selected value="0">Select criteria</option>
                                                 @foreach($gType as $item)
                                                     <option
                                                         value="{{$item['id']}}" {{(optional($graphLevel)->x_level==$item['id'])? "selected":""}} >{{$item['name']}}</option>
                                                 @endforeach
                                             </select>
-                                        </div>
-                                        <div class="col-sm-4 txt-center">
-                                            High
                                         </div>
                                     </div>
                                     <!-- <h1 class="txt_xaxis">Level of vertical Integration</h1> -->
@@ -503,16 +515,16 @@
             // console.log(shortableItems);
             // e.preventDefault();
             // alert("ok");
-            
+
             // return false;
             if(shortableItems){
                 toastr.error("Need To put all the restaurants into the groups");
                 return false;
                 e.stopPropagation();
-                
+
             }
         }
-        
+
     </script>
 
 @endsection

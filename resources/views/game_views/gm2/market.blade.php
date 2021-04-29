@@ -137,7 +137,7 @@ $(document).ready(function () {
 
     $(".selected_div").parent('.empty2').addClass("selected_td");
 
-  
+
 });
 </script>
 
@@ -185,7 +185,7 @@ $(document).ready(function () {
                         $rest_icons = ["diet","french-fries","hamburger","healthy-eating"];
                     @endphp
                     <div class="row mt-9vh">
-                       
+
 
                         <div class="col-md-10">
 
@@ -247,14 +247,26 @@ $(document).ready(function () {
                                     </div>
                                     <div>
                                         <div class="row">
-                                            <div class="col-sm-4 graph_txt">
+                                            <div class="col-sm-2 graph_txt">
                                                 Low
                                             </div>
-                                            <div class="col-md-4 mt-3">
-                                                <h1 class="graph_label"> {{ Str::title($level_options[($graph_level->x_level)-1]['name'])}} </h1>
+                                            <div class="col-sm-5 pl-5">
+                                                Continental/Oriental
                                             </div>
-                                            <div class="col-sm-4 txt-center">
-                                                High
+                                            <div class="col-sm-5">
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        Fastfood
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        Deshi
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12 mt-3 text-center">
+                                                <h1 class="graph_label" style="width: 100%"> {{ Str::title($level_options[($graph_level->x_level)-1]['name'])}} </h1>
                                             </div>
                                         </div>
 
@@ -263,7 +275,7 @@ $(document).ready(function () {
                                 </div>
                             @else
                                 <div class="left-side-container">
-                                    <h4> First Set The Group & Graph Criteria.</h4> 
+                                    <h4> First Set The Group & Graph Criteria.</h4>
                                     <a href="{{route('teacher.set_group2')}}">Set Group</a>
                                 </div>
                             @endif
@@ -289,7 +301,7 @@ $(document).ready(function () {
     </div>
 
 
-    
+
 
     <!-- DemoDroppableCard -->
     <div class="card dropBox invisible">
