@@ -50,6 +50,8 @@
                 };
                 $.ajax({
                     type: "POST",
+                    contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                    dataType: "json",
                     url: "add_graph",
                     data: data,
                     success: function (data) {

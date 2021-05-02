@@ -50,70 +50,62 @@
                         <th scope="col">Product Range</th>
                         <th scope="col">Price</th>
                         <th scope="col">Location Breadth</th>
-                        <th scope="col">Level of vertical integration</th>
-                        <th scope="col">Level of product quality</th>
+                        <th scope="col">Level of Perceived product quality</th>
                         <th scope="col">Outlets</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        <th scope="row">Tasty Treat</th>
-                        <td>High-Fast food and bakery</td>
-                        <td>Low</td>
+                        <th scope="row">Chows</th>
+                        <td>Cantonese</td>
                         <td>Very High</td>
+                        <td>Very Low</td>
                         <td>High</td>
-                        <td>Low</td>
-                        <td>15</td>
+                        <td>1</td>
                     </tr>
                     <tr>
-                        <th scope="row">Unimart</th>
-                        <td>Mid – fast food, limited lunch set menu, limited dessert menu</td>
+                        <th scope="row">Woodhouse Grill</th>
+                        <td>Steak House</td>
+                        <td>Very High</td>
+                        <td>Very Low</td>
                         <td>High</td>
-                        <td>Low</td>
-                        <td>High</td>
-                        <td>High</td>
-                        <td>3</td>
+                        <td>1</td>
                     </tr>
                     <tr>
                         <th scope="row">Pizza Roma</th>
-                        <td>Low - Italian</td>
-                        <td>Very High</td>
+                        <td>Low-Italian</td>
+                        <td>High</td>
                         <td>Very Low</td>
-                        <td>Low</td>
                         <td>High</td>
                         <td>2</td>
                     </tr>
                     <tr>
-                        <th scope="row">Pizza Hut</th>
-                        <td>Very Low- Pizzeria</td>
-                        <td>High</td>
-                        <td>High</td>
-                        <td>Low</td>
+                        <th scope="row">MadChef</th>
+                        <td>Low- Burger Chain</td>
                         <td>Mid</td>
-                        <td>10</td>
+                        <td>Mid</td>
+                        <td>Mid</td>
+                        <td>5</td>
                     </tr>
                     <tr>
                         <th scope="row">Bella Italia</th>
-                        <td>Low- Italian</td>
+                        <td>Low-Italian</td>
                         <td>Very High</td>
                         <td>Very Low</td>
-                        <td>Low</td>
                         <td>High</td>
                         <td>2</td>
                     </tr>
                     <tr>
                         <th scope="row">North End</th>
                         <td>Very Low - High end coffee with Bakery</td>
+                        <td>Very High</td>
+                        <td>Very Low</td>
                         <td>High</td>
-                        <td>Mid</td>
-                        <td>Mid</td>
-                        <td>High</td>
-                        <td>7</td>
+                        <td>6</td>
                     </tr>
                     <tr>
                         <th scope="row">Tabaq</th>
-                        <td>Very Low - High end coffee with Bakery</td>
-                        <td>Mid</td>
+                        <td>Low-Coffee shop</td>
                         <td>Mid</td>
                         <td>Low</td>
                         <td>High</td>
@@ -121,40 +113,43 @@
                     </tr>
                     <tr>
                         <th scope="row">Peyala</th>
-                        <td>Low- Coffee with fast food with Bakery and Salad Bar</td>
+                        <td>Mid-Coffee shop with Salad Bar</td>
                         <td>Mid</td>
                         <td>Mid</td>
-                        <td>Low</td>
                         <td>Mid</td>
                         <td>4</td>
                     </tr>
                     <tr>
-                        <th scope="row">Burger King</th>
-                        <td>Very low- Burger Chain</td>
+                        <th scope="row">Chilox</th>
+                        <td>Very low-Burger Chain</td>
+                        <td>Mid</td>
+                        <td>Mid</td>
+                        <td>Mid</td>
+                        <td>6</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Cheez</th>
+                        <td>Very-low Pizza</td>
+                        <td>Mid</td>
                         <td>High</td>
                         <td>Mid</td>
-                        <td>Low</td>
-                        <td>High</td>
-                        <td>11</td>
+                        <td>7</td>
                     </tr>
-
                     <tr>
                         <th scope="row">TakeOut</th>
                         <td>Very Low Burger Chain</td>
                         <td>Mid</td>
                         <td>Low</td>
-                        <td>Low</td>
                         <td>Mid</td>
                         <td>3</td>
                     </tr>
                     <tr>
-                        <th scope="row">KFC</th>
-                        <td>Low - Burger with very limited fast food options</td>
-                        <td>Mid</td>
+                        <th scope="row">Oro</th>
+                        <td>Low-European</td>
+                        <td>Very High</td>
+                        <td>Very Low</td>
                         <td>High</td>
-                        <td>Low</td>
-                        <td>High</td>
-                        <td>20</td>
+                        <td>1</td>
                     </tr>
                     <tr>
                         <th scope="row">Salam’s Kitchen</th>
@@ -162,32 +157,20 @@
                         <td>Mid</td>
                         <td>Very Low</td>
                         <td>Low</td>
-                        <td>Low</td>
                         <td>2</td>
                     </tr>
                     <tr>
                         <th scope="row">Sultan’s Dine</th>
-                        <td>Very Low- Biriyani</td>
+                        <td>Very Low - Biriyani</td>
                         <td>High</td>
                         <td>Low</td>
-                        <td>Low</td>
                         <td>High</td>
-                        <td>3</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Kacchi Bhai</th>
-                        <td>Very Low- Biriyani</td>
-                        <td>Mid</td>
-                        <td>Low</td>
-                        <td>Low</td>
-                        <td>Mid</td>
                         <td>5</td>
                     </tr>
                     <tr>
                         <th scope="row">Glazed</th>
-                        <td>Very Low Dessert Shop</td>
+                        <td>Very Low - Dessert Shop</td>
                         <td>High</td>
-                        <td>Low</td>
                         <td>Low</td>
                         <td>High</td>
                         <td>3</td>
@@ -195,17 +178,15 @@
                     <tr>
                         <th scope="row">Star Kabab</th>
                         <td>Low - Bengali/ Indian</td>
-                        <td>Low</td>
+                        <td>Very Low</td>
                         <td>Mid</td>
-                        <td>Low</td>
                         <td>Low</td>
                         <td>5</td>
                     </tr>
                     <tr>
-                        <th scope="row">Dhanshiri</th>
+                        <th scope="row">Kasturi</th>
                         <td>Low- Bengali/ Indian</td>
-                        <td>Low</td>
-                        <td>Low</td>
+                        <td>Very Low</td>
                         <td>Low</td>
                         <td>Low</td>
                         <td>3</td>
