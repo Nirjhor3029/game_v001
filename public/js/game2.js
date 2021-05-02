@@ -95,7 +95,7 @@ $(document).ready(function () {
                         })
                     if (match == 0) {
                         // $("select option:first-child").attr("disabled", "true");
-                        console.log(subCat.find("option:nth-child(2)"));
+                        // console.log(subCat.find("option:nth-child(2)"));
                         subCat.find("option:nth-child(2)").attr("disabled", false);
                         // subCat.prop('selectedIndex', 1);
                     }
