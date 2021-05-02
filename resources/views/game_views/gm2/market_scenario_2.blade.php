@@ -251,7 +251,7 @@
                                 </select>
                             </div>
                             <div class="col-md-3 subclass">
-                                <select name="" id="subcategory" class="form-control-sm form-control subcategory">
+                                <select name="" id="subcategory" class="form-control-sm form-control subcategory sub_area">
                                     <option selected value="0">Select Type</option>
                                 </select>
                             </div>
@@ -273,7 +273,7 @@
                                 <div class="col-sm-3"></div>
                                 <div class="col-sm-2"></div>
                         </div>
-                        <div class="row inputField_row">
+                        <div class="row inputField_row quality_row">
                             <div class="col-md-3">
                                 <select name="" id="typeQuantity" class="form-control-sm form-control type"
                                         data-type="2">
