@@ -67,19 +67,52 @@ $(document).ready(function () {
                 type: type,
             },
             success: function (data) {
+                // console.log("type:" + type);
                 // console.log(data); return;
                 let subCat = that.parent().siblings('.subclass').children('.subcategory')
                 // console.log(subCat);subCat.css("background-color", "red"); return;
                 subCat.empty();
                 subCat.append(
                     '<option selected>Select Type</option>');
-                $.each(data
-                    .subcategories[0].sub_costs,
-                    function (index, subcategory) {
-                        let check = (selected == subcategory.id) ? "selected" : "";
-                        // console.log(selected);
-                        subCat.append('<option data-cost="' + subcategory.value + '" value="' + subcategory.id + '"' + check + '>' + subcategory.name + '</option>');
-                    })
+                if (type == 2) { //type 2 means quality type
+                    let subcategories = that.parent().parent().parent().find('.subcategory');
+                    let firstSubCatTxt = subcategories.first().find(':selected').text();
+                    console.log(firstSubCatTxt);
+                    let match = 0;
+                    $.each(data
+                        .subcategories[0].sub_costs,
+                        function (index, subcategory) {
+                            let check = (selected == subcategory.id) ? "selected" : "";
+                            // console.log(firstSubCatTxt.toLowerCase().normalize() + " : " + firstSubCatTxt.toLowerCase().normalize());
+                            if (firstSubCatTxt.toLowerCase().normalize() === subcategory.name.toLowerCase().normalize()) {
+                                console.log("match");
+                                match++;
+                                subCat.append('<option data-cost="' + subcategory.value + '" value="' + subcategory.id + '"' + check + ' >' + subcategory.name + '</option>');
+                            } else {
+                                subCat.append('<option data-cost="' + subcategory.value + '" value="' + subcategory.id + '"' + check + ' disabled>' + subcategory.name + '</option>');
+                            }
+                            console.log("match: " + match);
+                        })
+                    if (match == 0) {
+                        // $("select option:first-child").attr("disabled", "true");
+                        // console.log(subCat.find("option:nth-child(2)"));
+                        subCat.find("option:nth-child(2)").attr("disabled", false);
+                        // subCat.prop('selectedIndex', 1);
+                    }
+                    //else {
+                    //     match == 0;
+                    // }
+                } else {
+                    $.each(data
+                        .subcategories[0].sub_costs,
+                        function (index, subcategory) {
+                            let check = (selected == subcategory.id) ? "selected" : "";
+                            // console.log(selected);
+                            subCat.append('<option data-cost="' + subcategory.value + '" value="' + subcategory.id + '"' + check + '>' + subcategory.name + '</option>');
+                        })
+                }
+
+
 
             }
         })
@@ -91,6 +124,13 @@ $(document).ready(function () {
 
     $('.subcategory').on('change', function (e) {
         let that = $(this);
+        if (that.hasClass("sub_area")) {
+            console.log("are sub");
+            let areaRow = that.parents(".inputField_row");
+            let qualityRow = areaRow.siblings(".quality_row");
+            qualityRow.find("#typeQuantity").prop('selectedIndex', 0);
+            qualityRow.find("#typeQuantity_subcategory").prop('selectedIndex', 0);
+        }
         let subCatParent = that.parent();
         let costField = subCatParent.siblings('.cost_class').children('.cost_value')
 
@@ -102,6 +142,8 @@ $(document).ready(function () {
         let card = subCatParent.parents('.card');
         // console.log(card);
         // total
+        console.log("ok");
+        return;
         gm2_calculateTotal(card, that, false); //updateDb = false
 
     });

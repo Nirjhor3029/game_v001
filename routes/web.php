@@ -91,13 +91,21 @@ Route::name('gm2.')->prefix('gm2')->namespace('Gm2')->middleware(['auth:sanctum'
 
     Route::post('subcat', function (Request $request) {
         // dd($request->all());
+
         $parent_id = $request->input('cat_id');
         // $type = $request->input('type');
         $subcategories = Cost::where('id', $parent_id)
             ->with('subCosts')
             ->get();
+
+        //Type = quality
+        // $data_type = 2;
+        // $subcategories_quality = Cost::where('id', $data_type)
+        //     ->with('subCosts')
+        //     ->get();
         return response()->json([
-            'subcategories' => $subcategories
+            'subcategories' => $subcategories,
+            // 'subcategories_quality' => $subcategories_quality,
         ]);
     })->name('subcat');
     Route::get('user_graph', [\App\Http\Controllers\Gm2\GamePageController::class, 'show_users_graph'])->name('user_graph');
