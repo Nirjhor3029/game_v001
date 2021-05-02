@@ -67,19 +67,40 @@ $(document).ready(function () {
                 type: type,
             },
             success: function (data) {
+                // console.log("type:" + type);
                 // console.log(data); return;
                 let subCat = that.parent().siblings('.subclass').children('.subcategory')
                 // console.log(subCat);subCat.css("background-color", "red"); return;
                 subCat.empty();
                 subCat.append(
                     '<option selected>Select Type</option>');
-                $.each(data
-                    .subcategories[0].sub_costs,
-                    function (index, subcategory) {
-                        let check = (selected == subcategory.id) ? "selected" : "";
-                        // console.log(selected);
-                        subCat.append('<option data-cost="' + subcategory.value + '" value="' + subcategory.id + '"' + check + '>' + subcategory.name + '</option>');
-                    })
+                if (type == 2) { //type 2 means quality type
+                    let subcategories = that.parent().parent().parent().find('.subcategory');
+                    let firstSubCatTxt = subcategories.first().find(':selected').text();
+                    console.log(firstSubCatTxt);
+                    $.each(data
+                        .subcategories[0].sub_costs,
+                        function (index, subcategory) {
+                            let check = (selected == subcategory.id) ? "selected" : "";
+                            if (firstSubCatTxt.toLowerCase() === subcategory.name.toLowerCase()) {
+                                // console.log("match");
+                                subCat.append('<option data-cost="' + subcategory.value + '" value="' + subcategory.id + '"' + check + ' >' + subcategory.name + '</option>');
+                            } else {
+                                subCat.append('<option data-cost="' + subcategory.value + '" value="' + subcategory.id + '"' + check + ' disabled>' + subcategory.name + '</option>');
+                            }
+
+                        })
+                } else {
+                    $.each(data
+                        .subcategories[0].sub_costs,
+                        function (index, subcategory) {
+                            let check = (selected == subcategory.id) ? "selected" : "";
+                            // console.log(selected);
+                            subCat.append('<option data-cost="' + subcategory.value + '" value="' + subcategory.id + '"' + check + '>' + subcategory.name + '</option>');
+                        })
+                }
+
+
 
             }
         })
@@ -102,6 +123,8 @@ $(document).ready(function () {
         let card = subCatParent.parents('.card');
         // console.log(card);
         // total
+        console.log("ok");
+        return;
         gm2_calculateTotal(card, that, false); //updateDb = false
 
     });
