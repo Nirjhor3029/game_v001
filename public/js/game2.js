@@ -91,14 +91,13 @@ $(document).ready(function () {
                             } else {
                                 subCat.append('<option data-cost="' + subcategory.value + '" value="' + subcategory.id + '"' + check + ' disabled>' + subcategory.name + '</option>');
                             }
-
                             console.log("match: " + match);
-
-
-
                         })
                     if (match == 0) {
-                        subCat.prop('selectedIndex', 1);
+                        // $("select option:first-child").attr("disabled", "true");
+                        console.log(subCat.find("option:nth-child(2)"));
+                        subCat.find("option:nth-child(2)").attr("disabled", false);
+                        // subCat.prop('selectedIndex', 1);
                     }
                     //else {
                     //     match == 0;
