@@ -28,11 +28,11 @@ return [
         /*[
             'id' => 1,
             'name' => 'admin'
-        ],*/
+        ],
         [
             'id' => 2,
             'name' => 'teacher'
-        ],
+        ],*/
         [
             'id' => 3,
             'name' => 'student'
@@ -73,27 +73,27 @@ return [
             [
                 'id' => 1,
                 'name' => 'discount_within_store',
-                'required_amount' => 4,
+                'required_amount' => 3.5,
             ],
             [
                 'id' => 2,
                 'name' => 'discount_through_delivery_services',
-                'required_amount' => 5,
+                'required_amount' => 2,
             ],
             [
                 'id' => 3,
                 'name' => 'advertising_through_social_media',
-                'required_amount' => 6,
+                'required_amount' => 2.5,
             ],
             [
                 'id' => 4,
                 'name' => 'branding',
-                'required_amount' => 8,
+                'required_amount' => 5,
             ],
             [
                 'id' => 5,
                 'name' => 'other',
-                'required_amount' => 10,
+                'required_amount' => 8,
             ],
         ],
 

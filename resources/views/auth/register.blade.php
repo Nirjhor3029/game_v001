@@ -27,6 +27,13 @@
                 <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')"
                              required/>
             </div>
+
+            <div class="mt-4">
+                <x-jet-label for="mobile_no" value="{{ __('Mobile No') }}"/>
+                <x-jet-input id="mobile_no" class="block mt-1 w-full" type="mobile_no" name="mobile_no" :value="old('mobile_no')"
+                             required/>
+            </div>
+
             <div class="mt-4">
                 <x-jet-label for="type" value="{{ __('Type') }}"/>
                 <select id="type" class="form-select block mt-1 w-full" name="type" required="required" x-model="type">

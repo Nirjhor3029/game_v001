@@ -151,10 +151,15 @@ $(document).ready(function () {
     <div class="header mt-9vh" style="height: 20vh">
             <div class="welcome">
                 <h2 class="title">
-                    Simluation
+                    Simulation
                 </h2>
                 <p>
-                    Based on the information provided in table 1, group restaurants on any two dimensions of your choice. However, those two dimensions, when combined together, would have to make a strong business case in order to distinguish themselves from others.
+                    {{--Based on the information provided in table 1, group restaurants on any two dimensions of your
+                    choice. However, those two dimensions, when combined together, would have to make a strong business
+                    case in order to distinguish themselves from others.--}}
+                    Based on the information provided in table 1, your research team has suggested to use price and
+                    types of food that they serve (restaurant types) as the two most relevant dimensions to group
+                    restaurants relevant for you.
                 </p>
                 {{-- <ol style="margin-left: 6rem;">
                     <li class="part_1">Choice of dimensions</li>

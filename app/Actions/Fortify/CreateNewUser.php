@@ -24,6 +24,7 @@ class CreateNewUser implements CreatesNewUsers
             'name' => ['required', 'string', 'max:255'],
             'student_uid' => $validation_string,
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'mobile_no' => ['required','string','min:11','max:13'],
             'password' => $this->passwordRules(),
             'type' => ['required', 'numeric']
         ])->validate();
@@ -32,6 +33,7 @@ class CreateNewUser implements CreatesNewUsers
             'name' => $input['name'],
             'student_uid' => $input['student_uid'] ?? null,
             'email' => $input['email'],
+            'mobile_no' => $input['mobile_no'],
             'type' => $input['type'],
             'password' => Hash::make($input['password']),
         ]);
